@@ -1,0 +1,8 @@
+# Address ranges of spel.dat with no source-file anchors of their own (tools/split_sources.py).
+# The race's own code, the engine and Davilex's libraries end with the input library at
+# 004f2050 (CDirectInputDevice.cpp); the statically linked libraries follow.
+start	end	path
+004f2150	00549e00	libs/ivp/ivp.c
+00549e00	0054b1b4	libs/imports.c
+0054b1b4	00557ff0	libs/stl/stl.c
+00557ff0	00576000	libs/crt/crt.c

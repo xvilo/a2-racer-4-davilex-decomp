@@ -1,0 +1,4 @@
+# Address ranges of A2Racer4.exe with no source-file anchors (tools/split_sources.py).
+start	end	path
+00401000	00401532	motor/main.cpp
+00401532	00410000	libs/crt/crt.c

@@ -51,6 +51,8 @@ For each program the script runs `rea analyze` (Ghidra provider, with a snapshot
 | `AutoNameVariables.java` | Names variables from argument roles, call results, loop counters and types |
 | `ExportDecompiled.java` | Writes `decompiled.c`, `functions.tsv` (with each prototype) and `strings.tsv` |
 
+`tools/split_sources.py` then splits each export into the original source files, `decompiled/<program>/src/`, in the original directories (`game/`, `engine/`, `dx3d/`, `dxdraw/`, `inputlib/`, `sound_lib/`, `daviipionsupport/`; the Delphi programs by unit). The linker keeps each object file's code together, so the functions that name their file anchor the ones around them; `sources.tsv` says how each function was placed. Statically linked libraries without anchors (the Ipion physics library, the C++ standard library and the C runtime in `spel.dat`) are given by address range in `symbols/<program>.regions.tsv`.
+
 ### Where the names come from
 
 - **The race's own diagnostics.** `spel.dat` reports errors as `error("%s(%d) : Function %s : …", __FILE__, __LINE__, "init_radar()")` and traces its start-up as `trace("init_radar()\n"); init_radar();`. `RecoverNames.java` turns the first into the reporting function's name and the second into the name of the function called next (when that is its only call site). Messages such as `Unknown error in CRaceOverlay::Init` name the function they are in. The `__FILE__` paths (135 source files under `C:\Work\A2IV\…`) place functions in their original source files: `decompiled/<program>/files.tsv`.
@@ -69,6 +71,23 @@ For each program the script runs `rea analyze` (Ghidra provider, with a snapshot
 
 | Path | Contents |
 |---|---|
-| `tools/` | Scripts to unpack the dump and to decompile the programs |
+| `tools/` | Scripts to unpack the dump, to decompile the programs and to unpack the game data (`a2extract.py`) |
 | `decompiled/<program>/` | Per program: `decompiled.c` (every function), `functions.tsv`, `strings.tsv`, `files.tsv` and REA's `overview.json` |
+| `decompiled/<program>/src/` | The same functions split into the original source files, with `sources.tsv` |
 | `build/` | Ghidra projects, REA snapshots and logs (not committed) |
+
+## Game data
+
+`tools/a2extract.py <disc> <out>` unpacks the resource archives and converts their images to PNG (standard library only). Keep its output out of the repo, since it is the game's own data.
+
+| Archive | Kind | Contents |
+|---|---|---|
+| `Data/rcs.IND/.IMG` | named | The race: 1,971 models (`.d3d`), sounds (WAV), textures and pictures (PCX, TGA), fonts (`.fnt`) |
+| `Data/RC.IND/.IMG` | sprites | 186 8-bit sprites for the race |
+| `Data/MenuData/MenuRcs.IND/.IMG` | named | The menu: screens and buttons (BMP, TGA, 800×600), sounds (WAV) |
+
+- **Named archive:** the `.IND` holds a `u16` count followed by 24-byte entries `{char name[16]; u32 unused; u32 offset}`; `*empty resitem*` entries are placeholders. The same format as A2 Racer's.
+- **Sprite archive:** the `.IND` holds a `u16` count followed by `u32` offsets into the `.IMG`. Each `.IMG` entry is `{u16 width, height, center_x, center_y; u8 pixels[width*height]}`.
+- **`.CHK`:** `u16` version (2), `u32` count, then a `FILETIME` per archived file.
+
+Each stage `etappe<n>` (0–8) has a road (`.rmp`), objects (`.omp`), paths (`.pth`), settings (`.ini`) and further maps (`.cmp`, `.dmp`, `.pmp`, `.hbp`). Most game rules are in INI files: `game.ini`, `CAR_CFG.INI`, `cops.ini`, `traffic.ini`, `damage.ini`, `behavior.ini` and others.

@@ -1,0 +1,4 @@
+# Address ranges of Rsc.dll with no source-file anchors (tools/split_sources.py). The debug
+# C runtime that follows names its own source files in its asserts.
+start	end	path
+10001000	100022e0	rsc/xvga_fileio.c

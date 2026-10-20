@@ -1,0 +1,2640 @@
+address	name	file	how
+004011c4	CloseHandle	units/Classes.pas	nearest file
+004011cc	CreateFileA	units/Classes.pas	nearest file
+004011d4	GetFileType	units/Classes.pas	nearest file
+004011dc	GetFileSize	units/Classes.pas	nearest file
+004011e4	GetStdHandle	units/Classes.pas	nearest file
+004011ec	RaiseException	units/Classes.pas	nearest file
+004011f4	ReadFile	units/Classes.pas	nearest file
+004011fc	RtlUnwind	units/Classes.pas	nearest file
+00401204	SetEndOfFile	units/Classes.pas	nearest file
+0040120c	SetFilePointer	units/Classes.pas	nearest file
+00401214	UnhandledExceptionFilter	units/Classes.pas	nearest file
+0040121c	WriteFile	units/Classes.pas	nearest file
+00401224	CharNextA	units/Classes.pas	nearest file
+0040122c	ExitProcess	units/Classes.pas	nearest file
+00401234	MessageBoxA	units/Classes.pas	nearest file
+0040123c	FindClose	units/Classes.pas	nearest file
+00401244	FindFirstFileA	units/Classes.pas	nearest file
+0040124c	FreeLibrary	units/Classes.pas	nearest file
+00401254	GetCommandLineA	units/Classes.pas	nearest file
+0040125c	GetLastError	units/Classes.pas	nearest file
+00401264	GetLocaleInfoA	units/Classes.pas	nearest file
+0040126c	GetModuleFileNameA	units/Classes.pas	nearest file
+00401274	GetModuleHandleA	units/Classes.pas	nearest file
+0040127c	GetProcAddress	units/Classes.pas	nearest file
+00401284	GetStartupInfoA	units/Classes.pas	nearest file
+0040128c	GetThreadLocale	units/Classes.pas	nearest file
+00401294	LoadLibraryExA	units/Classes.pas	nearest file
+0040129c	LoadStringA	units/Classes.pas	nearest file
+004012a4	lstrcpyA	units/Classes.pas	nearest file
+004012ac	lstrcpynA	units/Classes.pas	nearest file
+004012b4	lstrlenA	units/Classes.pas	nearest file
+004012bc	MultiByteToWideChar	units/Classes.pas	nearest file
+004012c4	RegCloseKey	units/Classes.pas	nearest file
+004012cc	RegOpenKeyExA	units/Classes.pas	nearest file
+004012d4	RegQueryValueExA	units/Classes.pas	nearest file
+004012dc	WideCharToMultiByte	units/Classes.pas	nearest file
+004012e4	VirtualQuery	units/Classes.pas	nearest file
+004012ec	SysAllocStringLen	units/Classes.pas	nearest file
+004012f4	SysReAllocStringLen	units/Classes.pas	nearest file
+004012fc	SysFreeString	units/Classes.pas	nearest file
+00401304	SysStringLen	units/Classes.pas	nearest file
+0040130c	VariantClear	units/Classes.pas	nearest file
+00401314	VariantCopyInd	units/Classes.pas	nearest file
+0040131c	VariantChangeTypeEx	units/Classes.pas	nearest file
+0040132c	InterlockedDecrement	units/Classes.pas	nearest file
+00401334	FUN_00401334	units/Classes.pas	nearest file
+00401358	LocalAlloc	units/Classes.pas	nearest file
+00401360	LocalFree	units/Classes.pas	nearest file
+00401368	VirtualAlloc	units/Classes.pas	nearest file
+00401370	VirtualFree	units/Classes.pas	nearest file
+00401378	InitializeCriticalSection	units/Classes.pas	nearest file
+00401380	EnterCriticalSection	units/Classes.pas	nearest file
+00401388	LeaveCriticalSection	units/Classes.pas	nearest file
+00401390	DeleteCriticalSection	units/Classes.pas	nearest file
+00401398	FUN_00401398	units/Classes.pas	nearest file
+004013e8	FUN_004013e8	units/Classes.pas	nearest file
+004013f0	FUN_004013f0	units/Classes.pas	nearest file
+00401420	FUN_00401420	units/Classes.pas	nearest file
+00401438	FUN_00401438	units/Classes.pas	nearest file
+004014ac	FUN_004014ac	units/Classes.pas	nearest file
+0040153c	FUN_0040153c	units/Classes.pas	nearest file
+004015a0	FUN_004015a0	units/Classes.pas	nearest file
+00401618	FUN_00401618	units/Classes.pas	nearest file
+004016d0	FUN_004016d0	units/Classes.pas	nearest file
+00401764	FUN_00401764	units/Classes.pas	nearest file
+004017e4	FUN_004017e4	units/Classes.pas	nearest file
+00401874	FUN_00401874	units/Classes.pas	nearest file
+00401998	FUN_00401998	units/Classes.pas	nearest file
+00401a24	FUN_00401a24	units/Classes.pas	nearest file
+00401ae8	FUN_00401ae8	units/Classes.pas	nearest file
+00401bc8	FUN_00401bc8	units/Classes.pas	nearest file
+00401c2c	FUN_00401c2c	units/Classes.pas	nearest file
+00401c5c	FUN_00401c5c	units/Classes.pas	nearest file
+00401c8c	FUN_00401c8c	units/Classes.pas	nearest file
+00401cb0	FUN_00401cb0	units/Classes.pas	nearest file
+00401cd8	FUN_00401cd8	units/Classes.pas	nearest file
+00401d48	FUN_00401d48	units/Classes.pas	nearest file
+00401d80	FUN_00401d80	units/Classes.pas	nearest file
+00401e18	FUN_00401e18	units/Classes.pas	nearest file
+00401ea0	FUN_00401ea0	units/Classes.pas	nearest file
+00401eec	FUN_00401eec	units/Classes.pas	nearest file
+00401f78	FUN_00401f78	units/Classes.pas	nearest file
+00401fa4	FUN_00401fa4	units/Classes.pas	nearest file
+00401fd8	FUN_00401fd8	units/Classes.pas	nearest file
+00402004	FUN_00402004	units/Classes.pas	nearest file
+004020f8	FUN_004020f8	units/Classes.pas	nearest file
+00402280	FUN_00402280	units/Classes.pas	nearest file
+00402424	FUN_00402424	units/Classes.pas	nearest file
+004025f4	FUN_004025f4	units/Classes.pas	nearest file
+004026b8	FUN_004026b8	units/Classes.pas	nearest file
+004026d0	FUN_004026d0	units/Classes.pas	nearest file
+004026e8	FUN_004026e8	units/Classes.pas	nearest file
+00402738	FUN_00402738	units/Classes.pas	nearest file
+00402744	FUN_00402744	units/Classes.pas	nearest file
+00402788	FUN_00402788	units/Classes.pas	nearest file
+004027a8	FUN_004027a8	units/Classes.pas	nearest file
+004027b8	FUN_004027b8	units/Classes.pas	nearest file
+004027d0	FUN_004027d0	units/Classes.pas	nearest file
+00402810	FUN_00402810	units/Classes.pas	nearest file
+00402888	FUN_00402888	units/Classes.pas	nearest file
+004028e0	FUN_004028e0	units/Classes.pas	nearest file
+004028ec	TStrings.virtual_00c	units/Classes.pas	method of TStrings
+00402908	FUN_00402908	units/Classes.pas	between functions of the file
+00402938	FUN_00402938	units/Classes.pas	between functions of the file
+004029bc	FUN_004029bc	units/Classes.pas	between functions of the file
+00402a2c	FUN_00402a2c	units/Classes.pas	between functions of the file
+00402a4c	FUN_00402a4c	units/Classes.pas	between functions of the file
+00402b18	FUN_00402b18	units/Classes.pas	between functions of the file
+00402b30	FUN_00402b30	units/Classes.pas	between functions of the file
+00402b54	GetKeyboardType	units/Classes.pas	between functions of the file
+00402b5c	FUN_00402b5c	units/Classes.pas	between functions of the file
+00402b8c	FUN_00402b8c	units/Classes.pas	between functions of the file
+00402c50	FUN_00402c50	units/Classes.pas	between functions of the file
+00402c5c	FUN_00402c5c	units/Classes.pas	between functions of the file
+00402c60	FUN_00402c60	units/Classes.pas	between functions of the file
+00402c74	FUN_00402c74	units/Classes.pas	between functions of the file
+00402c9c	FUN_00402c9c	units/Classes.pas	between functions of the file
+00402ca8	TObject.NewInstance	units/Classes.pas	between functions of the file
+00402cbc	TObject.FreeInstance	units/Classes.pas	between functions of the file
+00402ce4	FUN_00402ce4	units/Classes.pas	between functions of the file
+00402d04	TObject.Destroy	units/Classes.pas	between functions of the file
+00402d14	FUN_00402d14	units/Classes.pas	between functions of the file
+00402d20	FUN_00402d20	units/Classes.pas	between functions of the file
+00402d78	FUN_00402d78	units/Classes.pas	between functions of the file
+00402da8	FUN_00402da8	units/Classes.pas	between functions of the file
+00402e48	FUN_00402e48	units/Classes.pas	between functions of the file
+00402e8c	FUN_00402e8c	units/Classes.pas	between functions of the file
+00402ea4	FUN_00402ea4	units/Classes.pas	between functions of the file
+00402ec0	FUN_00402ec0	units/Classes.pas	between functions of the file
+00402ef0	FUN_00402ef0	units/Classes.pas	between functions of the file
+00402f08	FUN_00402f08	units/Classes.pas	between functions of the file
+00402f20	thunk_FUN_00402f24	units/Classes.pas	between functions of the file
+00402f24	FUN_00402f24	units/Classes.pas	between functions of the file
+00402f34	FUN_00402f34	units/Classes.pas	between functions of the file
+00402f38	TObject.SafeCallException	units/Classes.pas	between functions of the file
+00402f40	TObject.DefaultHandler	units/Classes.pas	between functions of the file
+00402f44	TObject.AfterConstruction	units/Classes.pas	between functions of the file
+00402f48	TObject.BeforeDestruction	units/Classes.pas	between functions of the file
+00402f4c	TObject.Dispatch	units/Classes.pas	between functions of the file
+00402f74	FUN_00402f74	units/Classes.pas	between functions of the file
+00402fc4	FUN_00402fc4	units/Classes.pas	between functions of the file
+00403014	FUN_00403014	units/Classes.pas	between functions of the file
+00403064	FUN_00403064	units/Classes.pas	between functions of the file
+0040306c	FUN_0040306c	units/Classes.pas	between functions of the file
+00403074	FUN_00403074	units/Classes.pas	between functions of the file
+004030a0	FUN_004030a0	units/Classes.pas	between functions of the file
+004030c0	FUN_004030c0	units/Classes.pas	between functions of the file
+004030d4	FUN_004030d4	units/Classes.pas	between functions of the file
+004030e8	FUN_004030e8	units/Classes.pas	between functions of the file
+004030fc	FUN_004030fc	units/Classes.pas	between functions of the file
+0040311c	FUN_0040311c	units/Classes.pas	between functions of the file
+00403160	FUN_00403160	units/Classes.pas	between functions of the file
+004032ac	FUN_004032ac	units/Classes.pas	between functions of the file
+00403434	FUN_00403434	units/Classes.pas	between functions of the file
+0040346c	FUN_0040346c	units/Classes.pas	between functions of the file
+0040350c	FUN_0040350c	units/Classes.pas	between functions of the file
+00403524	FUN_00403524	units/Classes.pas	between functions of the file
+0040366c	FUN_0040366c	units/Classes.pas	between functions of the file
+0040368c	FUN_0040368c	units/Classes.pas	between functions of the file
+004036b4	FUN_004036b4	units/Classes.pas	between functions of the file
+00403714	FUN_00403714	units/Classes.pas	between functions of the file
+00403774	FUN_00403774	units/Classes.pas	between functions of the file
+004037a4	FUN_004037a4	units/Classes.pas	between functions of the file
+004037c0	FUN_004037c0	units/Classes.pas	between functions of the file
+004037e0	FUN_004037e0	units/Classes.pas	between functions of the file
+00403830	FUN_00403830	units/Classes.pas	between functions of the file
+00403864	FUN_00403864	units/Classes.pas	between functions of the file
+00403984	FUN_00403984	units/Classes.pas	between functions of the file
+00403990	FUN_00403990	units/Classes.pas	between functions of the file
+0040399c	FUN_0040399c	units/Classes.pas	between functions of the file
+004039b8	FUN_004039b8	units/Classes.pas	between functions of the file
+004039dc	FUN_004039dc	units/Classes.pas	between functions of the file
+00403a0c	FUN_00403a0c	units/Classes.pas	between functions of the file
+00403a50	FUN_00403a50	units/Classes.pas	between functions of the file
+00403a7c	FUN_00403a7c	units/Classes.pas	between functions of the file
+00403aa0	FUN_00403aa0	units/Classes.pas	between functions of the file
+00403ad0	FUN_00403ad0	units/Classes.pas	between functions of the file
+00403b60	FUN_00403b60	units/Classes.pas	between functions of the file
+00403b70	FUN_00403b70	units/Classes.pas	between functions of the file
+00403ba0	FUN_00403ba0	units/Classes.pas	between functions of the file
+00403bdc	FUN_00403bdc	units/Classes.pas	between functions of the file
+00403be8	FUN_00403be8	units/Classes.pas	between functions of the file
+00403c00	FUN_00403c00	units/Classes.pas	between functions of the file
+00403c14	FUN_00403c14	units/Classes.pas	between functions of the file
+00403c38	FUN_00403c38	units/Classes.pas	between functions of the file
+00403c40	FUN_00403c40	units/Classes.pas	between functions of the file
+00403c84	FUN_00403c84	units/Classes.pas	between functions of the file
+00403cf8	FUN_00403cf8	units/Classes.pas	between functions of the file
+00403d48	FUN_00403d48	units/Classes.pas	between functions of the file
+00403dec	FUN_00403dec	units/Classes.pas	between functions of the file
+00403dfc	FUN_00403dfc	units/Classes.pas	between functions of the file
+00403e08	FUN_00403e08	units/Classes.pas	between functions of the file
+00403e40	FUN_00403e40	units/Classes.pas	between functions of the file
+00403e80	FUN_00403e80	units/Classes.pas	between functions of the file
+00403ec8	FUN_00403ec8	units/Classes.pas	between functions of the file
+00403f24	FUN_00403f24	units/Classes.pas	between functions of the file
+00403f6c	FUN_00403f6c	units/Classes.pas	between functions of the file
+00403fd8	FUN_00403fd8	units/Classes.pas	between functions of the file
+00403fe8	FUN_00403fe8	units/Classes.pas	between functions of the file
+00404000	FUN_00404000	units/Classes.pas	between functions of the file
+00404024	FUN_00404024	units/Classes.pas	between functions of the file
+00404048	FUN_00404048	units/Classes.pas	between functions of the file
+004040cc	FUN_004040cc	units/Classes.pas	between functions of the file
+004040f0	FUN_004040f0	units/Classes.pas	between functions of the file
+00404100	FUN_00404100	units/Classes.pas	between functions of the file
+0040410c	FUN_0040410c	units/Classes.pas	between functions of the file
+00404124	FUN_00404124	units/Classes.pas	between functions of the file
+00404168	FUN_00404168	units/Classes.pas	between functions of the file
+00404194	FUN_00404194	units/Classes.pas	between functions of the file
+00404228	FUN_00404228	units/Classes.pas	between functions of the file
+00404234	FUN_00404234	units/Classes.pas	between functions of the file
+00404260	FUN_00404260	units/Classes.pas	between functions of the file
+00404348	FUN_00404348	units/Classes.pas	between functions of the file
+00404354	FUN_00404354	units/Classes.pas	between functions of the file
+00404470	FUN_00404470	units/Classes.pas	between functions of the file
+00404564	FUN_00404564	units/Classes.pas	between functions of the file
+00404578	FUN_00404578	units/Classes.pas	between functions of the file
+00404588	FUN_00404588	units/Classes.pas	between functions of the file
+00404614	FUN_00404614	units/Classes.pas	between functions of the file
+00404638	FUN_00404638	units/Classes.pas	between functions of the file
+004046bc	thunk_FUN_00402744	units/Classes.pas	between functions of the file
+004046cc	FUN_004046cc	units/Classes.pas	between functions of the file
+00404710	FUN_00404710	units/Classes.pas	between functions of the file
+0040474e	FUN_0040474e	units/Classes.pas	between functions of the file
+004047ac	FUN_004047ac	units/Classes.pas	between functions of the file
+00404818	FUN_00404818	units/Classes.pas	between functions of the file
+00404830	FUN_00404830	units/Classes.pas	between functions of the file
+004048d4	FUN_004048d4	units/Classes.pas	between functions of the file
+00404904	FUN_00404904	units/Classes.pas	between functions of the file
+00404924	FUN_00404924	units/Classes.pas	between functions of the file
+00404a18	FUN_00404a18	units/Classes.pas	between functions of the file
+00404a54	FUN_00404a54	units/Classes.pas	between functions of the file
+00404a94	FUN_00404a94	units/Classes.pas	between functions of the file
+00404ac8	FUN_00404ac8	units/Classes.pas	between functions of the file
+00404ad0	FUN_00404ad0	units/Classes.pas	between functions of the file
+00404af4	FUN_00404af4	units/Classes.pas	between functions of the file
+00404afc	FUN_00404afc	units/Classes.pas	between functions of the file
+00404b04	FUN_00404b04	units/Classes.pas	between functions of the file
+00404b14	thunk_FUN_00404260	units/Classes.pas	between functions of the file
+00404b1c	FUN_00404b1c	units/Classes.pas	between functions of the file
+00404b24	FUN_00404b24	units/Classes.pas	between functions of the file
+00404cb0	FUN_00404cb0	units/Classes.pas	between functions of the file
+00404cbc	FUN_00404cbc	units/Classes.pas	between functions of the file
+00404cf8	FUN_00404cf8	units/Classes.pas	between functions of the file
+00404d20	FUN_00404d20	units/Classes.pas	between functions of the file
+00404d48	FUN_00404d48	units/Classes.pas	between functions of the file
+00404d50	FUN_00404d50	units/Classes.pas	between functions of the file
+00404d74	thunk_FUN_00404d7c	units/Classes.pas	between functions of the file
+00404d7c	FUN_00404d7c	units/Classes.pas	between functions of the file
+00404d88	FUN_00404d88	units/Classes.pas	between functions of the file
+00404f30	FUN_00404f30	units/Classes.pas	between functions of the file
+0040512c	FUN_0040512c	units/Classes.pas	between functions of the file
+00405134	FUN_00405134	units/Classes.pas	between functions of the file
+0040513c	FUN_0040513c	units/Classes.pas	between functions of the file
+0040515c	FUN_0040515c	units/Classes.pas	between functions of the file
+004051bc	FUN_004051bc	units/Classes.pas	between functions of the file
+00405218	FUN_00405218	units/Classes.pas	between functions of the file
+00405228	FUN_00405228	units/Classes.pas	between functions of the file
+00405298	FUN_00405298	units/Classes.pas	between functions of the file
+004052f0	FUN_004052f0	units/Classes.pas	between functions of the file
+00405308	FUN_00405308	units/Classes.pas	between functions of the file
+00405324	FUN_00405324	units/Classes.pas	between functions of the file
+00405330	TInterfacedObject.AfterConstruction	units/Classes.pas	between functions of the file
+0040533c	TInterfacedObject.BeforeDestruction	units/Classes.pas	between functions of the file
+0040534c	TInterfacedObject.NewInstance	units/Classes.pas	between functions of the file
+00405398	FUN_00405398	units/Classes.pas	between functions of the file
+004053c0	GetCurrentThreadId	units/Classes.pas	between functions of the file
+004055ca	FUN_004055ca	units/Classes.pas	between functions of the file
+00405645	FUN_00405645	units/Classes.pas	between functions of the file
+0040566c	FUN_0040566c	units/Classes.pas	between functions of the file
+004056a8	FUN_004056a8	units/Classes.pas	between functions of the file
+004056ea	FUN_004056ea	units/Classes.pas	between functions of the file
+004056f8	FUN_004056f8	units/Classes.pas	between functions of the file
+00405763	FUN_00405763	units/Classes.pas	between functions of the file
+004057c3	FUN_004057c3	units/Classes.pas	between functions of the file
+00405840	FUN_00405840	units/Classes.pas	between functions of the file
+00405870	FUN_00405870	units/Classes.pas	between functions of the file
+00405b44	FUN_00405b44	units/Classes.pas	between functions of the file
+00405c34	FUN_00405c34	units/Classes.pas	between functions of the file
+00405d29	FUN_00405d29	units/Classes.pas	between functions of the file
+00405dcc	FUN_00405dcc	units/Classes.pas	between functions of the file
+00405e34	FUN_00405e34	units/Classes.pas	between functions of the file
+00405f2c	GetModuleFileNameA	units/Classes.pas	between functions of the file
+00405f34	GetModuleHandleA	units/Classes.pas	between functions of the file
+00405f3c	LocalAlloc	units/Classes.pas	between functions of the file
+00405f44	TlsGetValue	units/Classes.pas	between functions of the file
+00405f4c	TlsSetValue	units/Classes.pas	between functions of the file
+00405f54	FUN_00405f54	units/Classes.pas	between functions of the file
+00405fa4	FUN_00405fa4	units/Classes.pas	between functions of the file
+00405fe8	FUN_00405fe8	units/Classes.pas	between functions of the file
+00406034	FUN_00406034	units/Classes.pas	between functions of the file
+004060a0	RegCloseKey	units/Classes.pas	between functions of the file
+004060a8	RegOpenKeyExA	units/Classes.pas	between functions of the file
+004060b0	RegQueryValueExA	units/Classes.pas	between functions of the file
+004060b8	CloseHandle	units/Classes.pas	between functions of the file
+004060c0	CompareStringA	units/Classes.pas	between functions of the file
+004060c8	CreateEventA	units/Classes.pas	between functions of the file
+004060d0	CreateFileA	units/Classes.pas	between functions of the file
+004060d8	CreateThread	units/Classes.pas	between functions of the file
+004060e0	DeleteCriticalSection	units/Classes.pas	between functions of the file
+004060e8	EnterCriticalSection	units/Classes.pas	between functions of the file
+004060f0	EnumCalendarInfoA	units/Classes.pas	between functions of the file
+004060f8	FileTimeToDosDateTime	units/Classes.pas	between functions of the file
+00406100	FileTimeToLocalFileTime	units/Classes.pas	between functions of the file
+00406108	FindClose	units/Classes.pas	between functions of the file
+00406110	FindFirstFileA	units/Classes.pas	between functions of the file
+00406118	FindResourceA	units/Classes.pas	between functions of the file
+00406120	FormatMessageA	units/Classes.pas	between functions of the file
+00406128	FreeLibrary	units/Classes.pas	between functions of the file
+00406130	FreeResource	units/Classes.pas	between functions of the file
+00406138	GetCPInfo	units/Classes.pas	between functions of the file
+00406140	GetCurrentProcessId	units/Classes.pas	between functions of the file
+00406148	GetCurrentThreadId	units/Classes.pas	between functions of the file
+00406150	GetDateFormatA	units/Classes.pas	between functions of the file
+00406158	GetDiskFreeSpaceA	units/Classes.pas	between functions of the file
+00406160	GetFileAttributesA	units/Classes.pas	between functions of the file
+00406168	GetLastError	units/Classes.pas	between functions of the file
+00406170	GetLocalTime	units/Classes.pas	between functions of the file
+00406178	GetLocaleInfoA	units/Classes.pas	between functions of the file
+00406180	GetModuleFileNameA	units/Classes.pas	between functions of the file
+00406188	GetModuleHandleA	units/Classes.pas	between functions of the file
+00406190	GetPrivateProfileStringA	units/Classes.pas	between functions of the file
+00406198	GetProcAddress	units/Classes.pas	between functions of the file
+004061a0	GetSystemInfo	units/Classes.pas	between functions of the file
+004061a8	GetThreadLocale	units/Classes.pas	between functions of the file
+004061b0	GetTickCount	units/Classes.pas	between functions of the file
+004061b8	GetVersion	units/Classes.pas	between functions of the file
+004061c0	GetVersionExA	units/Classes.pas	between functions of the file
+004061c8	GlobalAddAtomA	units/Classes.pas	between functions of the file
+004061d0	GlobalAlloc	units/Classes.pas	between functions of the file
+004061d8	GlobalDeleteAtom	units/Classes.pas	between functions of the file
+004061e0	GlobalFree	units/Classes.pas	between functions of the file
+004061e8	GlobalLock	units/Classes.pas	between functions of the file
+004061f0	GlobalHandle	units/Classes.pas	between functions of the file
+004061f8	GlobalReAlloc	units/Classes.pas	between functions of the file
+00406200	GlobalUnlock	units/Classes.pas	between functions of the file
+00406208	InitializeCriticalSection	units/Classes.pas	between functions of the file
+00406210	LeaveCriticalSection	units/Classes.pas	between functions of the file
+00406218	LoadLibraryA	units/Classes.pas	between functions of the file
+00406220	LoadResource	units/Classes.pas	between functions of the file
+00406228	LockResource	units/Classes.pas	between functions of the file
+00406230	MulDiv	units/Classes.pas	between functions of the file
+00406238	ReadFile	units/Classes.pas	between functions of the file
+00406240	SetEndOfFile	units/Classes.pas	between functions of the file
+00406248	SetErrorMode	units/Classes.pas	between functions of the file
+00406250	SetEvent	units/Classes.pas	between functions of the file
+00406258	SetFileAttributesA	units/Classes.pas	between functions of the file
+00406260	SetFilePointer	units/Classes.pas	between functions of the file
+00406268	SetThreadLocale	units/Classes.pas	between functions of the file
+00406270	SizeofResource	units/Classes.pas	between functions of the file
+00406278	Sleep	units/Classes.pas	between functions of the file
+00406280	VirtualAlloc	units/Classes.pas	between functions of the file
+00406288	VirtualQuery	units/Classes.pas	between functions of the file
+00406290	WaitForSingleObject	units/Classes.pas	between functions of the file
+00406298	WriteFile	units/Classes.pas	between functions of the file
+004062a0	WritePrivateProfileStringA	units/Classes.pas	between functions of the file
+004062a8	lstrcpyA	units/Classes.pas	between functions of the file
+004062b0	BitBlt	units/Classes.pas	between functions of the file
+004062b8	CopyEnhMetaFileA	units/Classes.pas	between functions of the file
+004062c0	CreateBitmap	units/Classes.pas	between functions of the file
+004062c8	CreateBrushIndirect	units/Classes.pas	between functions of the file
+004062d0	CreateCompatibleBitmap	units/Classes.pas	between functions of the file
+004062d8	CreateCompatibleDC	units/Classes.pas	between functions of the file
+004062e0	CreateDIBSection	units/Classes.pas	between functions of the file
+004062e8	CreateDIBitmap	units/Classes.pas	between functions of the file
+004062f0	CreateFontIndirectA	units/Classes.pas	between functions of the file
+004062f8	CreateHalftonePalette	units/Classes.pas	between functions of the file
+00406300	CreatePalette	units/Classes.pas	between functions of the file
+00406308	CreatePenIndirect	units/Classes.pas	between functions of the file
+00406310	CreateSolidBrush	units/Classes.pas	between functions of the file
+00406318	DeleteDC	units/Classes.pas	between functions of the file
+00406320	DeleteEnhMetaFile	units/Classes.pas	between functions of the file
+00406328	DeleteObject	units/Classes.pas	between functions of the file
+00406330	ExcludeClipRect	units/Classes.pas	between functions of the file
+00406338	GetBitmapBits	units/Classes.pas	between functions of the file
+00406340	GetBrushOrgEx	units/Classes.pas	between functions of the file
+00406348	GetClipBox	units/Classes.pas	between functions of the file
+00406350	GetCurrentPositionEx	units/Classes.pas	between functions of the file
+00406358	GetDCOrgEx	units/Classes.pas	between functions of the file
+00406360	GetDIBColorTable	units/Classes.pas	between functions of the file
+00406368	GetDIBits	units/Classes.pas	between functions of the file
+00406370	GetDeviceCaps	units/Classes.pas	between functions of the file
+00406378	GetEnhMetaFileBits	units/Classes.pas	between functions of the file
+00406380	GetEnhMetaFileHeader	units/Classes.pas	between functions of the file
+00406388	GetEnhMetaFilePaletteEntries	units/Classes.pas	between functions of the file
+00406390	GetObjectA	units/Classes.pas	between functions of the file
+00406398	GetPaletteEntries	units/Classes.pas	between functions of the file
+004063a0	GetPixel	units/Classes.pas	between functions of the file
+004063a8	GetStockObject	units/Classes.pas	between functions of the file
+004063b0	GetSystemPaletteEntries	units/Classes.pas	between functions of the file
+004063b8	GetTextExtentPoint32A	units/Classes.pas	between functions of the file
+004063c0	GetTextExtentPointA	units/Classes.pas	between functions of the file
+004063c8	GetTextMetricsA	units/Classes.pas	between functions of the file
+004063d0	GetWinMetaFileBits	units/Classes.pas	between functions of the file
+004063d8	GetWindowOrgEx	units/Classes.pas	between functions of the file
+004063e0	IntersectClipRect	units/Classes.pas	between functions of the file
+004063e8	LineTo	units/Classes.pas	between functions of the file
+004063f0	MaskBlt	units/Classes.pas	between functions of the file
+004063f8	MoveToEx	units/Classes.pas	between functions of the file
+00406400	PatBlt	units/Classes.pas	between functions of the file
+00406408	PlayEnhMetaFile	units/Classes.pas	between functions of the file
+00406410	RealizePalette	units/Classes.pas	between functions of the file
+00406418	RectVisible	units/Classes.pas	between functions of the file
+00406420	Rectangle	units/Classes.pas	between functions of the file
+00406428	RestoreDC	units/Classes.pas	between functions of the file
+00406430	SaveDC	units/Classes.pas	between functions of the file
+00406438	SelectObject	units/Classes.pas	between functions of the file
+00406440	SelectPalette	units/Classes.pas	between functions of the file
+00406448	SetBkColor	units/Classes.pas	between functions of the file
+00406450	SetBkMode	units/Classes.pas	between functions of the file
+00406458	SetBrushOrgEx	units/Classes.pas	between functions of the file
+00406460	SetDIBColorTable	units/Classes.pas	between functions of the file
+00406468	SetEnhMetaFileBits	units/Classes.pas	between functions of the file
+00406470	SetPixel	units/Classes.pas	between functions of the file
+00406478	SetROP2	units/Classes.pas	between functions of the file
+00406480	SetStretchBltMode	units/Classes.pas	between functions of the file
+00406488	SetTextColor	units/Classes.pas	between functions of the file
+00406490	SetViewportOrgEx	units/Classes.pas	between functions of the file
+00406498	SetWinMetaFileBits	units/Classes.pas	between functions of the file
+004064a0	SetWindowOrgEx	units/Classes.pas	between functions of the file
+004064a8	StretchBlt	units/Classes.pas	between functions of the file
+004064b0	UnrealizeObject	units/Classes.pas	between functions of the file
+004064b8	ActivateKeyboardLayout	units/Classes.pas	between functions of the file
+004064c0	AdjustWindowRectEx	units/Classes.pas	between functions of the file
+004064c8	CharLowerA	units/Classes.pas	between functions of the file
+004064d0	BeginPaint	units/Classes.pas	between functions of the file
+004064d8	CallNextHookEx	units/Classes.pas	between functions of the file
+004064e0	CallWindowProcA	units/Classes.pas	between functions of the file
+004064e8	CharLowerBuffA	units/Classes.pas	between functions of the file
+004064f0	CheckMenuItem	units/Classes.pas	between functions of the file
+004064f8	ClientToScreen	units/Classes.pas	between functions of the file
+00406500	CreateIcon	units/Classes.pas	between functions of the file
+00406508	CreateMenu	units/Classes.pas	between functions of the file
+00406510	CreatePopupMenu	units/Classes.pas	between functions of the file
+00406518	CreateWindowExA	units/Classes.pas	between functions of the file
+00406520	DefFrameProcA	units/Classes.pas	between functions of the file
+00406530	DefWindowProcA	units/Classes.pas	between functions of the file
+00406538	DeleteMenu	units/Classes.pas	between functions of the file
+00406540	DestroyCursor	units/Classes.pas	between functions of the file
+00406548	DestroyIcon	units/Classes.pas	between functions of the file
+00406550	DestroyMenu	units/Classes.pas	between functions of the file
+00406558	DestroyWindow	units/Classes.pas	between functions of the file
+00406560	DispatchMessageA	units/Classes.pas	between functions of the file
+00406568	DrawEdge	units/Classes.pas	between functions of the file
+00406570	DrawFrameControl	units/Classes.pas	between functions of the file
+00406578	DrawIcon	units/Classes.pas	between functions of the file
+00406580	DrawIconEx	units/Classes.pas	between functions of the file
+00406588	DrawMenuBar	units/Classes.pas	between functions of the file
+00406590	DrawTextA	units/Classes.pas	between functions of the file
+00406598	EnableMenuItem	units/Classes.pas	between functions of the file
+004065a8	EnableWindow	units/Classes.pas	between functions of the file
+004065b0	EndPaint	units/Classes.pas	between functions of the file
+004065b8	EnumThreadWindows	units/Classes.pas	between functions of the file
+004065c0	EnumWindows	units/Classes.pas	between functions of the file
+004065c8	EqualRect	units/Classes.pas	between functions of the file
+004065d0	FillRect	units/Classes.pas	between functions of the file
+004065d8	FindWindowA	units/Classes.pas	between functions of the file
+004065e0	FrameRect	units/Classes.pas	between functions of the file
+004065e8	GetActiveWindow	units/Classes.pas	between functions of the file
+004065f0	GetCapture	units/Classes.pas	between functions of the file
+004065f8	GetClassInfoA	units/Classes.pas	between functions of the file
+00406600	GetClientRect	units/Classes.pas	between functions of the file
+00406608	GetClipboardData	units/Classes.pas	between functions of the file
+00406610	GetCursor	units/Classes.pas	between functions of the file
+00406618	GetCursorPos	units/Classes.pas	between functions of the file
+00406620	GetDC	units/Classes.pas	between functions of the file
+00406628	GetDCEx	units/Classes.pas	between functions of the file
+00406630	GetDesktopWindow	units/Classes.pas	between functions of the file
+00406638	GetFocus	units/Classes.pas	between functions of the file
+00406640	GetForegroundWindow	units/Classes.pas	between functions of the file
+00406648	GetIconInfo	units/Classes.pas	between functions of the file
+00406650	GetKeyNameTextA	units/Classes.pas	between functions of the file
+00406658	GetKeyState	units/Classes.pas	between functions of the file
+00406660	GetKeyboardLayout	units/Classes.pas	between functions of the file
+00406668	GetKeyboardLayoutList	units/Classes.pas	between functions of the file
+00406670	GetKeyboardState	units/Classes.pas	between functions of the file
+00406678	GetLastActivePopup	units/Classes.pas	between functions of the file
+00406680	GetMenu	units/Classes.pas	between functions of the file
+00406688	GetMenuItemCount	units/Classes.pas	between functions of the file
+00406690	GetMenuItemID	units/Classes.pas	between functions of the file
+00406698	GetMenuItemInfoA	units/Classes.pas	between functions of the file
+004066a0	GetMenuState	units/Classes.pas	between functions of the file
+004066a8	GetMenuStringA	units/Classes.pas	between functions of the file
+004066b0	GetWindow	units/Classes.pas	between functions of the file
+004066b8	GetParent	units/Classes.pas	between functions of the file
+004066c0	GetPropA	units/Classes.pas	between functions of the file
+004066e0	GetSubMenu	units/Classes.pas	between functions of the file
+004066e8	GetSysColor	units/Classes.pas	between functions of the file
+004066f0	GetSystemMenu	units/Classes.pas	between functions of the file
+004066f8	GetSystemMetrics	units/Classes.pas	between functions of the file
+00406700	GetTopWindow	units/Classes.pas	between functions of the file
+00406708	GetWindow	units/Classes.pas	between functions of the file
+00406710	GetWindowDC	units/Classes.pas	between functions of the file
+00406718	GetWindowLongA	units/Classes.pas	between functions of the file
+00406720	GetWindowPlacement	units/Classes.pas	between functions of the file
+00406728	GetWindowRect	units/Classes.pas	between functions of the file
+00406730	GetWindowTextA	units/Classes.pas	between functions of the file
+00406738	GetWindowThreadProcessId	units/Classes.pas	between functions of the file
+00406740	InflateRect	units/Classes.pas	between functions of the file
+00406748	InsertMenuA	units/Classes.pas	between functions of the file
+00406750	InsertMenuItemA	units/Classes.pas	between functions of the file
+00406758	IntersectRect	units/Classes.pas	between functions of the file
+00406760	InvalidateRect	units/Classes.pas	between functions of the file
+00406768	IsChild	units/Classes.pas	between functions of the file
+00406770	IsDialogMessageA	units/Classes.pas	between functions of the file
+00406778	IsIconic	units/Classes.pas	between functions of the file
+00406780	IsRectEmpty	units/Classes.pas	between functions of the file
+00406788	IsWindow	units/Classes.pas	between functions of the file
+00406790	IsWindowEnabled	units/Classes.pas	between functions of the file
+00406798	IsWindowVisible	units/Classes.pas	between functions of the file
+004067a0	IsZoomed	units/Classes.pas	between functions of the file
+004067a8	KillTimer	units/Classes.pas	between functions of the file
+004067b0	LoadBitmapA	units/Classes.pas	between functions of the file
+004067b8	LoadCursorA	units/Classes.pas	between functions of the file
+004067c0	LoadIconA	units/Classes.pas	between functions of the file
+004067c8	LoadKeyboardLayoutA	units/Classes.pas	between functions of the file
+004067d0	LoadStringA	units/Classes.pas	between functions of the file
+004067d8	MapVirtualKeyA	units/Classes.pas	between functions of the file
+004067e0	MapWindowPoints	units/Classes.pas	between functions of the file
+004067e8	MessageBoxA	units/Classes.pas	between functions of the file
+004067f0	OemToCharA	units/Classes.pas	between functions of the file
+004067f8	OffsetRect	units/Classes.pas	between functions of the file
+00406800	PeekMessageA	units/Classes.pas	between functions of the file
+00406808	PostMessageA	units/Classes.pas	between functions of the file
+00406810	PostQuitMessage	units/Classes.pas	between functions of the file
+00406818	PtInRect	units/Classes.pas	between functions of the file
+00406820	RegisterClassA	units/Classes.pas	between functions of the file
+00406828	RegisterClipboardFormatA	units/Classes.pas	between functions of the file
+00406830	RegisterWindowMessageA	units/Classes.pas	between functions of the file
+00406838	ReleaseCapture	units/Classes.pas	between functions of the file
+00406840	ReleaseDC	units/Classes.pas	between functions of the file
+00406848	RemoveMenu	units/Classes.pas	between functions of the file
+00406850	RemovePropA	units/Classes.pas	between functions of the file
+00406858	ScreenToClient	units/Classes.pas	between functions of the file
+00406860	ScrollWindow	units/Classes.pas	between functions of the file
+00406868	SendMessageA	units/Classes.pas	between functions of the file
+00406870	SetActiveWindow	units/Classes.pas	between functions of the file
+00406878	SetCapture	units/Classes.pas	between functions of the file
+00406880	SetClassLongA	units/Classes.pas	between functions of the file
+00406888	SetCursor	units/Classes.pas	between functions of the file
+00406890	SetFocus	units/Classes.pas	between functions of the file
+00406898	SetForegroundWindow	units/Classes.pas	between functions of the file
+004068a0	SetMenu	units/Classes.pas	between functions of the file
+004068a8	SetMenuItemInfoA	units/Classes.pas	between functions of the file
+004068b0	SetPropA	units/Classes.pas	between functions of the file
+004068b8	SetRect	units/Classes.pas	between functions of the file
+004068d8	SetTimer	units/Classes.pas	between functions of the file
+004068e0	SetWindowLongA	units/Classes.pas	between functions of the file
+004068e8	SetWindowPlacement	units/Classes.pas	between functions of the file
+004068f0	SetWindowPos	units/Classes.pas	between functions of the file
+004068f8	SetWindowsHookExA	units/Classes.pas	between functions of the file
+00406900	ShowCursor	units/Classes.pas	between functions of the file
+00406908	ShowOwnedPopups	units/Classes.pas	between functions of the file
+00406918	ShowWindow	units/Classes.pas	between functions of the file
+00406920	SystemParametersInfoA	units/Classes.pas	between functions of the file
+00406928	TrackPopupMenu	units/Classes.pas	between functions of the file
+00406930	TranslateMDISysAccel	units/Classes.pas	between functions of the file
+00406938	TranslateMessage	units/Classes.pas	between functions of the file
+00406940	UnhookWindowsHookEx	units/Classes.pas	between functions of the file
+00406948	UnregisterClassA	units/Classes.pas	between functions of the file
+00406950	UpdateWindow	units/Classes.pas	between functions of the file
+00406958	WaitMessage	units/Classes.pas	between functions of the file
+00406960	WinHelpA	units/Classes.pas	between functions of the file
+00406968	WindowFromPoint	units/Classes.pas	between functions of the file
+00406970	FUN_00406970	units/Classes.pas	between functions of the file
+0040697c	FUN_0040697c	units/Classes.pas	between functions of the file
+00406984	FUN_00406984	units/Classes.pas	between functions of the file
+00406988	FUN_00406988	units/Classes.pas	between functions of the file
+00406998	FUN_00406998	units/Classes.pas	between functions of the file
+004069b4	FUN_004069b4	units/Classes.pas	between functions of the file
+004069c8	FUN_004069c8	units/Classes.pas	between functions of the file
+004069d4	FUN_004069d4	units/Classes.pas	between functions of the file
+004069e8	FUN_004069e8	units/Classes.pas	between functions of the file
+00406a00	FUN_00406a00	units/Classes.pas	between functions of the file
+00406a34	FUN_00406a34	units/Classes.pas	between functions of the file
+00407984	FUN_00407984	units/Classes.pas	between functions of the file
+004079a0	FUN_004079a0	units/Classes.pas	between functions of the file
+00407a00	FUN_00407a00	units/Classes.pas	between functions of the file
+00407a20	FUN_00407a20	units/Classes.pas	between functions of the file
+00407a5c	FUN_00407a5c	units/Classes.pas	between functions of the file
+00407a7c	FUN_00407a7c	units/Classes.pas	between functions of the file
+00407ad0	FUN_00407ad0	units/Classes.pas	between functions of the file
+00407af4	FUN_00407af4	units/Classes.pas	between functions of the file
+00407b28	FUN_00407b28	units/Classes.pas	between functions of the file
+00407b60	FUN_00407b60	units/Classes.pas	between functions of the file
+00407b9c	FUN_00407b9c	units/Classes.pas	between functions of the file
+00407bbc	FUN_00407bbc	units/Classes.pas	between functions of the file
+00407c0c	FUN_00407c0c	units/Classes.pas	between functions of the file
+00407c70	FUN_00407c70	units/Classes.pas	between functions of the file
+00407ca0	FUN_00407ca0	units/Classes.pas	between functions of the file
+00407cdc	FUN_00407cdc	units/Classes.pas	between functions of the file
+00407cf4	FUN_00407cf4	units/Classes.pas	between functions of the file
+00407d34	FUN_00407d34	units/Classes.pas	between functions of the file
+00407d58	FUN_00407d58	units/Classes.pas	between functions of the file
+00407d84	FUN_00407d84	units/Classes.pas	between functions of the file
+00407db0	FUN_00407db0	units/Classes.pas	between functions of the file
+00407dbc	FUN_00407dbc	units/Classes.pas	between functions of the file
+00407dc4	FUN_00407dc4	units/Classes.pas	between functions of the file
+00407e2c	FUN_00407e2c	units/Classes.pas	between functions of the file
+00407e3c	FUN_00407e3c	units/Classes.pas	between functions of the file
+00407e50	FUN_00407e50	units/Classes.pas	between functions of the file
+00407e78	FUN_00407e78	units/Classes.pas	between functions of the file
+00407ea8	FUN_00407ea8	units/Classes.pas	between functions of the file
+00407ef8	FUN_00407ef8	units/Classes.pas	between functions of the file
+00407f64	FUN_00407f64	units/Classes.pas	between functions of the file
+00408020	FUN_00408020	units/Classes.pas	between functions of the file
+00408038	FUN_00408038	units/Classes.pas	between functions of the file
+0040804c	FUN_0040804c	units/Classes.pas	between functions of the file
+00408088	FUN_00408088	units/Classes.pas	between functions of the file
+004080b0	FUN_004080b0	units/Classes.pas	between functions of the file
+004080e4	FUN_004080e4	units/Classes.pas	between functions of the file
+00408108	FUN_00408108	units/Classes.pas	between functions of the file
+00408128	FUN_00408128	units/Classes.pas	between functions of the file
+0040814c	FUN_0040814c	units/Classes.pas	between functions of the file
+00408194	FUN_00408194	units/Classes.pas	between functions of the file
+004081b4	FUN_004081b4	units/Classes.pas	between functions of the file
+00408208	FUN_00408208	units/Classes.pas	between functions of the file
+0040821c	FUN_0040821c	units/Classes.pas	between functions of the file
+00408228	FUN_00408228	units/Classes.pas	between functions of the file
+00408254	FUN_00408254	units/Classes.pas	between functions of the file
+00408264	FUN_00408264	units/Classes.pas	between functions of the file
+004082bc	FUN_004082bc	units/Classes.pas	between functions of the file
+004082d0	FUN_004082d0	units/Classes.pas	between functions of the file
+004082dc	FUN_004082dc	units/Classes.pas	between functions of the file
+004083be	FUN_004083be	units/Classes.pas	between functions of the file
+00408407	FUN_00408407	units/Classes.pas	between functions of the file
+004084c7	FUN_004084c7	units/Classes.pas	between functions of the file
+00408522	caseD_0	units/Classes.pas	between functions of the file
+0040854e	FUN_0040854e	units/Classes.pas	between functions of the file
+004086b9	FUN_004086b9	units/Classes.pas	between functions of the file
+004086c4	FUN_004086c4	units/Classes.pas	between functions of the file
+004086d4	FUN_004086d4	units/Classes.pas	between functions of the file
+00408708	FUN_00408708	units/Classes.pas	between functions of the file
+0040873c	FUN_0040873c	units/Classes.pas	between functions of the file
+00408750	FUN_00408750	units/Classes.pas	between functions of the file
+00408818	FUN_00408818	units/Classes.pas	between functions of the file
+00408848	FUN_00408848	units/Classes.pas	between functions of the file
+00408884	FUN_00408884	units/Classes.pas	between functions of the file
+004088c4	FUN_004088c4	units/Classes.pas	between functions of the file
+00408934	FUN_00408934	units/Classes.pas	between functions of the file
+00408990	FUN_00408990	units/Classes.pas	between functions of the file
+004089cc	FUN_004089cc	units/Classes.pas	between functions of the file
+00408a94	FUN_00408a94	units/Classes.pas	between functions of the file
+00408bd8	FUN_00408bd8	units/Classes.pas	between functions of the file
+00408bf8	FUN_00408bf8	units/Classes.pas	between functions of the file
+00408c20	FUN_00408c20	units/Classes.pas	between functions of the file
+00408c34	FUN_00408c34	units/Classes.pas	between functions of the file
+00408c78	FUN_00408c78	units/Classes.pas	between functions of the file
+00408c98	FUN_00408c98	units/Classes.pas	between functions of the file
+00408ce4	FUN_00408ce4	units/Classes.pas	between functions of the file
+00408d10	FUN_00408d10	units/Classes.pas	between functions of the file
+00408d48	FUN_00408d48	units/Classes.pas	between functions of the file
+00408d88	FUN_00408d88	units/Classes.pas	between functions of the file
+00408ef4	FUN_00408ef4	units/Classes.pas	between functions of the file
+00408ffc	FUN_00408ffc	units/Classes.pas	between functions of the file
+00409770	FUN_00409770	units/Classes.pas	between functions of the file
+004097cc	FUN_004097cc	units/Classes.pas	between functions of the file
+004097e4	FUN_004097e4	units/Classes.pas	between functions of the file
+004097fc	FUN_004097fc	units/Classes.pas	between functions of the file
+00409810	FUN_00409810	units/Classes.pas	between functions of the file
+00409834	FUN_00409834	units/Classes.pas	between functions of the file
+004098c8	FUN_004098c8	units/Classes.pas	between functions of the file
+00409954	FUN_00409954	units/Classes.pas	between functions of the file
+0040998c	FUN_0040998c	units/Classes.pas	between functions of the file
+004099d8	FUN_004099d8	units/Classes.pas	between functions of the file
+00409a14	FUN_00409a14	units/Classes.pas	between functions of the file
+00409a68	FUN_00409a68	units/Classes.pas	between functions of the file
+00409ac4	FUN_00409ac4	units/Classes.pas	between functions of the file
+00409e00	FUN_00409e00	units/Classes.pas	between functions of the file
+00409ff4	FUN_00409ff4	units/Classes.pas	between functions of the file
+0040a044	FUN_0040a044	units/Classes.pas	between functions of the file
+0040a094	FUN_0040a094	units/Classes.pas	between functions of the file
+0040a158	FUN_0040a158	units/Classes.pas	between functions of the file
+0040a1a4	FUN_0040a1a4	units/Classes.pas	between functions of the file
+0040a1f0	FUN_0040a1f0	units/Classes.pas	between functions of the file
+0040a218	FUN_0040a218	units/Classes.pas	between functions of the file
+0040a254	FUN_0040a254	units/Classes.pas	between functions of the file
+0040a42c	FUN_0040a42c	units/Classes.pas	between functions of the file
+0040a4dc	FUN_0040a4dc	units/Classes.pas	between functions of the file
+0040a72c	FUN_0040a72c	units/Classes.pas	between functions of the file
+0040a738	FUN_0040a738	units/Classes.pas	between functions of the file
+0040a8c0	FUN_0040a8c0	units/Classes.pas	between functions of the file
+0040a938	FUN_0040a938	units/Classes.pas	between functions of the file
+0040a974	FUN_0040a974	units/Classes.pas	between functions of the file
+0040a9f4	FUN_0040a9f4	units/Classes.pas	between functions of the file
+0040aa30	FUN_0040aa30	units/Classes.pas	between functions of the file
+0040aac4	EHeapException.FreeInstance	units/Classes.pas	between functions of the file
+0040aaf0	FUN_0040aaf0	units/Classes.pas	between functions of the file
+0040abb4	FUN_0040abb4	units/Classes.pas	between functions of the file
+0040ac60	FUN_0040ac60	units/Classes.pas	between functions of the file
+0040acb8	FUN_0040acb8	units/Classes.pas	between functions of the file
+0040ad4c	FUN_0040ad4c	units/Classes.pas	between functions of the file
+0040aff4	FUN_0040aff4	units/Classes.pas	between functions of the file
+0040b0c0	FUN_0040b0c0	units/Classes.pas	between functions of the file
+0040b12c	FUN_0040b12c	units/Classes.pas	between functions of the file
+0040b184	FUN_0040b184	units/Classes.pas	between functions of the file
+0040b1fc	FUN_0040b1fc	units/Classes.pas	between functions of the file
+0040b220	FUN_0040b220	units/Classes.pas	between functions of the file
+0040b238	FUN_0040b238	units/Classes.pas	between functions of the file
+0040b260	FUN_0040b260	units/Classes.pas	between functions of the file
+0040b2b0	FUN_0040b2b0	units/Classes.pas	between functions of the file
+0040b324	FUN_0040b324	units/Classes.pas	between functions of the file
+0040b388	FUN_0040b388	units/Classes.pas	between functions of the file
+0040b3e8	FUN_0040b3e8	units/Classes.pas	between functions of the file
+0040b420	FUN_0040b420	units/Classes.pas	between functions of the file
+0040b4ac	FUN_0040b4ac	units/Classes.pas	between functions of the file
+0040b54c	FUN_0040b54c	units/Classes.pas	between functions of the file
+0040b574	FUN_0040b574	units/Classes.pas	between functions of the file
+0040b5b4	FUN_0040b5b4	units/Classes.pas	between functions of the file
+0040b66c	FUN_0040b66c	units/Classes.pas	between functions of the file
+0040b9e4	FUN_0040b9e4	units/Classes.pas	between functions of the file
+0040ba7c	FUN_0040ba7c	units/Classes.pas	between functions of the file
+0040ba8c	FUN_0040ba8c	units/Classes.pas	between functions of the file
+0040baa8	FUN_0040baa8	units/Classes.pas	between functions of the file
+0040bac8	FUN_0040bac8	units/Classes.pas	between functions of the file
+0040bb24	FUN_0040bb24	units/Classes.pas	between functions of the file
+0040bb8c	TMultiReadExclusiveWriteSynchronizer.Destroy	units/Classes.pas	between functions of the file
+0040bbcc	FUN_0040bbcc	units/Classes.pas	between functions of the file
+0040bc08	FUN_0040bc08	units/Classes.pas	between functions of the file
+0040bc54	FUN_0040bc54	units/Classes.pas	between functions of the file
+0040bc78	FUN_0040bc78	units/Classes.pas	between functions of the file
+0040bc88	FUN_0040bc88	units/Classes.pas	between functions of the file
+0040bffe	FUN_0040bffe	units/Classes.pas	between functions of the file
+0040c0bc	FUN_0040c0bc	units/Classes.pas	between functions of the file
+0040c5a1	FUN_0040c5a1	units/Classes.pas	between functions of the file
+0040c5c8	FUN_0040c5c8	units/Classes.pas	between functions of the file
+0040c6cf	FUN_0040c6cf	units/Classes.pas	between functions of the file
+0040c7a0	FUN_0040c7a0	units/Classes.pas	between functions of the file
+0040c84b	FUN_0040c84b	units/Classes.pas	between functions of the file
+0040c856	FUN_0040c856	units/Classes.pas	between functions of the file
+0040c872	FUN_0040c872	units/Classes.pas	between functions of the file
+0040c9e4	FUN_0040c9e4	units/Classes.pas	between functions of the file
+0040ca64	IsEqualGUID	units/Classes.pas	between functions of the file
+0040ce08	FUN_0040ce08	units/Classes.pas	between functions of the file
+0040ce14	FUN_0040ce14	units/Classes.pas	between functions of the file
+0040ce60	FUN_0040ce60	units/Classes.pas	between functions of the file
+0040ce74	FUN_0040ce74	units/Classes.pas	between functions of the file
+0040cee0	FUN_0040cee0	units/Classes.pas	between functions of the file
+0040cf54	FUN_0040cf54	units/Classes.pas	between functions of the file
+0040cfb0	FUN_0040cfb0	units/Classes.pas	between functions of the file
+0040d004	FUN_0040d004	units/Classes.pas	between functions of the file
+0040d038	FUN_0040d038	units/Classes.pas	between functions of the file
+0040d04c	FUN_0040d04c	units/Classes.pas	between functions of the file
+0040d08c	FUN_0040d08c	units/Classes.pas	between functions of the file
+0040d0a0	FUN_0040d0a0	units/Classes.pas	between functions of the file
+0040d0e0	FUN_0040d0e0	units/Classes.pas	between functions of the file
+0040d138	FUN_0040d138	units/Classes.pas	between functions of the file
+0040d164	FUN_0040d164	units/Classes.pas	between functions of the file
+0040d1fc	FUN_0040d1fc	units/Classes.pas	between functions of the file
+0040d210	FUN_0040d210	units/Classes.pas	between functions of the file
+0040d250	FUN_0040d250	units/Classes.pas	between functions of the file
+0040d288	FUN_0040d288	units/Classes.pas	between functions of the file
+0040d2c4	FUN_0040d2c4	units/Classes.pas	between functions of the file
+0040e594	FUN_0040e594	units/Classes.pas	between functions of the file
+0040e59c	FUN_0040e59c	units/Classes.pas	between functions of the file
+0040e5ac	FUN_0040e5ac	units/Classes.pas	between functions of the file
+0040e5c8	FUN_0040e5c8	units/Classes.pas	between functions of the file
+0040e5e4	FUN_0040e5e4	units/Classes.pas	between functions of the file
+0040e5f0	FUN_0040e5f0	units/Classes.pas	between functions of the file
+0040e65c	FUN_0040e65c	units/Classes.pas	between functions of the file
+0040e70c	FUN_0040e70c	units/Classes.pas	between functions of the file
+0040e72c	FUN_0040e72c	units/Classes.pas	between functions of the file
+0040e7f8	FUN_0040e7f8	units/Classes.pas	between functions of the file
+0040e8f4	FUN_0040e8f4	units/Classes.pas	between functions of the file
+0040e928	FUN_0040e928	units/Classes.pas	between functions of the file
+0040ea48	FUN_0040ea48	units/Classes.pas	between functions of the file
+0040ea80	FUN_0040ea80	units/Classes.pas	between functions of the file
+0040eaac	FUN_0040eaac	units/Classes.pas	between functions of the file
+0040eb30	FUN_0040eb30	units/Classes.pas	between functions of the file
+0040eb70	FUN_0040eb70	units/Classes.pas	between functions of the file
+0040ebb4	FUN_0040ebb4	units/Classes.pas	between functions of the file
+0040ec38	FUN_0040ec38	units/Classes.pas	between functions of the file
+0040ec98	FUN_0040ec98	units/Classes.pas	between functions of the file
+0040ecc8	FUN_0040ecc8	units/Classes.pas	between functions of the file
+0040ed3c	FUN_0040ed3c	units/Classes.pas	between functions of the file
+0040ede4	FUN_0040ede4	units/Classes.pas	between functions of the file
+0040eea8	TList.Destroy	units/Classes.pas	between functions of the file
+0040eec8	FUN_0040eec8	units/Classes.pas	between functions of the file
+0040eefc	TList.virtual_008	units/Classes.pas	between functions of the file
+0040ef14	FUN_0040ef14	units/Classes.pas	between functions of the file
+0040ef74	FUN_0040ef74	units/Classes.pas	between functions of the file
+0040ef78	TList.virtual_00c	units/Classes.pas	between functions of the file
+0040efb0	FUN_0040efb0	units/Classes.pas	between functions of the file
+0040f004	FUN_0040f004	units/Classes.pas	between functions of the file
+0040f01c	FUN_0040f01c	units/Classes.pas	between functions of the file
+0040f024	FUN_0040f024	units/Classes.pas	between functions of the file
+0040f04c	TList.virtual_000	units/Classes.pas	between functions of the file
+0040f080	FUN_0040f080	units/Classes.pas	between functions of the file
+0040f0a0	FUN_0040f0a0	units/Classes.pas	between functions of the file
+0040f10c	FUN_0040f10c	units/Classes.pas	between functions of the file
+0040f118	FUN_0040f118	units/Classes.pas	between functions of the file
+0040f164	FUN_0040f164	units/Classes.pas	between functions of the file
+0040f184	FUN_0040f184	units/Classes.pas	between functions of the file
+0040f1c0	FUN_0040f1c0	units/Classes.pas	between functions of the file
+0040f230	TList.virtual_004	units/Classes.pas	between functions of the file
+0040f234	FUN_0040f234	units/Classes.pas	between functions of the file
+0040f288	TThreadList.Destroy	units/Classes.pas	between functions of the file
+0040f304	FUN_0040f304	units/Classes.pas	between functions of the file
+0040f38c	FUN_0040f38c	units/Classes.pas	between functions of the file
+0040f3a0	FUN_0040f3a0	units/Classes.pas	between functions of the file
+0040f3f0	FUN_0040f3f0	units/Classes.pas	between functions of the file
+0040f3fc	TBits.Destroy	units/Classes.pas	between functions of the file
+0040f42c	FUN_0040f42c	units/Classes.pas	between functions of the file
+0040f444	FUN_0040f444	units/Classes.pas	between functions of the file
+0040f450	FUN_0040f450	units/Classes.pas	between functions of the file
+0040f4f4	FUN_0040f4f4	units/Classes.pas	between functions of the file
+0040f520	FUN_0040f520	units/Classes.pas	between functions of the file
+0040f598	TPersistent.Destroy	units/Classes.pas	method of TPersistent
+0040f5c4	TPersistent.virtual_008	units/Classes.pas	method of TPersistent
+0040f5d8	FUN_0040f5d8	units/Classes.pas	between functions of the file
+0040f6a8	TPersistent.virtual_000	units/Classes.pas	method of TPersistent
+0040f6b0	TPersistent.virtual_004	units/Classes.pas	method of TPersistent
+0040f6b4	TPersistent.dynamic_fffe	units/Classes.pas	method of TPersistent
+0040f764	TPersistent.dynamic_ffff	units/Classes.pas	method of TPersistent
+0040f768	FUN_0040f768	units/Classes.pas	between functions of the file
+0040f774	FUN_0040f774	units/Classes.pas	between functions of the file
+0040f7dc	TStrings.Destroy	units/Classes.pas	method of TStrings
+0040f80c	TStrings.virtual_034	units/Classes.pas	method of TStrings
+0040f830	TStrings.virtual_038	units/Classes.pas	method of TStrings
+0040f854	TStrings.virtual_03c	units/Classes.pas	method of TStrings
+0040f90c	TStrings.virtual_008	units/Classes.pas	method of TStrings
+0040f97c	FUN_0040f97c	units/Classes.pas	between functions of the file
+0040f994	FUN_0040f994	units/Classes.pas	between functions of the file
+0040f9ec	TStrings.virtual_004	units/Classes.pas	method of TStrings
+0040fa38	FUN_0040fa38	units/Classes.pas	between functions of the file
+0040fa4c	FUN_0040fa4c	units/Classes.pas	between functions of the file
+0040faf4	FUN_0040faf4	units/Classes.pas	between functions of the file
+0040faf8	FUN_0040faf8	units/Classes.pas	between functions of the file
+0040fb30	FUN_0040fb30	units/Classes.pas	between functions of the file
+0040fb88	TStrings.virtual_048	units/Classes.pas	method of TStrings
+0040fc70	TStrings.virtual_010	units/Classes.pas	method of TStrings
+0040fc78	TStrings.virtual_018	units/Classes.pas	method of TStrings
+0040fc7c	TStrings.virtual_04c	units/Classes.pas	method of TStrings
+0040fcd0	TStrings.virtual_01c	units/Classes.pas	method of TStrings
+0040fdb8	TStrings.virtual_050	units/Classes.pas	method of TStrings
+0040fe38	FUN_0040fe38	units/Classes.pas	between functions of the file
+0040fefc	FUN_0040fefc	units/Classes.pas	between functions of the file
+0040ff30	FUN_0040ff30	units/Classes.pas	between functions of the file
+0040ff60	TStrings.virtual_058	units/Classes.pas	method of TStrings
+0040ffb4	TStrings.virtual_05c	units/Classes.pas	method of TStrings
+00410060	TStrings.virtual_060	units/Classes.pas	method of TStrings
+00410110	TStrings.virtual_020	units/Classes.pas	method of TStrings
+00410140	TStrings.virtual_024	units/Classes.pas	method of TStrings
+004101f4	TStrings.virtual_064	units/Classes.pas	method of TStrings
+0041024c	TStrings.virtual_068	units/Classes.pas	method of TStrings
+004102a8	TStrings.virtual_028	units/Classes.pas	method of TStrings
+004102ac	FUN_004102ac	units/Classes.pas	between functions of the file
+004102e0	TStrings.virtual_06c	units/Classes.pas	method of TStrings
+00410330	TStrings.virtual_02c	units/Classes.pas	method of TStrings
+004103f0	TStrings.virtual_030	units/Classes.pas	method of TStrings
+004103f4	FUN_004103f4	units/Classes.pas	between functions of the file
+0041051c	TStringList.Destroy	units/Classes.pas	method of TStringList
+00410578	TStringList.virtual_034	units/Classes.pas	method of TStringList
+004105d0	TStringList.virtual_070	units/Classes.pas	method of TStringList
+004105ec	TStringList.virtual_074	units/Classes.pas	method of TStringList
+00410608	TStringList.virtual_040	units/Classes.pas	method of TStringList
+00410640	TStringList.virtual_044	units/Classes.pas	method of TStringList
+004106a4	TStringList.virtual_048	units/Classes.pas	method of TStringList
+004106fc	FUN_004106fc	units/Classes.pas	between functions of the file
+00410720	TStringList.virtual_078	units/Classes.pas	method of TStringList
+00410788	TStringList.virtual_00c	units/Classes.pas	method of TStringList
+004107bc	TStringList.virtual_010	units/Classes.pas	method of TStringList
+004107c0	TStringList.virtual_014	units/Classes.pas	method of TStringList
+004107c4	TStringList.virtual_018	units/Classes.pas	method of TStringList
+004107ec	FUN_004107ec	units/Classes.pas	between functions of the file
+00410820	TStringList.virtual_050	units/Classes.pas	method of TStringList
+00410858	TStringList.virtual_054	units/Classes.pas	method of TStringList
+004108a0	FUN_004108a0	units/Classes.pas	between functions of the file
+00410908	TStringList.virtual_020	units/Classes.pas	method of TStringList
+00410960	TStringList.virtual_024	units/Classes.pas	method of TStringList
+0041099c	FUN_0041099c	units/Classes.pas	between functions of the file
+00410a30	TStringList.virtual_028	units/Classes.pas	method of TStringList
+00410a4c	FUN_00410a4c	units/Classes.pas	between functions of the file
+00410a68	TStringList.virtual_030	units/Classes.pas	method of TStringList
+00410a90	TStringList.virtual_07c	units/Classes.pas	method of TStringList
+00410aa0	TStringList.virtual_080	units/Classes.pas	method of TStringList
+00410ad4	FUN_00410ad4	units/Classes.pas	between functions of the file
+00410ae4	FUN_00410ae4	units/Classes.pas	between functions of the file
+00410af0	FUN_00410af0	units/Classes.pas	between functions of the file
+00410b24	TStream.virtual_000	units/Classes.pas	between functions of the file
+00410b28	FUN_00410b28	units/Classes.pas	between functions of the file
+00410b60	FUN_00410b60	units/Classes.pas	between functions of the file
+00410b98	FUN_00410b98	units/Classes.pas	between functions of the file
+00410c4c	FUN_00410c4c	units/Classes.pas	between functions of the file
+00410cac	THandleStream.virtual_004	units/Classes.pas	between functions of the file
+00410cbc	THandleStream.virtual_008	units/Classes.pas	between functions of the file
+00410ccc	THandleStream.virtual_00c	units/Classes.pas	between functions of the file
+00410cd8	THandleStream.virtual_000	units/Classes.pas	between functions of the file
+00410cf8	FUN_00410cf8	units/Classes.pas	between functions of the file
+00410db0	TFileStream.Destroy	units/Classes.pas	between functions of the file
+00410dd8	FUN_00410dd8	units/Classes.pas	between functions of the file
+00410de0	TCustomMemoryStream.virtual_004	units/Classes.pas	between functions of the file
+00410e18	TCustomMemoryStream.virtual_00c	units/Classes.pas	between functions of the file
+00410e3c	TMemoryStream.Destroy	units/Classes.pas	between functions of the file
+00410e68	FUN_00410e68	units/Classes.pas	between functions of the file
+00410e80	FUN_00410e80	units/Classes.pas	between functions of the file
+00410ea8	TMemoryStream.virtual_000	units/Classes.pas	between functions of the file
+00410ed4	TMemoryStream.virtual_010	units/Classes.pas	between functions of the file
+00410f58	TMemoryStream.virtual_008	units/Classes.pas	between functions of the file
+00410fa8	FUN_00410fa8	units/Classes.pas	between functions of the file
+00411000	FUN_00411000	units/Classes.pas	between functions of the file
+00411070	FUN_00411070	units/Classes.pas	between functions of the file
+004110dc	TResourceStream.Destroy	units/Classes.pas	between functions of the file
+00411114	TResourceStream.virtual_008	units/Classes.pas	between functions of the file
+0041112c	FUN_0041112c	units/Classes.pas	between functions of the file
+00411174	TFiler.Destroy	units/Classes.pas	between functions of the file
+0041119c	TFiler.virtual_000	units/Classes.pas	between functions of the file
+00411214	FUN_00411214	units/Classes.pas	between functions of the file
+0041126c	FUN_0041126c	units/Classes.pas	between functions of the file
+004112b4	FUN_004112b4	units/Classes.pas	between functions of the file
+0041137c	FUN_0041137c	units/Classes.pas	between functions of the file
+004113b4	FUN_004113b4	units/Classes.pas	between functions of the file
+004113fc	FUN_004113fc	units/Classes.pas	between functions of the file
+004115b8	FUN_004115b8	units/Classes.pas	between functions of the file
+00411664	FUN_00411664	units/Classes.pas	between functions of the file
+004116e8	FUN_004116e8	units/Classes.pas	between functions of the file
+00411700	FUN_00411700	units/Classes.pas	between functions of the file
+0041170c	FUN_0041170c	units/Classes.pas	between functions of the file
+00411718	FUN_00411718	units/Classes.pas	between functions of the file
+00411730	TReader.Destroy	units/Classes.pas	between functions of the file
+0041176c	FUN_0041176c	units/Classes.pas	between functions of the file
+00411790	TReader.virtual_004	units/Classes.pas	between functions of the file
+004117c4	TReader.virtual_008	units/Classes.pas	between functions of the file
+004118a0	FUN_004118a0	units/Classes.pas	between functions of the file
+004118b4	TReader.virtual_010	units/Classes.pas	between functions of the file
+004118d4	TReader.virtual_018	units/Classes.pas	between functions of the file
+0041193c	FUN_0041193c	units/Classes.pas	between functions of the file
+004119b8	FUN_004119b8	units/Classes.pas	between functions of the file
+00411adc	TReader.virtual_00c	units/Classes.pas	between functions of the file
+00411afc	FUN_00411afc	units/Classes.pas	between functions of the file
+00411b38	FUN_00411b38	units/Classes.pas	between functions of the file
+00411b50	FUN_00411b50	units/Classes.pas	between functions of the file
+00411b60	FUN_00411b60	units/Classes.pas	between functions of the file
+00411b6c	FUN_00411b6c	units/Classes.pas	between functions of the file
+00411bb8	FUN_00411bb8	units/Classes.pas	between functions of the file
+00411bf4	FUN_00411bf4	units/Classes.pas	between functions of the file
+00411c08	FUN_00411c08	units/Classes.pas	between functions of the file
+00411c8c	FUN_00411c8c	units/Classes.pas	between functions of the file
+00411db8	FUN_00411db8	units/Classes.pas	between functions of the file
+00411ec8	FUN_00411ec8	units/Classes.pas	between functions of the file
+00411f68	FUN_00411f68	units/Classes.pas	between functions of the file
+0041200c	FUN_0041200c	units/Classes.pas	between functions of the file
+004121e4	FUN_004121e4	units/Classes.pas	between functions of the file
+00412254	FUN_00412254	units/Classes.pas	between functions of the file
+00412324	FUN_00412324	units/Classes.pas	between functions of the file
+00412364	FUN_00412364	units/Classes.pas	between functions of the file
+004123a4	FUN_004123a4	units/Classes.pas	between functions of the file
+004123f0	FUN_004123f0	units/Classes.pas	between functions of the file
+00412430	FUN_00412430	units/Classes.pas	between functions of the file
+00412530	FUN_00412530	units/Classes.pas	between functions of the file
+0041259c	FUN_0041259c	units/Classes.pas	between functions of the file
+004125e0	FUN_004125e0	units/Classes.pas	between functions of the file
+004125e8	FUN_004125e8	units/Classes.pas	between functions of the file
+004125f0	TReader.virtual_024	units/Classes.pas	between functions of the file
+00412730	FUN_00412730	units/Classes.pas	between functions of the file
+0041274c	FUN_0041274c	units/Classes.pas	between functions of the file
+00412920	FUN_00412920	units/Classes.pas	between functions of the file
+00412968	FUN_00412968	units/Classes.pas	between functions of the file
+004129a8	FUN_004129a8	units/Classes.pas	between functions of the file
+00412ba0	FUN_00412ba0	units/Classes.pas	between functions of the file
+00412e38	FUN_00412e38	units/Classes.pas	between functions of the file
+00412ea8	FUN_00412ea8	units/Classes.pas	between functions of the file
+0041314c	FUN_0041314c	units/Classes.pas	between functions of the file
+00413208	FUN_00413208	units/Classes.pas	between functions of the file
+0041322c	FUN_0041322c	units/Classes.pas	between functions of the file
+00413268	FUN_00413268	units/Classes.pas	between functions of the file
+004132c8	FUN_004132c8	units/Classes.pas	between functions of the file
+00413310	FUN_00413310	units/Classes.pas	between functions of the file
+00413324	FUN_00413324	units/Classes.pas	between functions of the file
+0041336c	FUN_0041336c	units/Classes.pas	between functions of the file
+00413394	FUN_00413394	units/Classes.pas	between functions of the file
+004133e8	FUN_004133e8	units/Classes.pas	between functions of the file
+00413410	FUN_00413410	units/Classes.pas	between functions of the file
+00413470	FUN_00413470	units/Classes.pas	between functions of the file
+004135d8	FUN_004135d8	units/Classes.pas	between functions of the file
+004136c8	TReader.virtual_014	units/Classes.pas	between functions of the file
+00413780	TReader.virtual_020	units/Classes.pas	between functions of the file
+00413798	TReader.virtual_01c	units/Classes.pas	between functions of the file
+004137c0	FUN_004137c0	units/Classes.pas	between functions of the file
+00413830	FUN_00413830	units/Classes.pas	between functions of the file
+0041387c	FUN_0041387c	units/Classes.pas	between functions of the file
+00413894	FUN_00413894	units/Classes.pas	between functions of the file
+004138a8	FUN_004138a8	units/Classes.pas	between functions of the file
+0041391c	FUN_0041391c	units/Classes.pas	between functions of the file
+00413924	FUN_00413924	units/Classes.pas	between functions of the file
+0041392c	FUN_0041392c	units/Classes.pas	between functions of the file
+00413988	FUN_00413988	units/Classes.pas	between functions of the file
+0041399c	FUN_0041399c	units/Classes.pas	between functions of the file
+004139b8	TComponent.virtual_02c	units/Classes.pas	method of TComponent
+00413a04	TComponent.Destroy	units/Classes.pas	method of TComponent
+00413a8c	TComponent.BeforeDestruction	units/Classes.pas	method of TComponent
+00413a98	FUN_00413a98	units/Classes.pas	between functions of the file
+00413b2c	FUN_00413b2c	units/Classes.pas	between functions of the file
+00413b58	FUN_00413b58	units/Classes.pas	between functions of the file
+00413b80	FUN_00413b80	units/Classes.pas	between functions of the file
+00413bd8	FUN_00413bd8	units/Classes.pas	between functions of the file
+00413c10	FUN_00413c10	units/Classes.pas	between functions of the file
+00413c68	FUN_00413c68	units/Classes.pas	between functions of the file
+00413ca4	FUN_00413ca4	units/Classes.pas	between functions of the file
+00413cc8	FUN_00413cc8	units/Classes.pas	between functions of the file
+00413ce4	TComponent.virtual_010	units/Classes.pas	method of TComponent
+00413d40	TComponent.virtual_004	units/Classes.pas	method of TComponent
+00413dc8	TComponent.dynamic_fff2	units/Classes.pas	method of TComponent
+00413dcc	TComponent.dynamic_fffd	units/Classes.pas	method of TComponent
+00413dd4	TComponent.dynamic_fffc	units/Classes.pas	method of TComponent
+00413dd8	TComponent.dynamic_fffb	units/Classes.pas	method of TComponent
+00413ddc	TComponent.dynamic_fffe	units/Classes.pas	method of TComponent
+00413df0	TComponent.dynamic_ffff	units/Classes.pas	method of TComponent
+00413df4	TComponent.dynamic_fffa	units/Classes.pas	method of TComponent
+00413df8	TComponent.dynamic_fff3	units/Classes.pas	method of TComponent
+00413dfc	TComponent.dynamic_fff9	units/Classes.pas	method of TComponent
+00413e00	TComponent.dynamic_fff8	units/Classes.pas	method of TComponent
+00413e0c	TComponent.dynamic_fff7	units/Classes.pas	method of TComponent
+00413e18	TComponent.virtual_00c	units/Classes.pas	method of TComponent
+00413e24	TComponent.virtual_014	units/Classes.pas	method of TComponent
+00413e2c	TComponent.virtual_024	units/Classes.pas	method of TComponent
+00413e34	TComponent.virtual_020	units/Classes.pas	method of TComponent
+00413eb4	TComponent.dynamic_fff6	units/Classes.pas	method of TComponent
+00413ec8	TComponent.dynamic_fff5	units/Classes.pas	method of TComponent
+00413ecc	FUN_00413ecc	units/Classes.pas	between functions of the file
+00413f1c	TComponent.virtual_018	units/Classes.pas	method of TComponent
+00413fa8	FUN_00413fa8	units/Classes.pas	between functions of the file
+00413fbc	FUN_00413fbc	units/Classes.pas	between functions of the file
+00413fe8	FUN_00413fe8	units/Classes.pas	between functions of the file
+00413ff8	FUN_00413ff8	units/Classes.pas	between functions of the file
+0041404c	FUN_0041404c	units/Classes.pas	between functions of the file
+0041409c	FUN_0041409c	units/Classes.pas	between functions of the file
+004140e4	TComponent.dynamic_fff4	units/Classes.pas	method of TComponent
+0041410c	TComponent.dynamic_fff1	units/Classes.pas	method of TComponent
+00414134	TComponent.SafeCallException	units/Classes.pas	method of TComponent
+0041414c	TComponent.virtual_01c	units/Classes.pas	method of TComponent
+00414154	TComponent.virtual_028	units/Classes.pas	method of TComponent
+00414194	TBasicActionLink.virtual_014	units/Classes.pas	between functions of the file
+004141d8	TBasicActionLink.virtual_000	units/Classes.pas	between functions of the file
+004141dc	TBasicActionLink.Destroy	units/Classes.pas	between functions of the file
+00414210	TBasicActionLink.virtual_004	units/Classes.pas	between functions of the file
+00414228	TBasicActionLink.virtual_018	units/Classes.pas	between functions of the file
+00414238	TBasicActionLink.virtual_00c	units/Classes.pas	between functions of the file
+00414264	TBasicActionLink.virtual_008	units/Classes.pas	between functions of the file
+00414268	TBasicActionLink.virtual_010	units/Classes.pas	between functions of the file
+00414270	TBasicActionLink.virtual_01c	units/Classes.pas	between functions of the file
+0041427c	TBasicAction.virtual_02c	units/Classes.pas	method of TBasicAction
+004142c0	TBasicAction.Destroy	units/Classes.pas	method of TBasicAction
+0041430c	TBasicAction.virtual_038	units/Classes.pas	method of TBasicAction
+00414310	TBasicAction.virtual_040	units/Classes.pas	method of TBasicAction
+00414314	TBasicAction.virtual_03c	units/Classes.pas	method of TBasicAction
+00414318	TBasicAction.dynamic_fff0	units/Classes.pas	method of TBasicAction
+00414334	TBasicAction.virtual_044	units/Classes.pas	method of TBasicAction
+00414350	TBasicAction.virtual_034	units/Classes.pas	method of TBasicAction
+004143a4	TBasicAction.virtual_030	units/Classes.pas	method of TBasicAction
+004143b8	FUN_004143b8	units/Classes.pas	nearest file
+004143c4	FUN_004143c4	units/Classes.pas	nearest file
+00414404	FUN_00414404	units/Classes.pas	nearest file
+0041444c	TStreamAdapter.Destroy	units/Classes.pas	nearest file
+00414484	TStreamAdapter.virtual_000	units/Classes.pas	nearest file
+004144ec	TStreamAdapter.virtual_004	units/Classes.pas	nearest file
+00414554	TStreamAdapter.virtual_008	units/Classes.pas	nearest file
+004145cc	TStreamAdapter.virtual_00c	units/Classes.pas	nearest file
+00414630	TStreamAdapter.virtual_010	units/Classes.pas	nearest file
+00414818	TStreamAdapter.virtual_014	units/Classes.pas	nearest file
+00414824	TStreamAdapter.virtual_018	units/Classes.pas	nearest file
+00414830	TStreamAdapter.virtual_01c	units/Classes.pas	nearest file
+0041483c	TStreamAdapter.virtual_020	units/Classes.pas	nearest file
+00414848	TStreamAdapter.virtual_024	units/Classes.pas	nearest file
+004148c8	TStreamAdapter.virtual_028	units/Classes.pas	nearest file
+004148e0	FUN_004148e0	units/Classes.pas	nearest file
+004158e4	FUN_004158e4	units/Graphics.pas	nearest file
+00415958	FUN_00415958	units/Graphics.pas	nearest file
+0041596c	FUN_0041596c	units/Graphics.pas	nearest file
+004159a8	TResourceManager.Destroy	units/Graphics.pas	nearest file
+004159cc	FUN_004159cc	units/Graphics.pas	nearest file
+004159d8	FUN_004159d8	units/Graphics.pas	nearest file
+004159e4	FUN_004159e4	units/Graphics.pas	nearest file
+00415ac8	FUN_00415ac8	units/Graphics.pas	nearest file
+00415b78	FUN_00415b78	units/Graphics.pas	nearest file
+00415bf0	FUN_00415bf0	units/Graphics.pas	nearest file
+00415c5c	FUN_00415c5c	units/Graphics.pas	nearest file
+00415cc8	FUN_00415cc8	units/Graphics.pas	nearest file
+004160cc	FUN_004160cc	units/Graphics.pas	nearest file
+004160fc	TGraphicsObject.dynamic_fffd	units/Graphics.pas	method of TGraphicsObject
+00416110	FUN_00416110	units/Graphics.pas	between functions of the file
+00416120	FUN_00416120	units/Graphics.pas	between functions of the file
+00416304	FUN_00416304	units/Graphics.pas	between functions of the file
+004163b8	FUN_004163b8	units/Graphics.pas	between functions of the file
+0041640c	TFont.Destroy	units/Graphics.pas	method of TFont
+00416434	TFont.dynamic_fffd	units/Graphics.pas	method of TFont
+00416450	TFont.virtual_008	units/Graphics.pas	method of TFont
+00416524	FUN_00416524	units/Graphics.pas	between functions of the file
+0041653c	FUN_0041653c	units/Graphics.pas	between functions of the file
+0041658c	TFont.SetColor	units/Graphics.pas	method of TFont
+004165a0	FUN_004165a0	units/Graphics.pas	between functions of the file
+00416748	FUN_00416748	units/Graphics.pas	between functions of the file
+0041676c	TFont.GetHeight	units/Graphics.pas	method of TFont
+00416774	TFont.SetHeight	units/Graphics.pas	method of TFont
+0041679c	TFont.GetName	units/Graphics.pas	method of TFont
+004167b4	TFont.SetName	units/Graphics.pas	method of TFont
+00416810	TFont.GetSize	units/Graphics.pas	method of TFont
+0041682c	TFont.SetSize	units/Graphics.pas	method of TFont
+0041684c	TFont.GetStyle	units/Graphics.pas	method of TFont
+00416858	TFont.SetStyle	units/Graphics.pas	method of TFont
+00416884	TFont.GetPitch	units/Graphics.pas	method of TFont
+0041688c	TFont.SetPitch	units/Graphics.pas	method of TFont
+004168b4	TFont.GetCharset	units/Graphics.pas	method of TFont
+004168bc	TFont.SetCharset	units/Graphics.pas	method of TFont
+004168e4	FUN_004168e4	units/Graphics.pas	between functions of the file
+00416928	TPen.Destroy	units/Graphics.pas	method of TPen
+00416950	TPen.virtual_008	units/Graphics.pas	method of TPen
+00416a08	FUN_00416a08	units/Graphics.pas	between functions of the file
+00416a20	FUN_00416a20	units/Graphics.pas	between functions of the file
+00416a70	TPen.GetColor	units/Graphics.pas	method of TPen
+00416a78	TPen.SetColor	units/Graphics.pas	method of TPen
+00416aa0	FUN_00416aa0	units/Graphics.pas	between functions of the file
+00416b38	TPen.SetMode	units/Graphics.pas	method of TPen
+00416b4c	TPen.GetStyle	units/Graphics.pas	method of TPen
+00416b54	TPen.SetStyle	units/Graphics.pas	method of TPen
+00416b7c	TPen.GetWidth	units/Graphics.pas	method of TPen
+00416b84	TPen.SetWidth	units/Graphics.pas	method of TPen
+00416bb0	FUN_00416bb0	units/Graphics.pas	between functions of the file
+00416bf0	TBrush.Destroy	units/Graphics.pas	method of TBrush
+00416c18	TBrush.virtual_008	units/Graphics.pas	method of TBrush
+00416cc0	FUN_00416cc0	units/Graphics.pas	between functions of the file
+00416ce0	FUN_00416ce0	units/Graphics.pas	between functions of the file
+00416d30	FUN_00416d30	units/Graphics.pas	between functions of the file
+00416d54	TBrush.GetColor	units/Graphics.pas	method of TBrush
+00416d5c	TBrush.SetColor	units/Graphics.pas	method of TBrush
+00416d90	FUN_00416d90	units/Graphics.pas	between functions of the file
+00416e70	TBrush.GetStyle	units/Graphics.pas	method of TBrush
+00416e78	TBrush.SetStyle	units/Graphics.pas	method of TBrush
+00416eac	FUN_00416eac	units/Graphics.pas	between functions of the file
+00416f70	TCanvas.Destroy	units/Graphics.pas	method of TCanvas
+00416fcc	FUN_00416fcc	units/Graphics.pas	between functions of the file
+00417054	FUN_00417054	units/Graphics.pas	between functions of the file
+00417100	FUN_00417100	units/Graphics.pas	between functions of the file
+0041713c	FUN_0041713c	units/Graphics.pas	between functions of the file
+00417174	FUN_00417174	units/Graphics.pas	between functions of the file
+0041719c	FUN_0041719c	units/Graphics.pas	between functions of the file
+004171c8	FUN_004171c8	units/Graphics.pas	between functions of the file
+00417210	FUN_00417210	units/Graphics.pas	between functions of the file
+0041724c	FUN_0041724c	units/Graphics.pas	between functions of the file
+00417290	FUN_00417290	units/Graphics.pas	between functions of the file
+004172ac	FUN_004172ac	units/Graphics.pas	between functions of the file
+004172cc	FUN_004172cc	units/Graphics.pas	between functions of the file
+00417328	FUN_00417328	units/Graphics.pas	between functions of the file
+00417350	TCanvas.SetFont	units/Graphics.pas	method of TCanvas
+00417360	TCanvas.SetPen	units/Graphics.pas	method of TCanvas
+0041736c	TCanvas.SetBrush	units/Graphics.pas	method of TCanvas
+00417378	FUN_00417378	units/Graphics.pas	between functions of the file
+0041739c	FUN_0041739c	units/Graphics.pas	between functions of the file
+004173bc	FUN_004173bc	units/Graphics.pas	between functions of the file
+004173e8	FUN_004173e8	units/Graphics.pas	between functions of the file
+00417430	FUN_00417430	units/Graphics.pas	between functions of the file
+00417450	FUN_00417450	units/Graphics.pas	between functions of the file
+004174ac	TCanvas.virtual_014	units/Graphics.pas	method of TCanvas
+004174b0	FUN_004174b0	units/Graphics.pas	between functions of the file
+00417504	FUN_00417504	units/Graphics.pas	between functions of the file
+00417578	TCanvas.virtual_010	units/Graphics.pas	method of TCanvas
+0041758c	TCanvas.virtual_00c	units/Graphics.pas	method of TCanvas
+004175a0	FUN_004175a0	units/Graphics.pas	between functions of the file
+004175cc	FUN_004175cc	units/Graphics.pas	between functions of the file
+004175fc	FUN_004175fc	units/Graphics.pas	between functions of the file
+004176d8	FUN_004176d8	units/Graphics.pas	between functions of the file
+004176f0	FUN_004176f0	units/Graphics.pas	between functions of the file
+00417708	FUN_00417708	units/Graphics.pas	between functions of the file
+00417714	FUN_00417714	units/Graphics.pas	between functions of the file
+00417720	FUN_00417720	units/Graphics.pas	between functions of the file
+0041772c	FUN_0041772c	units/Graphics.pas	between functions of the file
+00417780	FUN_00417780	units/Graphics.pas	between functions of the file
+00417828	FUN_00417828	units/Graphics.pas	between functions of the file
+00417838	FUN_00417838	units/Graphics.pas	between functions of the file
+00417998	FUN_00417998	units/Graphics.pas	between functions of the file
+004179b8	FUN_004179b8	units/Graphics.pas	between functions of the file
+004179cc	FUN_004179cc	units/Graphics.pas	between functions of the file
+00417c60	FUN_00417c60	units/Graphics.pas	between functions of the file
+00417c98	FUN_00417c98	units/Graphics.pas	between functions of the file
+00417d10	FUN_00417d10	units/Graphics.pas	between functions of the file
+00417d68	FUN_00417d68	units/Graphics.pas	between functions of the file
+00417e80	FUN_00417e80	units/Graphics.pas	between functions of the file
+00417f18	FUN_00417f18	units/Graphics.pas	between functions of the file
+00417fbc	FUN_00417fbc	units/Graphics.pas	between functions of the file
+00418010	FUN_00418010	units/Graphics.pas	between functions of the file
+004181cc	FUN_004181cc	units/Graphics.pas	between functions of the file
+004181d8	FUN_004181d8	units/Graphics.pas	between functions of the file
+00418268	FUN_00418268	units/Graphics.pas	between functions of the file
+00418570	FUN_00418570	units/Graphics.pas	between functions of the file
+00418588	FUN_00418588	units/Graphics.pas	between functions of the file
+0041866c	FUN_0041866c	units/Graphics.pas	between functions of the file
+004186d0	FUN_004186d0	units/Graphics.pas	between functions of the file
+004186d8	FUN_004186d8	units/Graphics.pas	between functions of the file
+00418788	FUN_00418788	units/Graphics.pas	between functions of the file
+0041879c	FUN_0041879c	units/Graphics.pas	between functions of the file
+004187a0	FUN_004187a0	units/Graphics.pas	between functions of the file
+004187ac	FUN_004187ac	units/Graphics.pas	between functions of the file
+004189a8	TGraphic.virtual_00c	units/Graphics.pas	method of TGraphic
+004189e0	TGraphic.virtual_010	units/Graphics.pas	method of TGraphic
+004189f8	FUN_004189f8	units/Graphics.pas	between functions of the file
+00418a50	TGraphic.virtual_004	units/Graphics.pas	method of TGraphic
+00418a9c	TGraphic.virtual_018	units/Graphics.pas	method of TGraphic
+00418be0	TGraphic.virtual_024	units/Graphics.pas	method of TGraphic
+00418be4	TGraphic.virtual_028	units/Graphics.pas	method of TGraphic
+00418be8	TGraphic.virtual_048	units/Graphics.pas	method of TGraphic
+00418c3c	TGraphic.dynamic_fffd	units/Graphics.pas	method of TGraphic
+00418c64	TGraphic.virtual_030	units/Graphics.pas	method of TGraphic
+00418c70	TGraphic.virtual_04c	units/Graphics.pas	method of TGraphic
+00418cc8	TGraphic.virtual_038	units/Graphics.pas	method of TGraphic
+00418ccc	TGraphic.virtual_03c	units/Graphics.pas	method of TGraphic
+00418cdc	TGraphic.virtual_044	units/Graphics.pas	method of TGraphic
+00418d84	FUN_00418d84	units/Graphics.pas	between functions of the file
+00418eb8	TFileFormatsList.Destroy	units/Graphics.pas	between functions of the file
+00418f04	FUN_00418f04	units/Graphics.pas	between functions of the file
+00418f98	FUN_00418f98	units/Graphics.pas	between functions of the file
+00419088	FUN_00419088	units/Graphics.pas	between functions of the file
+00419108	TClipboardFormats.Destroy	units/Graphics.pas	between functions of the file
+00419134	FUN_00419134	units/Graphics.pas	between functions of the file
+0041919c	FUN_0041919c	units/Graphics.pas	between functions of the file
+004191bc	FUN_004191bc	units/Graphics.pas	between functions of the file
+004191dc	FUN_004191dc	units/Graphics.pas	between functions of the file
+0041921c	TPicture.Destroy	units/Graphics.pas	method of TPicture
+0041924c	TPicture.virtual_000	units/Graphics.pas	method of TPicture
+00419280	FUN_00419280	units/Graphics.pas	between functions of the file
+004192e4	FUN_004192e4	units/Graphics.pas	between functions of the file
+004192fc	FUN_004192fc	units/Graphics.pas	between functions of the file
+004193ac	TPicture.virtual_008	units/Graphics.pas	method of TPicture
+00419408	TPicture.dynamic_fffd	units/Graphics.pas	method of TPicture
+0041942c	TPicture.dynamic_fffc	units/Graphics.pas	method of TPicture
+00419454	FUN_00419454	units/Graphics.pas	between functions of the file
+004195c8	FUN_004195c8	units/Graphics.pas	between functions of the file
+00419644	TPicture.virtual_004	units/Graphics.pas	method of TPicture
+00419690	FUN_00419690	units/Graphics.pas	between functions of the file
+004196a8	FUN_004196a8	units/Graphics.pas	between functions of the file
+004196c0	TMetafileImage.Destroy	units/Graphics.pas	between functions of the file
+004196fc	TMetafileImage.virtual_000	units/Graphics.pas	between functions of the file
+00419700	TMetafile.virtual_00c	units/Graphics.pas	method of TMetafile
+00419748	TMetafile.Destroy	units/Graphics.pas	method of TMetafile
+00419778	TMetafile.virtual_008	units/Graphics.pas	method of TMetafile
+0041980c	TMetafile.virtual_014	units/Graphics.pas	method of TMetafile
+004198a0	TMetafile.virtual_01c	units/Graphics.pas	method of TMetafile
+004198a8	TMetafile.virtual_020	units/Graphics.pas	method of TMetafile
+0041990c	TMetafile.virtual_024	units/Graphics.pas	method of TMetafile
+00419998	TMetafile.virtual_02c	units/Graphics.pas	method of TMetafile
+004199fc	TMetafile.virtual_050	units/Graphics.pas	method of TMetafile
+00419a50	FUN_00419a50	units/Graphics.pas	between functions of the file
+00419a78	TMetafile.virtual_030	units/Graphics.pas	method of TMetafile
+00419ae4	FUN_00419ae4	units/Graphics.pas	between functions of the file
+00419bb4	FUN_00419bb4	units/Graphics.pas	between functions of the file
+00419d34	TMetafile.virtual_04c	units/Graphics.pas	method of TMetafile
+00419dc0	TMetafile.virtual_054	units/Graphics.pas	method of TMetafile
+00419ddc	TMetafile.virtual_034	units/Graphics.pas	method of TMetafile
+00419e50	FUN_00419e50	units/Graphics.pas	between functions of the file
+00419e8c	FUN_00419e8c	units/Graphics.pas	between functions of the file
+00419ec8	TMetafile.virtual_03c	units/Graphics.pas	method of TMetafile
+00419ecc	TMetafile.virtual_040	units/Graphics.pas	method of TMetafile
+00419f40	FUN_00419f40	units/Graphics.pas	between functions of the file
+00419fa0	FUN_00419fa0	units/Graphics.pas	between functions of the file
+0041a024	TMetafile.virtual_044	units/Graphics.pas	method of TMetafile
+0041a0a8	FUN_0041a0a8	units/Graphics.pas	between functions of the file
+0041a134	FUN_0041a134	units/Graphics.pas	between functions of the file
+0041a27c	TMetafile.virtual_058	units/Graphics.pas	method of TMetafile
+0041a300	TMetafile.virtual_05c	units/Graphics.pas	method of TMetafile
+0041a3d0	FUN_0041a3d0	units/Graphics.pas	between functions of the file
+0041a47c	FUN_0041a47c	units/Graphics.pas	between functions of the file
+0041a4f8	FUN_0041a4f8	units/Graphics.pas	between functions of the file
+0041a534	TBitmapCanvas.Destroy	units/Graphics.pas	method of TBitmapCanvas
+0041a560	FUN_0041a560	units/Graphics.pas	between functions of the file
+0041a600	TBitmapCanvas.virtual_014	units/Graphics.pas	method of TBitmapCanvas
+0041a6ec	FUN_0041a6ec	units/Graphics.pas	between functions of the file
+0041a6f0	FUN_0041a6f0	units/Graphics.pas	between functions of the file
+0041a710	TBitmapImage.Destroy	units/Graphics.pas	between functions of the file
+0041a76c	TBitmapImage.virtual_000	units/Graphics.pas	between functions of the file
+0041a7b8	FUN_0041a7b8	units/Graphics.pas	between functions of the file
+0041a874	FUN_0041a874	units/Graphics.pas	between functions of the file
+0041a8c0	FUN_0041a8c0	units/Graphics.pas	between functions of the file
+0041af1c	FUN_0041af1c	units/Graphics.pas	between functions of the file
+0041af80	FUN_0041af80	units/Graphics.pas	between functions of the file
+0041b18c	TBitmap.virtual_00c	units/Graphics.pas	method of TBitmap
+0041b1f4	TBitmap.Destroy	units/Graphics.pas	method of TBitmap
+0041b230	TBitmap.virtual_008	units/Graphics.pas	method of TBitmap
+0041b320	FUN_0041b320	units/Graphics.pas	between functions of the file
+0041b3e0	FUN_0041b3e0	units/Graphics.pas	between functions of the file
+0041b404	TBitmap.virtual_010	units/Graphics.pas	method of TBitmap
+0041b410	FUN_0041b410	units/Graphics.pas	between functions of the file
+0041b42c	TBitmap.virtual_014	units/Graphics.pas	method of TBitmap
+0041b67c	FUN_0041b67c	units/Graphics.pas	between functions of the file
+0041b6e0	TBitmap.virtual_01c	units/Graphics.pas	method of TBitmap
+0041b6f8	FUN_0041b6f8	units/Graphics.pas	between functions of the file
+0041b738	TBitmap.virtual_060	units/Graphics.pas	method of TBitmap
+0041b75c	FUN_0041b75c	units/Graphics.pas	between functions of the file
+0041b788	TBitmap.virtual_020	units/Graphics.pas	method of TBitmap
+0041b798	TBitmap.virtual_064	units/Graphics.pas	method of TBitmap
+0041b7ac	FUN_0041b7ac	units/Graphics.pas	between functions of the file
+0041b7c8	TBitmap.virtual_024	units/Graphics.pas	method of TBitmap
+0041b7dc	FUN_0041b7dc	units/Graphics.pas	between functions of the file
+0041b824	TBitmap.virtual_02c	units/Graphics.pas	method of TBitmap
+0041b82c	FUN_0041b82c	units/Graphics.pas	between functions of the file
+0041b8a0	FUN_0041b8a0	units/Graphics.pas	between functions of the file
+0041b8b0	FUN_0041b8b0	units/Graphics.pas	between functions of the file
+0041b8c0	FUN_0041b8c0	units/Graphics.pas	between functions of the file
+0041b920	FUN_0041b920	units/Graphics.pas	between functions of the file
+0041b9d8	TBitmap.virtual_058	units/Graphics.pas	method of TBitmap
+0041ba5c	TBitmap.virtual_050	units/Graphics.pas	method of TBitmap
+0041ba80	FUN_0041ba80	units/Graphics.pas	between functions of the file
+0041bb80	TBitmap.virtual_030	units/Graphics.pas	method of TBitmap
+0041bba8	FUN_0041bba8	units/Graphics.pas	between functions of the file
+0041c0b8	FUN_0041c0b8	units/Graphics.pas	between functions of the file
+0041c128	FUN_0041c128	units/Graphics.pas	between functions of the file
+0041c1ec	TBitmap.virtual_068	units/Graphics.pas	method of TBitmap
+0041c324	TBitmap.virtual_034	units/Graphics.pas	method of TBitmap
+0041c378	FUN_0041c378	units/Graphics.pas	between functions of the file
+0041c3f8	TBitmap.virtual_038	units/Graphics.pas	method of TBitmap
+0041c4cc	TBitmap.virtual_040	units/Graphics.pas	method of TBitmap
+0041c520	TBitmap.virtual_044	units/Graphics.pas	method of TBitmap
+0041c528	FUN_0041c528	units/Graphics.pas	between functions of the file
+0041c7c4	TBitmap.virtual_054	units/Graphics.pas	method of TBitmap
+0041c7cc	TBitmap.virtual_05c	units/Graphics.pas	method of TBitmap
+0041c86c	TIconImage.Destroy	units/Graphics.pas	between functions of the file
+0041c89c	TIconImage.virtual_000	units/Graphics.pas	between functions of the file
+0041c8b4	TIcon.virtual_00c	units/Graphics.pas	method of TIcon
+0041c908	TIcon.Destroy	units/Graphics.pas	method of TIcon
+0041c938	TIcon.virtual_008	units/Graphics.pas	method of TIcon
+0041c998	TIcon.virtual_014	units/Graphics.pas	method of TIcon
+0041c9d8	TIcon.virtual_01c	units/Graphics.pas	method of TIcon
+0041c9f0	FUN_0041c9f0	units/Graphics.pas	between functions of the file
+0041ca04	TIcon.virtual_020	units/Graphics.pas	method of TIcon
+0041ca18	TIcon.virtual_02c	units/Graphics.pas	method of TIcon
+0041ca2c	FUN_0041ca2c	units/Graphics.pas	between functions of the file
+0041caa4	FUN_0041caa4	units/Graphics.pas	between functions of the file
+0041cb58	TIcon.virtual_050	units/Graphics.pas	method of TIcon
+0041cc10	FUN_0041cc10	units/Graphics.pas	between functions of the file
+0041cc84	FUN_0041cc84	units/Graphics.pas	between functions of the file
+0041cc9c	TIcon.virtual_034	units/Graphics.pas	method of TIcon
+0041ccb4	TIcon.virtual_03c	units/Graphics.pas	method of TIcon
+0041ccb8	TIcon.virtual_040	units/Graphics.pas	method of TIcon
+0041ccd0	TIcon.virtual_054	units/Graphics.pas	method of TIcon
+0041ccfc	TIcon.virtual_058	units/Graphics.pas	method of TIcon
+0041cd10	TIcon.virtual_05c	units/Graphics.pas	method of TIcon
+0041cd24	FUN_0041cd24	units/Graphics.pas	nearest file
+0041cd5c	FUN_0041cd5c	units/Graphics.pas	nearest file
+0041cda0	FUN_0041cda0	units/Graphics.pas	nearest file
+0041ce70	FUN_0041ce70	units/Graphics.pas	nearest file
+0041cea8	TPatternManager.Destroy	units/Graphics.pas	nearest file
+0041ced4	FUN_0041ced4	units/Graphics.pas	nearest file
+0041cee0	FUN_0041cee0	units/Graphics.pas	nearest file
+0041ceec	FUN_0041ceec	units/Graphics.pas	nearest file
+0041cfa0	FUN_0041cfa0	units/Graphics.pas	nearest file
+0041d0a0	FUN_0041d0a0	units/Graphics.pas	nearest file
+0041d118	FUN_0041d118	units/Graphics.pas	nearest file
+0041d3e8	FUN_0041d3e8	units/Graphics.pas	nearest file
+0041d3f0	FUN_0041d3f0	units/Graphics.pas	nearest file
+0041d3f8	FUN_0041d3f8	units/Graphics.pas	nearest file
+0041d43c	TOrderedList.Destroy	units/Graphics.pas	nearest file
+0041d46c	TOrderedList.virtual_008	units/Graphics.pas	nearest file
+0041d480	TOrderedList.virtual_004	units/Graphics.pas	nearest file
+0041d4a0	TStack.virtual_000	units/Graphics.pas	nearest file
+0041d4e4	ImageList_Create	units/Graphics.pas	nearest file
+0041d4ec	ImageList_Destroy	units/Graphics.pas	nearest file
+0041d4f4	ImageList_GetImageCount	units/Graphics.pas	nearest file
+0041d4fc	ImageList_Add	units/Graphics.pas	nearest file
+0041d504	ImageList_ReplaceIcon	units/Graphics.pas	nearest file
+0041d50c	ImageList_SetBkColor	units/Graphics.pas	nearest file
+0041d514	ImageList_GetBkColor	units/Graphics.pas	nearest file
+0041d51c	FUN_0041d51c	units/Graphics.pas	nearest file
+0041d528	ImageList_Draw	units/Graphics.pas	nearest file
+0041d530	ImageList_DrawEx	units/Graphics.pas	nearest file
+0041d538	ImageList_Remove	units/Graphics.pas	nearest file
+0041d540	ImageList_BeginDrag	units/Graphics.pas	nearest file
+0041d548	ImageList_EndDrag	units/Graphics.pas	nearest file
+0041d550	ImageList_DragEnter	units/Graphics.pas	nearest file
+0041d558	ImageList_DragLeave	units/Graphics.pas	nearest file
+0041d560	ImageList_DragMove	units/Graphics.pas	nearest file
+0041d568	ImageList_SetDragCursorImage	units/Graphics.pas	nearest file
+0041d570	ImageList_DragShowNolock	units/Graphics.pas	nearest file
+0041d578	ImageList_GetDragImage	units/Graphics.pas	nearest file
+0041d580	ImageList_Read	units/Graphics.pas	nearest file
+0041d588	ImageList_Write	units/Graphics.pas	nearest file
+0041d590	ImageList_GetIconSize	units/Graphics.pas	nearest file
+0041d598	ImageList_SetIconSize	units/Graphics.pas	nearest file
+0041d5d8	FUN_0041d5d8	units/Graphics.pas	nearest file
+0041d748	FUN_0041d748	units/Graphics.pas	nearest file
+0041dcc0	FUN_0041dcc0	units/Graphics.pas	nearest file
+0041dd6c	FUN_0041dd6c	units/Graphics.pas	nearest file
+0041dda4	FUN_0041dda4	units/Graphics.pas	nearest file
+0041ddac	FUN_0041ddac	units/Graphics.pas	nearest file
+0041dde4	FUN_0041dde4	units/Graphics.pas	nearest file
+0041de60	FUN_0041de60	units/Graphics.pas	nearest file
+0041de94	FUN_0041de94	units/Graphics.pas	nearest file
+0041debc	FUN_0041debc	units/Graphics.pas	nearest file
+0041f1dc	TCustomLabel.virtual_02c	units/StdCtrls.pas	method of TCustomLabel
+0041f248	TCustomLabel.virtual_088	units/StdCtrls.pas	method of TCustomLabel
+0041f25c	TCustomLabel.dynamic_ffcc	units/StdCtrls.pas	method of TCustomLabel
+0041f3cc	TCustomLabel.virtual_084	units/StdCtrls.pas	method of TCustomLabel
+0041f4d0	TCustomLabel.virtual_00c	units/StdCtrls.pas	method of TCustomLabel
+0041f4e8	TCustomLabel.dynamic_ffcd	units/StdCtrls.pas	method of TCustomLabel
+0041f5b4	TLabel.SetAlignment	units/StdCtrls.pas	method of TLabel
+0041f5c8	TCustomLabel.virtual_08c	units/StdCtrls.pas	method of TCustomLabel
+0041f5e4	TLabel.GetTransparent	units/StdCtrls.pas	method of TLabel
+0041f5f0	TLabel.SetFocusControl	units/StdCtrls.pas	method of TLabel
+0041f604	TLabel.SetShowAccelChar	units/StdCtrls.pas	method of TLabel
+0041f618	TLabel.SetTransparent	units/StdCtrls.pas	method of TLabel
+0041f658	TLabel.SetLayout	units/StdCtrls.pas	method of TLabel
+0041f66c	TLabel.SetWordWrap	units/StdCtrls.pas	method of TLabel
+0041f694	TCustomLabel.virtual_010	units/StdCtrls.pas	method of TCustomLabel
+0041f6c4	TCustomLabel.CMTextChanged	units/StdCtrls.pas	method of TCustomLabel
+0041f6dc	TCustomLabel.CMFontChanged	units/StdCtrls.pas	method of TCustomLabel
+0041f6f8	TCustomLabel.CMDialogChar	units/StdCtrls.pas	method of TCustomLabel
+0041f794	TButtonActionLink.virtual_000	units/StdCtrls.pas	between functions of the file
+0041f7b8	TButtonActionLink.virtual_024	units/StdCtrls.pas	between functions of the file
+0041f7f0	TButtonActionLink.virtual_044	units/StdCtrls.pas	between functions of the file
+0041f854	TButtonControl.virtual_02c	units/StdCtrls.pas	method of TButtonControl
+0041f8a8	TButtonControl.dynamic_fff0	units/StdCtrls.pas	method of TButtonControl
+0041f8f0	TButtonControl.dynamic_ffde	units/StdCtrls.pas	method of TButtonControl
+0041f8f8	TButtonControl.virtual_0b4	units/StdCtrls.pas	method of TButtonControl
+0041f8fc	TButtonControl.virtual_0b8	units/StdCtrls.pas	method of TButtonControl
+0041f900	TButtonControl.virtual_06c	units/StdCtrls.pas	method of TButtonControl
+0041f978	TButton.virtual_02c	units/StdCtrls.pas	method of TButton
+0041f9dc	TButton.dynamic_ffec	units/StdCtrls.pas	method of TButton
+0041fa00	TButton.dynamic_ffce	units/StdCtrls.pas	method of TButton
+0041fa04	TButton.virtual_0bc	units/StdCtrls.pas	method of TButton
+0041fa58	TButton.SetDefault	units/StdCtrls.pas	method of TButton
+0041fa8c	TButton.virtual_090	units/StdCtrls.pas	method of TButton
+0041fac8	TButton.virtual_098	units/StdCtrls.pas	method of TButton
+0041fae0	TButton.CNCommand	units/StdCtrls.pas	method of TButton
+0041faf4	TButton.CMDialogKey	units/StdCtrls.pas	method of TButton
+0041fb64	TButton.CMDialogChar	units/StdCtrls.pas	method of TButton
+0041fbe8	TButton.CMFocusChanged	units/StdCtrls.pas	method of TButton
+0041fc3c	TButton.WMEraseBkgnd	units/StdCtrls.pas	method of TButton
+0041fdf8	THintAction.virtual_02c	units/StdActns.pas	method of THintAction
+00421940	FUN_00421940	units/Controls.pas	nearest file
+00421954	FUN_00421954	units/Controls.pas	nearest file
+00421a0c	FUN_00421a0c	units/Controls.pas	nearest file
+00421a28	FUN_00421a28	units/Controls.pas	nearest file
+00421c0c	FUN_00421c0c	units/Controls.pas	nearest file
+00421c50	FUN_00421c50	units/Controls.pas	nearest file
+00421c94	FUN_00421c94	units/Controls.pas	nearest file
+00421cbc	FUN_00421cbc	units/Controls.pas	nearest file
+00421d68	FUN_00421d68	units/Controls.pas	nearest file
+00421d9c	FUN_00421d9c	units/Controls.pas	nearest file
+00421dc4	FUN_00421dc4	units/Controls.pas	nearest file
+00421e20	TSiteList.virtual_008	units/Controls.pas	nearest file
+00421e54	FUN_00421e54	units/Controls.pas	nearest file
+00421eb8	TDragObject.virtual_00c	units/Controls.pas	nearest file
+00421ef8	FUN_00421ef8	units/Controls.pas	nearest file
+00421f10	TDragObject.virtual_000	units/Controls.pas	nearest file
+00421f18	TDragObject.virtual_010	units/Controls.pas	nearest file
+00421f40	FUN_00421f40	units/Controls.pas	nearest file
+00422044	TDragObject.virtual_008	units/Controls.pas	nearest file
+00422048	TDragObject.virtual_004	units/Controls.pas	nearest file
+00422060	TDragObject.virtual_014	units/Controls.pas	nearest file
+00422064	TDragObject.virtual_018	units/Controls.pas	nearest file
+0042206c	TDragObject.virtual_01c	units/Controls.pas	nearest file
+00422070	TBaseDragControlObject.virtual_024	units/Controls.pas	nearest file
+00422094	TBaseDragControlObject.virtual_00c	units/Controls.pas	nearest file
+004220c0	TBaseDragControlObject.virtual_020	units/Controls.pas	nearest file
+004220e4	TBaseDragControlObject.virtual_000	units/Controls.pas	nearest file
+00422118	TDragControlObject.virtual_004	units/Controls.pas	nearest file
+00422130	TDragControlObject.virtual_008	units/Controls.pas	nearest file
+0042213c	TDragControlObject.virtual_014	units/Controls.pas	nearest file
+0042215c	TDragControlObject.virtual_01c	units/Controls.pas	nearest file
+0042217c	TDragDockObject.virtual_024	units/Controls.pas	nearest file
+004221e0	TDragDockObject.Destroy	units/Controls.pas	nearest file
+00422210	TDragDockObject.virtual_00c	units/Controls.pas	nearest file
+00422274	TDragDockObject.virtual_020	units/Controls.pas	nearest file
+00422294	FUN_00422294	units/Controls.pas	nearest file
+004222b8	TDragDockObject.virtual_028	units/Controls.pas	nearest file
+00422338	TDragDockObject.virtual_02c	units/Controls.pas	nearest file
+0042234c	TDragDockObject.virtual_030	units/Controls.pas	nearest file
+00422360	TDragDockObject.virtual_004	units/Controls.pas	nearest file
+0042236c	TDragDockObject.virtual_034	units/Controls.pas	nearest file
+004223e0	FUN_004223e0	units/Controls.pas	nearest file
+00422578	FUN_00422578	units/Controls.pas	nearest file
+004225bc	FUN_004225bc	units/Controls.pas	nearest file
+00422708	FUN_00422708	units/Controls.pas	nearest file
+00422768	FUN_00422768	units/Controls.pas	nearest file
+004227c0	FUN_004227c0	units/Controls.pas	nearest file
+004227e4	FUN_004227e4	units/Controls.pas	nearest file
+00422810	FUN_00422810	units/Controls.pas	nearest file
+00422860	FUN_00422860	units/Controls.pas	nearest file
+0042289c	FUN_0042289c	units/Controls.pas	nearest file
+00422930	FUN_00422930	units/Controls.pas	nearest file
+00422c04	FUN_00422c04	units/Controls.pas	nearest file
+00422d74	FUN_00422d74	units/Controls.pas	nearest file
+00422f3c	FUN_00422f3c	units/Controls.pas	nearest file
+00422fac	FUN_00422fac	units/Controls.pas	nearest file
+0042320c	FUN_0042320c	units/Controls.pas	nearest file
+00423224	FUN_00423224	units/Controls.pas	nearest file
+00423258	FUN_00423258	units/Controls.pas	nearest file
+004232a0	FUN_004232a0	units/Controls.pas	nearest file
+004232c8	FUN_004232c8	units/Controls.pas	nearest file
+004232e8	FUN_004232e8	units/Controls.pas	nearest file
+00423318	FUN_00423318	units/Controls.pas	nearest file
+004233d4	FUN_004233d4	units/Controls.pas	nearest file
+00423480	TControlCanvas.Destroy	units/Controls.pas	method of TControlCanvas
+004234ac	TControlCanvas.virtual_014	units/Controls.pas	method of TControlCanvas
+00423554	FUN_00423554	units/Controls.pas	between functions of the file
+00423588	FUN_00423588	units/Controls.pas	between functions of the file
+004235a0	FUN_004235a0	units/Controls.pas	between functions of the file
+004235cc	TSizeConstraints.virtual_00c	units/Controls.pas	method of TSizeConstraints
+00423608	TSizeConstraints.virtual_000	units/Controls.pas	method of TSizeConstraints
+00423654	TSizeConstraints.SetMaxHeight	units/Controls.pas	method of TSizeConstraints
+004236fc	TSizeConstraints.dynamic_fffd	units/Controls.pas	method of TSizeConstraints
+00423710	TControlActionLink.virtual_000	units/Controls.pas	between functions of the file
+0042372c	TControlActionLink.virtual_060	units/Controls.pas	between functions of the file
+00423814	TControlActionLink.virtual_020	units/Controls.pas	between functions of the file
+00423888	TControlActionLink.virtual_028	units/Controls.pas	between functions of the file
+004238bc	TControlActionLink.virtual_030	units/Controls.pas	between functions of the file
+004238f0	TControlActionLink.virtual_03c	units/Controls.pas	between functions of the file
+00423920	TControlActionLink.virtual_008	units/Controls.pas	between functions of the file
+00423948	TControlActionLink.virtual_040	units/Controls.pas	between functions of the file
+00423968	TControlActionLink.virtual_048	units/Controls.pas	between functions of the file
+00423988	TControlActionLink.virtual_050	units/Controls.pas	between functions of the file
+004239ac	TControlActionLink.virtual_05c	units/Controls.pas	between functions of the file
+004239cc	TControlActionLink.virtual_010	units/Controls.pas	between functions of the file
+004239f8	TControl.virtual_02c	units/Controls.pas	method of TControl
+00423ac8	TControl.Destroy	units/Controls.pas	method of TControl
+00423b80	TControl.virtual_048	units/Controls.pas	method of TControl
+00423b84	TControl.virtual_04c	units/Controls.pas	method of TControl
+00423b88	TControl.dynamic_ffdc	units/Controls.pas	method of TControl
+00423b8c	TControl.dynamic_fff2	units/Controls.pas	method of TControl
+00423b94	TControl.dynamic_fff3	units/Controls.pas	method of TControl
+00423b98	TControl.dynamic_fff9	units/Controls.pas	method of TControl
+00423bc0	TControl.dynamic_ffd6	units/Controls.pas	method of TControl
+00423c3c	TButton.GetAction	units/StdCtrls.pas	method of TButton
+00423c4c	TLabel.SetAnchors	units/StdCtrls.pas	method of TLabel
+00423c6c	TButton.SetAction	units/StdCtrls.pas	method of TButton
+00423ce8	FUN_00423ce8	units/Controls.pas	nearest file
+00423d00	TControl.virtual_058	units/Controls.pas	method of TControl
+00423d04	TControl.dynamic_ffd5	units/Controls.pas	method of TControl
+00423d14	TControl.dynamic_ffd4	units/Controls.pas	method of TControl
+00423d34	TControl.virtual_014	units/Controls.pas	method of TControl
+00423dc8	TControl.virtual_010	units/Controls.pas	method of TControl
+00423e0c	TLabel.SetAlign	units/StdCtrls.pas	method of TLabel
+00423ea0	TControl.virtual_07c	units/Controls.pas	method of TControl
+00423f38	FUN_00423f38	units/Controls.pas	between functions of the file
+00424014	TControl.SetLeft	units/Controls.pas	method of TControl
+00424034	TControl.SetTop	units/Controls.pas	method of TControl
+00424058	TControl.SetWidth	units/Controls.pas	method of TControl
+00424078	TControl.SetHeight	units/Controls.pas	method of TControl
+00424098	TControl.dynamic_ffd1	units/Controls.pas	method of TControl
+004241a4	TControl.dynamic_ffe6	units/Controls.pas	method of TControl
+004241fc	FUN_004241fc	units/Controls.pas	between functions of the file
+0042421c	FUN_0042421c	units/Controls.pas	between functions of the file
+00424240	TControl.virtual_040	units/Controls.pas	method of TControl
+00424258	TForm.GetClientWidth	units/Forms.pas	method of TForm
+00424270	FUN_00424270	units/Forms.pas	between functions of the file
+0042429c	TForm.GetClientHeight	units/Forms.pas	method of TForm
+004242b4	FUN_004242b4	units/Forms.pas	nearest file
+004242dc	TControl.virtual_03c	units/Controls.pas	method of TControl
+0042436c	FUN_0042436c	units/Controls.pas	between functions of the file
+00424398	FUN_00424398	units/Controls.pas	between functions of the file
+004243c4	FUN_004243c4	units/Controls.pas	between functions of the file
+004243f4	FUN_004243f4	units/Controls.pas	between functions of the file
+00424460	TControl.dynamic_ffed	units/Controls.pas	method of TControl
+004245a4	TScrollBox.SetAutoSize	units/Forms.pas	method of TScrollBox
+004245c4	TControl.virtual_018	units/Controls.pas	method of TControl
+00424668	FUN_00424668	units/Controls.pas	between functions of the file
+004246b0	TControl.virtual_060	units/Controls.pas	method of TControl
+004246fc	TLabel.SetVisible	units/StdCtrls.pas	method of TLabel
+00424740	TControl.virtual_05c	units/Controls.pas	method of TControl
+00424758	FUN_00424758	units/Controls.pas	nearest file
+00424768	FUN_00424768	units/Controls.pas	nearest file
+00424774	FUN_00424774	units/StdCtrls.pas	nearest file
+00424788	FUN_00424788	units/StdCtrls.pas	nearest file
+0042479c	TLabel.SetPopupMenu	units/StdCtrls.pas	method of TLabel
+004247c0	FUN_004247c0	units/StdCtrls.pas	between functions of the file
+004247e4	TLabel.GetCaption	units/StdCtrls.pas	method of TLabel
+00424814	TLabel.SetCaption	units/StdCtrls.pas	method of TLabel
+00424878	TControl.virtual_068	units/Controls.pas	method of TControl
+00424894	FUN_00424894	units/Controls.pas	nearest file
+004248d0	TLabel.SetFont	units/StdCtrls.pas	method of TLabel
+00424908	TLabel.SetParentFont	units/StdCtrls.pas	method of TLabel
+00424928	TLabel.SetShowHint	units/StdCtrls.pas	method of TLabel
+0042494c	TLabel.SetParentShowHint	units/StdCtrls.pas	method of TLabel
+00424970	TLabel.SetColor	units/StdCtrls.pas	method of TLabel
+00424994	TLabel.SetParentColor	units/StdCtrls.pas	method of TLabel
+004249b4	TControl.virtual_064	units/Controls.pas	method of TControl
+004249d4	TControl.SetCursor	units/Controls.pas	method of TControl
+004249f0	FUN_004249f0	units/Controls.pas	between functions of the file
+00424a00	FUN_00424a00	units/Controls.pas	between functions of the file
+00424a28	FUN_00424a28	units/Controls.pas	between functions of the file
+00424a38	FUN_00424a38	units/Controls.pas	between functions of the file
+00424ab8	TControl.dynamic_ffd3	units/Controls.pas	method of TControl
+00424adc	TControl.virtual_044	units/Controls.pas	method of TControl
+00424b84	FUN_00424b84	units/Controls.pas	between functions of the file
+00424c10	FUN_00424c10	units/Controls.pas	between functions of the file
+00424c9c	TControl.virtual_074	units/Controls.pas	method of TControl
+00424cac	TControl.virtual_080	units/Controls.pas	method of TControl
+00424cc0	TControl.virtual_078	units/Controls.pas	method of TControl
+00424db8	TControl.dynamic_ffcf	units/Controls.pas	method of TControl
+00424dbc	FUN_00424dbc	units/Controls.pas	between functions of the file
+00424dd4	TControl.dynamic_ffce	units/Controls.pas	method of TControl
+00424dec	FUN_00424dec	units/Controls.pas	between functions of the file
+00424e08	TControl.dynamic_ffee	units/Controls.pas	method of TControl
+00424e20	FUN_00424e20	units/Controls.pas	between functions of the file
+00424ee4	TControl.dynamic_ffe4	units/Controls.pas	method of TControl
+00424ee8	FUN_00424ee8	units/Controls.pas	between functions of the file
+00424ef4	TControl.dynamic_ffe3	units/Controls.pas	method of TControl
+00424f30	TControl.dynamic_ffd0	units/Controls.pas	method of TControl
+00424f5c	TControl.dynamic_ffe1	units/Controls.pas	method of TControl
+00424f7c	TControl.dynamic_ffe2	units/Controls.pas	method of TControl
+00424fa8	TControl.dynamic_ffd7	units/Controls.pas	method of TControl
+00425078	TControl.dynamic_ffe9	units/Controls.pas	method of TControl
+0042508c	TControl.dynamic_ffe7	units/Controls.pas	method of TControl
+004250b8	TControl.dynamic_ffe5	units/Controls.pas	method of TControl
+004250d8	TControl.dynamic_ffea	units/Controls.pas	method of TControl
+00425208	TControl.dynamic_ffe0	units/Controls.pas	method of TControl
+00425218	TControl.dynamic_ffdf	units/Controls.pas	method of TControl
+00425228	FUN_00425228	units/Controls.pas	between functions of the file
+00425318	FUN_00425318	units/Controls.pas	between functions of the file
+00425500	FUN_00425500	units/Controls.pas	between functions of the file
+004255ac	TControl.virtual_034	units/Controls.pas	method of TControl
+004255b0	TControl.virtual_030	units/Controls.pas	method of TControl
+004255e0	FUN_004255e0	units/Controls.pas	between functions of the file
+0042564c	FUN_0042564c	units/Controls.pas	between functions of the file
+0042567c	TControl.virtual_038	units/Controls.pas	method of TControl
+004256ac	FUN_004256ac	units/Controls.pas	between functions of the file
+00425780	FUN_00425780	units/Controls.pas	between functions of the file
+004257b4	FUN_004257b4	units/Controls.pas	between functions of the file
+00425824	FUN_00425824	units/Controls.pas	between functions of the file
+00425848	TControl.dynamic_ffd2	units/Controls.pas	method of TControl
+0042584c	TControl.virtual_06c	units/Controls.pas	method of TControl
+00425964	TControl.DefaultHandler	units/Controls.pas	method of TControl
+00425a0c	FUN_00425a0c	units/Controls.pas	between functions of the file
+00425a3c	TControl.virtual_004	units/Controls.pas	method of TControl
+00425a8c	TControl.dynamic_ffec	units/Controls.pas	method of TControl
+00425af8	TControl.dynamic_ffeb	units/Controls.pas	method of TControl
+00425b18	TControl.dynamic_ffda	units/Controls.pas	method of TControl
+00425b50	FUN_00425b50	units/Controls.pas	between functions of the file
+00425b94	TControl.WMLButtonDown	units/Controls.pas	method of TControl
+00425be0	TControl.WMNCLButtonDown	units/Controls.pas	method of TControl
+00425bfc	TControl.WMLButtonDblClk	units/Controls.pas	method of TControl
+00425c50	TControl.dynamic_ffdb	units/Controls.pas	method of TControl
+00425c54	FUN_00425c54	units/Controls.pas	between functions of the file
+00425cf0	TControl.WMRButtonDown	units/Controls.pas	method of TControl
+00425d18	TControl.WMRButtonDblClk	units/Controls.pas	method of TControl
+00425d40	TControl.WMMButtonDown	units/Controls.pas	method of TControl
+00425d68	TControl.WMMButtonDblClk	units/Controls.pas	method of TControl
+00425d90	TControl.dynamic_ffd9	units/Controls.pas	method of TControl
+00425dc0	TControl.WMMouseMove	units/Controls.pas	method of TControl
+00425dfc	TControl.dynamic_ffd8	units/Controls.pas	method of TControl
+00425e34	FUN_00425e34	units/Controls.pas	between functions of the file
+00425e70	TControl.WMLButtonUp	units/Controls.pas	method of TControl
+00425ee8	TControl.WMRButtonUp	units/Controls.pas	method of TControl
+00425f08	TControl.WMMButtonUp	units/Controls.pas	method of TControl
+00425f28	TControl.message_001f	units/Controls.pas	method of TControl
+00425f68	TControl.WMWindowPosChanged	units/Controls.pas	method of TControl
+00426018	TControl.CMVisibleChanged	units/Controls.pas	method of TControl
+00426040	TControl.CMEnabledChanged	units/Controls.pas	method of TControl
+00426048	TControl.CMFontChanged	units/Controls.pas	method of TControl
+00426050	TControl.CMColorChanged	units/Controls.pas	method of TControl
+00426058	TControl.CMParentColorChanged	units/Controls.pas	method of TControl
+00426088	TControl.CMParentBiDiModeChanged	units/Controls.pas	method of TControl
+004260a8	TControl.CMBiDiModeChanged	units/Controls.pas	method of TControl
+004260c0	TControl.CMParentShowHintChanged	units/Controls.pas	method of TControl
+004260e8	TControl.CMParentFontChanged	units/Controls.pas	method of TControl
+00426118	TControl.CMSysFontChanged	units/Controls.pas	method of TControl
+00426138	TControl.CMHitTest	units/Controls.pas	method of TControl
+00426140	TControl.CMMouseEnter	units/Controls.pas	method of TControl
+00426158	TControl.CMMouseLeave	units/Controls.pas	method of TControl
+00426170	TControl.CMDesignHitTest	units/Controls.pas	method of TControl
+00426178	FUN_00426178	units/Controls.pas	between functions of the file
+00426200	FUN_00426200	units/Controls.pas	between functions of the file
+0042628c	TControl.CMFloatChanged	units/Controls.pas	method of TControl
+004262ec	TControl.dynamic_fff0	units/Controls.pas	method of TControl
+00426404	TControl.dynamic_ffde	units/Controls.pas	method of TControl
+0042642c	FUN_0042642c	units/Controls.pas	between functions of the file
+0042644c	FUN_0042644c	units/Controls.pas	between functions of the file
+0042646c	FUN_0042646c	units/Controls.pas	between functions of the file
+0042648c	FUN_0042648c	units/Controls.pas	between functions of the file
+004264ac	TControl.virtual_00c	units/Controls.pas	method of TControl
+004264e4	TControl.virtual_000	units/Controls.pas	method of TControl
+0042658c	FUN_0042658c	units/Controls.pas	between functions of the file
+004265c8	TControl.dynamic_ffdd	units/Controls.pas	method of TControl
+00426678	TControl.virtual_050	units/Controls.pas	method of TControl
+004266a4	TControl.virtual_054	units/Controls.pas	method of TControl
+004266ac	TControl.dynamic_ffef	units/Controls.pas	method of TControl
+004266c8	FUN_004266c8	units/Controls.pas	between functions of the file
+00426708	FUN_00426708	units/Controls.pas	between functions of the file
+00426724	TControl.virtual_070	units/Controls.pas	method of TControl
+00426734	TControl.CMHintShow	units/Controls.pas	method of TControl
+00426760	TControl.WMContextMenu	units/Controls.pas	method of TControl
+00426874	TControl.dynamic_ffe8	units/Controls.pas	method of TControl
+004268a8	TWinControlActionLink.virtual_000	units/Controls.pas	between functions of the file
+004268cc	TWinControlActionLink.virtual_02c	units/Controls.pas	between functions of the file
+00426900	TWinControlActionLink.virtual_04c	units/Controls.pas	between functions of the file
+00426920	TWinControl.virtual_02c	units/Controls.pas	method of TWinControl
+00426a3c	TWinControl.Destroy	units/Controls.pas	method of TWinControl
+00426b10	FUN_00426b10	units/Controls.pas	between functions of the file
+00426be4	TWinControl.virtual_014	units/Controls.pas	method of TWinControl
+00426c5c	TWinControl.virtual_084	units/Controls.pas	method of TWinControl
+00426c60	FUN_00426c60	units/Controls.pas	between functions of the file
+00426cc0	FUN_00426cc0	units/Controls.pas	between functions of the file
+0042705c	FUN_0042705c	units/Controls.pas	between functions of the file
+004271b0	FUN_004271b0	units/Controls.pas	between functions of the file
+00427204	TWinControl.virtual_088	units/Controls.pas	method of TWinControl
+004272f0	FUN_004272f0	units/Controls.pas	between functions of the file
+00427384	FUN_00427384	units/Controls.pas	between functions of the file
+0042738c	FUN_0042738c	units/Controls.pas	between functions of the file
+004273ac	FUN_004273ac	units/Controls.pas	between functions of the file
+004273b4	TWinControl.dynamic_ffc7	units/Controls.pas	method of TWinControl
+00427488	TWinControl.dynamic_ffba	units/Controls.pas	method of TWinControl
+004275c8	thunk_FUN_004275cd	units/Controls.pas	between functions of the file
+004275cd	FUN_004275cd	units/Controls.pas	between functions of the file
+004275dc	FUN_004275dc	units/Controls.pas	between functions of the file
+004275fc	FUN_004275fc	units/Controls.pas	between functions of the file
+00427648	FUN_00427648	units/Controls.pas	between functions of the file
+00427690	FUN_00427690	units/Controls.pas	between functions of the file
+00427764	FUN_00427764	units/Controls.pas	between functions of the file
+004277e0	FUN_004277e0	units/Controls.pas	between functions of the file
+0042781c	FUN_0042781c	units/Controls.pas	between functions of the file
+0042783c	FUN_0042783c	units/Controls.pas	between functions of the file
+0042787c	FUN_0042787c	units/Controls.pas	between functions of the file
+004278a4	FUN_004278a4	units/Controls.pas	between functions of the file
+00427910	FUN_00427910	units/Controls.pas	between functions of the file
+00427978	TWinControl.virtual_090	units/Controls.pas	method of TWinControl
+00427aa4	TWinControl.virtual_098	units/Controls.pas	method of TWinControl
+00427c3c	TWinControl.virtual_094	units/Controls.pas	method of TWinControl
+00427c80	TWinControl.virtual_0a0	units/Controls.pas	method of TWinControl
+00427cd8	TWinControl.virtual_09c	units/Controls.pas	method of TWinControl
+00427d3c	FUN_00427d3c	units/Controls.pas	between functions of the file
+00427d84	TWinControl.virtual_08c	units/Controls.pas	method of TWinControl
+00427e1c	FUN_00427e1c	units/Controls.pas	between functions of the file
+00427e64	FUN_00427e64	units/Controls.pas	between functions of the file
+00427e7c	TWinControl.CMRecreateWnd	units/Controls.pas	method of TWinControl
+00427eb8	FUN_00427eb8	units/Controls.pas	between functions of the file
+00427fb4	FUN_00427fb4	units/Controls.pas	between functions of the file
+0042806c	FUN_0042806c	units/Controls.pas	between functions of the file
+00428124	FUN_00428124	units/Controls.pas	between functions of the file
+004281b8	FUN_004281b8	units/Controls.pas	between functions of the file
+0042824c	TWinControl.virtual_06c	units/Controls.pas	method of TWinControl
+0042842c	TWinControl.DefaultHandler	units/Controls.pas	method of TWinControl
+00428528	FUN_00428528	units/Controls.pas	between functions of the file
+0042855c	FUN_0042855c	units/Controls.pas	between functions of the file
+0042868c	TWinControl.virtual_0a8	units/Controls.pas	method of TWinControl
+004286b4	FUN_004286b4	units/Controls.pas	between functions of the file
+004288e4	TWinControl.WMPaint	units/Controls.pas	method of TWinControl
+00428a44	TWinControl.WMCommand	units/Controls.pas	method of TWinControl
+00428a64	TWinControl.WMNotify	units/Controls.pas	method of TWinControl
+00428a88	TWinControl.WMSysColorChange	units/Controls.pas	method of TWinControl
+00428aa4	TWinControl.WMWinIniChange	units/Controls.pas	method of TWinControl
+00428ab8	TWinControl.message_001d	units/Controls.pas	method of TWinControl
+00428ac8	TWinControl.WMTimeChange	units/Controls.pas	method of TWinControl
+00428ad8	TWinControl.WMHScroll	units/Controls.pas	method of TWinControl
+00428af8	TWinControl.WMVScroll	units/Controls.pas	method of TWinControl
+00428b18	TWinControl.WMCompareItem	units/Controls.pas	method of TWinControl
+00428b3c	TWinControl.WMDeleteItem	units/Controls.pas	method of TWinControl
+00428b60	TWinControl.WMDrawItem	units/Controls.pas	method of TWinControl
+00428b84	TWinControl.WMMeasureItem	units/Controls.pas	method of TWinControl
+00428ba8	TWinControl.WMEraseBkgnd	units/Controls.pas	method of TWinControl
+00428bf4	TWinControl.WMWindowPosChanged	units/Controls.pas	method of TWinControl
+00428cb4	TWinControl.WMWindowPosChanging	units/Controls.pas	method of TWinControl
+00428d04	TWinControl.WMSize	units/Controls.pas	method of TWinControl
+00428d38	TWinControl.WMMove	units/Controls.pas	method of TWinControl
+00428d4c	TWinControl.WMSetCursor	units/Controls.pas	method of TWinControl
+00428e4c	TWinControl.WMSetFocus	units/Controls.pas	method of TWinControl
+00428e60	TWinControl.WMKillFocus	units/Controls.pas	method of TWinControl
+00428e74	TWinControl.message_010d	units/Controls.pas	method of TWinControl
+00428e88	TWinControl.message_010e	units/Controls.pas	method of TWinControl
+00428e9c	FUN_00428e9c	units/Controls.pas	between functions of the file
+00428f88	FUN_00428f88	units/Controls.pas	between functions of the file
+00429020	TWinControl.dynamic_ffcc	units/Controls.pas	method of TWinControl
+00429028	TWinControl.dynamic_ffc3	units/Controls.pas	method of TWinControl
+0042902c	TWinControl.dynamic_ffc9	units/Controls.pas	method of TWinControl
+0042904c	TWinControl.dynamic_ffc8	units/Controls.pas	method of TWinControl
+0042906c	TWinControl.dynamic_ffbb	units/Controls.pas	method of TWinControl
+004290bc	TWinControl.dynamic_ffca	units/Controls.pas	method of TWinControl
+004290f0	TWinControl.dynamic_ffcb	units/Controls.pas	method of TWinControl
+00429130	TWinControl.dynamic_ffc2	units/Controls.pas	method of TWinControl
+00429188	TWinControl.dynamic_ffbd	units/Controls.pas	method of TWinControl
+004291ac	FUN_004291ac	units/Controls.pas	between functions of the file
+004291c0	FUN_004291c0	units/Controls.pas	between functions of the file
+004291e4	TWinControl.dynamic_ffc1	units/Controls.pas	method of TWinControl
+00429240	FUN_00429240	units/Controls.pas	between functions of the file
+0042927c	TWinControl.dynamic_ffcd	units/Controls.pas	method of TWinControl
+004292e8	TScrollBox.SetDockSite	units/Forms.pas	method of TScrollBox
+0042939c	TWinControl.CMDockClient	units/Controls.pas	method of TWinControl
+0042948c	TWinControl.CMUndockClient	units/Controls.pas	method of TWinControl
+004294b4	TWinControl.CMFloatChanged	units/Controls.pas	method of TWinControl
+00429538	TWinControl.dynamic_ffc0	units/Controls.pas	method of TWinControl
+00429560	FUN_00429560	units/Controls.pas	between functions of the file
+004295c8	TWinControl.WMKeyDown	units/Controls.pas	method of TWinControl
+004295e8	TWinControl.WMSysKeyDown	units/Controls.pas	method of TWinControl
+00429608	TWinControl.dynamic_ffbf	units/Controls.pas	method of TWinControl
+00429630	FUN_00429630	units/Controls.pas	between functions of the file
+00429698	TWinControl.WMKeyUp	units/Controls.pas	method of TWinControl
+004296b8	TWinControl.WMSysKeyUp	units/Controls.pas	method of TWinControl
+004296d8	TWinControl.dynamic_ffbe	units/Controls.pas	method of TWinControl
+004296f8	FUN_004296f8	units/Controls.pas	between functions of the file
+00429764	TWinControl.WMChar	units/Controls.pas	method of TWinControl
+00429784	TWinControl.CMMouseWheel	units/Controls.pas	method of TWinControl
+004297e0	TWinControl.WMMouseWheel	units/Controls.pas	method of TWinControl
+00429838	TWinControl.dynamic_ffb7	units/Controls.pas	method of TWinControl
+0042987c	TWinControl.dynamic_ffc6	units/Controls.pas	method of TWinControl
+00429940	TWinControl.dynamic_ffc5	units/Controls.pas	method of TWinControl
+0042998c	TWinControl.dynamic_ffc4	units/Controls.pas	method of TWinControl
+004299d8	FUN_004299d8	units/Controls.pas	between functions of the file
+00429a88	TWinControl.WMSysCommand	units/Controls.pas	method of TWinControl
+00429b30	TWinControl.message_002f	units/Controls.pas	method of TWinControl
+00429b50	TWinControl.WMParentNotify	units/Controls.pas	method of TWinControl
+00429b84	TWinControl.message_002e	units/Controls.pas	method of TWinControl
+00429ba4	TWinControl.WMDestroy	units/Controls.pas	method of TWinControl
+00429bd8	TWinControl.WMNCDestroy	units/Controls.pas	method of TWinControl
+00429bf4	TWinControl.WMNCHitTest	units/Controls.pas	method of TWinControl
+00429c18	TWinControl.dynamic_ffd6	units/Controls.pas	method of TWinControl
+00429c7c	TWinControl.WMQueryNewPalette	units/Controls.pas	method of TWinControl
+00429ca0	TWinControl.WMPaletteChanged	units/Controls.pas	method of TWinControl
+00429cc0	TWinControl.CMShowHintChanged	units/Controls.pas	method of TWinControl
+00429cd8	TWinControl.CMBiDiModeChanged	units/Controls.pas	method of TWinControl
+00429d10	TWinControl.CMEnter	units/Controls.pas	method of TWinControl
+00429d80	TWinControl.CMExit	units/Controls.pas	method of TWinControl
+00429d8c	TWinControl.CMDesignHitTest	units/Controls.pas	method of TWinControl
+00429dac	TWinControl.CMChanged	units/Controls.pas	method of TWinControl
+00429dc0	TWinControl.CMChildKey	units/Controls.pas	method of TWinControl
+00429dd4	TWinControl.CMDialogKey	units/Controls.pas	method of TWinControl
+00429ddc	TWinControl.CMDialogChar	units/Controls.pas	method of TWinControl
+00429de4	TWinControl.CMFocusChanged	units/Controls.pas	method of TWinControl
+00429dec	TWinControl.CMVisibleChanged	units/Controls.pas	method of TWinControl
+00429e1c	TWinControl.CMShowingChanged	units/Controls.pas	method of TWinControl
+00429e44	TWinControl.CMEnabledChanged	units/Controls.pas	method of TWinControl
+00429e8c	TWinControl.CMColorChanged	units/Controls.pas	method of TWinControl
+00429eb4	TWinControl.CMFontChanged	units/Controls.pas	method of TWinControl
+00429ef0	TWinControl.CMCursorChanged	units/Controls.pas	method of TWinControl
+00429f30	TWinControl.CMBorderChanged	units/Controls.pas	method of TWinControl
+00429f60	TWinControl.CMCtl3DChanged	units/Controls.pas	method of TWinControl
+00429fa0	TWinControl.CMParentCtl3DChanged	units/Controls.pas	method of TWinControl
+00429fe0	TWinControl.CMSysColorChange	units/Controls.pas	method of TWinControl
+00429fe8	TWinControl.CMWinIniChange	units/Controls.pas	method of TWinControl
+00429ff0	TWinControl.CMFontChange	units/Controls.pas	method of TWinControl
+00429ff8	TWinControl.CMTimeChange	units/Controls.pas	method of TWinControl
+0042a000	TWinControl.CMDrag	units/Controls.pas	method of TWinControl
+0042a05c	TWinControl.CMControlListChange	units/Controls.pas	method of TWinControl
+0042a070	TWinControl.CMSysFontChanged	units/Controls.pas	method of TWinControl
+0042a08c	FUN_0042a08c	units/Controls.pas	between functions of the file
+0042a120	TWinControl.CNKeyDown	units/Controls.pas	method of TWinControl
+0042a1f8	TWinControl.CNKeyUp	units/Controls.pas	method of TWinControl
+0042a24c	TWinControl.CNChar	units/Controls.pas	method of TWinControl
+0042a298	TWinControl.CNSysKeyDown	units/Controls.pas	method of TWinControl
+0042a2f4	TWinControl.CNSysChar	units/Controls.pas	method of TWinControl
+0042a328	TWinControl.virtual_07c	units/Controls.pas	method of TWinControl
+0042a404	FUN_0042a404	units/Controls.pas	between functions of the file
+0042a44c	TWinControl.dynamic_ffed	units/Controls.pas	method of TWinControl
+0042a4ac	FUN_0042a4ac	units/Controls.pas	between functions of the file
+0042a584	TWinControl.virtual_0ac	units/Controls.pas	method of TWinControl
+0042a59c	FUN_0042a59c	units/Controls.pas	between functions of the file
+0042a674	TWinControl.dynamic_ffd3	units/Controls.pas	method of TWinControl
+0042a6d4	TWinControl.virtual_044	units/Controls.pas	method of TWinControl
+0042a728	TWinControl.virtual_074	units/Controls.pas	method of TWinControl
+0042a738	TWinControl.CMInvalidate	units/Controls.pas	method of TWinControl
+0042a788	TWinControl.virtual_080	units/Controls.pas	method of TWinControl
+0042a7a4	TWinControl.virtual_078	units/Controls.pas	method of TWinControl
+0042a7bc	FUN_0042a7bc	units/Controls.pas	between functions of the file
+0042a7f4	TWinControl.dynamic_ffbc	units/Controls.pas	method of TWinControl
+0042a834	TWinControl.virtual_0b0	units/Controls.pas	method of TWinControl
+0042a86c	TWinControl.dynamic_ffb9	units/Controls.pas	method of TWinControl
+0042a890	FUN_0042a890	units/Controls.pas	between functions of the file
+0042a8b4	FUN_0042a8b4	units/Controls.pas	between functions of the file
+0042a8c8	TWinControl.virtual_0a4	units/Controls.pas	method of TWinControl
+0042a95c	TWinControl.virtual_03c	units/Controls.pas	method of TWinControl
+0042a97c	TWinControl.virtual_040	units/Controls.pas	method of TWinControl
+0042a994	TWinControl.dynamic_ffef	units/Controls.pas	method of TWinControl
+0042a9d4	TForm.SetBorderWidth	units/Forms.pas	method of TForm
+0042a9f4	TScrollBox.SetCtl3D	units/Forms.pas	method of TScrollBox
+0042aa24	TScrollBox.SetParentCtl3D	units/Forms.pas	method of TScrollBox
+0042aa48	TButton.GetTabOrder	units/StdCtrls.pas	method of TButton
+0042aa6c	FUN_0042aa6c	units/StdCtrls.pas	between functions of the file
+0042aac8	TButton.SetTabOrder	units/StdCtrls.pas	method of TButton
+0042aae0	TButton.SetTabStop	units/StdCtrls.pas	method of TButton
+0042ab40	TForm.SetUseDockManager	units/Forms.pas	method of TForm
+0042abb0	FUN_0042abb0	units/Forms.pas	nearest file
+0042abbc	FUN_0042abbc	units/Forms.pas	nearest file
+0042ac74	TWinControl.dynamic_ffb8	units/Controls.pas	method of TWinControl
+0042accc	FUN_0042accc	units/Controls.pas	between functions of the file
+0042add8	FUN_0042add8	units/Controls.pas	between functions of the file
+0042ae04	TWinControl.dynamic_fffd	units/Controls.pas	method of TWinControl
+0042ae4c	TWinControl.dynamic_fffa	units/Controls.pas	method of TWinControl
+0042ae8c	TWinControl.virtual_030	units/Controls.pas	method of TWinControl
+0042ae94	FUN_0042ae94	units/Controls.pas	between functions of the file
+0042af14	FUN_0042af14	units/Controls.pas	between functions of the file
+0042b2f0	TWinControl.virtual_038	units/Controls.pas	method of TWinControl
+0042b32c	TWinControl.dynamic_fff0	units/Controls.pas	method of TWinControl
+0042b36c	TWinControl.dynamic_ffde	units/Controls.pas	method of TWinControl
+0042b394	TWinControl.virtual_000	units/Controls.pas	method of TWinControl
+0042b3c4	TWinControl.virtual_034	units/Controls.pas	method of TWinControl
+0042b588	TWinControl.WMNCCalcSize	units/Controls.pas	method of TWinControl
+0042b618	TWinControl.WMNCPaint	units/Controls.pas	method of TWinControl
+0042b8a0	TWinControl.WMContextMenu	units/Controls.pas	method of TWinControl
+0042b90c	TGraphicControl.virtual_02c	units/Controls.pas	method of TGraphicControl
+0042b968	TGraphicControl.Destroy	units/Controls.pas	method of TGraphicControl
+0042b9a8	TGraphicControl.WMPaint	units/Controls.pas	method of TGraphicControl
+0042ba50	TGraphicControl.virtual_084	units/Controls.pas	method of TGraphicControl
+0042ba54	THintWindow.virtual_02c	units/Controls.pas	method of THintWindow
+0042babc	THintWindow.virtual_090	units/Controls.pas	method of THintWindow
+0042baf8	THintWindow.WMNCHitTest	units/Controls.pas	method of THintWindow
+0042bb00	THintWindow.WMNCPaint	units/Controls.pas	method of THintWindow
+0042bb80	THintWindow.virtual_0b4	units/Controls.pas	method of THintWindow
+0042bc1c	THintWindow.virtual_0c4	units/Controls.pas	method of THintWindow
+0042bc80	FUN_0042bc80	units/Controls.pas	between functions of the file
+0042bc88	THintWindow.CMTextChanged	units/Controls.pas	method of THintWindow
+0042bd20	THintWindow.virtual_0b8	units/Controls.pas	method of THintWindow
+0042be3c	THintWindow.virtual_0bc	units/Controls.pas	method of THintWindow
+0042be68	THintWindow.virtual_0c0	units/Controls.pas	method of THintWindow
+0042bec4	FUN_0042bec4	units/Controls.pas	between functions of the file
+0042bf04	FUN_0042bf04	units/Controls.pas	between functions of the file
+0042bfd0	FUN_0042bfd0	units/Controls.pas	between functions of the file
+0042c018	FUN_0042c018	units/Controls.pas	between functions of the file
+0042c030	FUN_0042c030	units/Controls.pas	between functions of the file
+0042c090	FUN_0042c090	units/Controls.pas	between functions of the file
+0042c0f4	FUN_0042c0f4	units/Controls.pas	between functions of the file
+0042c118	FUN_0042c118	units/Controls.pas	between functions of the file
+0042c15c	FUN_0042c15c	units/Controls.pas	between functions of the file
+0042c174	FUN_0042c174	units/Controls.pas	between functions of the file
+0042c18c	FUN_0042c18c	units/Controls.pas	between functions of the file
+0042c1d4	TCustomControl.virtual_02c	units/Controls.pas	method of TCustomControl
+0042c230	TCustomControl.Destroy	units/Controls.pas	method of TCustomControl
+0042c260	TCustomControl.WMPaint	units/Controls.pas	method of TCustomControl
+0042c280	TCustomControl.virtual_0a8	units/Controls.pas	method of TCustomControl
+0042c32c	TCustomControl.virtual_0b4	units/Controls.pas	method of TCustomControl
+0042c330	FUN_0042c330	units/Controls.pas	nearest file
+0042c354	FUN_0042c354	units/Controls.pas	nearest file
+0042c368	FUN_0042c368	units/Controls.pas	nearest file
+0042c3b0	FUN_0042c3b0	units/Controls.pas	nearest file
+0042c3f8	FUN_0042c3f8	units/Controls.pas	nearest file
+0042c464	FUN_0042c464	units/Controls.pas	nearest file
+0042c50c	FUN_0042c50c	units/Controls.pas	nearest file
+0042c59c	FUN_0042c59c	units/Controls.pas	nearest file
+0042c5e0	FUN_0042c5e0	units/Controls.pas	nearest file
+0042c664	FUN_0042c664	units/Controls.pas	nearest file
+0042c68c	FUN_0042c68c	units/Controls.pas	nearest file
+0042c7dc	TDockTree.virtual_024	units/Controls.pas	nearest file
+0042c944	TDockTree.Destroy	units/Controls.pas	nearest file
+0042c990	TDockTree.virtual_000	units/Controls.pas	nearest file
+0042c9a4	FUN_0042c9a4	units/Controls.pas	nearest file
+0042c9a8	FUN_0042c9a8	units/Controls.pas	nearest file
+0042c9bc	FUN_0042c9bc	units/Controls.pas	nearest file
+0042ca14	FUN_0042ca14	units/Controls.pas	nearest file
+0042ca40	FUN_0042ca40	units/Controls.pas	nearest file
+0042ca7c	FUN_0042ca7c	units/Controls.pas	nearest file
+0042ca94	FUN_0042ca94	units/Controls.pas	nearest file
+0042cb08	TDockTree.virtual_004	units/Controls.pas	nearest file
+0042cb18	TDockTree.virtual_008	units/Controls.pas	nearest file
+0042cd28	FUN_0042cd28	units/Controls.pas	nearest file
+0042ceb0	FUN_0042ceb0	units/Controls.pas	nearest file
+0042cf20	FUN_0042cf20	units/Controls.pas	nearest file
+0042d128	FUN_0042d128	units/Controls.pas	nearest file
+0042d1bc	FUN_0042d1bc	units/Controls.pas	nearest file
+0042d248	FUN_0042d248	units/Controls.pas	nearest file
+0042d290	TDockTree.virtual_00c	units/Controls.pas	nearest file
+0042d498	FUN_0042d498	units/Controls.pas	nearest file
+0042d4f0	FUN_0042d4f0	units/Controls.pas	nearest file
+0042d578	TDockTree.virtual_010	units/Controls.pas	nearest file
+0042d654	TDockTree.virtual_028	units/Controls.pas	nearest file
+0042d7b8	TDockTree.virtual_014	units/Controls.pas	nearest file
+0042d934	FUN_0042d934	units/Controls.pas	nearest file
+0042d968	FUN_0042d968	units/Controls.pas	nearest file
+0042d9c4	TDockTree.virtual_018	units/Controls.pas	nearest file
+0042da00	FUN_0042da00	units/Controls.pas	nearest file
+0042dc64	TDockTree.virtual_020	units/ActnList.pas	nearest file
+0042dd6c	FUN_0042dd6c	units/ActnList.pas	nearest file
+0042dde4	FUN_0042dde4	units/ActnList.pas	nearest file
+0042dea0	TDockTree.virtual_01c	units/ActnList.pas	nearest file
+0042dfe8	FUN_0042dfe8	units/ActnList.pas	nearest file
+0042e050	FUN_0042e050	units/ActnList.pas	nearest file
+0042e0b0	FUN_0042e0b0	units/ActnList.pas	nearest file
+0042e110	FUN_0042e110	units/ActnList.pas	nearest file
+0042e188	FUN_0042e188	units/ActnList.pas	nearest file
+0042e1c0	FUN_0042e1c0	units/ActnList.pas	nearest file
+0042e2ac	FUN_0042e2ac	units/ActnList.pas	nearest file
+0042e2b4	FUN_0042e2b4	units/ActnList.pas	nearest file
+0042e330	FUN_0042e330	units/ActnList.pas	nearest file
+0042e374	FUN_0042e374	units/ActnList.pas	nearest file
+0042e3f0	FUN_0042e3f0	units/ActnList.pas	nearest file
+0042e45c	FUN_0042e45c	units/ActnList.pas	nearest file
+0042e8d0	FUN_0042e8d0	units/ActnList.pas	nearest file
+0042e960	TMouse.Destroy	units/ActnList.pas	nearest file
+0042e990	FUN_0042e990	units/ActnList.pas	nearest file
+0042e998	FUN_0042e998	units/ActnList.pas	nearest file
+0042e9b4	FUN_0042e9b4	units/ActnList.pas	nearest file
+0042e9e4	FUN_0042e9e4	units/ActnList.pas	nearest file
+0042ea0c	FUN_0042ea0c	units/ActnList.pas	nearest file
+0042ea34	FUN_0042ea34	units/ActnList.pas	nearest file
+0042ea98	FUN_0042ea98	units/ActnList.pas	nearest file
+0042ed00	FUN_0042ed00	units/ActnList.pas	nearest file
+0042ed1c	FUN_0042ed1c	units/ActnList.pas	nearest file
+0042edf8	FUN_0042edf8	units/ActnList.pas	nearest file
+0042ee0c	FUN_0042ee0c	units/ActnList.pas	nearest file
+0042ee80	FUN_0042ee80	units/ActnList.pas	nearest file
+0042f3ac	TContainedAction.Destroy	units/ActnList.pas	method of TContainedAction
+0042f3e0	FUN_0042f3e0	units/ActnList.pas	between functions of the file
+0042f3fc	TContainedAction.dynamic_fff3	units/ActnList.pas	method of TContainedAction
+0042f40c	TContainedAction.dynamic_fff2	units/ActnList.pas	method of TContainedAction
+0042f41c	TContainedAction.virtual_014	units/ActnList.pas	method of TContainedAction
+0042f450	FUN_0042f450	units/ActnList.pas	between functions of the file
+0042f498	TContainedAction.SetCategory	units/ActnList.pas	method of TContainedAction
+0042f4c4	FUN_0042f4c4	units/ActnList.pas	between functions of the file
+0042f4ec	TContainedAction.dynamic_fff9	units/ActnList.pas	method of TContainedAction
+0042f518	TContainedAction.dynamic_fff0	units/ActnList.pas	method of TContainedAction
+0042f570	TContainedAction.virtual_044	units/ActnList.pas	method of TContainedAction
+0042f5c8	TCustomActionList.virtual_02c	units/ActnList.pas	method of TCustomActionList
+0042f630	TCustomActionList.Destroy	units/ActnList.pas	method of TCustomActionList
+0042f680	TCustomActionList.dynamic_fffd	units/ActnList.pas	method of TCustomActionList
+0042f6c8	TCustomActionList.dynamic_fffa	units/ActnList.pas	method of TCustomActionList
+0042f6f8	FUN_0042f6f8	units/ActnList.pas	between functions of the file
+0042f738	TCustomActionList.virtual_010	units/ActnList.pas	method of TCustomActionList
+0042f780	FUN_0042f780	units/ActnList.pas	between functions of the file
+0042f7a0	FUN_0042f7a0	units/ActnList.pas	between functions of the file
+0042f7bc	TCustomActionList.virtual_030	units/ActnList.pas	method of TCustomActionList
+0042f824	FUN_0042f824	units/ActnList.pas	between functions of the file
+0042f884	TCustomActionList.dynamic_fff4	units/ActnList.pas	method of TCustomActionList
+0042f8a4	TCustomActionList.dynamic_fff1	units/ActnList.pas	method of TCustomActionList
+0042f8c4	TActionLink.virtual_020	units/ActnList.pas	between functions of the file
+0042f8d8	TActionLink.virtual_024	units/ActnList.pas	between functions of the file
+0042f8ec	TActionLink.virtual_028	units/ActnList.pas	between functions of the file
+0042f900	TActionLink.virtual_02c	units/ActnList.pas	between functions of the file
+0042f914	TActionLink.virtual_030	units/ActnList.pas	between functions of the file
+0042f928	TActionLink.virtual_034	units/ActnList.pas	between functions of the file
+0042f93c	TActionLink.virtual_038	units/ActnList.pas	between functions of the file
+0042f950	TActionLink.virtual_03c	units/ActnList.pas	between functions of the file
+0042f964	TActionLink.virtual_040	units/ActnList.pas	between functions of the file
+0042f968	TActionLink.virtual_044	units/ActnList.pas	between functions of the file
+0042f96c	TActionLink.virtual_048	units/ActnList.pas	between functions of the file
+0042f970	TActionLink.virtual_04c	units/ActnList.pas	between functions of the file
+0042f974	TActionLink.virtual_050	units/ActnList.pas	between functions of the file
+0042f978	TActionLink.virtual_054	units/ActnList.pas	between functions of the file
+0042f97c	TActionLink.virtual_058	units/ActnList.pas	between functions of the file
+0042f980	TActionLink.virtual_05c	units/ActnList.pas	between functions of the file
+0042f984	TCustomAction.virtual_02c	units/ActnList.pas	method of TCustomAction
+0042f9cc	TCustomAction.Destroy	units/ActnList.pas	method of TCustomAction
+0042fa04	TCustomAction.virtual_000	units/ActnList.pas	method of TCustomAction
+0042fa80	FUN_0042fa80	units/ActnList.pas	nearest file
+0042fae8	FUN_0042fae8	units/ActnList.pas	nearest file
+0042fb40	FUN_0042fb40	units/StdActns.pas	nearest file
+0042fb98	FUN_0042fb98	units/StdActns.pas	nearest file
+0042fbf0	THintAction.SetHint	units/StdActns.pas	method of THintAction
+0042fc58	FUN_0042fc58	units/StdActns.pas	nearest file
+0042fcb0	FUN_0042fcb0	units/ActnList.pas	nearest file
+0042fd0c	FUN_0042fd0c	units/ActnList.pas	nearest file
+0042fd64	TCustomAction.virtual_018	units/ActnList.pas	method of TCustomAction
+0042fdb0	TCustomAction.dynamic_ffef	units/ActnList.pas	method of TCustomAction
+0042fdd0	TCustomAction.dynamic_fff0	units/ActnList.pas	method of TCustomAction
+0042fdf4	FUN_0042fdf4	units/ActnList.pas	nearest file
+0042ff78	FUN_0042ff78	units/ImgList.pas	nearest file
+0042ff98	FUN_0042ff98	units/ImgList.pas	nearest file
+0042ffb8	TCustomImageList.virtual_02c	units/ImgList.pas	method of TCustomImageList
+00430004	TCustomImageList.Destroy	units/ImgList.pas	method of TCustomImageList
+00430070	TCustomImageList.virtual_034	units/ImgList.pas	method of TCustomImageList
+00430128	FUN_00430128	units/ImgList.pas	between functions of the file
+00430130	FUN_00430130	units/ImgList.pas	between functions of the file
+0043013c	FUN_0043013c	units/ImgList.pas	between functions of the file
+00430200	FUN_00430200	units/ImgList.pas	between functions of the file
+00430238	FUN_00430238	units/ImgList.pas	between functions of the file
+00430264	FUN_00430264	units/ImgList.pas	between functions of the file
+00430274	FUN_00430274	units/ImgList.pas	between functions of the file
+004302c8	FUN_004302c8	units/ImgList.pas	between functions of the file
+004302fc	FUN_004302fc	units/ImgList.pas	between functions of the file
+00430398	FUN_00430398	units/ImgList.pas	between functions of the file
+00430464	FUN_00430464	units/ImgList.pas	between functions of the file
+00430488	FUN_00430488	units/ImgList.pas	between functions of the file
+00430514	FUN_00430514	units/ImgList.pas	between functions of the file
+00430520	FUN_00430520	units/ImgList.pas	between functions of the file
+00430558	FUN_00430558	units/ImgList.pas	between functions of the file
+00430580	TCustomImageList.virtual_030	units/ImgList.pas	method of TCustomImageList
+00430758	FUN_00430758	units/ImgList.pas	between functions of the file
+004307a4	FUN_004307a4	units/ImgList.pas	between functions of the file
+0043093c	FUN_0043093c	units/ImgList.pas	between functions of the file
+0043095c	TCustomImageList.virtual_008	units/ImgList.pas	method of TCustomImageList
+00430a1c	TCustomImageList.virtual_000	units/ImgList.pas	method of TCustomImageList
+00430acc	FUN_00430acc	units/ImgList.pas	between functions of the file
+00430b44	FUN_00430b44	units/ImgList.pas	between functions of the file
+00430b60	TCustomImageList.virtual_038	units/ImgList.pas	method of TCustomImageList
+00430b70	TCustomImageList.dynamic_fff0	units/ImgList.pas	method of TCustomImageList
+00430bc0	FUN_00430bc0	units/ImgList.pas	between functions of the file
+00430c04	FUN_00430c04	units/ImgList.pas	between functions of the file
+00430c18	FUN_00430c18	units/ImgList.pas	between functions of the file
+00430c58	FUN_00430c58	units/ImgList.pas	between functions of the file
+00430d48	FUN_00430d48	units/ImgList.pas	between functions of the file
+00430da4	TCustomImageList.virtual_004	units/ImgList.pas	method of TCustomImageList
+00430dfc	FUN_00430dfc	units/ImgList.pas	nearest file
+0043108c	FUN_0043108c	units/ImgList.pas	nearest file
+00431198	FUN_00431198	units/ImgList.pas	nearest file
+00431214	FUN_00431214	units/ImgList.pas	nearest file
+00431218	FUN_00431218	units/ImgList.pas	nearest file
+00431238	TChangeLink.Destroy	units/ImgList.pas	nearest file
+0043126c	TChangeLink.dynamic_ffff	units/ImgList.pas	nearest file
+0043214c	FUN_0043214c	units/Menus.pas	nearest file
+0043217c	FUN_0043217c	units/Menus.pas	nearest file
+00432180	FUN_00432180	units/Menus.pas	nearest file
+004321a0	FUN_004321a0	units/Menus.pas	nearest file
+004321d8	FUN_004321d8	units/Menus.pas	nearest file
+0043222c	FUN_0043222c	units/Menus.pas	nearest file
+00432430	FUN_00432430	units/Menus.pas	nearest file
+0043248c	FUN_0043248c	units/Menus.pas	nearest file
+00432584	FUN_00432584	units/Menus.pas	nearest file
+004325a4	FUN_004325a4	units/Menus.pas	nearest file
+00432604	FUN_00432604	units/Menus.pas	nearest file
+0043270c	TMenuActionLink.virtual_000	units/Menus.pas	nearest file
+00432728	TMenuActionLink.virtual_020	units/Menus.pas	nearest file
+00432760	TMenuActionLink.virtual_024	units/Menus.pas	nearest file
+00432790	TMenuActionLink.virtual_028	units/Menus.pas	nearest file
+004327c0	TMenuActionLink.virtual_02c	units/Menus.pas	nearest file
+004327f0	TMenuActionLink.virtual_030	units/Menus.pas	nearest file
+00432824	TMenuActionLink.virtual_034	units/Menus.pas	nearest file
+00432854	TMenuActionLink.virtual_038	units/Menus.pas	nearest file
+00432888	TMenuActionLink.virtual_03c	units/Menus.pas	nearest file
+004328b8	TMenuActionLink.virtual_008	units/Menus.pas	nearest file
+004328e0	TMenuActionLink.virtual_040	units/Menus.pas	nearest file
+00432900	TMenuActionLink.virtual_044	units/Menus.pas	nearest file
+00432920	TMenuActionLink.virtual_048	units/Menus.pas	nearest file
+00432940	TMenuActionLink.virtual_04c	units/Menus.pas	nearest file
+0043295c	TMenuActionLink.virtual_050	units/Menus.pas	nearest file
+00432980	TMenuActionLink.virtual_054	units/Menus.pas	nearest file
+004329a0	TMenuActionLink.virtual_058	units/Menus.pas	nearest file
+004329c0	TMenuActionLink.virtual_05c	units/Menus.pas	nearest file
+004329e0	TMenuActionLink.virtual_010	units/Menus.pas	nearest file
+00432a0c	TMenuItem.virtual_02c	units/Menus.pas	method of TMenuItem
+00432a88	TMenuItem.Destroy	units/Menus.pas	method of TMenuItem
+00432b3c	FUN_00432b3c	units/Menus.pas	between functions of the file
+00432ddc	FUN_00432ddc	units/Menus.pas	between functions of the file
+00432e4c	FUN_00432e4c	units/Menus.pas	between functions of the file
+00432ea4	FUN_00432ea4	units/Menus.pas	between functions of the file
+00432ec8	TMenuItem.virtual_00c	units/Menus.pas	method of TMenuItem
+00432f04	FUN_00432f04	units/Menus.pas	between functions of the file
+00432f88	FUN_00432f88	units/Menus.pas	between functions of the file
+00432fe8	FUN_00432fe8	units/Menus.pas	between functions of the file
+00433034	TMenuItem.virtual_004	units/Menus.pas	method of TMenuItem
+00433078	FUN_00433078	units/Menus.pas	between functions of the file
+0043328c	TMenuItem.virtual_034	units/Menus.pas	method of TMenuItem
+004332d0	FUN_004332d0	units/Menus.pas	between functions of the file
+00433b50	FUN_00433b50	units/Menus.pas	between functions of the file
+004343f8	TMenuItem.virtual_030	units/Menus.pas	method of TMenuItem
+00434510	FUN_00434510	units/Menus.pas	between functions of the file
+00434540	FUN_00434540	units/Menus.pas	between functions of the file
+0043458c	FUN_0043458c	units/Menus.pas	between functions of the file
+0043478c	TMenuItem.dynamic_fff2	units/Menus.pas	method of TMenuItem
+00434790	TMenuItem.SetBreak	units/Menus.pas	method of TMenuItem
+004347a0	TMenuItem.SetCaption	units/Menus.pas	method of TMenuItem
+004347c8	FUN_004347c8	units/Menus.pas	between functions of the file
+00434810	TMenuItem.SetChecked	units/Menus.pas	method of TMenuItem
+00434864	TMenuItem.SetEnabled	units/Menus.pas	method of TMenuItem
+004348dc	TMenuItem.SetGroupIndex	units/Menus.pas	method of TMenuItem
+00434920	TMenuItem.GetAction	units/Menus.pas	method of TMenuItem
+00434930	TMenuItem.dynamic_ffef	units/Menus.pas	method of TMenuItem
+00434938	FUN_00434938	units/Menus.pas	between functions of the file
+00434948	FUN_00434948	units/Menus.pas	between functions of the file
+0043496c	TMenuItem.SetShortCut	units/Menus.pas	method of TMenuItem
+00434980	TMenuItem.SetVisible	units/Menus.pas	method of TMenuItem
+00434990	TMenuItem.SetImageIndex	units/Menus.pas	method of TMenuItem
+004349a0	FUN_004349a0	units/Menus.pas	between functions of the file
+004349b8	FUN_004349b8	units/Menus.pas	between functions of the file
+00434a00	TMenuItem.dynamic_fffd	units/Menus.pas	method of TMenuItem
+00434a38	TMenuItem.dynamic_fffa	units/Menus.pas	method of TMenuItem
+00434a58	TMenuItem.SetDefault	units/Menus.pas	method of TMenuItem
+00434ab4	TMenuItem.virtual_03c	units/Menus.pas	method of TMenuItem
+00434ac4	FUN_00434ac4	units/Menus.pas	between functions of the file
+00434b74	FUN_00434b74	units/Menus.pas	between functions of the file
+00434be4	TMenuItem.virtual_040	units/Menus.pas	method of TMenuItem
+00434c54	FUN_00434c54	units/Menus.pas	between functions of the file
+00434c6c	FUN_00434c6c	units/Menus.pas	between functions of the file
+00434c88	FUN_00434c88	units/Menus.pas	between functions of the file
+00434cb0	TMenuItem.virtual_038	units/Menus.pas	method of TMenuItem
+00434cec	FUN_00434cec	units/Menus.pas	between functions of the file
+00434d44	TMenuItem.GetBitmap	units/Menus.pas	method of TMenuItem
+00434d6c	TMenuItem.SetAction	units/Menus.pas	method of TMenuItem
+00434ddc	TMenuItem.SetBitmap	units/Menus.pas	method of TMenuItem
+00434e10	FUN_00434e10	units/Menus.pas	between functions of the file
+00434e3c	TMenuItem.dynamic_fff3	units/Menus.pas	method of TMenuItem
+00434e50	TMenuItem.dynamic_fff9	units/Menus.pas	method of TMenuItem
+00434ea4	thunk_FUN_00434ea8	units/Menus.pas	between functions of the file
+00434ea8	FUN_00434ea8	units/Menus.pas	between functions of the file
+00434eb4	TMenuItem.SetRadioItem	units/Menus.pas	method of TMenuItem
+00434ee0	TMenuItem.dynamic_fff0	units/Menus.pas	method of TMenuItem
+00435010	FUN_00435010	units/Menus.pas	between functions of the file
+00435030	FUN_00435030	units/Menus.pas	between functions of the file
+00435050	FUN_00435050	units/Menus.pas	between functions of the file
+00435070	FUN_00435070	units/Menus.pas	between functions of the file
+00435090	FUN_00435090	units/Menus.pas	between functions of the file
+004350b0	FUN_004350b0	units/Menus.pas	between functions of the file
+004350d0	FUN_004350d0	units/Menus.pas	between functions of the file
+004350f0	FUN_004350f0	units/Menus.pas	between functions of the file
+00435110	TMenuItem.virtual_000	units/Menus.pas	method of TMenuItem
+00435188	TMenuItem.virtual_010	units/Menus.pas	method of TMenuItem
+004351bc	TMenuItem.SetSubMenuImages	units/Menus.pas	method of TMenuItem
+00435204	FUN_00435204	units/Menus.pas	between functions of the file
+0043522c	FUN_0043522c	units/Menus.pas	between functions of the file
+00435240	FUN_00435240	units/Menus.pas	between functions of the file
+00435270	FUN_00435270	units/Menus.pas	between functions of the file
+004352f4	FUN_004352f4	units/Menus.pas	between functions of the file
+00435454	FUN_00435454	units/Menus.pas	between functions of the file
+004358f0	TMenuItem.SetAutoHotkeys	units/Menus.pas	method of TMenuItem
+00435900	FUN_00435900	units/Menus.pas	between functions of the file
+00435924	FUN_00435924	units/Menus.pas	between functions of the file
+00435a60	TMenuItem.SetAutoLineReduction	units/Menus.pas	method of TMenuItem
+00435a70	FUN_00435a70	units/Menus.pas	between functions of the file
+00435a9c	FUN_00435a9c	units/Menus.pas	between functions of the file
+00435ac8	TMenu.virtual_02c	units/Menus.pas	method of TMenu
+00435b60	TMenu.Destroy	units/Menus.pas	method of TMenu
+00435b98	TMenu.dynamic_fffd	units/Menus.pas	method of TMenu
+00435bb4	TMenu.virtual_034	units/Menus.pas	method of TMenu
+00435bc0	TMenu.dynamic_fffa	units/Menus.pas	method of TMenu
+00435bd4	FUN_00435bd4	units/Menus.pas	between functions of the file
+00435bfc	FUN_00435bfc	units/Menus.pas	between functions of the file
+00435c14	FUN_00435c14	units/Menus.pas	between functions of the file
+00435cac	FUN_00435cac	units/Menus.pas	between functions of the file
+00435cdc	FUN_00435cdc	units/Menus.pas	between functions of the file
+00435d4c	FUN_00435d4c	units/Menus.pas	between functions of the file
+00435d68	FUN_00435d68	units/Menus.pas	between functions of the file
+00435ddc	FUN_00435ddc	units/Menus.pas	between functions of the file
+00435df0	thunk_FUN_00435df6	units/Menus.pas	between functions of the file
+00435df6	FUN_00435df6	units/Menus.pas	between functions of the file
+00435e00	FUN_00435e00	units/Menus.pas	between functions of the file
+00435f54	TMenu.dynamic_fff0	units/Menus.pas	method of TMenu
+00436018	FUN_00436018	units/Menus.pas	between functions of the file
+004360d4	FUN_004360d4	units/Menus.pas	between functions of the file
+00436174	FUN_00436174	units/Menus.pas	between functions of the file
+004361f8	TMainMenu.SetOwnerDraw	units/Menus.pas	method of TMainMenu
+00436208	FUN_00436208	units/Menus.pas	between functions of the file
+00436284	FUN_00436284	units/Menus.pas	between functions of the file
+004362bc	TMenu.virtual_030	units/Menus.pas	method of TMenu
+004362d4	TMenu.virtual_00c	units/Menus.pas	method of TMenu
+004362ec	TMenu.virtual_038	units/Menus.pas	method of TMenu
+00436334	TMainMenu.SetImages	units/Menus.pas	method of TMainMenu
+00436370	TMenu.virtual_010	units/Menus.pas	method of TMenu
+0043639c	FUN_0043639c	units/Menus.pas	between functions of the file
+004363b4	FUN_004363b4	units/Menus.pas	between functions of the file
+00436410	FUN_00436410	units/Menus.pas	between functions of the file
+004364f8	FUN_004364f8	units/Menus.pas	between functions of the file
+00436670	FUN_00436670	units/Menus.pas	between functions of the file
+00436718	TMainMenu.SetBiDiMode	units/Menus.pas	method of TMainMenu
+0043672c	TMainMenu.SetParentBiDiMode	units/Menus.pas	method of TMainMenu
+0043673c	FUN_0043673c	units/Menus.pas	between functions of the file
+00436764	FUN_00436764	units/Menus.pas	between functions of the file
+00436790	TMainMenu.GetAutoHotkeys	units/Menus.pas	method of TMainMenu
+004367a0	TMainMenu.SetAutoHotkeys	units/Menus.pas	method of TMainMenu
+004367b0	TMainMenu.GetAutoLineReduction	units/Menus.pas	method of TMainMenu
+004367c0	TMainMenu.SetAutoLineReduction	units/Menus.pas	method of TMainMenu
+004367d0	TMainMenu.SetAutoMerge	units/Menus.pas	method of TMainMenu
+004367f0	TMainMenu.virtual_038	units/Menus.pas	method of TMainMenu
+00436848	FUN_00436848	units/Menus.pas	between functions of the file
+00436864	FUN_00436864	units/Menus.pas	between functions of the file
+00436880	FUN_00436880	units/Menus.pas	between functions of the file
+004368ac	TMainMenu.virtual_034	units/Menus.pas	method of TMainMenu
+004368bc	FUN_004368bc	units/Menus.pas	between functions of the file
+00436908	TPopupList.virtual_010	units/Menus.pas	between functions of the file
+00436e44	FUN_00436e44	units/Menus.pas	between functions of the file
+00436e6c	FUN_00436e6c	units/Menus.pas	between functions of the file
+00436e88	TPopupMenu.virtual_02c	units/Menus.pas	method of TPopupMenu
+00436efc	TPopupMenu.Destroy	units/Menus.pas	method of TPopupMenu
+00436f30	TPopupMenu.virtual_03c	units/Menus.pas	method of TPopupMenu
+00436f44	TPopupMenu.GetHelpContext	units/Menus.pas	method of TPopupMenu
+00436f4c	TPopupMenu.SetHelpContext	units/Menus.pas	method of TPopupMenu
+00436f54	FUN_00436f54	units/Menus.pas	between functions of the file
+00436f9c	FUN_00436f9c	units/Menus.pas	between functions of the file
+00436fe8	TPopupMenu.virtual_040	units/Menus.pas	method of TPopupMenu
+0043709c	FUN_0043709c	units/Menus.pas	nearest file
+004370d8	FUN_004370d8	units/Menus.pas	nearest file
+004371cc	FUN_004371cc	units/Menus.pas	nearest file
+00437264	FUN_00437264	units/Menus.pas	nearest file
+004372c8	FUN_004372c8	units/Menus.pas	nearest file
+00439858	FUN_00439858	units/Forms.pas	nearest file
+004398a4	FUN_004398a4	units/Forms.pas	nearest file
+0043992c	FUN_0043992c	units/Forms.pas	nearest file
+004399e0	FUN_004399e0	units/Forms.pas	nearest file
+00439a18	FUN_00439a18	units/Forms.pas	nearest file
+00439a7c	FUN_00439a7c	units/Forms.pas	nearest file
+00439ab8	FUN_00439ab8	units/Forms.pas	nearest file
+00439ad8	FUN_00439ad8	units/Forms.pas	nearest file
+00439af8	FUN_00439af8	units/Forms.pas	nearest file
+00439ba4	FUN_00439ba4	units/Forms.pas	nearest file
+00439bc8	FUN_00439bc8	units/Forms.pas	nearest file
+00439bd0	FUN_00439bd0	units/Forms.pas	nearest file
+00439c68	FUN_00439c68	units/Forms.pas	nearest file
+00439c8c	FUN_00439c8c	units/Forms.pas	nearest file
+00439d40	FUN_00439d40	units/Forms.pas	nearest file
+00439d68	FUN_00439d68	units/Forms.pas	nearest file
+00439dbc	FUN_00439dbc	units/Forms.pas	nearest file
+00439df8	FUN_00439df8	units/Forms.pas	nearest file
+00439e44	FUN_00439e44	units/Forms.pas	nearest file
+00439eb4	FUN_00439eb4	units/Forms.pas	nearest file
+00439edc	FUN_00439edc	units/Forms.pas	nearest file
+00439f5c	FUN_00439f5c	units/Forms.pas	nearest file
+00439fec	TControlScrollBar.virtual_008	units/Forms.pas	method of TControlScrollBar
+0043a03c	FUN_0043a03c	units/Forms.pas	between functions of the file
+0043a074	FUN_0043a074	units/Forms.pas	between functions of the file
+0043a0e0	FUN_0043a0e0	units/Forms.pas	between functions of the file
+0043a148	FUN_0043a148	units/Forms.pas	between functions of the file
+0043a1f4	FUN_0043a1f4	units/Forms.pas	between functions of the file
+0043a22c	FUN_0043a22c	units/Forms.pas	between functions of the file
+0043a260	FUN_0043a260	units/Forms.pas	between functions of the file
+0043a2dc	FUN_0043a2dc	units/Forms.pas	between functions of the file
+0043a35c	FUN_0043a35c	units/Forms.pas	between functions of the file
+0043a374	FUN_0043a374	units/Forms.pas	between functions of the file
+0043a3d4	FUN_0043a3d4	units/Forms.pas	between functions of the file
+0043a6cc	TControlScrollBar.SetButtonSize	units/Forms.pas	method of TControlScrollBar
+0043a710	TControlScrollBar.SetColor	units/Forms.pas	method of TControlScrollBar
+0043a72c	TControlScrollBar.SetParentColor	units/Forms.pas	method of TControlScrollBar
+0043a744	TControlScrollBar.SetPosition	units/Forms.pas	method of TControlScrollBar
+0043a808	TControlScrollBar.SetSize	units/Forms.pas	method of TControlScrollBar
+0043a84c	TControlScrollBar.SetStyle	units/Forms.pas	method of TControlScrollBar
+0043a864	TControlScrollBar.SetThumbSize	units/Forms.pas	method of TControlScrollBar
+0043a87c	FUN_0043a87c	units/Forms.pas	between functions of the file
+0043a894	TControlScrollBar.SetRange	units/Forms.pas	method of TControlScrollBar
+0043a8b4	TControlScrollBar.SetVisible	units/Forms.pas	method of TControlScrollBar
+0043a8c0	FUN_0043a8c0	units/Forms.pas	between functions of the file
+0043a9c8	FUN_0043a9c8	units/Forms.pas	between functions of the file
+0043aae0	TScrollingWinControl.virtual_02c	units/Forms.pas	method of TScrollingWinControl
+0043ab48	TScrollingWinControl.Destroy	units/Forms.pas	method of TScrollingWinControl
+0043ab84	TScrollingWinControl.virtual_090	units/Forms.pas	method of TScrollingWinControl
+0043ab94	TScrollingWinControl.virtual_098	units/Forms.pas	method of TScrollingWinControl
+0043abc0	TScrollingWinControl.virtual_088	units/Forms.pas	method of TScrollingWinControl
+0043abe0	TScrollingWinControl.virtual_0b4	units/Forms.pas	method of TScrollingWinControl
+0043ac00	TScrollingWinControl.dynamic_ffc7	units/Forms.pas	method of TScrollingWinControl
+0043ad18	FUN_0043ad18	units/Forms.pas	between functions of the file
+0043ad3c	TScrollBox.SetAutoScroll	units/Forms.pas	method of TScrollBox
+0043ad78	TScrollingWinControl.SetHorzScrollBar	units/Forms.pas	method of TScrollingWinControl
+0043ad88	TScrollingWinControl.SetVertScrollBar	units/Forms.pas	method of TScrollingWinControl
+0043ad98	FUN_0043ad98	units/Forms.pas	between functions of the file
+0043ae90	TScrollingWinControl.virtual_0b8	units/Forms.pas	method of TScrollingWinControl
+0043aea8	FUN_0043aea8	units/Forms.pas	between functions of the file
+0043affc	FUN_0043affc	units/Forms.pas	between functions of the file
+0043b0a0	TScrollingWinControl.dynamic_ffed	units/Forms.pas	method of TScrollingWinControl
+0043b0c4	TScrollingWinControl.virtual_0bc	units/Forms.pas	method of TScrollingWinControl
+0043b0c8	TScrollingWinControl.WMSize	units/Forms.pas	method of TScrollingWinControl
+0043b1a4	TScrollingWinControl.WMHScroll	units/Forms.pas	method of TScrollingWinControl
+0043b1c8	TScrollingWinControl.WMVScroll	units/Forms.pas	method of TScrollingWinControl
+0043b1ec	TScrollingWinControl.virtual_084	units/Forms.pas	method of TScrollingWinControl
+0043b260	TScrollingWinControl.CMBiDiModeChanged	units/Forms.pas	method of TScrollingWinControl
+0043b2f0	TScrollBox.virtual_02c	units/Forms.pas	method of TScrollBox
+0043b350	TScrollBox.virtual_090	units/Forms.pas	method of TScrollBox
+0043b3a0	TScrollBox.SetBorderStyle	units/Forms.pas	method of TScrollBox
+0043b3b4	TScrollBox.WMNCHitTest	units/Forms.pas	method of TScrollBox
+0043b3bc	TScrollBox.CMCtl3DChanged	units/Forms.pas	method of TScrollBox
+0043b3e8	TCustomForm.virtual_02c	units/Forms.pas	method of TCustomForm
+0043b574	TCustomForm.AfterConstruction	units/Forms.pas	method of TCustomForm
+0043b5ac	TCustomForm.virtual_0cc	units/Forms.pas	method of TCustomForm
+0043b70c	TCustomForm.BeforeDestruction	units/Forms.pas	method of TCustomForm
+0043b774	TCustomForm.Destroy	units/Forms.pas	method of TCustomForm
+0043b858	TCustomForm.virtual_0c0	units/Forms.pas	method of TCustomForm
+0043b8cc	TCustomForm.virtual_0c4	units/Forms.pas	method of TCustomForm
+0043b92c	TCustomForm.virtual_00c	units/Forms.pas	method of TCustomForm
+0043b968	TCustomForm.virtual_010	units/Forms.pas	method of TCustomForm
+0043ba74	TCustomForm.virtual_014	units/Forms.pas	method of TCustomForm
+0043bc84	TCustomForm.virtual_004	units/Forms.pas	method of TCustomForm
+0043bda4	FUN_0043bda4	units/Forms.pas	between functions of the file
+0043bdc8	TCustomForm.dynamic_ffee	units/Forms.pas	method of TCustomForm
+0043bdcc	TCustomForm.dynamic_ffed	units/Forms.pas	method of TCustomForm
+0043be4c	FUN_0043be4c	units/Forms.pas	between functions of the file
+0043bea8	FUN_0043bea8	units/Forms.pas	between functions of the file
+0043beb8	FUN_0043beb8	units/Forms.pas	between functions of the file
+0043bee0	FUN_0043bee0	units/Forms.pas	between functions of the file
+0043bf14	TCustomForm.dynamic_ffb3	units/Forms.pas	method of TCustomForm
+0043bf34	TCustomForm.dynamic_ffb2	units/Forms.pas	method of TCustomForm
+0043bf54	TCustomForm.dynamic_ffb1	units/Forms.pas	method of TCustomForm
+0043bf74	TCustomForm.virtual_040	units/Forms.pas	method of TCustomForm
+0043bffc	TCustomForm.dynamic_fffd	units/Forms.pas	method of TCustomForm
+0043c068	TCustomForm.virtual_050	units/Forms.pas	method of TCustomForm
+0043c094	TCustomForm.dynamic_fffa	units/Forms.pas	method of TCustomForm
+0043c128	TCustomForm.virtual_064	units/Forms.pas	method of TCustomForm
+0043c150	TForm.SetClientWidth	units/Forms.pas	method of TForm
+0043c180	TForm.SetClientHeight	units/Forms.pas	method of TForm
+0043c1b0	TForm.SetVisible	units/Forms.pas	method of TForm
+0043c1f4	TCustomForm.dynamic_ffd2	units/Forms.pas	method of TCustomForm
+0043c258	TCustomForm.virtual_0dc	units/Forms.pas	method of TCustomForm
+0043c25c	TCustomForm.virtual_060	units/Forms.pas	method of TCustomForm
+0043c294	TCustomForm.virtual_020	units/Forms.pas	method of TCustomForm
+0043c2d4	TCustomForm.virtual_06c	units/Forms.pas	method of TCustomForm
+0043c694	FUN_0043c694	units/Forms.pas	between functions of the file
+0043c6e0	FUN_0043c6e0	units/Forms.pas	between functions of the file
+0043c7e8	TCustomForm.virtual_088	units/Forms.pas	method of TCustomForm
+0043c824	TCustomForm.CMBiDiModeChanged	units/Forms.pas	method of TCustomForm
+0043c8bc	TCustomForm.CMParentBiDiModeChanged	units/Forms.pas	method of TCustomForm
+0043c944	TForm.SetBorderIcons	units/Forms.pas	method of TForm
+0043c970	TForm.SetBorderStyle	units/Forms.pas	method of TForm
+0043c9a8	TCustomForm.dynamic_ffd1	units/Forms.pas	method of TCustomForm
+0043c9f0	TCustomForm.dynamic_ffe6	units/Forms.pas	method of TCustomForm
+0043ca44	FUN_0043ca44	units/Forms.pas	between functions of the file
+0043ca78	FUN_0043ca78	units/Forms.pas	between functions of the file
+0043cac4	FUN_0043cac4	units/Forms.pas	between functions of the file
+0043cb14	FUN_0043cb14	units/Forms.pas	between functions of the file
+0043cb74	FUN_0043cb74	units/Forms.pas	between functions of the file
+0043cb7c	TForm.SetIcon	units/Forms.pas	method of TForm
+0043cb88	FUN_0043cb88	units/Forms.pas	between functions of the file
+0043cbb8	TForm.SetFormStyle	units/Forms.pas	method of TForm
+0043cc38	FUN_0043cc38	units/Forms.pas	between functions of the file
+0043ccb4	TForm.SetObjectMenuItem	units/Forms.pas	method of TForm
+0043ccd8	TForm.SetWindowMenu	units/Forms.pas	method of TForm
+0043cd00	TForm.SetMenu	units/Forms.pas	method of TForm
+0043cec4	TForm.GetPixelsPerInch	units/Forms.pas	method of TForm
+0043ced8	TForm.SetPixelsPerInch	units/Forms.pas	method of TForm
+0043cf0c	TForm.SetPosition	units/Forms.pas	method of TForm
+0043cf28	TForm.GetScaled	units/Forms.pas	method of TForm
+0043cf34	TForm.SetScaled	units/Forms.pas	method of TForm
+0043cf64	TCustomForm.CMColorChanged	units/Forms.pas	method of TCustomForm
+0043cf88	FUN_0043cf88	units/Forms.pas	between functions of the file
+0043cfa0	TCustomForm.CMCtl3DChanged	units/Forms.pas	method of TCustomForm
+0043cfe8	TCustomForm.CMFontChanged	units/Forms.pas	method of TCustomForm
+0043d008	TCustomForm.CMMenuChanged	units/Forms.pas	method of TCustomForm
+0043d024	TForm.SetWindowState	units/Forms.pas	method of TForm
+0043d064	FUN_0043d064	units/Forms.pas	between functions of the file
+0043d3b0	TCustomForm.virtual_090	units/Forms.pas	method of TCustomForm
+0043d5c4	TCustomForm.virtual_098	units/Forms.pas	method of TCustomForm
+0043d704	TCustomForm.virtual_094	units/Forms.pas	method of TCustomForm
+0043d804	TCustomForm.virtual_09c	units/Forms.pas	method of TCustomForm
+0043d848	TCustomForm.DefaultHandler	units/Forms.pas	method of TCustomForm
+0043d8ac	TForm.SetActiveControl	units/Forms.pas	method of TForm
+0043d964	FUN_0043d964	units/Forms.pas	between functions of the file
+0043d9ac	FUN_0043d9ac	units/Forms.pas	between functions of the file
+0043d9d0	TCustomForm.virtual_0d4	units/Forms.pas	method of TCustomForm
+0043dc60	TCustomForm.dynamic_ffb5	units/Forms.pas	method of TCustomForm
+0043dc64	FUN_0043dc64	units/Forms.pas	between functions of the file
+0043dcb4	FUN_0043dcb4	units/Forms.pas	between functions of the file
+0043dd18	FUN_0043dd18	units/Forms.pas	between functions of the file
+0043dd68	FUN_0043dd68	units/Forms.pas	between functions of the file
+0043de10	FUN_0043de10	units/Forms.pas	between functions of the file
+0043de5c	TCustomForm.dynamic_ffb6	units/Forms.pas	method of TCustomForm
+0043de8c	TCustomForm.dynamic_ffb4	units/Forms.pas	method of TCustomForm
+0043debc	TCustomForm.dynamic_ffb0	units/Forms.pas	method of TCustomForm
+0043dedc	FUN_0043dedc	units/Forms.pas	between functions of the file
+0043def8	TCustomForm.virtual_0a8	units/Forms.pas	method of TCustomForm
+0043dfb0	TCustomForm.dynamic_ffd6	units/Forms.pas	method of TCustomForm
+0043e05c	TCustomForm.WMPaint	units/Forms.pas	method of TCustomForm
+0043e0dc	TCustomForm.WMIconEraseBkgnd	units/Forms.pas	method of TCustomForm
+0043e13c	TCustomForm.WMEraseBkgnd	units/Forms.pas	method of TCustomForm
+0043e174	TCustomForm.WMQueryDragIcon	units/Forms.pas	method of TCustomForm
+0043e188	FUN_0043e188	units/Forms.pas	between functions of the file
+0043e284	TCustomForm.WMNCCreate	units/Forms.pas	method of TCustomForm
+0043e2b8	TCustomForm.WMNCLButtonDown	units/Forms.pas	method of TCustomForm
+0043e348	TCustomForm.WMDestroy	units/Forms.pas	method of TCustomForm
+0043e3a8	TCustomForm.WMCommand	units/Forms.pas	method of TCustomForm
+0043e3dc	TCustomForm.WMInitMenuPopup	units/Forms.pas	method of TCustomForm
+0043e3f4	TCustomForm.WMMenuChar	units/Forms.pas	method of TCustomForm
+0043e42c	TCustomForm.WMMenuSelect	units/Forms.pas	method of TCustomForm
+0043e4d4	TCustomForm.WMActivate	units/Forms.pas	method of TCustomForm
+0043e4f4	TCustomForm.virtual_0bc	units/Forms.pas	method of TCustomForm
+0043e52c	TCustomForm.WMClose	units/Forms.pas	method of TCustomForm
+0043e534	TCustomForm.WMQueryEndSession	units/Forms.pas	method of TCustomForm
+0043e560	TCustomForm.CMAppSysCommand	units/Forms.pas	method of TCustomForm
+0043e5b8	TCustomForm.WMSysCommand	units/Forms.pas	method of TCustomForm
+0043e644	TCustomForm.WMShowWindow	units/Forms.pas	method of TCustomForm
+0043e6dc	TCustomForm.WMMDIActivate	units/Forms.pas	method of TCustomForm
+0043e734	TCustomForm.WMNextDlgCtl	units/Forms.pas	method of TCustomForm
+0043e760	TCustomForm.WMEnterMenuLoop	units/Forms.pas	method of TCustomForm
+0043e77c	FUN_0043e77c	units/Forms.pas	between functions of the file
+0043e7bc	TCustomForm.WMHelp	units/Forms.pas	method of TCustomForm
+0043e8c0	TCustomForm.WMGetMinMaxInfo	units/Forms.pas	method of TCustomForm
+0043e934	TCustomForm.WMWindowPosChanging	units/Forms.pas	method of TCustomForm
+0043e9cc	TCustomForm.CMActivate	units/Forms.pas	method of TCustomForm
+0043e9ec	TCustomForm.CMDeactivate	units/Forms.pas	method of TCustomForm
+0043ea0c	TCustomForm.CMDialogKey	units/Forms.pas	method of TCustomForm
+0043eaa8	TCustomForm.CMShowingChanged	units/Forms.pas	method of TCustomForm
+0043f024	TCustomForm.CMIconChanged	units/Forms.pas	method of TCustomForm
+0043f044	TCustomForm.CMRelease	units/Forms.pas	method of TCustomForm
+0043f04c	TCustomForm.CMTextChanged	units/Forms.pas	method of TCustomForm
+0043f09c	TCustomForm.CMUIActivate	units/Forms.pas	method of TCustomForm
+0043f0a4	TCustomForm.CMParentFontChanged	units/Forms.pas	method of TCustomForm
+0043f110	FUN_0043f110	units/Forms.pas	between functions of the file
+0043f1b4	TCustomForm.virtual_0d0	units/Forms.pas	method of TCustomForm
+0043f218	FUN_0043f218	units/Forms.pas	between functions of the file
+0043f2c0	FUN_0043f2c0	units/Forms.pas	between functions of the file
+0043f2c8	FUN_0043f2c8	units/Forms.pas	between functions of the file
+0043f2e0	TCustomForm.virtual_0b0	units/Forms.pas	method of TCustomForm
+0043f35c	FUN_0043f35c	units/Forms.pas	between functions of the file
+0043f378	TCustomForm.virtual_0d8	units/Forms.pas	method of TCustomForm
+0043f618	FUN_0043f618	units/Forms.pas	between functions of the file
+0043f688	TCustomForm.virtual_0c8	units/Forms.pas	method of TCustomForm
+0043f6f0	TCustomForm.dynamic_ffd5	units/Forms.pas	method of TCustomForm
+0043f70c	TCustomForm.WMWinIniChange	units/Forms.pas	method of TCustomForm
+0043f730	FUN_0043f730	units/Forms.pas	between functions of the file
+0043f760	FUN_0043f760	units/Forms.pas	between functions of the file
+0043f7dc	TCustomForm.CMActionExecute	units/Forms.pas	method of TCustomForm
+0043f830	FUN_0043f830	units/Forms.pas	between functions of the file
+0043f860	FUN_0043f860	units/Forms.pas	between functions of the file
+0043f8dc	TCustomForm.CMActionUpdate	units/Forms.pas	method of TCustomForm
+0043f930	FUN_0043f930	units/Forms.pas	between functions of the file
+0043f984	TCustomForm.dynamic_ffaf	units/Forms.pas	method of TCustomForm
+0043fa00	TCustomForm.virtual_028	units/Forms.pas	method of TCustomForm
+0043fa74	TCustomForm.dynamic_ffb7	units/Forms.pas	method of TCustomForm
+0043faac	TCustomDockForm.virtual_02c	units/Forms.pas	method of TCustomDockForm
+0043fb14	TCustomDockForm.dynamic_ffcc	units/Forms.pas	method of TCustomDockForm
+0043fbfc	TCustomDockForm.dynamic_ffc3	units/Forms.pas	method of TCustomDockForm
+0043fc1c	TCustomDockForm.virtual_00c	units/Forms.pas	method of TCustomDockForm
+0043fc68	TCustomDockForm.dynamic_ffc1	units/Forms.pas	method of TCustomDockForm
+0043fc94	TCustomDockForm.WMNCHitTest	units/Forms.pas	method of TCustomDockForm
+0043fcbc	TCustomDockForm.WMNCLButtonDown	units/Forms.pas	method of TCustomDockForm
+0043fd54	TCustomDockForm.CMControlListChange	units/Forms.pas	method of TCustomDockForm
+0043fdac	TCustomDockForm.CMDockNotification	units/Forms.pas	method of TCustomDockForm
+0043fe90	TCustomDockForm.CMUndockClient	units/Forms.pas	method of TCustomDockForm
+0043fea8	TCustomDockForm.CMVisibleChanged	units/Forms.pas	method of TCustomDockForm
+0043fee4	FUN_0043fee4	units/Forms.pas	between functions of the file
+0043ff04	FUN_0043ff04	units/Forms.pas	between functions of the file
+0043ff28	FUN_0043ff28	units/Forms.pas	between functions of the file
+0043ff48	FUN_0043ff48	units/Forms.pas	between functions of the file
+0043ff6c	FUN_0043ff6c	units/Forms.pas	between functions of the file
+0043ff9c	TScreen.virtual_02c	units/Forms.pas	method of TScreen
+004400c4	TScreen.Destroy	units/Forms.pas	method of TScreen
+0044016c	FUN_0044016c	units/Forms.pas	between functions of the file
+00440178	FUN_00440178	units/Forms.pas	between functions of the file
+00440184	FUN_00440184	units/Forms.pas	between functions of the file
+00440190	FUN_00440190	units/Forms.pas	between functions of the file
+0044019c	FUN_0044019c	units/Forms.pas	between functions of the file
+004401a8	FUN_004401a8	units/Forms.pas	between functions of the file
+004401b4	FUN_004401b4	units/Forms.pas	between functions of the file
+004401c8	FUN_004401c8	units/Forms.pas	between functions of the file
+004401e4	FUN_004401e4	units/Forms.pas	between functions of the file
+004401f8	FUN_004401f8	units/Forms.pas	between functions of the file
+00440200	FUN_00440200	units/Forms.pas	between functions of the file
+00440214	FUN_00440214	units/Forms.pas	between functions of the file
+0044021c	FUN_0044021c	units/Forms.pas	between functions of the file
+00440268	FUN_00440268	units/Forms.pas	between functions of the file
+004402a0	FUN_004402a0	units/Forms.pas	between functions of the file
+004402e8	FUN_004402e8	units/Forms.pas	between functions of the file
+00440344	FUN_00440344	units/Forms.pas	between functions of the file
+004403a0	FUN_004403a0	units/Forms.pas	between functions of the file
+004403c8	FUN_004403c8	units/Forms.pas	between functions of the file
+004405c8	FUN_004405c8	units/Forms.pas	between functions of the file
+004405f4	FUN_004405f4	units/Forms.pas	between functions of the file
+00440608	FUN_00440608	units/Forms.pas	between functions of the file
+00440610	FUN_00440610	units/Forms.pas	between functions of the file
+00440638	FUN_00440638	units/Forms.pas	between functions of the file
+004406c8	FUN_004406c8	units/Forms.pas	between functions of the file
+0044077c	FUN_0044077c	units/Forms.pas	between functions of the file
+00440784	FUN_00440784	units/Forms.pas	between functions of the file
+004407a4	FUN_004407a4	units/Forms.pas	between functions of the file
+004407ac	FUN_004407ac	units/Forms.pas	between functions of the file
+0044080c	FUN_0044080c	units/Forms.pas	between functions of the file
+004409bc	FUN_004409bc	units/Forms.pas	between functions of the file
+00440b08	FUN_00440b08	units/Forms.pas	between functions of the file
+00440b60	FUN_00440b60	units/Forms.pas	between functions of the file
+00440be8	FUN_00440be8	units/Forms.pas	between functions of the file
+00440c70	FUN_00440c70	units/Forms.pas	between functions of the file
+00440c7c	FUN_00440c7c	units/Forms.pas	between functions of the file
+00440cac	thunk_FUN_00440cb1	units/Forms.pas	between functions of the file
+00440cb1	FUN_00440cb1	units/Forms.pas	between functions of the file
+00440ccc	FUN_00440ccc	units/Forms.pas	between functions of the file
+00440d7c	FUN_00440d7c	units/Forms.pas	between functions of the file
+00440dc0	FUN_00440dc0	units/Forms.pas	between functions of the file
+00440e34	FUN_00440e34	units/Forms.pas	between functions of the file
+00440e90	FUN_00440e90	units/Forms.pas	between functions of the file
+00440ec0	FUN_00440ec0	units/Forms.pas	between functions of the file
+00440ee8	FUN_00440ee8	units/Forms.pas	between functions of the file
+00440f28	TApplication.virtual_02c	units/Forms.pas	method of TApplication
+004410c0	TApplication.Destroy	units/Forms.pas	method of TApplication
+004411a0	FUN_004411a0	units/Forms.pas	nearest file
+00441340	FUN_00441340	units/Forms.pas	nearest file
+004413a0	FUN_004413a0	units/Forms.pas	nearest file
+00441410	FUN_00441410	units/Forms.pas	nearest file
+004414b8	FUN_004414b8	units/Forms.pas	nearest file
+004414c0	FUN_004414c0	units/Forms.pas	nearest file
+004414c8	FUN_004414c8	units/Forms.pas	nearest file
+00441534	FUN_00441534	units/Forms.pas	nearest file
+0044154c	FUN_0044154c	units/Forms.pas	nearest file
+00441564	FUN_00441564	units/Forms.pas	nearest file
+004415b4	FUN_004415b4	units/Forms.pas	nearest file
+004415f0	FUN_004415f0	units/Forms.pas	nearest file
+0044163c	FUN_0044163c	units/Forms.pas	nearest file
+00441cd8	FUN_00441cd8	units/Forms.pas	nearest file
+00441cf4	FUN_00441cf4	units/Forms.pas	nearest file
+00441d94	FUN_00441d94	units/Forms.pas	nearest file
+00441e84	FUN_00441e84	units/Forms.pas	nearest file
+00441ec0	FUN_00441ec0	units/Forms.pas	nearest file
+00441f08	FUN_00441f08	units/Forms.pas	nearest file
+00441f2c	FUN_00441f2c	units/Forms.pas	nearest file
+00441f7c	FUN_00441f7c	units/Forms.pas	nearest file
+00442034	FUN_00442034	units/Forms.pas	nearest file
+00442064	FUN_00442064	units/Forms.pas	nearest file
+004420d0	FUN_004420d0	units/Forms.pas	nearest file
+00442168	FUN_00442168	units/Forms.pas	nearest file
+0044218c	FUN_0044218c	units/Forms.pas	nearest file
+004421e8	FUN_004421e8	units/Forms.pas	nearest file
+00442264	FUN_00442264	units/Forms.pas	nearest file
+00442308	FUN_00442308	units/Forms.pas	nearest file
+00442460	FUN_00442460	units/Forms.pas	nearest file
+00442538	FUN_00442538	units/Forms.pas	nearest file
+00442664	FUN_00442664	units/ExtCtrls.pas	nearest file
+00442670	FUN_00442670	units/ExtCtrls.pas	nearest file
+00442678	FUN_00442678	units/ExtCtrls.pas	nearest file
+00442688	FUN_00442688	units/ExtCtrls.pas	nearest file
+004426c8	FUN_004426c8	units/ExtCtrls.pas	nearest file
+0044272c	FUN_0044272c	units/ExtCtrls.pas	nearest file
+004427b0	FUN_004427b0	units/ExtCtrls.pas	nearest file
+004428bc	FUN_004428bc	units/ExtCtrls.pas	nearest file
+0044295c	FUN_0044295c	units/ExtCtrls.pas	nearest file
+004429f0	FUN_004429f0	units/ExtCtrls.pas	nearest file
+00442a4c	FUN_00442a4c	units/ExtCtrls.pas	nearest file
+00442ad4	FUN_00442ad4	units/ExtCtrls.pas	nearest file
+00442b0c	FUN_00442b0c	units/ExtCtrls.pas	nearest file
+00442b2c	FUN_00442b2c	units/ExtCtrls.pas	nearest file
+00442c38	FUN_00442c38	units/ExtCtrls.pas	nearest file
+00442c6c	FUN_00442c6c	units/ExtCtrls.pas	nearest file
+00442ca8	FUN_00442ca8	units/ExtCtrls.pas	nearest file
+00442cd0	FUN_00442cd0	units/ExtCtrls.pas	nearest file
+00442ce0	FUN_00442ce0	units/ExtCtrls.pas	nearest file
+00442e34	FUN_00442e34	units/ExtCtrls.pas	nearest file
+00442e88	FUN_00442e88	units/ExtCtrls.pas	nearest file
+00443230	FUN_00443230	units/ExtCtrls.pas	nearest file
+004432c0	FUN_004432c0	units/ExtCtrls.pas	nearest file
+004432e8	FUN_004432e8	units/ExtCtrls.pas	nearest file
+00443394	FUN_00443394	units/ExtCtrls.pas	nearest file
+004433cc	FUN_004433cc	units/ExtCtrls.pas	nearest file
+00443a38	TImage.virtual_02c	units/ExtCtrls.pas	method of TImage
+00443acc	TImage.Destroy	units/ExtCtrls.pas	method of TImage
+00443afc	TImage.dynamic_ffdc	units/ExtCtrls.pas	method of TImage
+00443b18	FUN_00443b18	units/ExtCtrls.pas	between functions of the file
+00443bb8	TImage.virtual_084	units/ExtCtrls.pas	method of TImage
+00443c78	FUN_00443c78	units/ExtCtrls.pas	between functions of the file
+00443d10	TImage.dynamic_ffcd	units/ExtCtrls.pas	method of TImage
+00443d7c	TImage.SetCenter	units/ExtCtrls.pas	method of TImage
+00443d94	TImage.SetPicture	units/ExtCtrls.pas	method of TImage
+00443da4	TImage.SetStretch	units/ExtCtrls.pas	method of TImage
+00443dbc	TImage.SetTransparent	units/ExtCtrls.pas	method of TImage
+00443dd4	FUN_00443dd4	units/ExtCtrls.pas	between functions of the file
+00443eec	TImage.virtual_034	units/ExtCtrls.pas	method of TImage
+00443fc4	FUN_00443fc4	units/ExtCtrls.pas	nearest file
+00443fcc	FUN_00443fcc	units/ExtCtrls.pas	nearest file
+00444184	FUN_00444184	units/ExtCtrls.pas	nearest file
+004442b8	FUN_004442b8	units/ExtCtrls.pas	nearest file
+00444828	FUN_00444828	units/ExtCtrls.pas	nearest file
+0044484c	FUN_0044484c	units/ExtCtrls.pas	nearest file
+00444900	FUN_00444900	units/ExtCtrls.pas	nearest file
+0044490c	FUN_0044490c	units/ExtCtrls.pas	nearest file
+00444924	FUN_00444924	units/ExtCtrls.pas	nearest file
+00444c58	FUN_00444c58	units/ExtCtrls.pas	nearest file
+00444c94	TCustomIniFile.virtual_008	units/ExtCtrls.pas	nearest file
+00444d58	TCustomIniFile.virtual_00c	units/ExtCtrls.pas	nearest file
+00444db4	TCustomIniFile.virtual_010	units/ExtCtrls.pas	nearest file
+00444de0	TCustomIniFile.virtual_018	units/ExtCtrls.pas	nearest file
+00444e98	TCustomIniFile.virtual_01c	units/ExtCtrls.pas	nearest file
+00444f50	TCustomIniFile.virtual_020	units/ExtCtrls.pas	nearest file
+00445008	TCustomIniFile.virtual_024	units/ExtCtrls.pas	nearest file
+004450c0	TCustomIniFile.virtual_028	units/ExtCtrls.pas	nearest file
+00445120	TCustomIniFile.virtual_02c	units/ExtCtrls.pas	nearest file
+00445180	TCustomIniFile.virtual_030	units/ExtCtrls.pas	nearest file
+004451e4	TCustomIniFile.virtual_034	units/ExtCtrls.pas	nearest file
+0044525c	TCustomIniFile.virtual_014	units/ExtCtrls.pas	nearest file
+00445278	TIniFile.virtual_000	units/ExtCtrls.pas	nearest file
+004452d8	TIniFile.virtual_004	units/ExtCtrls.pas	nearest file
+00445344	TIniFile.virtual_03c	units/ExtCtrls.pas	nearest file
+00445444	TIniFile.virtual_038	units/ExtCtrls.pas	nearest file
+0044554c	TIniFile.virtual_040	units/ExtCtrls.pas	nearest file
+00445670	TIniFile.virtual_044	units/ExtCtrls.pas	nearest file
+004456c4	TIniFile.virtual_048	units/ExtCtrls.pas	nearest file
+004456f4	TIniFile.virtual_04c	units/ExtCtrls.pas	nearest file
+00445760	FUN_00445760	units/ExtCtrls.pas	nearest file
+00445940	entry	units/ExtCtrls.pas	nearest file

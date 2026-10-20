@@ -1,0 +1,321 @@
+address	name	file	how
+10001005	xvga_src_fseek	rsc/xvga_fileio.c	address range in regions.tsv
+1000100a	xvga_fileio_set_check_sequence	rsc/xvga_fileio.c	address range in regions.tsv
+1000100f	xvga_src_fopen	rsc/xvga_fileio.c	address range in regions.tsv
+10001014	xvga_exit_fileio	rsc/xvga_fileio.c	address range in regions.tsv
+10001019	xvga_rc_filepos	rsc/xvga_fileio.c	address range in regions.tsv
+1000101e	xvga_src_filelength	rsc/xvga_fileio.c	address range in regions.tsv
+10001023	xvga_init_fileio	rsc/xvga_fileio.c	address range in regions.tsv
+10001028	xvga_file_exist	rsc/xvga_fileio.c	address range in regions.tsv
+1000102d	xvga_get_filehandle	rsc/xvga_fileio.c	address range in regions.tsv
+10001032	xvga_rc_filelength	rsc/xvga_fileio.c	address range in regions.tsv
+10001037	xvga_rc_filename	rsc/xvga_fileio.c	address range in regions.tsv
+1000103c	xvga_src_fclose	rsc/xvga_fileio.c	address range in regions.tsv
+10001041	xvga_rc_num_files	rsc/xvga_fileio.c	address range in regions.tsv
+10001090	xvga_init_fileio	rsc/xvga_fileio.c	address range in regions.tsv
+100013f0	xvga_fileio_set_check_sequence	rsc/xvga_fileio.c	address range in regions.tsv
+10001470	xvga_src_fseek	rsc/xvga_fileio.c	address range in regions.tsv
+100016a0	xvga_src_filelength	rsc/xvga_fileio.c	address range in regions.tsv
+100017c0	xvga_src_fopen	rsc/xvga_fileio.c	address range in regions.tsv
+10001940	xvga_src_fclose	rsc/xvga_fileio.c	address range in regions.tsv
+10001a30	xvga_file_exist	rsc/xvga_fileio.c	address range in regions.tsv
+10001b50	xvga_exit_fileio	rsc/xvga_fileio.c	address range in regions.tsv
+10001c00	xvga_rc_num_files	rsc/xvga_fileio.c	address range in regions.tsv
+10001c30	xvga_rc_filename	rsc/xvga_fileio.c	address range in regions.tsv
+10001c90	xvga_rc_filepos	rsc/xvga_fileio.c	address range in regions.tsv
+10001cd0	xvga_rc_filelength	rsc/xvga_fileio.c	address range in regions.tsv
+10001d10	xvga_get_filehandle	rsc/xvga_fileio.c	address range in regions.tsv
+10001d70	FUN_10001d70	rsc/xvga_fileio.c	address range in regions.tsv
+10001e00	FUN_10001e00	rsc/xvga_fileio.c	address range in regions.tsv
+10001ec0	FUN_10001ec0	rsc/xvga_fileio.c	address range in regions.tsv
+10001ed0	FUN_10001ed0	rsc/xvga_fileio.c	address range in regions.tsv
+10001fb0	FUN_10001fb0	rsc/xvga_fileio.c	address range in regions.tsv
+10001ff0	FUN_10001ff0	rsc/xvga_fileio.c	address range in regions.tsv
+100021c0	FUN_100021c0	rsc/xvga_fileio.c	address range in regions.tsv
+100022c0	FUN_100022c0	rsc/xvga_fileio.c	address range in regions.tsv
+100022e0	__chkesp	chkesp.c	names its file
+10002320	FUN_10002320	fseek.c	names its file
+10002390	FUN_10002390	fseek.c	names its file
+100024c0	FUN_100024c0	osfinfo.c	names its file
+100026b0	__set_osfhnd	osfinfo.c	nearest file
+10002770	FUN_10002770	osfinfo.c	nearest file
+10002850	FUN_10002850	osfinfo.c	nearest file
+100028c0	FUN_100028c0	osfinfo.c	nearest file
+100029d0	FUN_100029d0	_file.c	nearest file
+10002a60	__unlock_fhandle	_file.c	nearest file
+10002a90	FUN_10002a90	_file.c	nearest file
+10002bd0	entry	_file.c	nearest file
+10002cd0	__amsg_exit	_file.c	nearest file
+10002d10	FUN_10002d10	_file.c	names its file
+10002e40	FUN_10002e40	_file.c	nearest file
+10002e60	FUN_10002e60	_file.c	nearest file
+10002ea0	FUN_10002ea0	_file.c	nearest file
+10002ed0	FUN_10002ed0	_file.c	nearest file
+10002f10	FUN_10002f10	_file.c	nearest file
+10002f40	FUN_10002f40	_file.c	nearest file
+10002f50	FUN_10002f50	_file.c	nearest file
+10002fb0	__CrtSetReportFile	_file.c	nearest file
+10003030	FUN_10003030	_file.c	nearest file
+10003050	FUN_10003050	_file.c	nearest file
+100033e0	FUN_100033e0	dbgrpt.c	names its file
+100036f0	FUN_100036f0	dbgheap.c	nearest file
+10003710	FUN_10003710	dbgheap.c	nearest file
+10003740	FUN_10003740	dbgheap.c	nearest file
+10003760	FUN_10003760	dbgheap.c	nearest file
+100037c0	FUN_100037c0	dbgheap.c	nearest file
+100037e0	FUN_100037e0	dbgheap.c	names its file
+10003b00	FUN_10003b00	dbgheap.c	between functions of the file
+10003b20	__calloc_dbg	dbgheap.c	between functions of the file
+10003b80	FUN_10003b80	dbgheap.c	between functions of the file
+10003ba0	FUN_10003ba0	dbgheap.c	between functions of the file
+10003be0	FUN_10003be0	dbgheap.c	names its file
+10004100	FUN_10004100	dbgheap.c	between functions of the file
+10004120	FUN_10004120	dbgheap.c	between functions of the file
+10004160	FUN_10004160	dbgheap.c	between functions of the file
+10004180	FUN_10004180	dbgheap.c	between functions of the file
+100041a0	FUN_100041a0	dbgheap.c	between functions of the file
+100041d0	FUN_100041d0	dbgheap.c	names its file
+100045c0	FUN_100045c0	dbgheap.c	between functions of the file
+100045e0	FUN_100045e0	dbgheap.c	names its file
+10004740	FUN_10004740	dbgheap.c	between functions of the file
+10004760	FUN_10004760	dbgheap.c	names its file
+10004800	FUN_10004800	dbgheap.c	nearest file
+10004820	FUN_10004820	dbgheap.c	nearest file
+100048b0	FUN_100048b0	dbgheap.c	nearest file
+10004c20	FUN_10004c20	dbgheap.c	nearest file
+10004c50	FUN_10004c50	dbgheap.c	nearest file
+10004cc0	FID_conflict:AtlIsValidAddress	dbgheap.c	nearest file
+10004d10	FUN_10004d10	dbgheap.c	nearest file
+10004da0	FUN_10004da0	dbgheap.c	nearest file
+10004e90	FUN_10004e90	dbgheap.c	nearest file
+10004eb0	FUN_10004eb0	dbgheap.c	nearest file
+10005020	FUN_10005020	_freebuf.c	nearest file
+10005150	FUN_10005150	_freebuf.c	nearest file
+10005410	FUN_10005410	_freebuf.c	nearest file
+10005530	FUN_10005530	_freebuf.c	nearest file
+100055b0	FUN_100055b0	_freebuf.c	nearest file
+10005680	FUN_10005680	_freebuf.c	nearest file
+10005700	__close_lk	_freebuf.c	nearest file
+100057b0	FUN_100057b0	_freebuf.c	names its file
+10005850	FUN_10005850	_freebuf.c	nearest file
+100058a0	FUN_100058a0	_freebuf.c	nearest file
+100058f0	FUN_100058f0	_freebuf.c	nearest file
+100059b0	FUN_100059b0	_filbuf.c	nearest file
+100059c0	FUN_100059c0	_filbuf.c	nearest file
+10005b00	FUN_10005b00	_filbuf.c	names its file
+10005cf0	FUN_10005cf0	_filbuf.c	nearest file
+10005d80	FUN_10005d80	_filbuf.c	nearest file
+100061d0	FUN_100061d0	_open.c	nearest file
+10006510	FUN_10006510	_open.c	names its file
+100068a0	FUN_100068a0	stream.c	names its file
+10006a20	FUN_10006a20	ftell.c	nearest file
+10006ab0	FUN_10006ab0	ftell.c	nearest file
+10006b70	FUN_10006b70	ftell.c	names its file
+10006be0	FUN_10006be0	ftell.c	names its file
+10006e80	__dosmaperr	ioinit.c	nearest file
+10006f20	FUN_10006f20	ioinit.c	nearest file
+10006f30	FUN_10006f30	ioinit.c	nearest file
+10006f40	FUN_10006f40	ioinit.c	names its file
+10007270	__ioterm	mlock.c	nearest file
+10007310	FUN_10007310	mlock.c	nearest file
+10007350	FUN_10007350	mlock.c	nearest file
+100073f0	FUN_100073f0	mlock.c	names its file
+10007490	FUN_10007490	mlock.c	nearest file
+100074b0	FUN_100074b0	mlock.c	nearest file
+100074d0	FUN_100074d0	mlock.c	nearest file
+10007510	FUN_10007510	mlock.c	nearest file
+10007530	__exit	mlock.c	nearest file
+10007550	FUN_10007550	mlock.c	nearest file
+10007570	FUN_10007570	tidtable.c	nearest file
+10007590	FUN_10007590	tidtable.c	nearest file
+10007680	FUN_10007680	tidtable.c	nearest file
+10007690	FUN_10007690	tidtable.c	nearest file
+100076a0	__initterm	tidtable.c	nearest file
+100076d0	FUN_100076d0	tidtable.c	names its file
+10007760	FUN_10007760	tidtable.c	between functions of the file
+10007790	FUN_10007790	tidtable.c	between functions of the file
+100077b0	FUN_100077b0	tidtable.c	names its file
+10007850	FUN_10007850	tidtable.c	nearest file
+10007960	FUN_10007960	stdenvp.c	nearest file
+10007970	FUN_10007970	stdenvp.c	nearest file
+10007980	FUN_10007980	stdenvp.c	names its file
+10007ad0	FUN_10007ad0	stdargv.c	names its file
+10007bb0	FUN_10007bb0	stdargv.c	nearest file
+10007fe0	FUN_10007fe0	a_env.c	names its file
+10008200	FUN_10008200	a_env.c	nearest file
+10008250	FUN_10008250	a_env.c	nearest file
+100082f0	FUN_100082f0	a_env.c	nearest file
+10008300	__FF_MSGBANNER	a_env.c	nearest file
+10008350	FUN_10008350	a_env.c	nearest file
+10008510	__GET_RTERRMSG	sprintf.c	nearest file
+10008560	FUN_10008560	sprintf.c	nearest file
+10008640	__itoa	sprintf.c	nearest file
+10008690	xtoa	sprintf.c	nearest file
+10008760	__ltoa	sprintf.c	nearest file
+100087a0	__ultoa	sprintf.c	nearest file
+100087c0	__i64toa	sprintf.c	nearest file
+10008810	x64toa	sprintf.c	nearest file
+10008910	__ui64toa	sprintf.c	nearest file
+10008930	_strlen	sprintf.c	nearest file
+100089b0	FUN_100089b0	sprintf.c	names its file
+10008ab0	FUN_10008ab0	vsprintf.c	names its file
+10008bb0	FUN_10008bb0	winsig.c	nearest file
+10008be0	FUN_10008be0	winsig.c	names its file
+10008e10	FUN_10008e10	winsig.c	nearest file
+10008eb0	FUN_10008eb0	winsig.c	nearest file
+100090f0	FUN_100090f0	winsig.c	nearest file
+10009150	FUN_10009150	winsig.c	nearest file
+10009160	FUN_10009160	winsig.c	nearest file
+10009170	FUN_10009170	winsig.c	nearest file
+10009230	_strncpy	winsig.c	nearest file
+10009330	_set_new_handler	winsig.c	nearest file
+10009360	FUN_10009360	winsig.c	nearest file
+10009370	__callnewh	winsig.c	nearest file
+100093a0	_memset	winsig.c	nearest file
+10009400	FUN_10009400	winsig.c	nearest file
+10009420	__nh_malloc_base	winsig.c	nearest file
+10009480	FUN_10009480	winsig.c	nearest file
+100094f0	FUN_100094f0	winsig.c	nearest file
+10009500	FUN_10009500	winsig.c	nearest file
+100095b0	FUN_100095b0	winsig.c	nearest file
+100097a0	FUN_100097a0	winsig.c	nearest file
+10009810	FUN_10009810	winsig.c	nearest file
+10009890	FUN_10009890	winsig.c	nearest file
+100098a0	FUN_100098a0	winsig.c	nearest file
+100098b0	FUN_100098b0	winsig.c	nearest file
+100098d0	FUN_100098d0	winsig.c	nearest file
+10009930	FUN_10009930	winsig.c	nearest file
+10009990	FUN_10009990	winsig.c	nearest file
+100099f0	FUN_100099f0	winsig.c	nearest file
+10009fc0	FUN_10009fc0	winsig.c	nearest file
+1000a500	FUN_1000a500	sprintf.c	nearest file
+1000a610	FUN_1000a610	sprintf.c	nearest file
+1000a800	FUN_1000a800	sprintf.c	nearest file
+1000adf0	FUN_1000adf0	sprintf.c	nearest file
+1000af20	FUN_1000af20	sprintf.c	nearest file
+1000b540	FUN_1000b540	sprintf.c	names its file
+1000b640	FUN_1000b640	sprintf.c	nearest file
+1000b700	FUN_1000b700	sprintf.c	nearest file
+1000b7e0	FUN_1000b7e0	sprintf.c	nearest file
+1000b870	FUN_1000b870	_getbuf.c	nearest file
+1000baf0	FUN_1000baf0	_getbuf.c	names its file
+1000bbc0	FID_conflict:__open	_getbuf.c	nearest file
+1000bc00	FUN_1000bc00	_getbuf.c	nearest file
+1000c160	__XcptFilter	_getbuf.c	nearest file
+1000c320	FUN_1000c320	_getbuf.c	nearest file
+1000c380	FUN_1000c380	_getbuf.c	nearest file
+1000c6d0	getSystemCP	_flsbuf.c	nearest file
+1000c730	FUN_1000c730	_flsbuf.c	nearest file
+1000c7b0	setSBCS	_flsbuf.c	nearest file
+1000c830	FUN_1000c830	_flsbuf.c	nearest file
+1000cb40	FUN_1000cb40	_flsbuf.c	nearest file
+1000cb60	FUN_1000cb60	_flsbuf.c	nearest file
+1000cb90	__aulldiv	_flsbuf.c	nearest file
+1000cc00	__aullrem	_flsbuf.c	nearest file
+1000cc80	FUN_1000cc80	_flsbuf.c	names its file
+1000cf00	FUN_1000cf00	output.c	names its file
+1000dc30	FUN_1000dc30	chsize.c	nearest file
+1000dcb0	FUN_1000dcb0	chsize.c	nearest file
+1000dcf0	FUN_1000dcf0	chsize.c	nearest file
+1000dd40	FUN_1000dd40	chsize.c	nearest file
+1000dd60	FUN_1000dd60	chsize.c	nearest file
+1000dd80	FUN_1000dd80	chsize.c	nearest file
+1000dda0	FUN_1000dda0	chsize.c	nearest file
+1000e0e0	FUN_1000e0e0	chsize.c	nearest file
+1000e2a0	FUN_1000e2a0	chsize.c	nearest file
+1000e320	FUN_1000e320	chsize.c	names its file
+1000e550	FUN_1000e550	chsize.c	nearest file
+1000e860	FUN_1000e860	chsize.c	nearest file
+1000e8b0	__isatty	chsize.c	nearest file
+1000e8f0	FUN_1000e8f0	chsize.c	nearest file
+1000e970	FUN_1000e970	chsize.c	nearest file
+1000ea10	__global_unwind2	chsize.c	nearest file
+1000ea52	__local_unwind2	setlocal.c	nearest file
+1000eae6	FUN_1000eae6	setlocal.c	nearest file
+1000ebc5	FUN_1000ebc5	setlocal.c	nearest file
+1000ebe0	FUN_1000ebe0	setlocal.c	nearest file
+1000ec60	FUN_1000ec60	setlocal.c	nearest file
+1000ed30	__fptrap	setlocal.c	nearest file
+1000ed40	FUN_1000ed40	setlocal.c	nearest file
+1000f130	FUN_1000f130	setlocal.c	names its file
+1000f2d0	FUN_1000f2d0	setlocal.c	names its file
+1000f3d0	FUN_1000f3d0	setlocal.c	nearest file
+1000f560	FUN_1000f560	inittime.c	nearest file
+1000f570	__strcats	inittime.c	nearest file
+1000f5c0	FUN_1000f5c0	inittime.c	nearest file
+1000f720	___lc_lctostr	inittime.c	nearest file
+1000f790	___init_time	inittime.c	names its file
+1000f870	FUN_1000f870	inittime.c	nearest file
+1000fe00	___free_lc_time	initnum.c	nearest file
+10010110	FUN_10010110	initnum.c	names its file
+100103c0	fix_grouping	initmon.c	nearest file
+10010440	FUN_10010440	initmon.c	names its file
+10010570	FUN_10010570	initmon.c	nearest file
+10010780	fix_grouping	initctyp.c	nearest file
+10010800	FUN_10010800	initctyp.c	nearest file
+100108a0	FUN_100108a0	initctyp.c	names its file
+10010c40	FUN_10010c40	initctyp.c	nearest file
+10010c50	_strcmp	initctyp.c	nearest file
+10010ce0	FUN_10010ce0	initctyp.c	nearest file
+10010d20	_strncmp	initctyp.c	nearest file
+10010d60	FUN_10010d60	initctyp.c	nearest file
+10010da0	FUN_10010da0	initctyp.c	nearest file
+10010fa0	FUN_10010fa0	initctyp.c	nearest file
+10011030	FUN_10011030	initctyp.c	nearest file
+100110f0	FUN_100110f0	initctyp.c	nearest file
+10011420	FUN_10011420	initctyp.c	nearest file
+100114a0	FUN_100114a0	initctyp.c	nearest file
+100115c0	FUN_100115c0	initctyp.c	nearest file
+10011610	FUN_10011610	initctyp.c	nearest file
+100116c0	FUN_100116c0	initctyp.c	nearest file
+100116f0	FUN_100116f0	initctyp.c	nearest file
+10011790	FUN_10011790	initctyp.c	nearest file
+100117e0	FUN_100117e0	initctyp.c	nearest file
+10011870	FUN_10011870	initctyp.c	nearest file
+100118c0	crtGetLocaleInfoA	initctyp.c	nearest file
+10011a50	FUN_10011a50	initctyp.c	nearest file
+10011ad0	_GetPrimaryLen	initctyp.c	nearest file
+10011b40	FUN_10011b40	initctyp.c	nearest file
+10011c70	FUN_10011c70	inithelp.c	nearest file
+10011da0	FUN_10011da0	inithelp.c	nearest file
+10012110	FUN_10012110	inithelp.c	nearest file
+10012130	FUN_10012130	inithelp.c	nearest file
+100122c0	FUN_100122c0	inithelp.c	nearest file
+100128e0	FID_conflict:_store_str	inithelp.c	nearest file
+10012930	FUN_10012930	inithelp.c	nearest file
+100129e0	FID_conflict:_store_number	inithelp.c	nearest file
+10012a90	FUN_10012a90	inithelp.c	nearest file
+10012fb0	FUN_10012fb0	inithelp.c	names its file
+10013240	FUN_10013240	inithelp.c	nearest file
+10013250	FUN_10013250	inithelp.c	nearest file
+100134c0	FUN_100134c0	tzset.c	nearest file
+10013590	FUN_10013590	tzset.c	nearest file
+100136a0	FUN_100136a0	tzset.c	nearest file
+100137a0	FUN_100137a0	tzset.c	nearest file
+100137c0	FUN_100137c0	tzset.c	nearest file
+100138f0	FUN_100138f0	tzset.c	nearest file
+10013930	FUN_10013930	tzset.c	nearest file
+10013950	FUN_10013950	tzset.c	names its file
+10013d00	FUN_10013d00	tzset.c	nearest file
+10013d30	FUN_10013d30	tzset.c	nearest file
+10014030	FUN_10014030	tzset.c	nearest file
+10014230	FUN_10014230	wtombenv.c	nearest file
+100143d0	FUN_100143d0	wtombenv.c	nearest file
+10014580	FUN_10014580	wtombenv.c	nearest file
+10014590	FUN_10014590	wtombenv.c	nearest file
+10014630	FUN_10014630	wtombenv.c	nearest file
+10014760	__allmul	wtombenv.c	nearest file
+100147a0	FUN_100147a0	wtombenv.c	nearest file
+100147d0	FID_conflict:__getenv_lk	wtombenv.c	nearest file
+100148a0	__mbsnbicoll	wtombenv.c	nearest file
+100148f0	FUN_100148f0	wtombenv.c	names its file
+100149a0	FUN_100149a0	a_cmp.c	names its file
+10014da0	FUN_10014da0	setenv.c	nearest file
+10014df0	FUN_10014df0	setenv.c	names its file
+100150d0	findenv	setenv.c	between functions of the file
+10015150	copy_environ	setenv.c	names its file
+10015240	FUN_10015240	setenv.c	nearest file
+10015340	_strchr	setenv.c	nearest file
+10015574	RtlUnwind	setenv.c	nearest file
+100155d0	FUN_100155d0	setenv.c	nearest file
+10015690	FUN_10015690	setenv.c	nearest file
