@@ -1,0 +1,4 @@
+# Structure fields inferred by tools/InferStructs.java (merged by
+# tools/merge_structs.py). Generated: name fields in structs.tsv instead,
+# which takes precedence over this file.
+struct	offset	type	name	comment
