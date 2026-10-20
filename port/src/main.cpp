@@ -13,6 +13,7 @@
 
 #include "gfx/png.h"
 #include "platform/sys.h"
+#include "race/race_view.h"
 #include "res/archive.h"
 #include "res/discimage.h"
 #include "res/image.h"
@@ -46,6 +47,8 @@ static int usage()
 		"  --save <dir>         where options and players go (default: user data folder)\n"
 		"  --scale <n>          window size as a multiple of 800x600\n"
 		"  --screenshot <file>  draw the main menu, save it as PNG and exit\n"
+		"  --race-view <stage>  fly along a stage's road (0..11; tests the 3D code)\n"
+		"  --league <n>         the league (0..2) for --race-view\n"
 		"  --script <file>      scripted input for testing (see platform/sys.cpp)\n"
 		"\n"
 		"Without --data the game looks for its files itself: unpacked from a CD image on an\n"
@@ -127,6 +130,7 @@ static std::string find_data()
 struct Args {
 	std::string data, save, script, screenshot;
 	int scale = 1;
+	int race_view = -1, league = 0;
 };
 
 static bool parse_args(int argc, char **argv, Args &a)
@@ -147,6 +151,10 @@ static bool parse_args(int argc, char **argv, Args &a)
 			a.screenshot = v;
 		else if (opt == "--scale" && (v = value()))
 			a.scale = atoi(v);
+		else if (opt == "--race-view" && (v = value()))
+			a.race_view = atoi(v);
+		else if (opt == "--league" && (v = value()))
+			a.league = atoi(v);
 		else if (!opt.empty() && opt[0] != '-')
 			a.data = opt; /* a CD image or folder dropped onto the executable */
 		else
@@ -190,6 +198,15 @@ int main(int argc, char **argv)
 	if (!sys_init("A2 Racer 4", opt))
 		return fatal(std::string("Cannot open the window: ") + SDL_GetError());
 	sys_set_screenshot(save_screen);
+
+	if (args.race_view >= 0) {
+		NamedArchive rcs;
+		if (!rcs.open(game, "rcs"))
+			return fatal("Cannot read the race's archive (rcs.IND/.IMG) in " + game + ".");
+		int r = race_view(game, rcs, args.race_view, args.league);
+		sys_shutdown();
+		return r;
+	}
 
 	/* The main menu's background (Menu.exe's TfrmMainScreen). */
 	std::vector<uint8_t> bytes;

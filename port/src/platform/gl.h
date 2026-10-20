@@ -37,6 +37,9 @@
 	X(void, Color4f, (GLfloat r, GLfloat g, GLfloat b, GLfloat a)) \
 	X(void, Color4ub, (GLubyte r, GLubyte g, GLubyte b, GLubyte a)) \
 	X(void, Vertex3f, (GLfloat x, GLfloat y, GLfloat z)) \
+	X(void, Translatef, (GLfloat x, GLfloat y, GLfloat z)) \
+	X(void, PushMatrix, (void)) \
+	X(void, PopMatrix, (void)) \
 	X(void, ColorPointer, (GLint size, GLenum type, GLsizei stride, const void *ptr)) \
 	X(void, EnableClientState, (GLenum array)) \
 	X(void, DisableClientState, (GLenum array)) \
@@ -93,6 +96,9 @@ A2_GL_FUNCS(A2_GL_DECLARE)
 #define glColor4f a2_glColor4f
 #define glColor4ub a2_glColor4ub
 #define glVertex3f a2_glVertex3f
+#define glTranslatef a2_glTranslatef
+#define glPushMatrix a2_glPushMatrix
+#define glPopMatrix a2_glPopMatrix
 #define glColorPointer a2_glColorPointer
 #define glEnableClientState a2_glEnableClientState
 #define glDisableClientState a2_glDisableClientState

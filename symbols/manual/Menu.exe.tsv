@@ -1,0 +1,71 @@
+# Hand-assigned names for Menu.exe (Delphi). Columns as in tools/merge_names.py; empty
+# cc/ret/params keep recovered values. Delphi's run-time library (System, SysUtils,
+# Classes, Controls) has no metadata of its own; these are named from their code.
+address	kind	name	cc	ret	params	dtype	mangled
+# --- System: strings (AnsiString: refcount at -8, length at -4) ------------------------
+00403c5c	function	System._LStrClr
+00403c80	function	System._LStrArrayClr
+00403cb0	function	System._LStrAsg
+00403cf4	function	System._LStrLAsg
+00403d20	function	System._NewAnsiString
+00403d44	function	System._LStrFromPCharLen
+00403e04	function	System._LStrFromChar
+00403e80	function	System._LStrFromString
+00403edc	function	System._LStrLen
+00403ee4	function	System._LStrCat
+00403f28	function	System._LStrCat3
+00403f9c	function	System._LStrCatN
+00403fec	function	System._LStrCmp
+004040a0	function	System._LStrToPChar
+00404090	function	System._LStrAddRef
+004040e4	function	System._LStrCopy
+# --- System: objects, classes, memory, errors -----------------------------------------
+00402ee4	function	System.TObject.ClassName
+00402f6c	function	System.TObject.Create
+00402f9c	function	System.TObject.Free
+00403114	function	System._IsClass
+0040312c	function	System._AsClass
+00403178	function	System._CallDynaInst
+0040329c	function	System._ClassCreate
+004032ec	function	System._ClassDestroy
+004032f4	function	System._AfterConstruction
+004032fc	function	System._BeforeDestruction
+0040277c	function	System._GetMem
+00402794	function	System._FreeMem
+004028d8	function	System.Move
+00402c30	function	System.FillChar
+00402808	function	System._RunError
+004036f4	function	System._RaiseExcept
+00403c40	function	System._Assert
+00405860	function	System._IntfClear
+# --- SysUtils --------------------------------------------------------------------------
+00405808	function	System.LoadResString
+004085ac	function	SysUtils.IntToStr
+0040873c	function	SysUtils.FileAge
+004087a4	function	SysUtils.FileExists
+00409254	function	SysUtils.Format
+00409268	function	SysUtils.FmtStr
+0040b5d8	function	SysUtils.Exception.Create
+0040b614	function	SysUtils.Exception.CreateFmt
+0040b694	function	SysUtils.Exception.CreateRes
+0040c968	function	SysUtils.FreeAndNil
+# --- Classes, Controls, Forms ------------------------------------------------------------
+0040f7d0	function	Classes.Point
+0040f7e8	function	Classes.Rect
+00410104	function	Classes.TList.Add
+00410150	function	Classes.TList.Delete
+004102b0	function	Classes.TList.Get
+0041030c	function	Classes.TList.IndexOf
+0042f720	function	Controls.TControl.Perform
+00431780	function	Controls.TWinControl.GetControl
+004317bc	function	Controls.TWinControl.GetControlCount
+004349e0	function	Controls.TWinControl.GetHandle
+00434cdc	function	Controls.TWinControl.HandleAllocated
+00444864	function	Forms.GetParentForm
+# --- the menu's own --------------------------------------------------------------------
+0045f46c	function	Debug
+0045fb90	function	TDebug.InProc
+0045fe88	function	TDebug.Message
+# Looks a form class up among the forms already made (SingletonForm unit) and makes it
+# on first use: how every screen is shown.
+0048f760	function	GetSingletonForm

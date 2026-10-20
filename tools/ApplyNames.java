@@ -7,6 +7,9 @@
 //        re-applies the symbols (analysis can drop signatures), then defines short strings
 //        and floating-point constants
 //
+// After analysis, a Visual C++ method (it reads ECX, the this pointer, before writing it)
+// gets __thiscall, so the decompiler shows it as this rather than in_ECX.
+//
 // A last argument "delphi" (both runs): after analysis, every function whose convention
 // nothing else settled gets Delphi's "register" convention (__register in Ghidra's Delphi
 // compiler spec, which the PE loader picks for Delphi programs: EAX, EDX, ECX, then the
@@ -73,6 +76,9 @@ public class ApplyNames extends GhidraScript {
 			defineFloatConstants();
 			if (delphi) {
 				registerConvention();
+			}
+			else {
+				thiscallConvention();
 			}
 		}
 	}
@@ -567,5 +573,56 @@ public class ApplyNames extends GhidraScript {
 			n++;
 		}
 		println("ApplyNames post: " + n + " functions given Delphi's register convention");
+	}
+
+	// ---- post: Visual C++ methods -------------------------------------------------------
+
+	private void thiscallConvention() throws Exception {
+		if (currentProgram.getCompilerSpec().getCallingConvention("__thiscall") == null) {
+			return;
+		}
+		int n = 0;
+		for (Function f : currentProgram.getFunctionManager().getFunctions(true)) {
+			if (f.isExternal() || f.isThunk() || f.getTags().stream().anyMatch(t -> t.getName().equals(SIG_TAG)) ||
+				f.getSignatureSource().isHigherPriorityThan(SourceType.ANALYSIS) ||
+				"__thiscall".equals(f.getCallingConventionName()) || !readsEcxFirst(f)) {
+				continue;
+			}
+			f.setCallingConvention("__thiscall");
+			n++;
+		}
+		println("ApplyNames post: " + n + " functions given __thiscall (they read ECX before setting it)");
+	}
+
+	/** Whether ECX is read on the straight path from the entry before it is written or a call. */
+	private boolean readsEcxFirst(Function f) {
+		ghidra.program.model.lang.Register ecx = currentProgram.getRegister("ECX");
+		Instruction in = getInstructionAt(f.getEntryPoint());
+		for (int k = 0; in != null && k < 48; k++, in = in.getNext()) {
+			if (!f.getBody().contains(in.getAddress()) || in.getFlowType().isCall()) {
+				return false;
+			}
+			String m = in.getMnemonicString().toUpperCase();
+			boolean zeroing = (m.equals("XOR") || m.equals("SUB")) && in.getNumOperands() == 2 &&
+				in.getDefaultOperandRepresentation(0).equals(in.getDefaultOperandRepresentation(1));
+			if (!zeroing) {
+				for (Object o : in.getInputObjects()) {
+					if (o instanceof ghidra.program.model.lang.Register &&
+						((ghidra.program.model.lang.Register) o).getBaseRegister().equals(ecx)) {
+						return true;
+					}
+				}
+			}
+			for (Object o : in.getResultObjects()) {
+				if (o instanceof ghidra.program.model.lang.Register &&
+					((ghidra.program.model.lang.Register) o).getBaseRegister().equals(ecx)) {
+					return false;
+				}
+			}
+			if (in.getFlowType().isJump() || in.getFlowType().isTerminal()) {
+				return false;
+			}
+		}
+		return false;
 	}
 }

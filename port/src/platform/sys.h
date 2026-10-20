@@ -41,6 +41,11 @@ bool sys_init(const char *title, const SysOptions &opt);
 void sys_shutdown();
 /* Shows an 800x600 picture, one 32-bit pixel per entry with bytes R, G, B, A in memory. */
 void sys_present(const uint32_t *rgba);
+/* A 3D frame (the race): clears the window and sets the viewport to the 4:3 picture area
+ * (letterboxed); w and h receive its size in pixels. False without OpenGL. */
+bool sys_gl_begin_frame(int &w, int &h);
+/* Shows the frame (saving it first when the script asked for a "glshot"). */
+void sys_gl_end_frame();
 /* Gathers input since the last call. */
 void sys_poll(SysInput &in);
 /* The window was closed (or the process asked to stop); stays true from then on. */

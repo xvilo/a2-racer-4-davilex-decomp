@@ -18,6 +18,12 @@ add_executable(a2racer4 WIN32
 	src/res/discimage.cpp
 	src/res/image.cpp
 	src/gfx/png.cpp
+	src/xvga/inifile.cpp
+	src/engine/mesh.cpp
+	src/engine/road.cpp
+	src/engine/texture.cpp
+	src/game/track.cpp
+	src/race/race_view.cpp
 )
 target_include_directories(a2racer4 PRIVATE src)
 # SDL2main (WinMain -> main) has to come before SDL2 for MinGW's linker.

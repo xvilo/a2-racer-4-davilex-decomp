@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 
+#include "gfx/png.h"
 #include "platform/gl.h"
 
 static SDL_Window *window;
@@ -30,6 +31,7 @@ static bool quit_requested;
  *   text <string>     type text
  *   click <x> <y>     left click at an 800x600 position
  *   shot <file.png>   save the screen
+ *   glshot <file.png> save the next 3D frame as drawn
  *   quit              close the window
  */
 static std::vector<std::string> script_lines;
@@ -38,6 +40,7 @@ static uint32_t script_resume;
 static SysScreenshotFn screenshot_fn;
 static SDL_Scancode fake_key = SDL_SCANCODE_UNKNOWN; /* held for keyispressed */
 static uint32_t fake_key_until;
+static std::string glshot_path;
 static SDL_Scancode held_key[4];
 static uint32_t held_until[4];
 
@@ -139,6 +142,9 @@ static void run_script()
 		else if (!strncmp(cmd, "shot ", 5)) {
 			if (screenshot_fn)
 				screenshot_fn(cmd + 5);
+		}
+		else if (!strncmp(cmd, "glshot ", 7)) {
+			glshot_path = cmd + 7;
 		}
 		else if (!strcmp(cmd, "quit")) {
 			e.type = SDL_QUIT;
@@ -293,6 +299,48 @@ void sys_present(const uint32_t *rgba)
 	glVertex2f(0, SCREEN_H);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	SDL_GL_SwapWindow(window);
+}
+
+bool sys_gl_begin_frame(int &w, int &h)
+{
+	if (headless || !gl_context)
+		return false;
+	int ww, wh;
+	SDL_GL_GetDrawableSize(window, &ww, &wh);
+	glViewport(0, 0, ww, wh);
+	glDisable(GL_SCISSOR_TEST);
+	glClearColor(0, 0, 0, 1);
+	glDepthMask(GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	SDL_Rect r = fit_4_3(ww, wh);
+	glViewport(r.x, r.y, r.w, r.h);
+	glScissor(r.x, r.y, r.w, r.h);
+	glEnable(GL_SCISSOR_TEST);
+	w = r.w;
+	h = r.h;
+	return true;
+}
+
+void sys_gl_end_frame()
+{
+	if (headless || !gl_context)
+		return;
+	glDisable(GL_SCISSOR_TEST);
+	if (!glshot_path.empty()) {
+		int ww, wh;
+		SDL_GL_GetDrawableSize(window, &ww, &wh);
+		SDL_Rect r = fit_4_3(ww, wh);
+		std::vector<uint32_t> px((size_t)r.w * r.h), flipped(px.size());
+		glPixelStorei(GL_PACK_ALIGNMENT, 4);
+		glReadPixels(r.x, r.y, r.w, r.h, GL_RGBA, GL_UNSIGNED_BYTE, px.data());
+		for (int y = 0; y < r.h; y++)
+			memcpy(&flipped[(size_t)y * r.w], &px[(size_t)(r.h - 1 - y) * r.w], (size_t)r.w * 4);
+		for (uint32_t &p : flipped)
+			p |= 0xff000000u; /* opaque: RGBA bytes, A last */
+		png_write_rgba(glshot_path.c_str(), flipped.data(), r.w, r.h);
+		glshot_path.clear();
+	}
 	SDL_GL_SwapWindow(window);
 }
 
