@@ -19,7 +19,8 @@ int * TDaviCustomLinkLabel_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -34,7 +35,7 @@ int * TDaviCustomLinkLabel_virtual_02c(int *param_1,char param_2,int *param_3)
   TFont_SetStyle((int *)param_1[0x4e],4);
   TFont_SetColor((int *)param_1[0x4e],0xff,extraout_ECX_03);
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -49,12 +50,12 @@ void TDaviCustomLinkLabel_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[0x4e]);
-  FUN_00402f9c((int *)piVar1[0x4f]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[0x4e]);
+  System_TObject_Free((int *)piVar1[0x4f]);
   TGraphicControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -159,18 +160,18 @@ void FUN_00477314(int *param_1,undefined4 param_2)
       lprc_val = (tagRECT *)((int)lprc_val + ((uint)bVar9 * -2 + 1) * 4);
       pLVar8 = pLVar8 + (uint)bVar9 * -2 + 1;
     }
-    FUN_00403178(param_1,local_2c,format_val | 0x400);
+    System__CallDynaInst(param_1,local_2c,format_val | 0x400);
     if (*(char *)((int)param_1 + 0x12e) == '\x02') {
       uVar2 = param_1[0xf] - local_20;
       if (SBORROW4(param_1[0xf],local_20)) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       OffsetRect(&local_1c,0,uVar2);
     }
     else {
       uVar2 = param_1[0xf] - local_20;
       if (SBORROW4(param_1[0xf],local_20)) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       i_val = (int)uVar2 >> 1;
       if (i_val < 0) {
@@ -187,7 +188,7 @@ void FUN_00477314(int *param_1,undefined4 param_2)
     i_val = 0;
     puVar6 = local_c;
     if (*(int *)(local_c + -4) == 0) {
-      i_val = thunk_FUN_00402808(0);
+      i_val = System__RunError(0);
       uVar5 = extraout_ECX_00;
       puVar6 = extraout_EDX;
     }
@@ -195,13 +196,13 @@ void FUN_00477314(int *param_1,undefined4 param_2)
     i_val = 1;
     puVar6 = local_c;
     if (*(uint *)(local_c + -4) < 2) {
-      i_val = thunk_FUN_00402808(1);
+      i_val = System__RunError(1);
       uVar5 = extraout_ECX_01;
       puVar6 = extraout_EDX_00;
     }
     if (puVar6[i_val] != '\0') goto LAB_00477485;
   }
-  FUN_00403ee4((int *)&local_c,(undefined4 *)&DAT_004775b8);
+  System__LStrCat((int *)&local_c,(undefined4 *)&DAT_004775b8);
   uVar5 = extraout_ECX_02;
 LAB_00477485:
   if ((char)param_1[0x4c] == '\0') {
@@ -214,39 +215,39 @@ LAB_00477485:
     OffsetRect(&local_1c,1,1);
     uVar2 = TFont_SetColor(*(int **)(param_1[0x48] + 0xc),-0x7fffffec,extraout_ECX_03);
     if ((int)format_val < 0) {
-      thunk_FUN_00402808(uVar2);
+      System__RunError(uVar2);
     }
     lprc_val = &local_1c;
     uVar2 = format_val;
-    i_val = FUN_00403edc((int)local_c);
-    lpchText = FUN_004040a0(local_c);
+    i_val = System__LStrLen((int)local_c);
+    lpchText = System__LStrToPChar(local_c);
     pCVar4 = lpchText;
     pHVar3 = (HDC)FUN_004194d8((int *)param_1[0x48]);
     DrawTextA(pHVar3,pCVar4,i_val,lprc_val,uVar2);
     OffsetRect(&local_1c,-1,-1);
     uVar2 = TFont_SetColor(*(int **)(param_1[0x48] + 0xc),-0x7ffffff0,extraout_ECX_04);
     if ((int)format_val < 0) {
-      thunk_FUN_00402808(uVar2);
+      System__RunError(uVar2);
     }
     lprc_val = &local_1c;
-    i_val = FUN_00403edc((int)local_c);
+    i_val = System__LStrLen((int)local_c);
     pHVar3 = (HDC)FUN_004194d8((int *)param_1[0x48]);
     DrawTextA(pHVar3,lpchText,i_val,lprc_val,format_val);
   }
   else {
     if ((int)format_val < 0) {
-      thunk_FUN_00402808(uVar2);
+      System__RunError(uVar2);
     }
     lprc_val = &local_1c;
-    i_val = FUN_00403edc((int)local_c);
-    pCVar4 = FUN_004040a0(local_c);
+    i_val = System__LStrLen((int)local_c);
+    pCVar4 = System__LStrToPChar(local_c);
     pHVar3 = (HDC)FUN_004194d8((int *)param_1[0x48]);
     DrawTextA(pHVar3,pCVar4,i_val,lprc_val,format_val);
   }
   *in_FS_OFFSET = uStack_54;
   puStack_4c = &LAB_004775a8;
   puStack_50 = (undefined1 *)0x4775a0;
-  FUN_00403c5c((int *)&local_c);
+  System__LStrClr((int *)&local_c);
   return;
 }
 

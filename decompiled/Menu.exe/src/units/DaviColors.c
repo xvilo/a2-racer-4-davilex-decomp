@@ -20,7 +20,8 @@ void TDaviColors_virtual_00c(int *param_1,char param_2,int param_3)
   local_8 = 0;
   if (param_2 != '\0') {
     puStackY_128 = (undefined1 *)0x472b91;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffedc,in_stack_fffffee0);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffedc,
+                                         in_stack_fffffee0);
     param_3 = extraout_ECX;
   }
   puStackY_12c = &LAB_00472c36;
@@ -30,13 +31,13 @@ void TDaviColors_virtual_00c(int *param_1,char param_2,int param_3)
   puStackY_128 = &stack0xfffffffc;
   if (param_3 == 0) {
     puStackY_128 = &stack0xfffffffc;
-    FUN_00402ee4(*param_1,local_108);
-    FUN_00403e80(&local_8,local_108);
-    FUN_00403ee4(&local_8,(undefined4 *)".Create: aControl must be assigned");
-    FUN_00403c40(local_8);
+    System_TObject_ClassName(*param_1,local_108);
+    System__LStrFromString(&local_8,local_108);
+    System__LStrCat(&local_8,(undefined4 *)".Create: aControl must be assigned");
+    System__Assert(local_8);
     iVar1 = extraout_ECX_00;
   }
-  FUN_00402f6c(param_1,'\0',iVar1);
+  System_TObject_Create(param_1,'\0',iVar1);
   param_1[1] = param_3;
   param_1[2] = -0x7ffffff1;
   param_1[3] = -0x7ffffff0;
@@ -48,7 +49,7 @@ void TDaviColors_virtual_00c(int *param_1,char param_2,int param_3)
   *in_FS_OFFSET = uStackY_130;
   puStackY_128 = &LAB_00472c3d;
   puStackY_12c = (undefined1 *)0x472c35;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -67,16 +68,16 @@ void FUN_00472cb0(int param_1)
   
   (**(code **)(**(int **)(param_1 + 4) + 0x74))();
   piVar2 = *(int **)(param_1 + 4);
-  uVar1 = FUN_00403114(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar1 = System__IsClass(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   if ((char)uVar1 != '\0') {
     lParam = 0;
     wParam = 0;
     Msg = 0x85;
-    piVar2 = (int *)FUN_0040312c(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
-    hWnd = (HWND)FUN_004349e0(piVar2);
+    piVar2 = (int *)System__AsClass(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(piVar2);
     PostMessageA(hWnd,Msg,wParam,lParam);
   }
-  FUN_0042f720(*(int *)(param_1 + 4),0x1401,0,0);
+  Controls_TControl_Perform(*(int *)(param_1 + 4),0x1401,0,0);
   return;
 }
 
@@ -182,41 +183,41 @@ void TDaviColors_virtual_008(int *param_1,int *param_2)
   *in_FS_OFFSET = &uStack_124;
   puVar1 = &stack0xfffffffc;
   if (param_2 == (int *)0x0) {
-    FUN_00402ee4(*param_1,local_108);
-    FUN_00403e80(&local_8,local_108);
-    FUN_00403ee4(&local_8,(undefined4 *)".Assign: aSource not assigned.");
-    FUN_00403c40(local_8);
+    System_TObject_ClassName(*param_1,local_108);
+    System__LStrFromString(&local_8,local_108);
+    System__LStrCat(&local_8,(undefined4 *)".Assign: aSource not assigned.");
+    System__Assert(local_8);
     puVar1 = puStack_11c;
   }
   puStack_11c = puVar1;
-  uVar2 = FUN_00403114(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  uVar2 = System__IsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   if ((char)uVar2 == '\0') {
-    FUN_00402ee4(*param_1,local_108);
-    FUN_00403e80(&local_10c,local_108);
-    FUN_00403ee4(&local_10c,(undefined4 *)".Assign: aSource not a TDaviColors.");
-    FUN_00403c40(local_10c);
+    System_TObject_ClassName(*param_1,local_108);
+    System__LStrFromString(&local_10c,local_108);
+    System__LStrCat(&local_10c,(undefined4 *)".Assign: aSource not a TDaviColors.");
+    System__Assert(local_10c);
   }
-  iVar3 = FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  iVar3 = System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[2] = *(int *)(iVar3 + 8);
-  FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[3] = *(int *)(iVar3 + 0xc);
-  FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[4] = *(int *)(iVar3 + 0x10);
-  FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[5] = *(int *)(iVar3 + 0x14);
-  FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[6] = *(int *)(iVar3 + 0x18);
-  FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[7] = *(int *)(iVar3 + 0x1c);
-  FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
+  System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00472a1c);
   param_1[8] = *(int *)(iVar3 + 0x20);
   FUN_00472cb0((int)param_1);
   *in_FS_OFFSET = uStack_124;
   puStack_11c = &LAB_00472eed;
   puStack_120 = (undefined1 *)0x472edd;
-  FUN_00403c5c(&local_10c);
+  System__LStrClr(&local_10c);
   puStack_120 = (undefined1 *)0x472ee5;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 

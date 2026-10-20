@@ -47,7 +47,8 @@ int * TCustomImageList_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe8,in_stack_ffffffec);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe8,
+                                         in_stack_ffffffec);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
@@ -56,7 +57,7 @@ int * TCustomImageList_virtual_02c(int *param_1,char param_2,int *param_3)
   param_1[9] = 0x10;
   (**(code **)(*param_1 + 0x34))();
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe8;
   }
   return param_1;
@@ -77,7 +78,8 @@ int * FUN_0043a26c(int *param_1,char param_2,int param_3,int param_4)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
@@ -86,7 +88,7 @@ int * FUN_0043a26c(int *param_1,char param_2,int param_3,int param_4)
   param_1[9] = param_4;
   (**(code **)(*param_1 + 0x34))();
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -102,21 +104,21 @@ void TCustomImageList_Destroy(int *param_1,char param_2)
   int iVar2;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   while (0 < (int)((undefined4 *)piVar1[0x10])[2]) {
     iVar2 = FUN_00410398((undefined4 *)piVar1[0x10]);
     FUN_0043b2a0((int)piVar1,iVar2);
   }
-  FUN_00402f9c((int *)piVar1[0x11]);
+  System_TObject_Free((int *)piVar1[0x11]);
   FUN_0043a61c(piVar1);
-  FUN_00402f9c((int *)piVar1[0x10]);
+  System_TObject_Free((int *)piVar1[0x10]);
   piVar1[0x10] = 0;
   if ((int *)piVar1[0x12] != (int *)0x0) {
-    FUN_00402f9c((int *)piVar1[0x12]);
+    System_TObject_Free((int *)piVar1[0x12]);
   }
   TComponent_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -147,13 +149,13 @@ void TCustomImageList_virtual_034(int *param_1,undefined4 param_2,undefined4 par
   puStack_14 = &LAB_0043a3d9;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
-  iVar1 = FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
+  iVar1 = System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
   param_1[0x10] = iVar1;
   if (((param_1[9] < 1) || (0x8000 < param_1[9])) ||
      (uVar3 = extraout_ECX, uVar4 = extraout_EDX, param_1[10] < 1)) {
-    FUN_00405808((undefined4 *)PTR_PTR_004ab708,(int *)&local_8);
-    piVar2 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_8);
-    FUN_004036f4(piVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab708,(int *)&local_8);
+    piVar2 = SysUtils_Exception_Create((int *)&DAT_0040ea0c,'\x01',local_8);
+    System__RaiseExcept(piVar2);
     uVar3 = extraout_ECX_00;
     uVar4 = extraout_EDX_00;
   }
@@ -169,7 +171,7 @@ void TCustomImageList_virtual_034(int *param_1,undefined4 param_2,undefined4 par
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0043a3e0;
   puStack_14 = (undefined1 *)0x43a3d8;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -224,7 +226,7 @@ void FUN_0043a3f8(int param_1)
   uVar2 = (**(code **)(*piVar4 + 0x20))();
   pRVar5 = &local_1c;
   uVar3 = (**(code **)(*piVar4 + 0x2c))();
-  FUN_0040f7e8(0,0,uVar3,&pRVar5->left,uVar2);
+  Classes_Rect(0,0,uVar3,&pRVar5->left,uVar2);
   pRVar5 = &local_1c;
   piVar4 = (int *)FUN_0041df1c(piVar4);
   FUN_0041907c(piVar4,pRVar5);
@@ -274,7 +276,7 @@ void TCustomImageList_virtual_030
       }
       i_val = FUN_0041df1c(*(int **)(param_1 + 0x48));
       TBrush_SetColor(*(int **)(i_val + 0x14),0xffffff);
-      FUN_0040f7e8(0,0,*(undefined4 *)(param_1 + 0x28),&local_2c.left,
+      Classes_Rect(0,0,*(undefined4 *)(param_1 + 0x28),&local_2c.left,
                    *(undefined4 *)(param_1 + 0x24));
       lprc_val = &local_2c;
       piVar5 = (int *)FUN_0041df1c(*(int **)(param_1 + 0x48));
@@ -291,7 +293,7 @@ void TCustomImageList_virtual_030
       i_val = local_8;
       p_Var4 = (HIMAGELIST)FUN_0043a5b8(param_1);
       ImageList_DrawEx(p_Var4,i_val,pHVar2,iVar6,iVar7,dx,dy,CVar3,rgbFg,fStyle);
-      FUN_0040f7e8(x_val,y_val,x_val + *(int *)(param_1 + 0x28),local_1c,
+      Classes_Rect(x_val,y_val,x_val + *(int *)(param_1 + 0x28),local_1c,
                    y_val + *(int *)(param_1 + 0x24));
       piVar5 = (int *)FUN_0041df1c(*(int **)(param_1 + 0x48));
       hdc_src = (HDC)FUN_004194d8(piVar5);
@@ -377,7 +379,7 @@ void FUN_0043ae84(int param_1,HIMAGELIST param_2)
   uStack_3c = 0x43aead;
   himl_val = param_2;
   local_8 = param_1;
-  FUN_0040f7e8(0,0,*(undefined4 *)(param_1 + 0x28),&local_24.left,*(undefined4 *)(param_1 + 0x24));
+  Classes_Rect(0,0,*(undefined4 *)(param_1 + 0x28),&local_24.left,*(undefined4 *)(param_1 + 0x24));
   FUN_0043b8f4(local_8);
   uStack_3c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_3c;
@@ -427,7 +429,7 @@ void FUN_0043ae84(int param_1,HIMAGELIST param_2)
   *in_FS_OFFSET = uStack_54;
   puStack_4c = &LAB_0043afd9;
   puStack_50 = (undefined1 *)0x43afd1;
-  FUN_00402f9c(local_14);
+  System_TObject_Free(local_14);
   return;
 }
 
@@ -467,7 +469,7 @@ void TCustomImageList_virtual_008(int *param_1,int *param_2)
     FUN_0043a61c(param_1);
     return;
   }
-  uVar2 = FUN_00403114(param_2,(int)&PTR_TCustomImageList_virtual_000_0043a15c);
+  uVar2 = System__IsClass(param_2,(int)&PTR_TCustomImageList_virtual_000_0043a15c);
   if ((char)uVar2 == '\0') {
     TPersistent_virtual_008(param_1,param_2);
   }
@@ -517,7 +519,7 @@ void TCustomImageList_virtual_000(int *param_1,int *param_2)
   int cx;
   int cy;
   
-  uVar2 = FUN_00403114(param_2,(int)&PTR_TCustomImageList_virtual_000_0043a15c);
+  uVar2 = System__IsClass(param_2,(int)&PTR_TCustomImageList_virtual_000_0043a15c);
   if ((char)uVar2 != '\0') {
     *(undefined1 *)((int)param_2 + 0x35) = *(undefined1 *)((int)param_1 + 0x35);
     *(undefined1 *)((int)param_2 + 0x37) = *(undefined1 *)((int)param_1 + 0x37);
@@ -555,7 +557,7 @@ void TCustomImageList_virtual_000(int *param_1,int *param_2)
 void TCustomImageList_virtual_038(undefined4 param_1,undefined4 *param_2)
 
 {
-  FUN_0040f7d0(0,0,param_2);
+  Classes_Point(0,0,param_2);
   return;
 }
 
@@ -577,8 +579,8 @@ void TCustomImageList_dynamic_fff0(int param_1)
        (i_val = *(int *)(*(int *)(param_1 + 0x40) + 8), -1 < i_val + -1)) {
       j = 0;
       do {
-        piVar1 = (int *)FUN_004102b0(*(undefined4 **)(param_1 + 0x40),j);
-        FUN_00403178(piVar1,extraout_EDX,extraout_ECX);
+        piVar1 = (int *)Classes_TList_Get(*(undefined4 **)(param_1 + 0x40),j);
+        System__CallDynaInst(piVar1,extraout_EDX,extraout_ECX);
         j = j + 1;
         i_val = i_val + -1;
       } while (i_val != 0);
@@ -604,10 +606,10 @@ void FUN_0043b2a0(int param_1,int param_2)
      (i_val = *(int *)(*(int *)(param_1 + 0x40) + 8), -1 < i_val + -1)) {
     j = 0;
     do {
-      iVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x40),j);
+      iVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x40),j);
       if (param_2 == iVar1) {
         *(undefined4 *)(param_2 + 4) = 0;
-        FUN_00410150(*(int **)(param_1 + 0x40),j);
+        Classes_TList_Delete(*(int **)(param_1 + 0x40),j);
         return;
       }
       j = j + 1;
@@ -625,7 +627,7 @@ void FUN_0043b2e4(int param_1,int param_2)
 {
   *(int *)(param_2 + 4) = param_1;
   if (*(int **)(param_1 + 0x40) != (int *)0x0) {
-    FUN_00410104(*(int **)(param_1 + 0x40),param_2);
+    Classes_TList_Add(*(int **)(param_1 + 0x40),param_2);
   }
   return;
 }
@@ -694,7 +696,8 @@ undefined1 FUN_0043b338(int param_1,int param_2)
         }
       }
       puStack_20 = (undefined1 *)0x43b391;
-      piVar4 = (int *)FUN_00402f6c((int *)&PTR_TMemoryStream_virtual_000_0040f194,'\x01',uVar6);
+      piVar4 = (int *)System_TObject_Create
+                                ((int *)&PTR_TMemoryStream_virtual_000_0040f194,'\x01',uVar6);
       puStack_24 = &LAB_0043b414;
       uStack_28 = *in_FS_OFFSET;
       *in_FS_OFFSET = &uStack_28;
@@ -702,8 +705,9 @@ undefined1 FUN_0043b338(int param_1,int param_2)
       puStack_20 = &stack0xfffffffc;
       FUN_0043b878(param_1,(int)piVar4);
       puStack_2c = (undefined1 *)0x43b3b8;
-      piVar5 = (int *)FUN_00402f6c((int *)&PTR_TMemoryStream_virtual_000_0040f194,'\x01',
-                                   extraout_ECX_01);
+      piVar5 = (int *)System_TObject_Create
+                                ((int *)&PTR_TMemoryStream_virtual_000_0040f194,'\x01',
+                                 extraout_ECX_01);
       puStack_30 = &LAB_0043b3f7;
       uStack_34 = *in_FS_OFFSET;
       *in_FS_OFFSET = &uStack_34;
@@ -713,7 +717,7 @@ undefined1 FUN_0043b338(int param_1,int param_2)
       *in_FS_OFFSET = uStack_34;
       puStack_2c = &LAB_0043b3fe;
       puStack_30 = (undefined1 *)0x43b3f6;
-      uVar1 = FUN_00402f9c(piVar5);
+      uVar1 = System_TObject_Free(piVar5);
       return uVar1;
     }
   }
@@ -737,7 +741,7 @@ bool FUN_0043b428(void)
     return 0 < iVar4;
   }
   piVar1 = *(int **)(*(int *)(in_stack_00000004 + -4) + 0x20);
-  uVar3 = FUN_00403114(piVar1,(int)&PTR_TCustomImageList_virtual_000_0043a15c);
+  uVar3 = System__IsClass(piVar1,(int)&PTR_TCustomImageList_virtual_000_0043a15c);
   if (((char)uVar3 != '\0') &&
      (cVar2 = FUN_0043b338(*(int *)(in_stack_00000004 + -8),(int)piVar1), cVar2 != '\0')) {
     return false;
@@ -837,7 +841,7 @@ void FUN_0043b4dc(int *param_1,int *param_2)
   (**(code **)(*local_18 + 0x40))(local_18,local_8[10]);
   (**(code **)(*local_18 + 0x34))(local_18,local_8[9]);
   uStack_74 = 0x43b5e5;
-  FUN_0040f7e8(0,0,local_8[10],local_34,local_8[9]);
+  Classes_Rect(0,0,local_8[10],local_34,local_8[9]);
   FUN_0043b8f4((int)local_8);
   uStack_74 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_74;
@@ -874,8 +878,8 @@ void FUN_0043b4dc(int *param_1,int *param_2)
     } while (i_val != 0);
   }
   *in_FS_OFFSET = uStack_74;
-  FUN_00402f9c(local_10);
-  FUN_00402f9c(local_18);
+  System_TObject_Free(local_10);
+  System_TObject_Free(local_18);
   FUN_0043b8f8(local_8,extraout_EDX,extraout_ECX_03);
   return;
 }
@@ -909,12 +913,13 @@ void FUN_0043b76c(int *param_1,int param_2)
   FUN_0043a57c(param_1,himl_val);
   iVar2 = FUN_0043a5b8((int)param_1);
   if (iVar2 == 0) {
-    piVar3 = FUN_0040b694((int *)&DAT_0040e6dc,'\x01',(undefined4 *)PTR_PTR_004ab900);
-    FUN_004036f4(piVar3);
+    piVar3 = SysUtils_Exception_CreateRes
+                       ((int *)&DAT_0040e6dc,'\x01',(undefined4 *)PTR_PTR_004ab900);
+    System__RaiseExcept(piVar3);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_14 = (undefined1 *)0x43b7e4;
-  FUN_00402f9c((int *)pIVar1);
+  System_TObject_Free((int *)pIVar1);
   return;
 }
 
@@ -946,12 +951,13 @@ void FUN_0043b878(int param_1,int param_2)
   himl = (HIMAGELIST)FUN_0043a5b8(param_1);
   BVar2 = ImageList_Write(himl,pstm);
   if (BVar2 == 0) {
-    piVar3 = FUN_0040b694((int *)&DAT_0040e734,'\x01',(undefined4 *)PTR_PTR_004ab790);
-    FUN_004036f4(piVar3);
+    piVar3 = SysUtils_Exception_CreateRes
+                       ((int *)&DAT_0040e734,'\x01',(undefined4 *)PTR_PTR_004ab790);
+    System__RaiseExcept(piVar3);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_14 = (undefined1 *)0x43b8e8;
-  FUN_00402f9c((int *)pIVar1);
+  System_TObject_Free((int *)pIVar1);
   return;
 }
 
@@ -976,7 +982,7 @@ void FUN_0043b8f8(int *param_1,undefined4 param_2,undefined4 param_3)
   }
   if ((char)param_1[0x13] != '\0') {
     *(undefined1 *)(param_1 + 0x13) = 0;
-    FUN_00403178(param_1,param_2,param_3);
+    System__CallDynaInst(param_1,param_2,param_3);
   }
   return;
 }
@@ -990,13 +996,13 @@ void TChangeLink_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   if (piVar1[1] != 0) {
     FUN_0043b2a0(piVar1[1],(int)piVar1);
   }
   TObject_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }

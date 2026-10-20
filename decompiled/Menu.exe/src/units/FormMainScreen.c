@@ -16,7 +16,7 @@ void TfrmMainScreen_FormShow(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_120;
   undefined1 *puStack_11c;
@@ -31,12 +31,12 @@ void TfrmMainScreen_FormShow(int *param_1)
   puStack_11c = &LAB_0049d9ab;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
   TBaseFormOneWay_FormShow((int)param_1);
   *(undefined1 *)(param_1 + 0xcf) = 0;
   FUN_0049dc40((int)param_1);
@@ -50,10 +50,10 @@ void TfrmMainScreen_FormShow(int *param_1)
     FUN_00489c28(*(int **)(*(int *)PTR_DAT_004ab694 + 0xb4),(int *)param_1[0xb7],
                  (undefined4 *)&DAT_0049d9f4);
   }
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "FormShow";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -93,7 +93,7 @@ void TfrmMainScreen_virtual_0fc(int *param_1)
   undefined1 *puVar1;
   char cVar2;
   int *piVar3;
-  uint uVar4;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
@@ -107,12 +107,12 @@ void TfrmMainScreen_virtual_0fc(int *param_1)
   *in_FS_OFFSET = &uStack_18;
   puVar1 = &stack0xfffffffc;
   if ((char)param_1[0xcf] != '\0') {
-    FUN_00403f28((int *)&local_8,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
-                 (undefined4 *)"static.ini");
+    System__LStrCat3((int *)&local_8,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
+                     (undefined4 *)"static.ini");
     TStatic_LoadFromIniFile(*(int **)(*(int *)PTR_DAT_004ab694 + 0xcc),local_8);
     piVar3 = (int *)(**(code **)(**(int **)(*(int *)PTR_DAT_004ab694 + 0xcc) + 8))();
-    uVar4 = FUN_0045f46c();
-    FUN_0045fd98(uVar4,0x49db34,piVar3);
+    debug = Debug();
+    FUN_0045fd98(debug,0x49db34,piVar3);
     puVar1 = puStack_10;
   }
   puStack_10 = puVar1;
@@ -127,7 +127,7 @@ void TfrmMainScreen_virtual_0fc(int *param_1)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0049db12;
   puStack_14 = (undefined1 *)0x49db0a;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -186,12 +186,12 @@ void FUN_0049dc40(int param_1)
   FUN_0048b2b4(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0),local_34);
   local_10 = local_34;
   local_c = 4;
-  FUN_00409254(*(byte **)(PTR_DAT_004ab8b4 + 0x20),&local_10,0,(int *)ppuVar1);
+  SysUtils_Format(*(byte **)(PTR_DAT_004ab8b4 + 0x20),&local_10,0,(int *)ppuVar1);
   TGroupBox_SetCaption(*(int *)(param_1 + 0x304),local_8);
   *in_FS_OFFSET = uStack_44;
   puStack_3c = &LAB_0049dcbc;
   puStack_40 = (undefined1 *)0x49dcb4;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -219,7 +219,7 @@ void TfrmMainScreen_Allcharslasttrack1Click(void)
   
   uVar1 = FUN_00462abc(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x3c));
   if (SBORROW4(uVar1,1)) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   iVar2 = FUN_0048d458(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x10));
   *(uint *)(iVar2 + 0xc) = uVar1 - 1;

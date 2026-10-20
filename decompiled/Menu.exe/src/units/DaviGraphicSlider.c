@@ -16,19 +16,20 @@ int * TDaviSliderNeedle_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar3 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar3 = extraout_DL;
   }
-  uVar1 = FUN_00403114(param_3,(int)&PTR_TWinControl_virtual_000_0046a048);
+  uVar1 = System__IsClass(param_3,(int)&PTR_TWinControl_virtual_000_0046a048);
   if ((char)uVar1 == '\0') {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   TDaviGraphicButton_virtual_02c(param_1,'\0',param_3);
-  iVar2 = FUN_0040312c(param_3,(int)&PTR_TWinControl_virtual_000_0046a048);
+  iVar2 = System__AsClass(param_3,(int)&PTR_TWinControl_virtual_000_0046a048);
   param_1[0x90] = iVar2;
   if (cVar3 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -43,10 +44,10 @@ void TDaviSliderNeedle_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   TDaviGraphicButton_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -57,7 +58,7 @@ void TDaviSliderNeedle_Destroy(int *param_1,char param_2)
 void TDaviSliderNeedle_dynamic_ffc0(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(*(int **)(param_1 + 0x240),param_2,param_3);
+  System__CallDynaInst(*(int **)(param_1 + 0x240),param_2,param_3);
   return;
 }
 
@@ -74,12 +75,12 @@ void TDaviSliderNeedle_dynamic_ffda
   uVar2 = TControl_dynamic_ffda((int)param_1,param_2,param_3,param_4,param_5);
   iVar1 = param_1[0xc];
   if (SCARRY4(param_5,param_1[0xc])) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
   }
   param_1[0x91] = param_5 + iVar1;
   iVar1 = param_1[0xd];
   if (SCARRY4(param_4,param_1[0xd])) {
-    thunk_FUN_00402808(uVar2);
+    System__RunError(uVar2);
   }
   param_1[0x92] = param_4 + iVar1;
   FUN_0042e950(param_1,'\x01');
@@ -107,37 +108,37 @@ void TDaviSliderNeedle_dynamic_ffd9(int *param_1,byte param_2,int param_3,int pa
   if ((param_2 & 8) != 0) {
     iVar7 = param_3 + param_1[0xc];
     if (SCARRY4(param_3,param_1[0xc])) {
-      uVar4 = thunk_FUN_00402808(uVar4);
+      uVar4 = System__RunError(uVar4);
     }
     iVar2 = param_1[0xd];
     if (SCARRY4(param_4,param_1[0xd])) {
-      thunk_FUN_00402808(uVar4);
+      System__RunError(uVar4);
     }
     if (iVar7 != param_1[0x91]) {
       iVar5 = TForm_GetClientWidth((int *)param_1[0x90]);
       uVar4 = iVar5 - param_1[0xe];
       if (SBORROW4(iVar5,param_1[0xe])) {
-        uVar4 = thunk_FUN_00402808(uVar4);
+        uVar4 = System__RunError(uVar4);
       }
       lVar3 = (longlong)*(int *)(param_1[0x90] + 0x218) * 2;
       iVar5 = (int)lVar3;
       if (iVar5 != lVar3) {
-        uVar4 = thunk_FUN_00402808(uVar4);
+        uVar4 = System__RunError(uVar4);
         iVar5 = extraout_EDX;
       }
       uVar6 = uVar4 - iVar5;
       uVar9 = uVar6 == 0;
       if (SBORROW4(uVar4,iVar5)) {
-        uVar6 = thunk_FUN_00402808(uVar6);
+        uVar6 = System__RunError(uVar6);
       }
       if (!(bool)uVar9) {
         iVar5 = iVar7 - param_1[0x91];
         if (SBORROW4(iVar7,param_1[0x91])) {
-          uVar6 = thunk_FUN_00402808(uVar6);
+          uVar6 = System__RunError(uVar6);
         }
         iVar8 = iVar5 + param_1[0xc];
         if (SCARRY4(iVar5,param_1[0xc])) {
-          thunk_FUN_00402808(uVar6);
+          System__RunError(uVar6);
         }
         iVar5 = ((int *)param_1[0x90])[0x86];
         if (iVar8 < iVar5) {
@@ -146,22 +147,22 @@ void TDaviSliderNeedle_dynamic_ffd9(int *param_1,byte param_2,int param_3,int pa
         iVar5 = TForm_GetClientWidth((int *)param_1[0x90]);
         uVar4 = iVar5 - param_1[0xe];
         if (SBORROW4(iVar5,param_1[0xe])) {
-          uVar4 = thunk_FUN_00402808(uVar4);
+          uVar4 = System__RunError(uVar4);
         }
         uVar6 = uVar4 - *(int *)(param_1[0x90] + 0x218);
         if (SBORROW4(uVar4,*(int *)(param_1[0x90] + 0x218))) {
-          uVar6 = thunk_FUN_00402808(uVar6);
+          uVar6 = System__RunError(uVar6);
         }
         if ((int)uVar6 < iVar8) {
           uVar4 = TForm_GetClientWidth((int *)param_1[0x90]);
           iVar5 = uVar4 - param_1[0xe];
           if (SBORROW4(uVar4,param_1[0xe])) {
-            thunk_FUN_00402808(uVar4);
+            System__RunError(uVar4);
           }
           piVar1 = (int *)(param_1[0x90] + 0x218);
           iVar8 = iVar5 - *piVar1;
           if (SBORROW4(iVar5,*piVar1)) {
-            thunk_FUN_00402808(param_1[0x90]);
+            System__RunError(param_1[0x90]);
           }
         }
         if (iVar8 != param_1[0xc]) {
@@ -194,7 +195,7 @@ void TDaviSliderNeedle_WMGetDlgCode(int *param_1,int param_2)
   iVar2 = *piVar1;
   *piVar1 = *piVar1 + 1;
   if (SCARRY4(iVar2,1)) {
-    thunk_FUN_00402808(uVar3);
+    System__RunError(uVar3);
   }
   return;
 }
@@ -219,7 +220,8 @@ int * TDaviGraphicSlider_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar3 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar3 = extraout_DL;
   }
@@ -240,12 +242,12 @@ int * TDaviGraphicSlider_virtual_02c(int *param_1,char param_2,int *param_3)
   iVar1 = *(int *)(param_1[0x84] + 0x3c);
   iVar4 = iVar1 + 10;
   if (SCARRY4(iVar1,10)) {
-    thunk_FUN_00402808(param_1[0x84]);
+    System__RunError(param_1[0x84]);
     iVar4 = extraout_EDX;
   }
   TControl_SetHeight(param_1,iVar4);
   if (cVar3 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -262,7 +264,7 @@ void FUN_0046aadc(int *param_1,int param_2)
   
   iVar1 = param_1[0x81] - param_2;
   if (SBORROW4(param_1[0x81],param_2)) {
-    param_1 = (int *)thunk_FUN_00402808((uint)param_1);
+    param_1 = (int *)System__RunError((uint)param_1);
     iVar1 = extraout_ECX;
   }
   TDaviGraphicSlider_SetPosition(param_1,iVar1);
@@ -278,12 +280,12 @@ void TDaviGraphicSlider_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[0x84]);
-  FUN_00402f9c((int *)piVar1[0x82]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[0x84]);
+  System_TObject_Free((int *)piVar1[0x82]);
   TCustomControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -299,7 +301,7 @@ void FUN_0046ab38(int *param_1,int param_2)
   
   iVar1 = param_2 + param_1[0x81];
   if (SCARRY4(param_2,param_1[0x81])) {
-    param_1 = (int *)thunk_FUN_00402808((uint)param_1);
+    param_1 = (int *)System__RunError((uint)param_1);
     iVar1 = extraout_EDX;
   }
   TDaviGraphicSlider_SetPosition(param_1,iVar1);
@@ -326,46 +328,46 @@ uint FUN_0046ab50(int *param_1,int param_2)
   iVar1 = TForm_GetClientWidth(param_1);
   uVar2 = iVar1 - *(int *)(param_1[0x84] + 0x38);
   if (SBORROW4(iVar1,*(int *)(param_1[0x84] + 0x38))) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
   }
   iVar1 = param_1[0x86];
   uVar5 = (uint)((longlong)iVar1 * 2);
   if ((longlong)(int)uVar5 != (longlong)iVar1 * 2) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     uVar5 = extraout_EDX;
   }
   if (uVar2 != uVar5) {
     iVar3 = TForm_GetClientWidth(param_1);
     uVar2 = iVar3 - *(int *)(param_1[0x84] + 0x38);
     if (SBORROW4(iVar3,*(int *)(param_1[0x84] + 0x38))) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
     iVar3 = (int)((longlong)param_1[0x86] * 2);
     if ((longlong)iVar3 != (longlong)param_1[0x86] * 2) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
       iVar3 = extraout_EDX_00;
     }
     uVar5 = uVar2 - iVar3;
     if (SBORROW4(uVar2,iVar3)) {
-      uVar5 = thunk_FUN_00402808(uVar5);
+      uVar5 = System__RunError(uVar5);
     }
     uVar2 = param_2 - iVar1;
     if (SBORROW4(param_2,iVar1)) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
     iVar1 = param_1[0x7f];
     iVar3 = param_1[0x80] - iVar1;
     if (SBORROW4(param_1[0x80],iVar1)) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
       iVar3 = extraout_EDX_01;
     }
     uVar4 = (uint)((longlong)(int)uVar2 * (longlong)iVar3);
     if ((longlong)(int)uVar4 != (longlong)(int)uVar2 * (longlong)iVar3) {
-      uVar4 = thunk_FUN_00402808(uVar4);
+      uVar4 = System__RunError(uVar4);
     }
     uVar6 = (int)uVar4 / (int)uVar5 + iVar1;
     if (SCARRY4((int)uVar4 / (int)uVar5,iVar1)) {
-      uVar6 = thunk_FUN_00402808(uVar6);
+      uVar6 = System__RunError(uVar6);
     }
   }
   return uVar6;
@@ -391,29 +393,29 @@ uint FUN_0046abfc(int *param_1,int param_2)
     uVar2 = TForm_GetClientWidth(param_1);
     iVar4 = (int)((longlong)param_1[0x86] * 2);
     if ((longlong)iVar4 != (longlong)param_1[0x86] * 2) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
       iVar4 = extraout_EDX;
     }
     uVar3 = uVar2 - iVar4;
     if (SBORROW4(uVar2,iVar4)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
     }
     if (SBORROW4(param_2,iVar5)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
     }
     lVar1 = (longlong)(int)uVar3 * (longlong)(param_2 - iVar5);
     uVar3 = (uint)lVar1;
     if ((int)uVar3 != lVar1) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
     }
     iVar5 = param_1[0x80] - param_1[0x7f];
     if (SBORROW4(param_1[0x80],param_1[0x7f])) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
       iVar5 = extraout_EDX_00;
     }
     uVar2 = (int)uVar3 / iVar5 + param_1[0x86];
     if (SCARRY4((int)uVar3 / iVar5,param_1[0x86])) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
   }
   return uVar2;
@@ -440,34 +442,34 @@ uint FUN_0046ac70(int *param_1)
     iVar1 = TForm_GetClientWidth(param_1);
     uVar2 = iVar1 - *(int *)(param_1[0x84] + 0x38);
     if (SBORROW4(iVar1,*(int *)(param_1[0x84] + 0x38))) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
     iVar1 = (int)((longlong)param_1[0x86] * 2);
     if ((longlong)iVar1 != (longlong)param_1[0x86] * 2) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
       iVar1 = extraout_EDX;
     }
     uVar3 = uVar2 - iVar1;
     if (SBORROW4(uVar2,iVar1)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
     }
     iVar1 = param_1[0x81] - iVar5;
     if (SBORROW4(param_1[0x81],iVar5)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
       iVar1 = extraout_EDX_00;
     }
     uVar4 = (uint)((longlong)(int)uVar3 * (longlong)iVar1);
     if ((longlong)(int)uVar4 != (longlong)(int)uVar3 * (longlong)iVar1) {
-      uVar4 = thunk_FUN_00402808(uVar4);
+      uVar4 = System__RunError(uVar4);
     }
     iVar5 = param_1[0x80] - param_1[0x7f];
     if (SBORROW4(param_1[0x80],param_1[0x7f])) {
-      uVar4 = thunk_FUN_00402808(uVar4);
+      uVar4 = System__RunError(uVar4);
       iVar5 = extraout_EDX_01;
     }
     uVar2 = (int)uVar4 / iVar5 + param_1[0x86];
     if (SCARRY4((int)uVar4 / iVar5,param_1[0x86])) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
   }
   return uVar2;
@@ -535,10 +537,10 @@ void TDaviGraphicSlider_dynamic_ffda
     pTVar3 = (TIMERPROC)0x0;
     elapse = param_1[0x87];
     if ((int)elapse < 0) {
-      elapse = thunk_FUN_00402808(elapse);
+      elapse = System__RunError(elapse);
     }
     UVar2 = 1;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetTimer(pHVar1,UVar2,elapse,pTVar3);
   }
   else {
@@ -546,10 +548,10 @@ void TDaviGraphicSlider_dynamic_ffda
     pTVar3 = (TIMERPROC)0x0;
     elapse = param_1[0x87];
     if ((int)elapse < 0) {
-      elapse = thunk_FUN_00402808(elapse);
+      elapse = System__RunError(elapse);
     }
     UVar2 = 1;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetTimer(pHVar1,UVar2,elapse,pTVar3);
   }
   return;
@@ -568,10 +570,10 @@ void TDaviGraphicSlider_dynamic_ffd8
   
   TControl_dynamic_ffd8((int)param_1,param_2,param_3,param_4,param_5);
   UVar2 = 1;
-  pHVar1 = (HWND)FUN_004349e0(param_1);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
   KillTimer(pHVar1,UVar2);
   UVar2 = 2;
-  pHVar1 = (HWND)FUN_004349e0(param_1);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
   KillTimer(pHVar1,UVar2);
   return;
 }
@@ -710,15 +712,15 @@ void TDaviGraphicSlider_WMTimer(int *param_1,int param_2)
   (**(code **)(*param_1 + -0x10))(param_1,param_2);
   if (*(int *)(param_2 + 4) == 1) {
     UVar2 = 1;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     KillTimer(pHVar1,UVar2);
     lpTimerFunc = (TIMERPROC)0x0;
     uElapse = param_1[0x88];
     if ((int)uElapse < 0) {
-      uElapse = thunk_FUN_00402808(uElapse);
+      uElapse = System__RunError(uElapse);
     }
     UVar2 = 2;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetTimer(pHVar1,UVar2,uElapse,lpTimerFunc);
     FUN_0046b01c(param_1);
   }
@@ -753,11 +755,11 @@ void FUN_0046b01c(int *param_1)
   pt.x = local_14;
   BVar1 = PtInRect(&local_24,pt);
   if (BVar1 == 0) {
-    FUN_00403178(param_1,0,CONCAT31((int3)((uint)extraout_ECX >> 8),8));
+    System__CallDynaInst(param_1,0,CONCAT31((int3)((uint)extraout_ECX >> 8),8));
   }
   else {
     uIDEvent = 2;
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     KillTimer(hWnd,uIDEvent);
   }
   return;
@@ -778,7 +780,7 @@ void TDaviGraphicSlider_WMGetDlgCode(int *param_1,int param_2)
   iVar2 = *piVar1;
   *piVar1 = *piVar1 + 1;
   if (SCARRY4(iVar2,1)) {
-    thunk_FUN_00402808(uVar3);
+    System__RunError(uVar3);
   }
   return;
 }

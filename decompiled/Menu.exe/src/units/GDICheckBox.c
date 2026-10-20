@@ -14,7 +14,8 @@ int * TCustomGDICheckBox_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
@@ -22,7 +23,7 @@ int * TCustomGDICheckBox_virtual_02c(int *param_1,char param_2,int *param_3)
   TControl_SetWidth(param_1,0x14);
   TControl_SetHeight(param_1,0x14);
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;

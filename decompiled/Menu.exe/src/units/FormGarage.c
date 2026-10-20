@@ -54,13 +54,13 @@ void FUN_00498df8(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar9 = *(int *)(param_1[0xc9] + 0x30) - *(int *)(uVar1 + 0x30);
   if (SBORROW4(*(int *)(param_1[0xc9] + 0x30),*(int *)(uVar1 + 0x30))) {
     puStack_20 = (undefined1 *)0x498e1c;
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     param_3 = extraout_ECX;
   }
   iVar10 = *(int *)(param_1[0xca] + 0x34) - *(int *)(uVar1 + 0x34);
   if (SBORROW4(*(int *)(param_1[0xca] + 0x34),*(int *)(uVar1 + 0x34))) {
     puStack_20 = (undefined1 *)0x498e2f;
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
     param_3 = extraout_ECX_00;
   }
   puStack_20 = (undefined1 *)0x498e3b;
@@ -86,7 +86,7 @@ void FUN_00498df8(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar6 = *(int *)(uVar1 + 0x34) + iVar10;
   iVar8 = iVar9;
   if (SCARRY4(*(int *)(uVar1 + 0x34),iVar10)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar6 = extraout_ECX_03;
   }
   FUN_004916a4(param_1[0xcf],*(int *)(uVar1 + 0x30),iVar6,iVar8);
@@ -97,13 +97,13 @@ void FUN_00498df8(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar8 = (int)((longlong)iVar10 * 2);
   iVar11 = iVar9;
   if ((longlong)iVar8 != (longlong)iVar10 * 2) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar6 = extraout_ECX_04;
     iVar8 = extraout_EDX;
   }
   iVar7 = iVar6 + iVar8;
   if (SCARRY4(iVar6,iVar8)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar7 = extraout_ECX_05;
   }
   FUN_004916a4(param_1[0xd0],*(int *)(uVar1 + 0x30),iVar7,iVar11);
@@ -114,13 +114,13 @@ void FUN_00498df8(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar8 = (int)((longlong)iVar10 * 3);
   iVar11 = iVar9;
   if ((longlong)iVar8 != (longlong)iVar10 * 3) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar6 = extraout_ECX_06;
     iVar8 = extraout_EDX_00;
   }
   iVar7 = iVar6 + iVar8;
   if (SCARRY4(iVar6,iVar8)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar7 = extraout_ECX_07;
   }
   FUN_004916a4(param_1[0xd1],*(int *)(uVar1 + 0x30),iVar7,iVar11);
@@ -130,24 +130,24 @@ void FUN_00498df8(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar6 = *(int *)(uVar1 + 0x34);
   iVar8 = (int)((longlong)iVar10 * 4);
   if ((longlong)iVar8 != (longlong)iVar10 * 4) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar6 = extraout_ECX_08;
     iVar8 = extraout_EDX_01;
   }
   iVar10 = iVar6 + iVar8;
   if (SCARRY4(iVar6,iVar8)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar10 = extraout_ECX_09;
   }
   FUN_004916a4(param_1[0xd2],*(int *)(uVar1 + 0x30),iVar10,iVar9);
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_0049905b;
   puStack_24 = (undefined1 *)0x499043;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar2);
   puStack_24 = (undefined1 *)0x49904b;
-  FUN_00402f9c(piVar3);
+  System_TObject_Free(piVar3);
   puStack_24 = (undefined1 *)0x499053;
-  FUN_00402f9c(piVar4);
+  System_TObject_Free(piVar4);
   return;
 }
 
@@ -158,7 +158,7 @@ void TfrmGarage_FormShow(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 extraout_ECX;
   undefined4 extraout_EDX;
   undefined4 *in_FS_OFFSET;
@@ -176,12 +176,12 @@ void TfrmGarage_FormShow(int *param_1)
   uStack_11c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_11c;
   TBaseFormOneWay_FormShow((int)param_1);
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,2);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,2);
   TGDIButton_SetTabOrder(param_1[0xc4],3);
   TGDIButton_SetTabOrder(param_1[0xb5],4);
   TGDIButton_SetTabOrder(param_1[0xb6],5);
@@ -190,7 +190,7 @@ void TfrmGarage_FormShow(int *param_1)
   FUN_004996a0((int)param_1);
   FUN_00499538();
   *in_FS_OFFSET = "FormShow";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -223,9 +223,9 @@ void TfrmGarage_btnBuyTuneUpClick(int *param_1)
 {
   undefined4 *puVar1;
   char cVar2;
-  uint uVar3;
+  uint debug;
+  int iVar3;
   int iVar4;
-  int iVar5;
   undefined4 extraout_EDX;
   undefined4 extraout_EDX_00;
   undefined4 extraout_EDX_01;
@@ -243,26 +243,26 @@ void TfrmGarage_btnBuyTuneUpClick(int *param_1)
   puStack_11c = &LAB_0049936f;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar1,1);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,1);
   if ((char)param_1[0xd3] == '\x04') {
-    iVar4 = FUN_0048e6d4(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),
+    iVar3 = FUN_0048e6d4(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),
                          CONCAT31((int3)((uint)extraout_EDX >> 8),4));
-    iVar4 = *(int *)(iVar4 + 0x30);
-    iVar5 = FUN_004993b8();
-    if (*(int *)(iVar5 + 8) < iVar4) {
+    iVar3 = *(int *)(iVar3 + 0x30);
+    iVar4 = FUN_004993b8();
+    if (*(int *)(iVar4 + 8) < iVar3) {
       TfrmStartInfoKeyBoard_ShowNoMoneyDlg();
     }
     else {
-      iVar4 = FUN_004993b8();
-      if (*(int *)(iVar4 + 0x10) < 100) {
+      iVar3 = FUN_004993b8();
+      if (*(int *)(iVar3 + 0x10) < 100) {
         FUN_004807cc(*(int *)PTR_DAT_004ab694,(undefined4 *)&DAT_004993b0);
-        iVar4 = FUN_004993b8();
-        FUN_0048dc4c(iVar4);
+        iVar3 = FUN_004993b8();
+        FUN_0048dc4c(iVar3);
         FUN_004996a0((int)param_1);
         FUN_00499464((int)param_1);
         FUN_00499600((int)param_1);
@@ -270,29 +270,29 @@ void TfrmGarage_btnBuyTuneUpClick(int *param_1)
     }
   }
   else {
-    iVar4 = FUN_004993b8();
-    cVar2 = FUN_0048d8c0(iVar4,CONCAT31((int3)((uint)extraout_EDX_00 >> 8),(char)param_1[0xd3]));
+    iVar3 = FUN_004993b8();
+    cVar2 = FUN_0048d8c0(iVar3,CONCAT31((int3)((uint)extraout_EDX_00 >> 8),(char)param_1[0xd3]));
     if (cVar2 == '\0') {
-      iVar4 = FUN_004993b8();
-      iVar4 = *(int *)(iVar4 + 8);
-      iVar5 = FUN_004995e0((int)param_1);
-      if (iVar4 < *(int *)(iVar5 + 0x30)) {
+      iVar3 = FUN_004993b8();
+      iVar3 = *(int *)(iVar3 + 8);
+      iVar4 = FUN_004995e0((int)param_1);
+      if (iVar3 < *(int *)(iVar4 + 0x30)) {
         TfrmStartInfoKeyBoard_ShowNoMoneyDlg();
       }
       else {
         FUN_004807cc(*(int *)PTR_DAT_004ab694,(undefined4 *)&DAT_004993b0);
-        iVar4 = FUN_004993b8();
-        FUN_0048d9d8(iVar4,CONCAT31((int3)((uint)extraout_EDX_01 >> 8),(char)param_1[0xd3]));
+        iVar3 = FUN_004993b8();
+        FUN_0048d9d8(iVar3,CONCAT31((int3)((uint)extraout_EDX_01 >> 8),(char)param_1[0xd3]));
         FUN_00499464((int)param_1);
         FUN_004996a0((int)param_1);
         FUN_00499600((int)param_1);
       }
     }
   }
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "btnBuyTuneUpClick";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -351,23 +351,23 @@ void FUN_00499464(int param_1)
   uStack_28 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_28;
   iVar1 = FUN_004993b8();
-  FUN_004085ac(*(undefined4 *)(iVar1 + 8),(int *)&local_8);
+  SysUtils_IntToStr(*(undefined4 *)(iVar1 + 8),(int *)&local_8);
   TGroupBox_SetCaption(*(int *)(param_1 + 0x304),local_8);
   iVar1 = FUN_004995e0(param_1);
   TGroupBox_SetCaption(*(int *)(param_1 + 0x300),*(uint **)(iVar1 + 0x2c));
   ppuVar2 = &local_c;
   iVar1 = FUN_004995e0(param_1);
-  FUN_004085ac(*(undefined4 *)(iVar1 + 0x30),&local_18);
+  SysUtils_IntToStr(*(undefined4 *)(iVar1 + 0x30),&local_18);
   local_14 = local_18;
   local_10 = CONCAT31(local_10._1_3_,0xb);
-  FUN_00409254(*(byte **)(PTR_DAT_004ab8b4 + 0x30),&local_14,0,(int *)ppuVar2);
+  SysUtils_Format(*(byte **)(PTR_DAT_004ab8b4 + 0x30),&local_14,0,(int *)ppuVar2);
   TGroupBox_SetCaption(*(int *)(param_1 + 0x308),local_c);
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_0049951e;
   puStack_24 = (undefined1 *)0x499509;
-  FUN_00403c5c(&local_18);
+  System__LStrClr(&local_18);
   puStack_24 = (undefined1 *)0x499516;
-  FUN_00403c80((int *)&local_c,2);
+  System__LStrArrayClr((int *)&local_c,2);
   return;
 }
 
@@ -416,11 +416,11 @@ void TfrmGarage_btnNextTUClick(uint param_1,undefined4 param_2)
   else {
     uVar2 = CONCAT31((int3)((uint)param_2 >> 8),cVar1 + '\x01');
     if (SCARRY1(cVar1,'\x01')) {
-      param_1 = thunk_FUN_00402808(param_1);
+      param_1 = System__RunError(param_1);
       uVar2 = extraout_EDX;
     }
     if (4 < (byte)uVar2) {
-      param_1 = thunk_FUN_00402808(param_1);
+      param_1 = System__RunError(param_1);
       uVar2 = extraout_EDX_00;
     }
   }
@@ -470,11 +470,11 @@ void FUN_00499600(int param_1)
 void TfrmGarage_FormDestroy(int *param_1)
 
 {
-  FUN_0040c968(param_1 + 0xce);
-  FUN_0040c968(param_1 + 0xcf);
-  FUN_0040c968(param_1 + 0xd0);
-  FUN_0040c968(param_1 + 0xd1);
-  FUN_0040c968(param_1 + 0xd2);
+  SysUtils_FreeAndNil(param_1 + 0xce);
+  SysUtils_FreeAndNil(param_1 + 0xcf);
+  SysUtils_FreeAndNil(param_1 + 0xd0);
+  SysUtils_FreeAndNil(param_1 + 0xd1);
+  SysUtils_FreeAndNil(param_1 + 0xd2);
   TGameMenuScreen_FormDestroy(param_1);
   return;
 }
@@ -514,7 +514,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d8c8(iVar6);
     iVar6 = uVar5 + *(int *)(iVar3 + 0x20);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x20))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar6 = extraout_EDX_04;
     }
     FUN_0049180c(*(int *)(param_1 + 0x338),iVar6,iVar4);
@@ -524,7 +524,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d90c(iVar6);
     iVar6 = uVar5 + *(int *)(iVar3 + 0x24);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x24))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar6 = extraout_EDX_05;
     }
     FUN_0049180c(*(int *)(param_1 + 0x33c),iVar6,iVar4);
@@ -534,7 +534,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d950(iVar6);
     iVar6 = uVar5 + *(int *)(iVar3 + 0x28);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x28))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar6 = extraout_EDX_06;
     }
     FUN_0049180c(*(int *)(param_1 + 0x344),iVar6,iVar4);
@@ -544,7 +544,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d994(iVar6);
     iVar6 = uVar5 + *(int *)(iVar3 + 0x2c);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x2c))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar6 = extraout_EDX_07;
     }
     FUN_0049180c(*(int *)(param_1 + 0x340),iVar6,iVar4);
@@ -554,7 +554,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d8c8(iVar4);
     iVar4 = uVar5 + *(int *)(iVar3 + 0x20);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x20))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar4 = extraout_EDX_00;
     }
     FUN_0049180c(*(int *)(param_1 + 0x338),iVar4,0);
@@ -562,7 +562,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d90c(iVar4);
     iVar4 = uVar5 + *(int *)(iVar3 + 0x24);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x24))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar4 = extraout_EDX_01;
     }
     FUN_0049180c(*(int *)(param_1 + 0x33c),iVar4,0);
@@ -570,7 +570,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d950(iVar4);
     iVar4 = uVar5 + *(int *)(iVar3 + 0x28);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x28))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar4 = extraout_EDX_02;
     }
     FUN_0049180c(*(int *)(param_1 + 0x344),iVar4,0);
@@ -578,7 +578,7 @@ void FUN_004996a0(int param_1)
     uVar5 = FUN_0048d994(iVar4);
     iVar4 = uVar5 + *(int *)(iVar3 + 0x2c);
     if (SCARRY4(uVar5,*(int *)(iVar3 + 0x2c))) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       iVar4 = extraout_EDX_03;
     }
     FUN_0049180c(*(int *)(param_1 + 0x340),iVar4,0);
@@ -588,11 +588,11 @@ void FUN_004996a0(int param_1)
     lVar1 = (longlong)*(int *)(iVar3 + 0x10) * 9;
     uVar5 = (uint)lVar1;
     if ((int)uVar5 != lVar1) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
     }
     uVar5 = FUN_00402ad4();
     if ((int)uVar5 >> 0x1f != extraout_EDX_08) {
-      uVar5 = thunk_FUN_00402808(uVar5);
+      uVar5 = System__RunError(uVar5);
     }
     FUN_0049180c(*(int *)(param_1 + 0x348),uVar5,1);
   }
@@ -601,11 +601,11 @@ void FUN_004996a0(int param_1)
     lVar1 = (longlong)*(int *)(iVar3 + 0x10) * 9;
     uVar5 = (uint)lVar1;
     if ((int)uVar5 != lVar1) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
     }
     uVar5 = FUN_00402ad4();
     if ((int)uVar5 >> 0x1f != extraout_EDX_09) {
-      uVar5 = thunk_FUN_00402808(uVar5);
+      uVar5 = System__RunError(uVar5);
     }
     FUN_0049180c(*(int *)(param_1 + 0x348),uVar5,0);
   }
@@ -632,11 +632,11 @@ void TfrmGarage_btnPrevTUClick(uint param_1,undefined4 param_2)
   else {
     uVar2 = CONCAT31(uVar3,cVar1 + -1);
     if (SBORROW1(cVar1,'\x01')) {
-      param_1 = thunk_FUN_00402808(param_1);
+      param_1 = System__RunError(param_1);
       uVar2 = extraout_EDX;
     }
     if (4 < (byte)uVar2) {
-      param_1 = thunk_FUN_00402808(param_1);
+      param_1 = System__RunError(param_1);
       uVar2 = extraout_EDX_00;
     }
   }

@@ -5,12 +5,12 @@
 void FUN_004a4850(undefined4 *param_1)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_34;
   undefined1 *puStackY_30;
   undefined1 *puStackY_2c;
-  int iVar2;
+  int iVar1;
   undefined4 uStack_20;
   undefined1 *puStack_1c;
   undefined1 *puStack_18;
@@ -21,30 +21,30 @@ void FUN_004a4850(undefined4 *param_1)
   
   puStack_18 = (undefined1 *)0x4a4861;
   local_8 = param_1;
-  FUN_00404090((int)param_1);
+  System__LStrAddRef((int)param_1);
   puStack_1c = &LAB_004a4901;
   uStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_20;
   local_14 = local_8;
   local_10 = 0xb;
-  iVar2 = 0;
+  iVar1 = 0;
   puStackY_2c = (undefined1 *)0x4a4884;
   puStack_18 = &stack0xfffffffc;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStackY_2c = (undefined1 *)0x4a4894;
-  FUN_0045fa3c(uVar1,0x4a4918,2,iVar2);
+  FUN_0045fa3c(debug,0x4a4918,2,iVar1);
   puStackY_2c = (undefined1 *)0x4a48a2;
   local_c = (int *)TCustomForm_virtual_02c((int *)&PTR_TWinControl_virtual_000_004a46b8,'\x01',0);
   puStackY_30 = &LAB_004a48e4;
   uStackY_34 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_34;
   puStackY_2c = &stack0xfffffffc;
-  FUN_00403cb0(local_c + 0xb5,local_8);
+  System__LStrAsg(local_c + 0xb5,local_8);
   (**(code **)(*local_c + 0xd8))();
   *in_FS_OFFSET = uStackY_34;
   puStackY_2c = &LAB_004a48eb;
   puStackY_30 = (undefined1 *)0x4a48e3;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -67,7 +67,7 @@ void TfrmIntro_FormShow(int *param_1)
   uStack_30 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_30;
   local_8 = param_1;
-  FUN_00403cb0((int *)(param_1[0xb4] + 0x300),(undefined4 *)param_1[0xb5]);
+  System__LStrAsg((int *)(param_1[0xb4] + 0x300),(undefined4 *)param_1[0xb5]);
   FUN_004a2970((int *)local_8[0xb4]);
   TMediaPlayer_SetDisplay(local_8[0xb4],local_8);
   (**(code **)(*local_8 + 0x40))(local_8,local_18);
@@ -110,7 +110,7 @@ void TfrmIntro_MenuIntroNotify(int *param_1)
     iVar5 = extraout_ECX;
     uVar6 = extraout_EDX;
     if (SBORROW4(iVar3,1)) {
-      uVar4 = thunk_FUN_00402808(uVar4);
+      uVar4 = System__RunError(uVar4);
       iVar5 = extraout_ECX_00;
       uVar6 = extraout_EDX_00;
     }

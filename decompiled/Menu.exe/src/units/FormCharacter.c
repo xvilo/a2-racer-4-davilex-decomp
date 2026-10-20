@@ -5,10 +5,10 @@
 void TfrmCharacter_virtual_0fc(int *param_1)
 
 {
-  uint uVar1;
-  int iVar2;
+  uint debug;
+  int iVar1;
   uint *in_FS_OFFSET;
-  undefined4 *puVar3;
+  undefined4 *puVar2;
   uint uStack_11c;
   undefined1 *puStack_118;
   undefined1 *puStack_114;
@@ -22,18 +22,18 @@ void TfrmCharacter_virtual_0fc(int *param_1)
   puStack_118 = &LAB_0049ab80;
   uStack_11c = *in_FS_OFFSET;
   *in_FS_OFFSET = (uint)&uStack_11c;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
-  puVar3 = local_8;
-  uVar1 = FUN_0045f46c();
-  FUN_0045fb90(uVar1,puVar3,2);
-  uVar1 = 2;
-  iVar2 = FUN_0048c22c(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0));
-  FUN_004806b0(*(int **)PTR_DAT_004ab694,0x49abb8,*(int *)(iVar2 + 0x10),uVar1);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
+  puVar2 = local_8;
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,2);
+  debug = 2;
+  iVar1 = FUN_0048c22c(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0));
+  FUN_004806b0(*(int **)PTR_DAT_004ab694,0x49abb8,*(int *)(iVar1 + 0x10),debug);
   TTimer_SetEnabled(param_1[0xc9],'\x01');
-  *in_FS_OFFSET = uVar1;
-  FUN_00403c80(&local_c,2);
+  *in_FS_OFFSET = debug;
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -51,13 +51,13 @@ void TfrmCharacter_btnPrevCharClick(int *param_1)
     iVar1 = FUN_00462434(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x3c));
     uVar2 = iVar1 - 1;
     if (SBORROW4(iVar1,1)) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
   }
   else {
     uVar2 = iVar1 - 1;
     if (SBORROW4(iVar1,1)) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
     }
   }
   FUN_0049ac68(param_1,uVar2);
@@ -78,7 +78,7 @@ void TfrmCharacter_btnNextCharClick(int *param_1)
   iVar2 = FUN_00462434(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x3c));
   uVar3 = iVar2 - 1;
   if (SBORROW4(iVar2,1)) {
-    uVar3 = thunk_FUN_00402808(uVar3);
+    uVar3 = System__RunError(uVar3);
   }
   if (uVar1 == uVar3) {
     iVar2 = 0;
@@ -86,7 +86,7 @@ void TfrmCharacter_btnNextCharClick(int *param_1)
   else {
     iVar2 = uVar1 + 1;
     if (SCARRY4(uVar1,1)) {
-      thunk_FUN_00402808(uVar3);
+      System__RunError(uVar3);
     }
   }
   FUN_0049ac68(param_1,iVar2);
@@ -109,10 +109,10 @@ void FUN_0049ac68(int *param_1,int param_2)
 
 {
   undefined *puVar1;
-  uint uVar2;
-  int iVar3;
+  uint debug;
+  int iVar2;
   int *in_FS_OFFSET;
-  int iVar4;
+  int iVar3;
   int iStack_128;
   undefined1 *puStack_124;
   undefined1 *puStack_120;
@@ -128,31 +128,31 @@ void FUN_0049ac68(int *param_1,int param_2)
   iStack_128 = *in_FS_OFFSET;
   *in_FS_OFFSET = (int)&iStack_128;
   local_8 = 0;
-  iVar4 = 0;
+  iVar3 = 0;
   local_c = param_2;
-  FUN_00402ee4(*param_1,local_110);
-  FUN_00403e80(&local_10,local_110);
-  FUN_00403ee4(&local_10,(undefined4 *)".SetCurrentCharIx");
-  iVar3 = local_10;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fa3c(uVar2,iVar3,0,iVar4);
+  System_TObject_ClassName(*param_1,local_110);
+  System__LStrFromString(&local_10,local_110);
+  System__LStrCat(&local_10,(undefined4 *)".SetCurrentCharIx");
+  iVar2 = local_10;
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar2,0,iVar3);
   FUN_0048d180(*(int **)(*(int *)(*(int *)puVar1 + 0xc0) + 0x10),param_2);
-  iVar3 = FUN_0048d458(*(int *)(*(int *)(*(int *)puVar1 + 0xc0) + 0x10));
-  FUN_00491710(param_1[0xcc],*(int *)(iVar3 + 0xc));
+  iVar2 = FUN_0048d458(*(int *)(*(int *)(*(int *)puVar1 + 0xc0) + 0x10));
+  FUN_00491710(param_1[0xcc],*(int *)(iVar2 + 0xc));
   FUN_0049ae50((int)param_1);
-  iVar3 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
+  iVar2 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
   FUN_00489e40(*(int **)(*(int *)puVar1 + 0xb4),(int *)param_1[0xc3],(undefined4 *)"chara_",
-               *(int *)(iVar3 + 0x10));
-  iVar3 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
-  iVar3 = *(int *)(iVar3 + 0x10);
+               *(int *)(iVar2 + 0x10));
+  iVar2 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
+  iVar2 = *(int *)(iVar2 + 0x10);
   FUN_00489e40(*(int **)(*(int *)puVar1 + 0xb4),(int *)param_1[0xb7],(undefined4 *)&DAT_0049ade8,
-               iVar3);
-  iVar4 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
-  TGroupBox_SetCaption(param_1[0xc0],*(uint **)(iVar4 + 0x18));
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
-  *in_FS_OFFSET = iVar3;
-  FUN_00403c5c(&local_10);
+               iVar2);
+  iVar3 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
+  TGroupBox_SetCaption(param_1[0xc0],*(uint **)(iVar3 + 0x18));
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = iVar2;
+  System__LStrClr(&local_10);
   return;
 }
 
@@ -212,11 +212,11 @@ void FUN_0049ae50(int param_1)
 void TfrmCharacter_FormDestroy(int *param_1)
 
 {
-  FUN_0040c968(param_1 + 0xcd);
-  FUN_0040c968(param_1 + 0xce);
-  FUN_0040c968(param_1 + 0xcf);
-  FUN_0040c968(param_1 + 0xd0);
-  FUN_0040c968(param_1 + 0xcc);
+  SysUtils_FreeAndNil(param_1 + 0xcd);
+  SysUtils_FreeAndNil(param_1 + 0xce);
+  SysUtils_FreeAndNil(param_1 + 0xcf);
+  SysUtils_FreeAndNil(param_1 + 0xd0);
+  SysUtils_FreeAndNil(param_1 + 0xcc);
   TGameMenuScreen_FormDestroy(param_1);
   return;
 }
@@ -255,13 +255,13 @@ void FUN_0049af5c(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar7 = *(int *)(param_1[0xc6] + 0x30) - *(int *)(uVar1 + 0x30);
   if (SBORROW4(*(int *)(param_1[0xc6] + 0x30),*(int *)(uVar1 + 0x30))) {
     puStack_18 = (undefined1 *)0x49af7e;
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     param_3 = extraout_ECX;
   }
   iVar8 = *(int *)(param_1[0xc5] + 0x34) - *(int *)(uVar1 + 0x34);
   if (SBORROW4(*(int *)(param_1[0xc5] + 0x34),*(int *)(uVar1 + 0x34))) {
     puStack_18 = (undefined1 *)0x49af91;
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
     param_3 = extraout_ECX_00;
   }
   puStack_18 = (undefined1 *)0x49af9d;
@@ -277,7 +277,7 @@ void FUN_0049af5c(int *param_1,undefined4 param_2,undefined4 param_3)
   param_1[0xcc] = (int)piVar4;
   iVar3 = *(int *)(param_1[200] + 0x30) - *(int *)(param_1[199] + 0x30);
   if (SBORROW4(*(int *)(param_1[200] + 0x30),*(int *)(param_1[199] + 0x30))) {
-    thunk_FUN_00402808((uint)piVar4);
+    System__RunError((uint)piVar4);
     iVar3 = extraout_EDX;
   }
   FUN_004916a4(param_1[0xcc],*(int *)(param_1[199] + 0x30),*(undefined4 *)(param_1[199] + 0x34),
@@ -293,7 +293,7 @@ void FUN_0049af5c(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar3 = *(int *)(uVar1 + 0x34) + iVar8;
   iVar6 = iVar7;
   if (SCARRY4(*(int *)(uVar1 + 0x34),iVar8)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar3 = extraout_ECX_01;
   }
   FUN_004916a4(param_1[0xce],*(int *)(uVar1 + 0x30),iVar3,iVar6);
@@ -304,13 +304,13 @@ void FUN_0049af5c(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar6 = (int)((longlong)iVar8 * 2);
   iVar9 = iVar7;
   if ((longlong)iVar6 != (longlong)iVar8 * 2) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar3 = extraout_ECX_02;
     iVar6 = extraout_EDX_00;
   }
   iVar5 = iVar3 + iVar6;
   if (SCARRY4(iVar3,iVar6)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar5 = extraout_ECX_03;
   }
   FUN_004916a4(param_1[0xcf],*(int *)(uVar1 + 0x30),iVar5,iVar9);
@@ -320,20 +320,20 @@ void FUN_0049af5c(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar3 = *(int *)(uVar1 + 0x34);
   iVar6 = (int)((longlong)iVar8 * 3);
   if ((longlong)iVar6 != (longlong)iVar8 * 3) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar3 = extraout_ECX_04;
     iVar6 = extraout_EDX_01;
   }
   iVar8 = iVar3 + iVar6;
   if (SCARRY4(iVar3,iVar6)) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar8 = extraout_ECX_05;
   }
   FUN_004916a4(param_1[0xd0],*(int *)(uVar1 + 0x30),iVar8,iVar7);
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_0049b15d;
   puStack_1c = (undefined1 *)0x49b155;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar2);
   return;
 }
 

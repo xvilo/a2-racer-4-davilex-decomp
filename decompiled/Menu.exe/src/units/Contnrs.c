@@ -5,7 +5,7 @@
 void FUN_0041fef4(int *param_1,int param_2)
 
 {
-  FUN_00410104(param_1,param_2);
+  Classes_TList_Add(param_1,param_2);
   return;
 }
 
@@ -24,14 +24,15 @@ int * FUN_0041fefc(int *param_1,char param_2,undefined4 param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
-  FUN_00402f6c(param_1,'\0',param_3);
+  System_TObject_Create(param_1,'\0',param_3);
   *(char *)(param_1 + 4) = (char)param_3;
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -43,7 +44,7 @@ int * FUN_0041fefc(int *param_1,char param_2,undefined4 param_3)
 void FUN_0041ff40(undefined4 *param_1,int param_2)
 
 {
-  FUN_004102b0(param_1,param_2);
+  Classes_TList_Get(param_1,param_2);
   return;
 }
 
@@ -53,7 +54,7 @@ void FUN_0041ff40(undefined4 *param_1,int param_2)
 void FUN_0041ff54(int param_1,int param_2)
 
 {
-  FUN_0041030c(param_1,param_2);
+  Classes_TList_IndexOf(param_1,param_2);
   return;
 }
 
@@ -64,7 +65,7 @@ void TObjectList_virtual_004(int param_1,int *param_2,char param_3)
 
 {
   if ((*(char *)(param_1 + 0x10) != '\0') && (param_3 == '\x02')) {
-    FUN_00402f9c(param_2);
+    System_TObject_Free(param_2);
   }
   TList_virtual_004();
   return;
@@ -112,11 +113,11 @@ void TComponentList_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[5]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[5]);
   TList_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -210,15 +211,16 @@ int * FUN_00420154(int *param_1,char param_2,undefined4 param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe8,in_stack_ffffffec);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe8,
+                                         in_stack_ffffffec);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
-  FUN_00402f6c(param_1,'\0',param_3);
-  iVar1 = FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX_00);
+  System_TObject_Create(param_1,'\0',param_3);
+  iVar1 = System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX_00);
   param_1[1] = iVar1;
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe8;
   }
   return param_1;
@@ -233,11 +235,11 @@ void TOrderedList_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[1]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[1]);
   TObject_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -248,7 +250,7 @@ void TOrderedList_Destroy(int *param_1,char param_2)
 void TOrderedList_virtual_008(int param_1)
 
 {
-  FUN_004102b0(*(undefined4 **)(param_1 + 4),(*(undefined4 **)(param_1 + 4))[2] + -1);
+  Classes_TList_Get(*(undefined4 **)(param_1 + 4),(*(undefined4 **)(param_1 + 4))[2] + -1);
   return;
 }
 
@@ -261,7 +263,7 @@ undefined4 TOrderedList_virtual_004(int *param_1)
   undefined4 uVar1;
   
   uVar1 = (**(code **)(*param_1 + 8))();
-  FUN_00410150((int *)param_1[1],((int *)param_1[1])[2] + -1);
+  Classes_TList_Delete((int *)param_1[1],((int *)param_1[1])[2] + -1);
   return uVar1;
 }
 
@@ -271,7 +273,7 @@ undefined4 TOrderedList_virtual_004(int *param_1)
 void TStack_virtual_000(int param_1,int param_2)
 
 {
-  FUN_00410104(*(int **)(param_1 + 4),param_2);
+  Classes_TList_Add(*(int **)(param_1 + 4),param_2);
   return;
 }
 
@@ -675,7 +677,7 @@ void FUN_004203d8(byte param_1,undefined4 param_2,undefined *param_3)
   
   puStack_18 = (undefined1 *)0x4203ee;
   local_8 = param_3;
-  FUN_00404090((int)param_3);
+  System__LStrAddRef((int)param_3);
   puStack_1c = &LAB_00420497;
   uStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_20;
@@ -688,9 +690,9 @@ void FUN_004203d8(byte param_1,undefined4 param_2,undefined *param_3)
       if (((param_1 == 0) && (puStack_18 = &stack0xfffffffc, DAT_004ac6f0 == '\0')) &&
          (puStack_18 = &stack0xfffffffc,
          DAT_004ac6d8 = FUN_004203d8(4,DAT_004ac6d8,"GetMonitorInfoA"), DAT_004ac6f0 == '\0')) {
-        FUN_00403c5c((int *)&local_8);
+        System__LStrClr((int *)&local_8);
       }
-      lpProcName = FUN_004040a0(local_8);
+      lpProcName = System__LStrToPChar(local_8);
       pFVar1 = GetProcAddress(DAT_004ac6e4,lpProcName);
     }
     if ((pFVar1 != (FARPROC)0x0) && (param_1 != 0)) {
@@ -701,7 +703,7 @@ void FUN_004203d8(byte param_1,undefined4 param_2,undefined *param_3)
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_0042049e;
   puStack_1c = (undefined1 *)0x420496;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 

@@ -31,21 +31,21 @@ void TCustomGDIRadioButton_virtual_0bc(int *param_1,char param_2)
   if (cVar1 != param_2) {
     TGDIButton_SetTabStop((int)param_1,param_2);
     if ((param_2 != '\0') && (param_1[9] != 0)) {
-      i_val = FUN_004317bc(param_1[9]);
+      i_val = Controls_TWinControl_GetControlCount(param_1[9]);
       if (SBORROW4(i_val,1)) {
-        thunk_FUN_00402808(i_val);
+        System__RunError(i_val);
       }
       if (-1 < (int)(i_val - 1)) {
         j = 0;
         do {
-          iVar2 = FUN_00431780(param_1[9],j);
-          uVar3 = FUN_00403114(*(int **)(iVar2 + 4),(int)&PTR_TControl_virtual_000_004901c8);
+          iVar2 = Controls_TWinControl_GetControl(param_1[9],j);
+          uVar3 = System__IsClass(*(int **)(iVar2 + 4),(int)&PTR_TControl_virtual_000_004901c8);
           if ((char)uVar3 != '\0') {
-            iVar2 = FUN_00431780(param_1[9],j);
+            iVar2 = Controls_TWinControl_GetControl(param_1[9],j);
             if (param_1 != *(int **)(iVar2 + 4)) {
-              iVar2 = FUN_00431780(param_1[9],j);
-              piVar4 = (int *)FUN_0040312c(*(int **)(iVar2 + 4),
-                                           (int)&PTR_TControl_virtual_000_004901c8);
+              iVar2 = Controls_TWinControl_GetControl(param_1[9],j);
+              piVar4 = (int *)System__AsClass(*(int **)(iVar2 + 4),
+                                              (int)&PTR_TControl_virtual_000_004901c8);
               (**(code **)(*piVar4 + 0xbc))(piVar4,0);
             }
           }

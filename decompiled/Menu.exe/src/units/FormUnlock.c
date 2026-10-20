@@ -5,16 +5,16 @@
 undefined4 TfrmUnlock_ShowUnlockDlg(void)
 
 {
-  uint uVar1;
-  int *piVar2;
-  undefined4 uVar3;
+  uint debug;
+  int *piVar1;
+  undefined4 uVar2;
   
-  uVar1 = FUN_0045f46c();
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowUnlockDlg",2);
-  piVar2 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_0049b7d4,'\x01',0);
-  uVar3 = (**(code **)(*piVar2 + 0xd8))();
-  FUN_00402f9c(piVar2);
-  return uVar3;
+  debug = Debug();
+  TDebug_InProc(debug,(undefined4 *)"ShowUnlockDlg",2);
+  piVar1 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_0049b7d4,'\x01',0);
+  uVar2 = (**(code **)(*piVar1 + 0xd8))();
+  System_TObject_Free(piVar1);
+  return uVar2;
 }
 
 

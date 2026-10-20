@@ -257,12 +257,14 @@ int * TGDICustomButtonDefinition_virtual_02c(int *param_1,char param_2,int *para
   
   cVar3 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffdc,in_stack_ffffffe0);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffdc,
+                                         in_stack_ffffffe0);
     param_3 = extraout_ECX;
     cVar3 = extraout_DL;
   }
   TComponent_virtual_02c(param_1,'\0',param_3);
-  iVar1 = FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_00466c0c,'\x01',extraout_ECX_00);
+  iVar1 = System_TObject_Create((int *)&PTR_TPersistent_virtual_000_00466c0c,'\x01',extraout_ECX_00)
+  ;
   param_1[0x1a] = iVar1;
   *(int **)(iVar1 + 0xc) = param_1;
   *(undefined4 *)(iVar1 + 8) = *(undefined4 *)(*param_1 + 0x30);
@@ -299,7 +301,7 @@ int * TGDICustomButtonDefinition_virtual_02c(int *param_1,char param_2,int *para
   FUN_0045d4a4(iVar1,extraout_EDX_03,extraout_ECX_05,puVar4,piVar2);
   param_1[0x10] = 100;
   param_1[0x11] = 0x32;
-  iVar1 = FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX_06);
+  iVar1 = System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX_06);
   param_1[0x12] = iVar1;
   piVar2 = FUN_00418040((int *)&PTR_TPersistent_virtual_000_00416a80,'\x01',extraout_ECX_07);
   param_1[0x13] = (int)piVar2;
@@ -307,7 +309,7 @@ int * TGDICustomButtonDefinition_virtual_02c(int *param_1,char param_2,int *para
   param_1[0x14] = (int)piVar2;
   *(undefined1 *)((int)param_1 + 0x5d) = 0xff;
   if (cVar3 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffdc;
   }
   return param_1;
@@ -328,20 +330,20 @@ void TGDICustomButtonDefinition_Destroy(int *param_1,char param_2)
   undefined1 *puStack_14;
   
   puStack_14 = (undefined1 *)0x467a94;
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   puStack_18 = &LAB_00467b0e;
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_14 = &stack0xfffffffc;
-  FUN_0040c968(piVar1 + 0x1a);
+  SysUtils_FreeAndNil(piVar1 + 0x1a);
   FUN_00467e60((int)piVar1,0x5405,0,0);
-  FUN_0040c968(piVar1 + 0x14);
+  SysUtils_FreeAndNil(piVar1 + 0x14);
   i_val = 0;
   do {
-    FUN_0040c968(piVar1 + i_val + 9);
+    SysUtils_FreeAndNil(piVar1 + i_val + 9);
     i_val = i_val + 1;
   } while (i_val != 7);
-  FUN_0040c968(piVar1 + 0x12);
+  SysUtils_FreeAndNil(piVar1 + 0x12);
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00467b15;
   puStack_18 = (undefined1 *)0x467b0d;
@@ -407,33 +409,33 @@ int TGDIButtonDefinition_GetUpLink(int param_1,uint param_2)
   uint uVar6;
   
   if (6 < param_2) {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   iVar1 = *(int *)(param_1 + 0x24 + (param_2 & 0xff) * 4);
   piVar4 = *(int **)(iVar1 + 0xc);
   cVar2 = (**(code **)(*piVar4 + 0x1c))();
   if (cVar2 == '\0') {
     (**(code **)(*piVar4 + 0x3c))(piVar4,*(undefined1 *)(param_1 + 0x54));
-    uVar3 = FUN_00403114(piVar4,(int)&LAB_00454aa4);
+    uVar3 = System__IsClass(piVar4,(int)&LAB_00454aa4);
     if ((char)uVar3 == '\0') {
-      uVar3 = FUN_00403114(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
+      uVar3 = System__IsClass(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
       if ((char)uVar3 == '\0') {
-        uVar3 = FUN_00403114(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
+        uVar3 = System__IsClass(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
         if ((char)uVar3 != '\0') {
-          piVar4 = (int *)FUN_0040312c(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
+          piVar4 = (int *)System__AsClass(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
           (**(code **)(*piVar4 + 0x88))(piVar4,(char)piVar4[0x15]);
           (**(code **)(*piVar4 + 0x84))(piVar4,piVar4[0x14]);
         }
       }
       else {
-        piVar4 = (int *)FUN_0040312c(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
+        piVar4 = (int *)System__AsClass(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
         FUN_0041ee80(piVar4,(char)piVar4[0xc]);
         uVar6 = FUN_0041e000(piVar4);
         FUN_0041ee30(piVar4,uVar6);
       }
     }
     else {
-      piVar4 = (int *)FUN_0040312c(piVar4,(int)&LAB_00454aa4);
+      piVar4 = (int *)System__AsClass(piVar4,(int)&LAB_00454aa4);
       FUN_0045727c(piVar4,(char)piVar4[0x22]);
       iVar5 = FUN_00456a14((int)piVar4);
       FUN_00457260(piVar4,iVar5);
@@ -552,13 +554,13 @@ void FUN_00467e60(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
   iVar1 = *(int *)(*(uint *)(param_1 + 0x48) + 8);
   i_val = iVar1 + -1;
   if (SBORROW4(iVar1,1)) {
-    thunk_FUN_00402808(*(uint *)(param_1 + 0x48));
+    System__RunError(*(uint *)(param_1 + 0x48));
   }
   if (-1 < i_val) {
     do {
       uVar2 = param_4;
-      iVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x48),i_val);
-      FUN_0042f720(iVar1,param_2,param_3,uVar2);
+      iVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x48),i_val);
+      Controls_TControl_Perform(iVar1,param_2,param_3,uVar2);
       i_val = i_val + -1;
     } while (i_val != -1);
   }
@@ -602,10 +604,10 @@ void FUN_00467f04(int param_1,int param_2)
 {
   int iVar1;
   
-  iVar1 = FUN_0041030c(*(int *)(param_1 + 0x48),param_2);
+  iVar1 = Classes_TList_IndexOf(*(int *)(param_1 + 0x48),param_2);
   if (iVar1 == -1) {
-    FUN_00410104(*(int **)(param_1 + 0x48),param_2);
-    FUN_0042f720(param_2,0x5401,0,0);
+    Classes_TList_Add(*(int **)(param_1 + 0x48),param_2);
+    Controls_TControl_Perform(param_2,0x5401,0,0);
   }
   return;
 }
@@ -618,10 +620,10 @@ void FUN_00467f38(int param_1,int param_2)
 {
   int iVar1;
   
-  iVar1 = FUN_0041030c(*(int *)(param_1 + 0x48),param_2);
+  iVar1 = Classes_TList_IndexOf(*(int *)(param_1 + 0x48),param_2);
   if (iVar1 != -1) {
-    FUN_00410150(*(int **)(param_1 + 0x48),iVar1);
-    FUN_0042f720(param_2,0x5404,0,0);
+    Classes_TList_Delete(*(int **)(param_1 + 0x48),iVar1);
+    Controls_TControl_Perform(param_2,0x5404,0,0);
   }
   return;
 }
@@ -798,7 +800,8 @@ int * TCustomGDIButton_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -822,7 +825,7 @@ int * TCustomGDIButton_virtual_02c(int *param_1,char param_2,int *param_3)
     TDaviTimer_SetOnTimer(param_1[0x61],extraout_EDX,extraout_ECX_02,FUN_00468284,param_1);
   }
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -843,14 +846,14 @@ void TCustomGDIButton_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x4681eb;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_00468232;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
   local_9 = extraout_DL;
   TGDIButton_SetDefinition(local_8,0);
-  FUN_0040c968(local_8 + 0x5f);
+  SysUtils_FreeAndNil(local_8 + 0x5f);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00468239;
   puStack_14 = (undefined1 *)0x468231;
@@ -969,7 +972,7 @@ void TCustomGDIButton_dynamic_ffec(int *param_1)
   
   *(undefined1 *)(param_1 + 0x60) = 0;
   piVar1 = (int *)FUN_004656b4((int)param_1);
-  piVar1 = FUN_00444864(piVar1);
+  piVar1 = Forms_GetParentForm(piVar1);
   if (piVar1 != (int *)0x0) {
     piVar1[0x8d] = param_1[99];
   }
@@ -1005,7 +1008,7 @@ void TCustomGDIButton_CMDialogChar(int *param_1,int param_2)
     cVar1 = (**(code **)(*param_1 + 0x4c))();
     if ((((cVar1 != '\0') && (*(char *)((int)param_1 + 0x47) != '\0')) && (param_1[9] != 0)) &&
        (*(char *)(param_1[9] + 0x168) != '\0')) {
-      FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+      System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
       *(undefined4 *)(param_2 + 0xc) = 1;
       goto LAB_004683f4;
     }
@@ -1015,7 +1018,7 @@ LAB_004683f4:
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_00468411;
   puStack_1c = (undefined1 *)0x468409;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -1035,7 +1038,7 @@ void TCustomGDIButton_CMDialogKey(int *param_1,int param_2)
       ((*(short *)(param_2 + 4) == 0x1b && ((char)param_1[0x5e] != '\0')))) &&
      ((bVar1 = FUN_0044476c(*(uint *)(param_2 + 8)), bVar1 == 0 &&
       (cVar2 = (**(code **)(*param_1 + 0xac))(), cVar2 != '\0')))) {
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
     *(undefined4 *)(param_2 + 0xc) = 1;
     return;
   }
@@ -1143,8 +1146,9 @@ undefined4 TCustomGDIButton_virtual_094(int param_1,uint param_2,int param_3)
   if (*(int *)(param_1 + 0x174) != 0) {
     piVar2 = (int *)FUN_00467d48(*(int *)(param_1 + 0x174),6);
     cVar1 = (**(code **)(*piVar2 + 0x1c))();
-    if ((cVar1 == '\0') && (uVar3 = FUN_00403114(piVar2,(int)&LAB_00454aa4), (char)uVar3 != '\0')) {
-      piVar2 = (int *)FUN_0040312c(piVar2,(int)&LAB_00454aa4);
+    if ((cVar1 == '\0') && (uVar3 = System__IsClass(piVar2,(int)&LAB_00454aa4), (char)uVar3 != '\0')
+       ) {
+      piVar2 = (int *)System__AsClass(piVar2,(int)&LAB_00454aa4);
       FUN_0045727c(piVar2,'\0');
       (**(code **)(*piVar2 + 0x3c))(piVar2,1);
     }
@@ -1233,7 +1237,7 @@ void TCustomGDIButton_virtual_0a0(int *param_1,short *param_2,undefined4 param_3
     (**(code **)(*param_1 + 0x74))();
     param_3 = extraout_ECX;
     if ((*(byte *)(param_1 + 0x11) & 2) != 0) {
-      FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+      System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
       param_3 = extraout_ECX_00;
     }
   }
@@ -1466,7 +1470,7 @@ void TCustomGDIButton_virtual_084(int *param_1)
       }
       format_val = rect.right - rect.left;
       if (SBORROW4(rect.right,rect.left)) {
-        format_val = thunk_FUN_00402808(format_val);
+        format_val = System__RunError(format_val);
       }
       if (((int)format_val < 1) || ((int)format_val < 1)) {
         piVar6 = local_18;
@@ -1486,27 +1490,27 @@ void TCustomGDIButton_virtual_084(int *param_1)
       lprc_val = &rect;
       format_val = format;
       TGroupBox_GetCaption((int)local_8,&local_2c);
-      i_val = FUN_00403edc(local_2c);
+      i_val = System__LStrLen(local_2c);
       TGroupBox_GetCaption((int)local_8,(int *)&local_30);
-      pCVar4 = FUN_004040a0(local_30);
+      pCVar4 = System__LStrToPChar(local_30);
       pHVar5 = (HDC)FUN_004194d8((int *)local_8[0x48]);
       DrawTextA(pHVar5,pCVar4,i_val,lprc_val,format_val);
       OffsetRect(&rect,-1,-1);
       TFont_SetColor(*(int **)(local_8[0x48] + 0xc),-0x7ffffff0,extraout_ECX_02);
       lprc_val = &rect;
       TGroupBox_GetCaption((int)local_8,&local_34);
-      i_val = FUN_00403edc(local_34);
+      i_val = System__LStrLen(local_34);
       TGroupBox_GetCaption((int)local_8,(int *)&local_38);
-      pCVar4 = FUN_004040a0(local_38);
+      pCVar4 = System__LStrToPChar(local_38);
       pHVar5 = (HDC)FUN_004194d8((int *)local_8[0x48]);
       DrawTextA(pHVar5,pCVar4,i_val,lprc_val,format);
     }
     else {
       lprc_val = &rect;
       TGroupBox_GetCaption((int)local_8,&local_3c);
-      i_val = FUN_00403edc(local_3c);
+      i_val = System__LStrLen(local_3c);
       TGroupBox_GetCaption((int)local_8,(int *)&local_40);
-      pCVar4 = FUN_004040a0(local_40);
+      pCVar4 = System__LStrToPChar(local_40);
       pHVar5 = (HDC)FUN_004194d8((int *)local_8[0x48]);
       DrawTextA(pHVar5,pCVar4,i_val,lprc_val,format);
     }
@@ -1522,7 +1526,7 @@ void TCustomGDIButton_virtual_084(int *param_1)
   *in_FS_OFFSET = uStack_68;
   puStack_60 = &LAB_00468ca5;
   puStack_64 = (undefined1 *)0x468c9d;
-  FUN_00403c80((int *)&local_40,6);
+  System__LStrArrayClr((int *)&local_40,6);
   return;
 }
 
@@ -1568,11 +1572,11 @@ int * FUN_00468d10(int param_1)
   
   piVar1 = FUN_00467ed0(*(int *)(param_1 + 0x174),*(byte *)(param_1 + 0x17a));
   piVar3 = (int *)0x0;
-  uVar2 = FUN_00403114(piVar1,(int)&LAB_00454aa4);
+  uVar2 = System__IsClass(piVar1,(int)&LAB_00454aa4);
   if ((char)uVar2 == '\0') {
-    uVar2 = FUN_00403114(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
+    uVar2 = System__IsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
     if ((char)uVar2 != '\0') {
-      piVar1 = (int *)FUN_0040312c(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
+      piVar1 = (int *)System__AsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
       piVar3 = (int *)(**(code **)(*piVar1 + 0x70))(piVar1,piVar1[0xb]);
       (**(code **)(*piVar3 + 0x3c))(piVar3,(char)piVar1[0x13]);
       FUN_0045727c(piVar3,(char)piVar1[0x15]);
@@ -1580,7 +1584,7 @@ int * FUN_00468d10(int param_1)
     }
   }
   else {
-    piVar3 = (int *)FUN_0040312c(piVar1,(int)&LAB_00454aa4);
+    piVar3 = (int *)System__AsClass(piVar1,(int)&LAB_00454aa4);
   }
   return piVar3;
 }

@@ -17,7 +17,8 @@ void TfrmCoolDialog_virtual_02c(int *param_1,char param_2,undefined4 param_3)
   local_8 = (uint *)0x0;
   if (param_2 != '\0') {
     puStackY_24 = (undefined1 *)0x488f3f;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
   }
   puStackY_28 = &LAB_00488fcb;
@@ -33,7 +34,7 @@ void TfrmCoolDialog_virtual_02c(int *param_1,char param_2,undefined4 param_3)
   *in_FS_OFFSET = uStackY_2c;
   puStackY_24 = &LAB_00488fd2;
   puStackY_28 = (undefined1 *)0x488fca;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -44,7 +45,7 @@ void TfrmCoolDialog_GDIFormShow(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 extraout_ECX;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_13c;
@@ -72,20 +73,20 @@ void TfrmCoolDialog_GDIFormShow(int *param_1)
   *in_FS_OFFSET = &uStack_124;
   iStack_128 = 0x489028;
   local_8 = param_1;
-  FUN_00402ee4(*param_1,local_114);
+  System_TObject_ClassName(*param_1,local_114);
   iStack_128 = 0x489036;
-  FUN_00403e80(&local_14,local_114);
+  System__LStrFromString(&local_14,local_114);
   iStack_128 = local_14;
   puStack_12c = &DAT_00489178;
   pcStack_130 = "GDIFormShow";
   puStack_134 = (undefined4 *)0x489050;
-  FUN_00403f9c((int *)&local_10,3);
+  System__LStrCatN((int *)&local_10,3);
   puStack_134 = local_10;
   puStack_138 = (undefined1 *)0x489059;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   puVar1 = puStack_134;
   puStack_134 = (undefined4 *)0x489065;
-  FUN_0045fb90(uVar2,puVar1,2);
+  TDebug_InProc(debug,puVar1,2);
   puStack_134 = (undefined4 *)0x489071;
   local_c = TDIB_virtual_00c((int *)&PTR_TPersistent_virtual_000_00458968,'\x01',extraout_ECX);
   puStack_138 = &LAB_004890fa;
@@ -100,7 +101,7 @@ void TfrmCoolDialog_GDIFormShow(int *param_1)
   *in_FS_OFFSET = uStack_13c;
   puStack_134 = (undefined4 *)&LAB_00489101;
   puStack_138 = (undefined1 *)0x4890f9;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -115,9 +116,9 @@ void TfrmCoolDialog_virtual_0e4(int *param_1,int *param_2)
   byte local_104 [256];
   
   pbVar1 = local_104;
-  FUN_00402ee4(*param_1,local_204);
+  System_TObject_ClassName(*param_1,local_204);
   FUN_0040287c(local_204,5,8,pbVar1);
-  FUN_00403e80(param_2,local_104);
+  System__LStrFromString(param_2,local_104);
   return;
 }
 
@@ -163,20 +164,20 @@ void TfrmCoolDialog_btnHelpClick(int *param_1)
   else {
     iVar6 = 0;
     in_stack_fffffec4 = (undefined1 *)0x0;
-    FUN_00402ee4(*param_1,local_110);
-    FUN_00403e80((int *)&local_10,local_110);
+    System_TObject_ClassName(*param_1,local_110);
+    System__LStrFromString((int *)&local_10,local_110);
     puVar2 = local_10;
-    FUN_00403f28((int *)&local_114,*(undefined4 **)(*(int *)puVar1 + 0xb8),(undefined4 *)"agent.ini"
-                );
+    System__LStrCat3((int *)&local_114,*(undefined4 **)(*(int *)puVar1 + 0xb8),
+                     (undefined4 *)"agent.ini");
     FUN_00482af8(iVar4,local_114,puVar2,in_stack_fffffec4,iVar6);
     FUN_0047e430(*(int *)(*(int *)puVar1 + 0xa0));
     FUN_0047e17c(*(int *)(*(int *)puVar1 + 0xa0));
-    FUN_0040f7d0(*(undefined4 *)(param_1[0xbb] + 0x30),*(undefined4 *)(param_1[0xbb] + 0x34),
-                 local_11c);
+    Classes_Point(*(undefined4 *)(param_1[0xbb] + 0x30),*(undefined4 *)(param_1[0xbb] + 0x34),
+                  local_11c);
     uVar3 = FUN_0042e2ac(param_1,local_11c,&local_c);
     iVar4 = local_c + 10;
     if (SCARRY4(local_c,10)) {
-      thunk_FUN_00402808(uVar3);
+      System__RunError(uVar3);
       iVar4 = extraout_EDX;
     }
     FUN_0047e2e0(*(int *)(*(int *)puVar1 + 0xa0),iVar4);
@@ -184,12 +185,12 @@ void TfrmCoolDialog_btnHelpClick(int *param_1)
     uVar3 = FUN_0047e5e4(iVar4);
     iVar6 = uVar3 + local_8;
     if (SCARRY4(uVar3,local_8)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
       iVar6 = extraout_EDX_00;
     }
     iVar5 = iVar6 + 0x3c;
     if (SCARRY4(iVar6,0x3c)) {
-      thunk_FUN_00402808(uVar3);
+      System__RunError(uVar3);
       iVar5 = extraout_EDX_01;
     }
     FUN_0047e388(iVar4,iVar5);
@@ -199,8 +200,8 @@ void TfrmCoolDialog_btnHelpClick(int *param_1)
   (**(code **)(*param_1 + 0x74))();
   *in_FS_OFFSET = in_stack_fffffec4;
   puStack_134 = &LAB_00489350;
-  FUN_00403c5c((int *)&local_114);
-  FUN_00403c5c((int *)&local_10);
+  System__LStrClr((int *)&local_114);
+  System__LStrClr((int *)&local_10);
   return;
 }
 
@@ -250,38 +251,39 @@ void TfrmCoolDialog_ShowWinHelp(int *param_1)
   uStack_130 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_130;
   puStack_134 = (undefined1 *)0x4893e9;
-  FUN_00403f28((int *)&local_10,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
-               (undefined4 *)"agent.ini");
+  System__LStrCat3((int *)&local_10,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
+                   (undefined4 *)"agent.ini");
   puStack_134 = (undefined1 *)0x4893f8;
   local_8 = FUN_00457d38((int *)&PTR_TIniFile_virtual_000_00457cdc,'\x01',local_10);
   puStack_134 = (undefined1 *)0x489407;
-  local_c = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
+  local_c = (int *)System_TObject_Create
+                             ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
   puStack_138 = &LAB_004894e6;
   uStack_13c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_13c;
   puStack_134 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_114);
-  FUN_00403e80(&local_14,local_114);
-  FUN_00403ee4(&local_14,(undefined4 *)"BalloonItems");
+  System_TObject_ClassName(*param_1,local_114);
+  System__LStrFromString(&local_14,local_114);
+  System__LStrCat(&local_14,(undefined4 *)"BalloonItems");
   (**(code **)(*local_8 + 0x40))(local_8,local_14,local_c);
   FUN_00411730(local_c,0,&local_118);
   iVar2 = local_118;
-  FUN_00402ee4(*param_1,local_114);
-  FUN_00403e80(&local_11c,local_114);
-  FUN_00403ee4(&local_11c,(undefined4 *)"BalloonItems");
+  System_TObject_ClassName(*param_1,local_114);
+  System__LStrFromString(&local_11c,local_114);
+  System__LStrCat(&local_11c,(undefined4 *)"BalloonItems");
   uVar1 = (**(code **)(*local_8 + 8))(local_8,local_11c,iVar2);
   iVar2 = uVar1 + 0x7fffffff;
   if (iVar2 == -1) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
     iVar2 = extraout_EDX;
   }
   FUN_0044d7f0(*(int *)PTR_DAT_004ab8ac,iVar2 + 0x80000001);
   *in_FS_OFFSET = 1;
   puStack_138 = &LAB_004894ed;
   uStack_13c = 0x4894dd;
-  FUN_00402f9c(local_8);
+  System_TObject_Free(local_8);
   uStack_13c = 0x4894e5;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -292,7 +294,7 @@ void TBitmapManager_Create(int *param_1,char param_2,int param_3,undefined4 *par
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   int extraout_ECX;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_134;
@@ -308,29 +310,30 @@ void TBitmapManager_Create(int *param_1,char param_2,int param_3,undefined4 *par
   local_c = 0;
   if (param_2 != '\0') {
     puStackY_12c = (undefined1 *)0x48961c;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffed8,in_stack_fffffedc);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffed8,
+                                         in_stack_fffffedc);
     param_3 = extraout_ECX;
   }
   puStackY_12c = (undefined1 *)0x48962a;
-  FUN_00404090((int)param_4);
+  System__LStrAddRef((int)param_4);
   puStackY_130 = &LAB_004896cb;
   uStackY_134 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_134;
   puStackY_12c = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,2);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,2);
   if (param_3 == 0) {
-    FUN_00403c40("aResourceManager  =  nil");
+    System__Assert("aResourceManager  =  nil");
   }
   param_1[1] = param_3;
-  FUN_00403cb0(param_1 + 2,param_4);
+  System__LStrAsg(param_1 + 2,param_4);
   *in_FS_OFFSET = "Create";
-  FUN_00403c80(&local_c,2);
-  FUN_00403c5c((int *)&param_4);
+  System__LStrArrayClr(&local_c,2);
+  System__LStrClr((int *)&param_4);
   return;
 }
 
@@ -342,11 +345,11 @@ void FUN_00489760(int *param_1,undefined4 *param_2,int *param_3)
 {
   int iVar1;
   char cVar2;
-  uint uVar3;
-  undefined4 uVar4;
+  uint debug;
+  undefined4 uVar3;
   undefined4 *in_FS_OFFSET;
   char *pcStackY_16c;
-  char *pcVar5;
+  char *pcVar4;
   undefined4 uStack_148;
   undefined1 *puStack_144;
   undefined1 *puStack_140;
@@ -373,52 +376,52 @@ void FUN_00489760(int *param_1,undefined4 *param_2,int *param_3)
   local_c = (undefined4 *)0x0;
   puStack_140 = (undefined1 *)0x4897a4;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_144 = &LAB_00489941;
   uStack_148 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_148;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_140 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar5 = "GetBitmapFromFile";
-  FUN_00403f9c(&local_18,3);
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar4 = "GetBitmapFromFile";
+  System__LStrCatN(&local_18,3);
   iVar1 = local_18;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fa3c(uVar3,iVar1,0,(int)pcVar5);
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar1,0,(int)pcVar4);
   if (param_3 == (int *)0x0) {
-    FUN_00402ee4(*param_1,local_11c);
-    FUN_00403e80(&local_124,local_11c);
+    System_TObject_ClassName(*param_1,local_11c);
+    System__LStrFromString(&local_124,local_11c);
     pcStackY_16c = " aBitmap = nil";
-    FUN_00403f9c(&local_120,4);
-    FUN_00403c40(local_120);
+    System__LStrCatN(&local_120,4);
+    System__Assert(local_120);
   }
-  FUN_00403f28((int *)&local_c,local_8,(undefined4 *)&DAT_004899c8);
-  FUN_00403f28((int *)&local_128,(undefined4 *)param_1[2],local_c);
-  uVar4 = FUN_004087a4(local_128);
-  if ((char)uVar4 == '\0') {
+  System__LStrCat3((int *)&local_c,local_8,(undefined4 *)&DAT_004899c8);
+  System__LStrCat3((int *)&local_128,(undefined4 *)param_1[2],local_c);
+  uVar3 = SysUtils_FileExists(local_128);
+  if ((char)uVar3 == '\0') {
     cVar2 = FUN_00463388(param_1[1],(undefined *)local_c);
     if (cVar2 == '\0') {
-      FUN_00403f28(&local_130,(undefined4 *)"Unable to load: ",local_c);
+      System__LStrCat3(&local_130,(undefined4 *)"Unable to load: ",local_c);
       iVar1 = local_130;
-      uVar3 = FUN_0045f46c();
-      FUN_0045fe38(uVar3,iVar1);
+      debug = Debug();
+      FUN_0045fe38(debug,iVar1);
     }
     else {
       FUN_00462d80((int *)param_1[1],(undefined *)local_c,param_3);
     }
   }
   else {
-    FUN_00403f28(&local_12c,(undefined4 *)param_1[2],local_c);
+    System__LStrCat3(&local_12c,(undefined4 *)param_1[2],local_c);
     (**(code **)(*param_3 + 0x48))(param_3,local_12c);
   }
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = pcStackY_16c;
-  FUN_00403c80(&local_130,5);
-  FUN_00403c80(&local_1c,2);
-  FUN_00403c80((int *)&local_c,2);
+  System__LStrArrayClr(&local_130,5);
+  System__LStrArrayClr(&local_1c,2);
+  System__LStrArrayClr((int *)&local_c,2);
   return;
 }
 
@@ -429,11 +432,11 @@ void FUN_004899ec(int *param_1,int param_2,undefined4 *param_3)
 
 {
   int iVar1;
-  uint uVar2;
-  int *piVar3;
+  uint debug;
+  int *piVar2;
   undefined4 *in_FS_OFFSET;
   char *pcStackY_160;
-  char *pcVar4;
+  char *pcVar3;
   undefined4 uStack_13c;
   undefined1 *puStack_138;
   undefined1 *puStack_134;
@@ -454,39 +457,39 @@ void FUN_004899ec(int *param_1,int param_2,undefined4 *param_3)
   local_18 = 0;
   puStack_134 = (undefined1 *)0x489a26;
   local_8 = param_3;
-  FUN_00404090((int)param_3);
+  System__LStrAddRef((int)param_3);
   puStack_138 = &LAB_00489b92;
   uStack_13c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_13c;
   local_10 = local_8;
   local_c = 0xb;
   puStack_134 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_118);
-  FUN_00403e80(&local_18,local_118);
-  pcVar4 = "GetImgBitmapFromFile";
-  FUN_00403f9c(&local_14,3);
+  System_TObject_ClassName(*param_1,local_118);
+  System__LStrFromString(&local_18,local_118);
+  pcVar3 = "GetImgBitmapFromFile";
+  System__LStrCatN(&local_14,3);
   iVar1 = local_14;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fa3c(uVar2,iVar1,2,(int)pcVar4);
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar1,2,(int)pcVar3);
   if (param_1 == (int *)0x0) {
-    FUN_00402ee4(iRam00000000,local_118);
-    FUN_00403e80(local_124 + 1,local_118);
+    System_TObject_ClassName(iRam00000000,local_118);
+    System__LStrFromString(local_124 + 1,local_118);
     pcStackY_160 = " Self = nil";
-    FUN_00403f9c(local_124 + 2,4);
-    FUN_00403c40(local_124[2]);
+    System__LStrCatN(local_124 + 2,4);
+    System__Assert(local_124[2]);
   }
   if (param_2 == 0) {
-    FUN_00402ee4(*param_1,local_118);
-    FUN_00403e80(&local_128,local_118);
-    FUN_00403f9c(local_124,4);
-    FUN_00403c40(local_124[0]);
+    System_TObject_ClassName(*param_1,local_118);
+    System__LStrFromString(&local_128,local_118);
+    System__LStrCatN(local_124,4);
+    System__Assert(local_124[0]);
   }
-  piVar3 = (int *)FUN_0041b45c(*(int **)(param_2 + 0x128));
-  FUN_00489760(param_1,local_8,piVar3);
+  piVar2 = (int *)FUN_0041b45c(*(int **)(param_2 + 0x128));
+  FUN_00489760(param_1,local_8,piVar2);
   *in_FS_OFFSET = pcStackY_160;
-  FUN_00403c80(&local_128,4);
-  FUN_00403c80(&local_18,2);
-  FUN_00403c5c((int *)&local_8);
+  System__LStrArrayClr(&local_128,4);
+  System__LStrArrayClr(&local_18,2);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -497,10 +500,10 @@ void FUN_00489c28(int *param_1,int *param_2,undefined4 *param_3)
 
 {
   int iVar1;
-  uint uVar2;
+  uint debug;
   undefined4 extraout_ECX;
   undefined4 extraout_ECX_00;
-  undefined4 uVar3;
+  undefined4 uVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_168;
   undefined1 *puStackY_164;
@@ -509,7 +512,7 @@ void FUN_00489c28(int *param_1,int *param_2,undefined4 *param_3)
   char *pcStackY_158;
   undefined *puStackY_154;
   int iStackY_150;
-  char *pcVar4;
+  char *pcVar3;
   undefined4 uStack_138;
   undefined1 *puStack_134;
   undefined1 *puStack_130;
@@ -529,42 +532,42 @@ void FUN_00489c28(int *param_1,int *param_2,undefined4 *param_3)
   local_1c = 0;
   puStack_130 = (undefined1 *)0x489c56;
   local_8 = param_3;
-  FUN_00404090((int)param_3);
+  System__LStrAddRef((int)param_3);
   puStack_134 = &LAB_00489dc2;
   uStack_138 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_138;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_130 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar4 = "GetImgTargaFromFile";
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar3 = "GetImgTargaFromFile";
   iStackY_150 = 0x489ca9;
-  FUN_00403f9c(&local_18,3);
+  System__LStrCatN(&local_18,3);
   iStackY_150 = local_18;
   puStackY_154 = (undefined *)0x489cb2;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   iVar1 = iStackY_150;
   iStackY_150 = 0x489cbe;
-  FUN_0045fa3c(uVar2,iVar1,2,(int)pcVar4);
-  uVar3 = extraout_ECX;
+  FUN_0045fa3c(debug,iVar1,2,(int)pcVar3);
+  uVar2 = extraout_ECX;
   if (param_2 == (int *)0x0) {
     iStackY_150 = 0x489ccf;
-    FUN_00402ee4(*param_1,local_11c);
+    System_TObject_ClassName(*param_1,local_11c);
     iStackY_150 = 0x489ce0;
-    FUN_00403e80(&local_124,local_11c);
+    System__LStrFromString(&local_124,local_11c);
     iStackY_150 = local_124;
     puStackY_154 = &DAT_00489dd8;
     pcStackY_158 = "GetImgTargaFromFile";
     pcStackY_15c = " aGDIGraphic = nil";
     puStackY_160 = (undefined1 *)0x489d05;
-    FUN_00403f9c(&local_120,4);
+    System__LStrCatN(&local_120,4);
     puStackY_160 = (undefined1 *)0x489d1a;
-    FUN_00403c40(local_120);
-    uVar3 = extraout_ECX_00;
+    System__Assert(local_120);
+    uVar2 = extraout_ECX_00;
   }
   puStackY_160 = (undefined1 *)0x489d26;
-  local_c = TDIB_virtual_00c((int *)&PTR_TPersistent_virtual_000_00458968,'\x01',uVar3);
+  local_c = TDIB_virtual_00c((int *)&PTR_TPersistent_virtual_000_00458968,'\x01',uVar2);
   puStackY_164 = &LAB_00489d88;
   uStackY_168 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_168;
@@ -576,7 +579,7 @@ void FUN_00489c28(int *param_1,int *param_2,undefined4 *param_3)
   *in_FS_OFFSET = uStackY_168;
   puStackY_160 = &LAB_00489d8f;
   puStackY_164 = (undefined1 *)0x489d87;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -598,18 +601,18 @@ void FUN_00489e40(int *param_1,int *param_2,undefined4 *param_3,int param_4)
   local_10 = (undefined4 *)0x0;
   puStack_1c = (undefined1 *)0x489e5a;
   local_8 = param_3;
-  FUN_00404090((int)param_3);
+  System__LStrAddRef((int)param_3);
   puStack_20 = &LAB_00489ea8;
   uStack_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_24;
   puStack_1c = &stack0xfffffffc;
   FUN_00480b08(param_4,(int *)&local_10);
-  FUN_00403f28((int *)&local_c,local_8,local_10);
+  System__LStrCat3((int *)&local_c,local_8,local_10);
   FUN_00489c28(param_1,param_2,local_c);
   *in_FS_OFFSET = uStack_24;
   puStack_1c = &LAB_00489eaf;
   puStack_20 = (undefined1 *)0x489ea7;
-  FUN_00403c80((int *)&local_10,3);
+  System__LStrArrayClr((int *)&local_10,3);
   return;
 }
 
@@ -621,11 +624,11 @@ void FUN_00489eb8(int *param_1,undefined4 *param_2,int *param_3)
 {
   int iVar1;
   char cVar2;
-  uint uVar3;
-  undefined4 uVar4;
+  uint debug;
+  undefined4 uVar3;
   undefined4 *in_FS_OFFSET;
   char *pcStackY_16c;
-  char *pcVar5;
+  char *pcVar4;
   undefined4 uStack_148;
   undefined1 *puStack_144;
   undefined1 *puStack_140;
@@ -652,52 +655,52 @@ void FUN_00489eb8(int *param_1,undefined4 *param_2,int *param_3)
   local_c = (undefined4 *)0x0;
   puStack_140 = (undefined1 *)0x489efc;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_144 = &LAB_0048a099;
   uStack_148 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_148;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_140 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar5 = "GetTargaFromFile";
-  FUN_00403f9c(&local_18,3);
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar4 = "GetTargaFromFile";
+  System__LStrCatN(&local_18,3);
   iVar1 = local_18;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fa3c(uVar3,iVar1,0,(int)pcVar5);
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar1,0,(int)pcVar4);
   if (param_3 == (int *)0x0) {
-    FUN_00402ee4(*param_1,local_11c);
-    FUN_00403e80(&local_124,local_11c);
+    System_TObject_ClassName(*param_1,local_11c);
+    System__LStrFromString(&local_124,local_11c);
     pcStackY_16c = " Targa = nil";
-    FUN_00403f9c(&local_120,4);
-    FUN_00403c40(local_120);
+    System__LStrCatN(&local_120,4);
+    System__Assert(local_120);
   }
-  FUN_00403f28((int *)&local_c,local_8,(undefined4 *)&DAT_0048a120);
-  FUN_00403f28((int *)&local_128,(undefined4 *)param_1[2],local_c);
-  uVar4 = FUN_004087a4(local_128);
-  if ((char)uVar4 == '\0') {
+  System__LStrCat3((int *)&local_c,local_8,(undefined4 *)&DAT_0048a120);
+  System__LStrCat3((int *)&local_128,(undefined4 *)param_1[2],local_c);
+  uVar3 = SysUtils_FileExists(local_128);
+  if ((char)uVar3 == '\0') {
     cVar2 = FUN_00463388(param_1[1],(undefined *)local_c);
     if (cVar2 == '\0') {
-      FUN_00403f28(&local_130,(undefined4 *)"Unable to load: ",local_c);
+      System__LStrCat3(&local_130,(undefined4 *)"Unable to load: ",local_c);
       iVar1 = local_130;
-      uVar3 = FUN_0045f46c();
-      FUN_0045fe38(uVar3,iVar1);
+      debug = Debug();
+      FUN_0045fe38(debug,iVar1);
     }
     else {
       FUN_004633dc((int *)param_1[1],(undefined *)local_c,param_3);
     }
   }
   else {
-    FUN_00403f28(&local_12c,(undefined4 *)param_1[2],local_c);
+    System__LStrCat3(&local_12c,(undefined4 *)param_1[2],local_c);
     (**(code **)(*param_3 + 0x48))(param_3,local_12c);
   }
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = pcStackY_16c;
-  FUN_00403c80(&local_130,5);
-  FUN_00403c80(&local_1c,2);
-  FUN_00403c80((int *)&local_c,2);
+  System__LStrArrayClr(&local_130,5);
+  System__LStrArrayClr(&local_1c,2);
+  System__LStrArrayClr((int *)&local_c,2);
   return;
 }
 
@@ -718,7 +721,8 @@ int * TGameIni_virtual_004(int *param_1,char param_2,undefined4 param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -731,7 +735,7 @@ int * TGameIni_virtual_004(int *param_1,char param_2,undefined4 param_3)
                      ((int *)&PTR_TIntegerList_virtual_000_0045e2b4,'\x01',extraout_ECX_00);
   param_1[6] = (int)piVar1;
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -746,13 +750,13 @@ void TGameIni_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   FUN_0045e860(piVar1[7]);
-  FUN_0040c968(piVar1 + 7);
-  FUN_0040c968(piVar1 + 6);
+  SysUtils_FreeAndNil(piVar1 + 7);
+  SysUtils_FreeAndNil(piVar1 + 6);
   TDataObject_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -803,12 +807,12 @@ void TGameIni_DoLoadFromFile(int *param_1,int *param_2)
   *in_FS_OFFSET = &uStack_144;
   local_c = param_2;
   local_8 = param_1;
-  FUN_00402ee4(*param_1,local_124);
-  FUN_00403e80(&local_24,local_124);
-  FUN_00403f9c((int *)&local_20,3);
+  System_TObject_ClassName(*param_1,local_124);
+  System__LStrFromString(&local_24,local_124);
+  System__LStrCatN((int *)&local_20,3);
   puVar1 = local_20;
-  uVar4 = FUN_0045f46c();
-  FUN_0045fb90(uVar4,puVar1,0);
+  uVar4 = Debug();
+  TDebug_InProc(uVar4,puVar1,0);
   iVar5 = (**(code **)(*local_c + 8))(local_c,"PLAYER","MONEY");
   local_8[2] = iVar5;
   iVar5 = (**(code **)(*local_c + 8))(local_c,"PLAYER","TURBO_AMOUNT");
@@ -826,13 +830,13 @@ void TGameIni_DoLoadFromFile(int *param_1,int *param_2)
     piVar6 = &local_128;
     uVar4 = i_val[2] + 1;
     if (SCARRY4(i_val[2],1)) {
-      uVar4 = thunk_FUN_00402808(uVar4);
+      uVar4 = System__RunError(uVar4);
       piVar6 = extraout_EDX;
     }
-    FUN_004085ac(uVar4,piVar6);
+    SysUtils_IntToStr(uVar4,piVar6);
     pcStackY_174 = "_TIME";
     puStackY_178 = (undefined1 *)0x48a462;
-    FUN_00403f9c(i_val,3);
+    System__LStrCatN(i_val,3);
     puStackY_178 = (undefined1 *)0x48a472;
     cVar3 = FUN_004583c4(local_c,"PLAYER",i_val[0]);
     if (cVar3 != '\0') {
@@ -844,8 +848,9 @@ void TGameIni_DoLoadFromFile(int *param_1,int *param_2)
     i_val[2] = i_val[2] + 1;
   } while (i_val[2] != 5);
   i_val[2] = 0;
-  FUN_004085ac(0,i_val);
-  local_1c = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
+  SysUtils_IntToStr(0,i_val);
+  local_1c = (int *)System_TObject_Create
+                              ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
   pcStackY_174 = (char *)0x48a4d5;
   FUN_004603e0(local_c,"RACERS",i_val[0],i_val + 1,local_1c);
   pcStackY_174 = (char *)0x48a4e1;
@@ -866,7 +871,7 @@ void TGameIni_DoLoadFromFile(int *param_1,int *param_2)
   *in_FS_OFFSET = uStackY_17c;
   pcStackY_174 = &DAT_0048a56e;
   puStackY_178 = (undefined1 *)0x48a566;
-  FUN_00402f9c(local_1c);
+  System_TObject_Free(local_1c);
   return;
 }
 
@@ -926,12 +931,12 @@ void FUN_0048a804(int *param_1,undefined4 *param_2)
 
 {
   undefined1 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_14c;
   undefined1 *puStackY_148;
   undefined1 *puStackY_144;
-  char *pcVar3;
+  char *pcVar2;
   undefined4 uStack_12c;
   undefined1 *puStack_128;
   undefined1 *puStack_124;
@@ -947,24 +952,24 @@ void FUN_0048a804(int *param_1,undefined4 *param_2)
   local_1c = 0;
   puStack_124 = (undefined1 *)0x48a823;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_128 = &LAB_0048a8ff;
   uStack_12c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_12c;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_124 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar3 = "LoadFromFile";
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar2 = "LoadFromFile";
   puStackY_144 = (undefined1 *)0x48a876;
-  FUN_00403f9c(&local_18,3);
+  System__LStrCatN(&local_18,3);
   puStackY_144 = (undefined1 *)local_18;
   puStackY_148 = (undefined1 *)0x48a87f;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   puVar1 = puStackY_144;
   puStackY_144 = (undefined1 *)0x48a88b;
-  FUN_0045fa3c(uVar2,(int)puVar1,0,(int)pcVar3);
+  FUN_0045fa3c(debug,(int)puVar1,0,(int)pcVar2);
   puStackY_144 = (undefined1 *)0x48a89a;
   local_c = FUN_00457d38((int *)&PTR_TSafeIniFile_virtual_000_0046004c,'\x01',local_8);
   puStackY_148 = &LAB_0048a8cb;
@@ -975,7 +980,7 @@ void FUN_0048a804(int *param_1,undefined4 *param_2)
   *in_FS_OFFSET = uStackY_14c;
   puStackY_144 = &LAB_0048a8d2;
   puStackY_148 = (undefined1 *)0x48a8ca;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -997,9 +1002,9 @@ void TSaveGame_virtual_004(int *param_1,char param_2)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  int *piVar3;
-  int iVar4;
+  uint debug;
+  int *piVar2;
+  int iVar3;
   undefined4 extraout_ECX;
   undefined4 extraout_ECX_00;
   undefined4 *in_FS_OFFSET;
@@ -1016,32 +1021,33 @@ void TSaveGame_virtual_004(int *param_1,char param_2)
   local_c = 0;
   if (param_2 != '\0') {
     puStackY_128 = (undefined1 *)0x48aa4b;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,0,in_stack_fffffedc,in_stack_fffffee0);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,0,in_stack_fffffedc,in_stack_fffffee0)
+    ;
   }
   puStackY_12c = &LAB_0048ab13;
   uStackY_130 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_130;
   puStackY_128 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
   TDataObject_virtual_004(param_1,'\0',extraout_ECX);
-  piVar3 = FUN_0048c76c((int *)&PTR_TSaveGameHeader_virtual_000_0048c744,'\x01',(int)param_1);
-  param_1[2] = (int)piVar3;
-  iVar4 = TTourState_virtual_004((int *)&PTR_TTourState_virtual_000_0048cd54,'\x01');
-  param_1[4] = iVar4;
-  piVar3 = TDataObject_virtual_004((int *)&PTR_TQRState_virtual_000_0048cce4,'\x01',extraout_ECX_00)
+  piVar2 = FUN_0048c76c((int *)&PTR_TSaveGameHeader_virtual_000_0048c744,'\x01',(int)param_1);
+  param_1[2] = (int)piVar2;
+  iVar3 = TTourState_virtual_004((int *)&PTR_TTourState_virtual_000_0048cd54,'\x01');
+  param_1[4] = iVar3;
+  piVar2 = TDataObject_virtual_004((int *)&PTR_TQRState_virtual_000_0048cce4,'\x01',extraout_ECX_00)
   ;
-  param_1[3] = (int)piVar3;
-  iVar4 = TSettings_virtual_004((int *)&PTR_TSettings_virtual_000_004a6010,'\x01');
-  param_1[6] = iVar4;
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  param_1[3] = (int)piVar2;
+  iVar3 = TSettings_virtual_004((int *)&PTR_TSettings_virtual_000_004a6010,'\x01');
+  param_1[6] = iVar3;
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "Create";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1053,7 +1059,7 @@ void TSaveGame_Destroy(int *param_1,char param_2)
 {
   undefined4 *puVar1;
   int *piVar2;
-  uint uVar3;
+  uint debug;
   byte extraout_DL;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_120;
@@ -1066,26 +1072,26 @@ void TSaveGame_Destroy(int *param_1,char param_2)
   local_8 = (undefined4 *)0x0;
   local_c = 0;
   puStack_118 = (undefined1 *)0x48ab70;
-  piVar2 = FUN_004032fc(param_1,param_2);
+  piVar2 = System__BeforeDestruction(param_1,param_2);
   puStack_11c = &LAB_0048ac1d;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
   puStack_118 = &stack0xfffffffc;
-  FUN_00402ee4(*piVar2,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*piVar2,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar1,0);
-  FUN_0040c968(piVar2 + 2);
-  FUN_0040c968(piVar2 + 6);
-  FUN_0040c968(piVar2 + 4);
-  FUN_0040c968(piVar2 + 3);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
+  SysUtils_FreeAndNil(piVar2 + 2);
+  SysUtils_FreeAndNil(piVar2 + 6);
+  SysUtils_FreeAndNil(piVar2 + 4);
+  SysUtils_FreeAndNil(piVar2 + 3);
   TDataObject_Destroy(piVar2,extraout_DL & 0xfc);
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "Destroy";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1109,12 +1115,12 @@ void TSaveGame_virtual_00c(int *param_1)
   puStack_118 = &LAB_0048ace6;
   uStack_11c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_11c;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c(&local_8,5);
-  FUN_00403c40(local_8);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN(&local_8,5);
+  System__Assert(local_8);
   *in_FS_OFFSET = "This method not implemented";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1126,11 +1132,11 @@ void TSaveGame_virtual_014(int *param_1,int *param_2)
 {
   int iVar1;
   undefined4 *puVar2;
-  uint uVar3;
+  uint debug;
   undefined4 *in_FS_OFFSET;
-  char *pcVar4;
-  undefined *puVar5;
-  int iVar6;
+  char *pcVar3;
+  undefined *puVar4;
+  int iVar5;
   undefined4 uStack_120;
   undefined1 *puStack_11c;
   undefined1 *puStack_118;
@@ -1144,25 +1150,25 @@ void TSaveGame_virtual_014(int *param_1,int *param_2)
   puStack_11c = &LAB_0048ae2e;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  puVar5 = &DAT_0048ae44;
-  pcVar4 = "LoadFromStream";
-  iVar6 = local_c;
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  puVar4 = &DAT_0048ae44;
+  pcVar3 = "LoadFromStream";
+  iVar5 = local_c;
+  System__LStrCatN((int *)&local_8,3);
   puVar2 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar2,0);
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,0);
   iVar1 = *(int *)param_1[2];
-  (**(code **)(iVar1 + 0x14))((int *)param_1[2],param_2,iVar1,pcVar4,puVar5,iVar6);
+  (**(code **)(iVar1 + 0x14))((int *)param_1[2],param_2,iVar1,pcVar3,puVar4,iVar5);
   (**(code **)(*(int *)param_1[6] + 0x14))((int *)param_1[6],param_2);
   (**(code **)(*(int *)param_1[4] + 0x14))((int *)param_1[4],param_2);
   (**(code **)(*(int *)param_1[3] + 0x14))((int *)param_1[3],param_2);
   FUN_0045e350(param_2,param_1 + 5);
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
-  *in_FS_OFFSET = pcVar4;
-  FUN_00403c80(&local_c,2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = pcVar3;
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1174,11 +1180,11 @@ void TSaveGame_virtual_010(int *param_1,int *param_2)
 {
   int iVar1;
   undefined4 *puVar2;
-  uint uVar3;
+  uint debug;
   undefined4 *in_FS_OFFSET;
-  char *pcVar4;
-  undefined *puVar5;
-  int iVar6;
+  char *pcVar3;
+  undefined *puVar4;
+  int iVar5;
   undefined4 uStack_120;
   undefined1 *puStack_11c;
   undefined1 *puStack_118;
@@ -1192,25 +1198,25 @@ void TSaveGame_virtual_010(int *param_1,int *param_2)
   puStack_11c = &LAB_0048af2a;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  puVar5 = &DAT_0048af40;
-  pcVar4 = "SaveToStream";
-  iVar6 = local_c;
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  puVar4 = &DAT_0048af40;
+  pcVar3 = "SaveToStream";
+  iVar5 = local_c;
+  System__LStrCatN((int *)&local_8,3);
   puVar2 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar2,0);
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,0);
   iVar1 = *(int *)param_1[2];
-  (**(code **)(iVar1 + 0x10))((int *)param_1[2],param_2,iVar1,pcVar4,puVar5,iVar6);
+  (**(code **)(iVar1 + 0x10))((int *)param_1[2],param_2,iVar1,pcVar3,puVar4,iVar5);
   (**(code **)(*(int *)param_1[6] + 0x10))((int *)param_1[6],param_2);
   (**(code **)(*(int *)param_1[4] + 0x10))((int *)param_1[4],param_2);
   (**(code **)(*(int *)param_1[3] + 0x10))((int *)param_1[3],param_2);
   FUN_0045e380(param_2,param_1[5]);
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
-  *in_FS_OFFSET = pcVar4;
-  FUN_00403c80(&local_c,2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = pcVar3;
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1220,11 +1226,11 @@ void TSaveGame_virtual_010(int *param_1,int *param_2)
 void TSaveGame_LoadFromFile(int *param_1,undefined *param_2)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_38;
   undefined1 *puStackY_34;
-  int iVar2;
+  int iVar1;
   undefined4 uStack_24;
   undefined1 *puStack_20;
   undefined1 *puStack_1c;
@@ -1237,20 +1243,20 @@ void TSaveGame_LoadFromFile(int *param_1,undefined *param_2)
   puStack_1c = (undefined1 *)0x48af74;
   local_c = param_2;
   local_8 = param_1;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_20 = &LAB_0048b055;
   uStack_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_24;
   puStack_1c = &stack0xfffffffc;
   if (local_8 == (int *)0x0) {
     puStack_1c = &stack0xfffffffc;
-    FUN_00403c40(" Self = nil: LoadFromFile");
+    System__Assert(" Self = nil: LoadFromFile");
   }
   local_18 = local_c;
   local_14 = 0xb;
-  iVar2 = 0;
-  uVar1 = FUN_0045f46c();
-  FUN_0045fa3c(uVar1,0x48b0b8,0,iVar2);
+  iVar1 = 0;
+  debug = Debug();
+  FUN_0045fa3c(debug,0x48b0b8,0,iVar1);
   puStackY_34 = (undefined1 *)0x48afd2;
   local_10 = FUN_004128ac((int *)&PTR_THandleStream_virtual_000_0045e160,'\x01',local_c,0);
   puStackY_34 = &LAB_0048b01f;
@@ -1260,7 +1266,7 @@ void TSaveGame_LoadFromFile(int *param_1,undefined *param_2)
   FUN_00482830(*(int **)(*(int *)PTR_DAT_004ab694 + 0xb0),*(int *)(local_8[6] + 0x18));
   *in_FS_OFFSET = uStackY_38;
   puStackY_34 = (undefined1 *)0x48b01e;
-  FUN_00402f9c(local_10);
+  System_TObject_Free(local_10);
   return;
 }
 
@@ -1270,38 +1276,38 @@ void TSaveGame_LoadFromFile(int *param_1,undefined *param_2)
 void TSaveGame_SaveToFile(int *param_1,undefined *param_2)
 
 {
-  uint uVar1;
-  int *piVar2;
+  uint debug;
+  int *piVar1;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_38;
   undefined1 *puStackY_34;
-  int iVar3;
+  int iVar2;
   undefined4 uStack_24;
   undefined1 *puStack_20;
   undefined1 *puStack_1c;
   
   puStack_1c = (undefined1 *)0x48b0dc;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_20 = &LAB_0048b193;
   uStack_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_24;
   puStack_1c = &stack0xfffffffc;
   if (param_1 == (int *)0x0) {
     puStack_1c = &stack0xfffffffc;
-    FUN_00403c40(" Self = nil: SaveToFile");
+    System__Assert(" Self = nil: SaveToFile");
   }
-  iVar3 = 0;
-  uVar1 = FUN_0045f46c();
-  FUN_0045fa3c(uVar1,0x48b1f4,0,iVar3);
+  iVar2 = 0;
+  debug = Debug();
+  FUN_0045fa3c(debug,0x48b1f4,0,iVar2);
   puStackY_34 = (undefined1 *)0x48b13b;
-  piVar2 = FUN_004128ac((int *)&PTR_THandleStream_virtual_000_0045e160,'\x01',param_2,0xffff);
+  piVar1 = FUN_004128ac((int *)&PTR_THandleStream_virtual_000_0045e160,'\x01',param_2,0xffff);
   puStackY_34 = &LAB_0048b16c;
   uStackY_38 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_38;
-  (**(code **)(*param_1 + 0x10))(param_1,piVar2);
+  (**(code **)(*param_1 + 0x10))(param_1,piVar1);
   *in_FS_OFFSET = uStackY_38;
   puStackY_34 = (undefined1 *)0x48b16b;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -1371,13 +1377,13 @@ void FUN_0048b2ec(int param_1,byte *param_2)
 void TSaveGame_WriteControlStuffToIni(int *param_1,int *param_2)
 
 {
-  uint uVar1;
-  undefined4 uVar2;
+  uint debug;
+  undefined4 uVar1;
   undefined4 *in_FS_OFFSET;
-  undefined4 *puVar3;
-  char *pcVar4;
-  undefined *puVar5;
-  int iVar6;
+  undefined4 *puVar2;
+  char *pcVar3;
+  undefined *puVar4;
+  int iVar5;
   undefined4 uStack_124;
   undefined1 *puStack_120;
   undefined1 *puStack_11c;
@@ -1391,17 +1397,17 @@ void TSaveGame_WriteControlStuffToIni(int *param_1,int *param_2)
   puStack_120 = &LAB_0048b4dc;
   uStack_124 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_124;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  puVar5 = &DAT_0048b4f4;
-  pcVar4 = "WriteControlStuffToIni";
-  iVar6 = local_c;
-  FUN_00403f9c((int *)&local_8,3);
-  puVar3 = local_8;
-  uVar1 = FUN_0045f46c();
-  FUN_0045fb90(uVar1,puVar3,0);
-  uVar2 = FUN_004a6a38(*(int *)(param_1[6] + 0xc));
-  (**(code **)(*param_2 + 0xc))(param_2,"INPUT","DEVICE",uVar2,pcVar4,puVar5,iVar6);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  puVar4 = &DAT_0048b4f4;
+  pcVar3 = "WriteControlStuffToIni";
+  iVar5 = local_c;
+  System__LStrCatN((int *)&local_8,3);
+  puVar2 = local_8;
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,0);
+  uVar1 = FUN_004a6a38(*(int *)(param_1[6] + 0xc));
+  (**(code **)(*param_2 + 0xc))(param_2,"INPUT","DEVICE",uVar1,pcVar3,puVar4,iVar5);
   (**(code **)(*param_2 + 0xc))
             (param_2,"INPUT",&DAT_0048b544,*(undefined4 *)(*(int *)(param_1[6] + 0xc) + 0x10));
   (**(code **)(*param_2 + 0xc))
@@ -1416,12 +1422,12 @@ void TSaveGame_WriteControlStuffToIni(int *param_1,int *param_2)
             (param_2,"INPUT","EXTRA2",*(undefined4 *)(*(int *)(param_1[6] + 0xc) + 0x1c));
   (**(code **)(*param_2 + 0xc))
             (param_2,"INPUT","EXTRA3",*(undefined4 *)(*(int *)(param_1[6] + 0xc) + 0x20));
-  uVar2 = FUN_004a6a70(*(int *)(param_1[6] + 0xc));
+  uVar1 = FUN_004a6a70(*(int *)(param_1[6] + 0xc));
   (**(code **)(*param_2 + 0xc))(param_2,"INPUT","SENSITIVITY");
-  uVar1 = FUN_0045f46c();
-  TDebug_ExitProc(uVar1);
-  *in_FS_OFFSET = uVar2;
-  FUN_00403c80(&local_c,2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = uVar1;
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1431,12 +1437,12 @@ void TSaveGame_WriteControlStuffToIni(int *param_1,int *param_2)
 void TSaveGame_WriteQRStuffToIni(int *param_1,int *param_2)
 
 {
-  uint uVar1;
-  int iVar2;
+  uint debug;
+  int iVar1;
   undefined4 *in_FS_OFFSET;
-  undefined4 *puVar3;
-  char *pcVar4;
-  undefined *puVar5;
+  undefined4 *puVar2;
+  char *pcVar3;
+  undefined *puVar4;
   undefined4 uStack_124;
   undefined1 *puStack_120;
   undefined1 *puStack_11c;
@@ -1450,28 +1456,28 @@ void TSaveGame_WriteQRStuffToIni(int *param_1,int *param_2)
   puStack_120 = &LAB_0048b6f2;
   uStack_124 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_124;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  puVar5 = &DAT_0048b708;
-  pcVar4 = "WriteQRStuffToIni";
-  iVar2 = local_c;
-  FUN_00403f9c((int *)&local_8,3);
-  puVar3 = local_8;
-  uVar1 = FUN_0045f46c();
-  FUN_0045fb90(uVar1,puVar3,0);
-  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","MONEY",0,pcVar4,puVar5,iVar2);
-  iVar2 = FUN_0048c20c((int)param_1);
-  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER",&DAT_0048b754,*(undefined4 *)(iVar2 + 0xc));
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  puVar4 = &DAT_0048b708;
+  pcVar3 = "WriteQRStuffToIni";
+  iVar1 = local_c;
+  System__LStrCatN((int *)&local_8,3);
+  puVar2 = local_8;
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,0);
+  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","MONEY",0,pcVar3,puVar4,iVar1);
+  iVar1 = FUN_0048c20c((int)param_1);
+  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER",&DAT_0048b754,*(undefined4 *)(iVar1 + 0xc));
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","TURBO_AMOUNT",100);
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","MOTOR",1);
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","BANDEN",1);
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER",&DAT_0048b798,1);
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","VERSNELLINGSBAK",1);
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","POSITION");
-  uVar1 = FUN_0045f46c();
-  TDebug_ExitProc(uVar1);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = 4;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1482,16 +1488,16 @@ void TSaveGame_WriteVRStuffToIni(int *param_1,int *param_2)
 
 {
   undefined1 uVar1;
-  uint uVar2;
+  uint debug;
+  int iVar2;
   int iVar3;
-  int iVar4;
   undefined4 extraout_EDX;
   undefined4 extraout_EDX_00;
   undefined4 extraout_EDX_01;
   undefined4 *in_FS_OFFSET;
-  undefined4 *puVar5;
-  char *pcVar6;
-  undefined *puVar7;
+  undefined4 *puVar4;
+  char *pcVar5;
+  undefined *puVar6;
   undefined4 uStack_124;
   undefined1 *puStack_120;
   undefined1 *puStack_11c;
@@ -1505,39 +1511,39 @@ void TSaveGame_WriteVRStuffToIni(int *param_1,int *param_2)
   puStack_120 = &LAB_0048b94a;
   uStack_124 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_124;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  puVar7 = &DAT_0048b960;
-  pcVar6 = "WriteVRStuffToIni";
-  iVar4 = local_c;
-  FUN_00403f9c((int *)&local_8,3);
-  puVar5 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar5,0);
-  iVar3 = FUN_0048d458(param_1[4]);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  puVar6 = &DAT_0048b960;
+  pcVar5 = "WriteVRStuffToIni";
+  iVar3 = local_c;
+  System__LStrCatN((int *)&local_8,3);
+  puVar4 = local_8;
+  debug = Debug();
+  TDebug_InProc(debug,puVar4,0);
+  iVar2 = FUN_0048d458(param_1[4]);
   (**(code **)(*param_2 + 0xc))
-            (param_2,"PLAYER","MONEY",*(undefined4 *)(iVar3 + 8),pcVar6,puVar7,iVar4);
-  iVar4 = FUN_0048c22c((int)param_1);
-  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER",&DAT_0048b9ac,*(undefined4 *)(iVar4 + 0xc));
-  iVar4 = FUN_0048d458(param_1[4]);
-  uVar1 = FUN_0048d8c0(iVar4,0);
+            (param_2,"PLAYER","MONEY",*(undefined4 *)(iVar2 + 8),pcVar5,puVar6,iVar3);
+  iVar3 = FUN_0048c22c((int)param_1);
+  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER",&DAT_0048b9ac,*(undefined4 *)(iVar3 + 0xc));
+  iVar3 = FUN_0048d458(param_1[4]);
+  uVar1 = FUN_0048d8c0(iVar3,0);
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","MOTOR",uVar1);
-  iVar4 = FUN_0048d458(param_1[4]);
-  uVar1 = FUN_0048d8c0(iVar4,CONCAT31((int3)((uint)extraout_EDX >> 8),1));
+  iVar3 = FUN_0048d458(param_1[4]);
+  uVar1 = FUN_0048d8c0(iVar3,CONCAT31((int3)((uint)extraout_EDX >> 8),1));
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","BANDEN",uVar1);
-  iVar4 = FUN_0048d458(param_1[4]);
-  uVar1 = FUN_0048d8c0(iVar4,CONCAT31((int3)((uint)extraout_EDX_00 >> 8),2));
+  iVar3 = FUN_0048d458(param_1[4]);
+  uVar1 = FUN_0048d8c0(iVar3,CONCAT31((int3)((uint)extraout_EDX_00 >> 8),2));
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER",&DAT_0048b9d8,uVar1);
-  iVar4 = FUN_0048d458(param_1[4]);
-  uVar1 = FUN_0048d8c0(iVar4,CONCAT31((int3)((uint)extraout_EDX_01 >> 8),3));
+  iVar3 = FUN_0048d458(param_1[4]);
+  uVar1 = FUN_0048d8c0(iVar3,CONCAT31((int3)((uint)extraout_EDX_01 >> 8),3));
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","VERSNELLINGSBAK",uVar1);
-  iVar4 = FUN_0048d458(param_1[4]);
-  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","TURBO_AMOUNT",*(undefined4 *)(iVar4 + 0x10));
+  iVar3 = FUN_0048d458(param_1[4]);
+  (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","TURBO_AMOUNT",*(undefined4 *)(iVar3 + 0x10));
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","POSITION");
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = 4;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1591,24 +1597,24 @@ void FUN_0048ba20(int param_1,int *param_2)
   (**(code **)(*param_2 + 0xc))
             (param_2,"directx","index",*(undefined4 *)(*(int *)(param_1 + 0x18) + 0x20));
   if (*(char *)(*(int *)(param_1 + 0x18) + 0x28) == '\0') {
-    uVar2 = FUN_0045f46c();
-    FUN_0045fe88(uVar2,0x48bca8);
+    uVar2 = Debug();
+    TDebug_Message(uVar2,0x48bca8);
   }
   else {
     FUN_0048128c(*(undefined4 **)(*(int *)(param_1 + 0x18) + 0x24),&local_8);
     (**(code **)(*param_2 + 4))(param_2,"directx",&DAT_0048bc74,local_8);
     FUN_0048128c(*(undefined4 **)(*(int *)(param_1 + 0x18) + 0x24),(int *)&local_10);
-    FUN_00403f28(&local_c,(undefined4 *)"RASER.INI : [directx] guid=",local_10);
+    System__LStrCat3(&local_c,(undefined4 *)"RASER.INI : [directx] guid=",local_10);
     iVar3 = local_c;
-    uVar2 = FUN_0045f46c();
-    FUN_0045fe88(uVar2,iVar3);
+    uVar2 = Debug();
+    TDebug_Message(uVar2,iVar3);
   }
   (**(code **)(*param_2 + 0xc))
             (param_2,"program","resolution",*(undefined4 *)(*(int *)(param_1 + 0x18) + 0x2c));
   uVar1 = *(undefined4 *)(*(int *)(param_1 + 0x18) + 0x38);
   (**(code **)(*param_2 + 0xc))(param_2,"program","focus");
   *in_FS_OFFSET = uVar1;
-  FUN_00403c80((int *)&local_10,3);
+  System__LStrArrayClr((int *)&local_10,3);
   return;
 }
 
@@ -1619,16 +1625,16 @@ void TSaveGame_WriteGeneralStuffToIni(int *param_1,int *param_2)
 
 {
   bool bVar1;
-  uint uVar2;
+  uint debug;
+  int iVar2;
   int iVar3;
-  int iVar4;
   undefined3 extraout_var;
-  undefined4 uVar5;
+  undefined4 uVar4;
   undefined4 extraout_EDX;
   undefined4 *in_FS_OFFSET;
-  undefined4 *puVar6;
-  char *pcVar7;
-  undefined *puVar8;
+  undefined4 *puVar5;
+  char *pcVar6;
+  undefined *puVar7;
   undefined4 uStack_124;
   undefined1 *puStack_120;
   undefined1 *puStack_11c;
@@ -1642,49 +1648,49 @@ void TSaveGame_WriteGeneralStuffToIni(int *param_1,int *param_2)
   puStack_120 = &LAB_0048bf21;
   uStack_124 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_124;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  puVar8 = &DAT_0048bf38;
-  pcVar7 = "WriteGeneralStuffToIni";
-  iVar4 = local_c;
-  FUN_00403f9c((int *)&local_8,3);
-  puVar6 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar6,0);
-  iVar3 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  puVar7 = &DAT_0048bf38;
+  pcVar6 = "WriteGeneralStuffToIni";
+  iVar3 = local_c;
+  System__LStrCatN((int *)&local_8,3);
+  puVar5 = local_8;
+  debug = Debug();
+  TDebug_InProc(debug,puVar5,0);
+  iVar2 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
   (**(code **)(*param_2 + 0xc))
-            (param_2,"ETAPPE","ETAPPE",*(undefined4 *)(iVar3 + 0x44),pcVar7,puVar8,iVar4);
-  iVar4 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
-  (**(code **)(*param_2 + 0xc))(param_2,"OPTIONS","NRLAPS",*(undefined4 *)(iVar4 + 0x48));
-  iVar4 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
-  bVar1 = FUN_00461c84(iVar4);
+            (param_2,"ETAPPE","ETAPPE",*(undefined4 *)(iVar2 + 0x44),pcVar6,puVar7,iVar3);
+  iVar3 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
+  (**(code **)(*param_2 + 0xc))(param_2,"OPTIONS","NRLAPS",*(undefined4 *)(iVar3 + 0x48));
+  iVar3 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
+  bVar1 = FUN_00461c84(iVar3);
   (**(code **)(*param_2 + 0x14))(param_2,"OPTIONS","OPPONENTS",CONCAT31(extraout_var,bVar1) ^ 1);
-  iVar4 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
-  (**(code **)(*param_2 + 0x14))(param_2,"ETAPPE","BRITISH",*(undefined1 *)(iVar4 + 0x4c));
+  iVar3 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
+  (**(code **)(*param_2 + 0x14))(param_2,"ETAPPE","BRITISH",*(undefined1 *)(iVar3 + 0x4c));
   (**(code **)(*param_2 + 0xc))(param_2,"LEAGUE","LEAGUE",*(undefined1 *)(param_1[6] + 8));
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","DAMAGE",0);
-  iVar4 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
-  bVar1 = FUN_00461c84(iVar4);
+  iVar3 = FUN_0048e114(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),param_1[5]);
+  bVar1 = FUN_00461c84(iVar3);
   if (bVar1) {
-    uVar5 = FUN_0048e6ec(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),
+    uVar4 = FUN_0048e6ec(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc),
                          CONCAT31((int3)((uint)extraout_EDX >> 8),*(undefined1 *)(param_1[6] + 8)));
-    (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","CHECKPOINT_SPEED",uVar5);
+    (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","CHECKPOINT_SPEED",uVar4);
   }
   (**(code **)(*param_2 + 0xc))(param_2,"GFX OPTIONS","gamma",*(undefined4 *)(param_1[6] + 0x30));
   (**(code **)(*param_2 + 0x14))
             (param_2,"GFX OPTIONS","alpha_blending",
              CONCAT31((int3)((uint)param_1[6] >> 8),*(undefined1 *)(param_1[6] + 0x35)));
-  uVar5 = FUN_004a7160(param_1[6]);
-  (**(code **)(*param_2 + 0xc))(param_2,"GFX OPTIONS","CUSTOM_TEXTURE_MEMORY",uVar5);
+  uVar4 = FUN_004a7160(param_1[6]);
+  (**(code **)(*param_2 + 0xc))(param_2,"GFX OPTIONS","CUSTOM_TEXTURE_MEMORY",uVar4);
   (**(code **)(*param_2 + 0x14))
             (param_2,"OPTIONS","waitvbl",
              CONCAT31((int3)((uint)param_1[6] >> 8),*(undefined1 *)(param_1[6] + 0x3d)));
-  uVar5 = FUN_004a7150(param_1[6]);
+  uVar4 = FUN_004a7150(param_1[6]);
   (**(code **)(*param_2 + 0xc))(param_2,"OPTIONS","filter");
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
-  *in_FS_OFFSET = uVar5;
-  FUN_00403c80(&local_c,2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = uVar4;
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1695,8 +1701,8 @@ void TSaveGame_ReadInstalledResolution(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  undefined4 uVar3;
+  uint debug;
+  undefined4 uVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_140;
   undefined1 *puStack_13c;
@@ -1721,35 +1727,35 @@ void TSaveGame_ReadInstalledResolution(int *param_1)
   uStack_128 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_128;
   iStack_12c = 0x48c0b2;
-  FUN_00402ee4(*param_1,local_110);
+  System_TObject_ClassName(*param_1,local_110);
   iStack_12c = 0x48c0c0;
-  FUN_00403e80(&local_10,local_110);
+  System__LStrFromString(&local_10,local_110);
   iStack_12c = local_10;
   puStack_130 = &DAT_0048c1ac;
   pcStack_134 = "ReadInstalledResolution";
   puStack_138 = (undefined4 *)0x48c0da;
-  FUN_00403f9c((int *)&local_c,3);
+  System__LStrCatN((int *)&local_c,3);
   puStack_138 = local_c;
   puStack_13c = (undefined1 *)0x48c0e3;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   puVar1 = puStack_138;
   puStack_138 = (undefined4 *)0x48c0ef;
-  FUN_0045fb90(uVar2,puVar1,0);
+  TDebug_InProc(debug,puVar1,0);
   puStack_138 = (undefined4 *)0x48c10c;
-  FUN_00403f28((int *)&local_114,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
-               (undefined4 *)"raser.ini");
+  System__LStrCat3((int *)&local_114,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
+                   (undefined4 *)"raser.ini");
   puStack_138 = (undefined4 *)0x48c11e;
   local_8 = FUN_00457d38((int *)&PTR_TIniFile_virtual_000_00457cdc,'\x01',local_114);
   puStack_13c = &LAB_0048c15f;
   uStack_140 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_140;
   puStack_138 = (undefined4 *)&stack0xfffffffc;
-  uVar3 = (**(code **)(*local_8 + 8))(local_8,"PROGRAM","RESOLUTION");
-  *(undefined4 *)(param_1[6] + 0x2c) = uVar3;
+  uVar2 = (**(code **)(*local_8 + 8))(local_8,"PROGRAM","RESOLUTION");
+  *(undefined4 *)(param_1[6] + 0x2c) = uVar2;
   *in_FS_OFFSET = 3;
   puStack_13c = &LAB_0048c166;
   uStack_140 = 0x48c15e;
-  FUN_00402f9c(local_8);
+  System_TObject_Free(local_8);
   return;
 }
 
@@ -1783,12 +1789,12 @@ void FUN_0048c24c(int *param_1,char param_2,undefined4 *param_3,undefined4 param
 {
   int iVar1;
   undefined1 uVar2;
-  uint uVar3;
+  uint debug;
   undefined4 *extraout_ECX;
   int *in_FS_OFFSET;
-  char *pcVar4;
-  undefined *puVar5;
-  int iVar6;
+  char *pcVar3;
+  undefined *puVar4;
+  int iVar5;
   int iStack_144;
   undefined1 *puStack_140;
   undefined1 *puStack_13c;
@@ -1807,12 +1813,13 @@ void FUN_0048c24c(int *param_1,char param_2,undefined4 *param_3,undefined4 param
   local_20 = 0;
   if (param_2 != '\0') {
     puStack_13c = (undefined1 *)0x48c26b;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffec8,in_stack_fffffecc);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffec8,
+                                         in_stack_fffffecc);
     param_3 = extraout_ECX;
   }
   puStack_13c = (undefined1 *)0x48c27a;
   local_8 = param_3;
-  FUN_00404090((int)param_3);
+  System__LStrAddRef((int)param_3);
   puStack_140 = &LAB_0048c39f;
   iStack_144 = *in_FS_OFFSET;
   *in_FS_OFFSET = (int)&iStack_144;
@@ -1821,16 +1828,16 @@ void FUN_0048c24c(int *param_1,char param_2,undefined4 *param_3,undefined4 param
   local_10 = param_4;
   local_c = 0;
   puStack_13c = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_120);
-  FUN_00403e80(&local_20,local_120);
-  puVar5 = &DAT_0048c3d0;
-  pcVar4 = "CreateNewPlayer";
-  iVar6 = local_20;
-  FUN_00403f9c(&local_1c,3);
+  System_TObject_ClassName(*param_1,local_120);
+  System__LStrFromString(&local_20,local_120);
+  puVar4 = &DAT_0048c3d0;
+  pcVar3 = "CreateNewPlayer";
+  iVar5 = local_20;
+  System__LStrCatN(&local_1c,3);
   iVar1 = local_1c;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fa3c(uVar3,iVar1,0,(int)pcVar4);
-  (**(code **)(*param_1 + 4))(param_1,0,*param_1,pcVar4,puVar5,iVar6);
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar1,0,(int)pcVar3);
+  (**(code **)(*param_1 + 4))(param_1,0,*param_1,pcVar3,puVar4,iVar5);
   FUN_00403eb8(local_120,local_8,0xff);
   FUN_0048b2ec((int)param_1,local_120);
   FUN_0048d180((int *)param_1[4],
@@ -1842,11 +1849,11 @@ void FUN_0048c24c(int *param_1,char param_2,undefined4 *param_3,undefined4 param
   uVar2 = TData_ReadTextureMemory();
   *(undefined1 *)(param_1[6] + 0x3c) = uVar2;
   *(undefined1 *)(param_1 + 7) = 0;
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
-  *in_FS_OFFSET = (int)pcVar4;
-  FUN_00403c80(&local_20,2);
-  FUN_00403c5c((int *)&local_8);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = (int)pcVar3;
+  System__LStrArrayClr(&local_20,2);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -1857,7 +1864,7 @@ void TSaveGame_WriteToInis(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_140;
   undefined1 *puStack_13c;
@@ -1886,23 +1893,23 @@ void TSaveGame_WriteToInis(int *param_1)
   *in_FS_OFFSET = &uStack_128;
   iStack_12c = 0x48c42e;
   local_8 = param_1;
-  FUN_00402ee4(*param_1,local_114);
+  System_TObject_ClassName(*param_1,local_114);
   iStack_12c = 0x48c43c;
-  FUN_00403e80(&local_14,local_114);
+  System__LStrFromString(&local_14,local_114);
   iStack_12c = local_14;
   puStack_130 = &DAT_0048c5c0;
   pcStack_134 = "WriteToInis";
   puStack_138 = (undefined4 *)0x48c456;
-  FUN_00403f9c((int *)&local_10,3);
+  System__LStrCatN((int *)&local_10,3);
   puStack_138 = local_10;
   puStack_13c = (undefined1 *)0x48c45f;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   puVar1 = puStack_138;
   puStack_138 = (undefined4 *)0x48c46b;
-  FUN_0045fb90(uVar2,puVar1,0);
+  TDebug_InProc(debug,puVar1,0);
   puStack_138 = (undefined4 *)0x48c488;
-  FUN_00403f28((int *)&local_118,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
-               (undefined4 *)"game.ini");
+  System__LStrCat3((int *)&local_118,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
+                   (undefined4 *)"game.ini");
   puStack_138 = (undefined4 *)0x48c49a;
   local_c = FUN_00457d38((int *)&PTR_TIniFile_virtual_000_00457cdc,'\x01',local_118);
   puStack_13c = &LAB_0048c506;
@@ -1920,7 +1927,7 @@ void TSaveGame_WriteToInis(int *param_1)
   *in_FS_OFFSET = uStack_140;
   puStack_138 = (undefined4 *)&LAB_0048c50d;
   puStack_13c = (undefined1 *)0x48c505;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 

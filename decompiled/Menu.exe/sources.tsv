@@ -89,15 +89,15 @@ address	name	file	how
 00402344	FUN_00402344	units/Classes.pas	nearest file
 004024e8	FUN_004024e8	units/Classes.pas	nearest file
 004026b8	FUN_004026b8	units/Classes.pas	nearest file
-0040277c	FUN_0040277c	units/Classes.pas	nearest file
-00402794	FUN_00402794	units/Classes.pas	nearest file
+0040277c	System._GetMem	units/Classes.pas	nearest file
+00402794	System._FreeMem	units/Classes.pas	nearest file
 004027ac	FUN_004027ac	units/Classes.pas	nearest file
-00402808	FUN_00402808	units/Classes.pas	nearest file
+00402808	System._RunError	units/Classes.pas	nearest file
 0040284c	FUN_0040284c	units/Classes.pas	nearest file
 0040286c	FUN_0040286c	units/Classes.pas	nearest file
 0040287c	FUN_0040287c	units/Classes.pas	nearest file
 004028c0	FUN_004028c0	units/Classes.pas	nearest file
-004028d8	FUN_004028d8	units/Classes.pas	nearest file
+004028d8	System.Move	units/Classes.pas	nearest file
 00402918	FUN_00402918	units/Classes.pas	nearest file
 00402990	FUN_00402990	units/Classes.pas	nearest file
 004029f0	FUN_004029f0	units/Classes.pas	nearest file
@@ -111,7 +111,7 @@ address	name	file	how
 00402b0c	FUN_00402b0c	units/Classes.pas	between functions of the file
 00402b3c	FUN_00402b3c	units/Classes.pas	between functions of the file
 00402bc0	FUN_00402bc0	units/Classes.pas	between functions of the file
-00402c30	FUN_00402c30	units/Classes.pas	between functions of the file
+00402c30	System.FillChar	units/Classes.pas	between functions of the file
 00402c50	FUN_00402c50	units/Classes.pas	between functions of the file
 00402c68	FUN_00402c68	units/Classes.pas	between functions of the file
 00402d34	FUN_00402d34	units/Classes.pas	between functions of the file
@@ -121,26 +121,26 @@ address	name	file	how
 00402dd0	FUN_00402dd0	units/Classes.pas	between functions of the file
 00402e00	FUN_00402e00	units/Classes.pas	between functions of the file
 00402ec4	FUN_00402ec4	units/Classes.pas	between functions of the file
-00402ed0	thunk_FUN_00402808	units/Classes.pas	between functions of the file
-00402ed8	thunk_FUN_00402808	units/Classes.pas	between functions of the file
+00402ed0	System._RunError	units/Classes.pas	between functions of the file
+00402ed8	System._RunError	units/Classes.pas	between functions of the file
 00402ee0	FUN_00402ee0	units/Classes.pas	between functions of the file
-00402ee4	FUN_00402ee4	units/Classes.pas	between functions of the file
+00402ee4	System.TObject.ClassName	units/Classes.pas	between functions of the file
 00402ef8	FUN_00402ef8	units/Classes.pas	between functions of the file
 00402f20	FUN_00402f20	units/Classes.pas	between functions of the file
 00402f2c	TObject.NewInstance	units/Classes.pas	between functions of the file
 00402f40	TObject.FreeInstance	units/Classes.pas	between functions of the file
 00402f68	FUN_00402f68	units/Classes.pas	between functions of the file
-00402f6c	FUN_00402f6c	units/Classes.pas	between functions of the file
+00402f6c	System.TObject.Create	units/Classes.pas	between functions of the file
 00402f8c	TObject.Destroy	units/Classes.pas	between functions of the file
-00402f9c	FUN_00402f9c	units/Classes.pas	between functions of the file
+00402f9c	System.TObject.Free	units/Classes.pas	between functions of the file
 00402fa8	FUN_00402fa8	units/Classes.pas	between functions of the file
 00403000	FUN_00403000	units/Classes.pas	between functions of the file
 00403030	FUN_00403030	units/Classes.pas	between functions of the file
 004030d0	FUN_004030d0	units/Classes.pas	between functions of the file
-00403114	FUN_00403114	units/Classes.pas	between functions of the file
-0040312c	FUN_0040312c	units/Classes.pas	between functions of the file
+00403114	System._IsClass	units/Classes.pas	between functions of the file
+0040312c	System._AsClass	units/Classes.pas	between functions of the file
 00403148	FUN_00403148	units/Classes.pas	between functions of the file
-00403178	FUN_00403178	units/Classes.pas	between functions of the file
+00403178	System._CallDynaInst	units/Classes.pas	between functions of the file
 00403190	FUN_00403190	units/Classes.pas	between functions of the file
 004031a8	thunk_FUN_004031ac	units/Classes.pas	between functions of the file
 004031ac	FUN_004031ac	units/Classes.pas	between functions of the file
@@ -152,10 +152,10 @@ address	name	file	how
 004031d4	TObject.Dispatch	units/Classes.pas	between functions of the file
 004031fc	FUN_004031fc	units/Classes.pas	between functions of the file
 0040324c	FUN_0040324c	units/Classes.pas	between functions of the file
-0040329c	FUN_0040329c	units/Classes.pas	between functions of the file
-004032ec	FUN_004032ec	units/Classes.pas	between functions of the file
-004032f4	FUN_004032f4	units/Classes.pas	between functions of the file
-004032fc	FUN_004032fc	units/Classes.pas	between functions of the file
+0040329c	System._ClassCreate	units/Classes.pas	between functions of the file
+004032ec	System._ClassDestroy	units/Classes.pas	between functions of the file
+004032f4	System._AfterConstruction	units/Classes.pas	between functions of the file
+004032fc	System._BeforeDestruction	units/Classes.pas	between functions of the file
 00403328	FUN_00403328	units/Classes.pas	between functions of the file
 00403348	FUN_00403348	units/Classes.pas	between functions of the file
 0040335c	FUN_0040335c	units/Classes.pas	between functions of the file
@@ -166,7 +166,7 @@ address	name	file	how
 00403408	FUN_00403408	units/Classes.pas	between functions of the file
 00403534	FUN_00403534	units/Classes.pas	between functions of the file
 004036bc	FUN_004036bc	units/Classes.pas	between functions of the file
-004036f4	FUN_004036f4	units/Classes.pas	between functions of the file
+004036f4	System._RaiseExcept	units/Classes.pas	between functions of the file
 00403794	FUN_00403794	units/Classes.pas	between functions of the file
 004037ac	FUN_004037ac	units/Classes.pas	between functions of the file
 004038f4	FUN_004038f4	units/Classes.pas	between functions of the file
@@ -182,30 +182,30 @@ address	name	file	how
 00403b08	FUN_00403b08	units/Classes.pas	between functions of the file
 00403c28	FUN_00403c28	units/Classes.pas	between functions of the file
 00403c34	FUN_00403c34	units/Classes.pas	between functions of the file
-00403c40	FUN_00403c40	units/Classes.pas	between functions of the file
-00403c5c	FUN_00403c5c	units/Classes.pas	between functions of the file
-00403c80	FUN_00403c80	units/Classes.pas	between functions of the file
-00403cb0	FUN_00403cb0	units/Classes.pas	between functions of the file
-00403cf4	FUN_00403cf4	units/Classes.pas	between functions of the file
-00403d20	FUN_00403d20	units/Classes.pas	between functions of the file
-00403d44	FUN_00403d44	units/Classes.pas	between functions of the file
+00403c40	System._Assert	units/Classes.pas	between functions of the file
+00403c5c	System._LStrClr	units/Classes.pas	between functions of the file
+00403c80	System._LStrArrayClr	units/Classes.pas	between functions of the file
+00403cb0	System._LStrAsg	units/Classes.pas	between functions of the file
+00403cf4	System._LStrLAsg	units/Classes.pas	between functions of the file
+00403d20	System._NewAnsiString	units/Classes.pas	between functions of the file
+00403d44	System._LStrFromPCharLen	units/Classes.pas	between functions of the file
 00403d74	FUN_00403d74	units/Classes.pas	between functions of the file
-00403e04	FUN_00403e04	units/Classes.pas	between functions of the file
+00403e04	System._LStrFromChar	units/Classes.pas	between functions of the file
 00403e14	FUN_00403e14	units/Classes.pas	between functions of the file
 00403e44	FUN_00403e44	units/Classes.pas	between functions of the file
-00403e80	FUN_00403e80	units/Classes.pas	between functions of the file
+00403e80	System._LStrFromString	units/Classes.pas	between functions of the file
 00403e8c	FUN_00403e8c	units/Classes.pas	between functions of the file
 00403ea4	FUN_00403ea4	units/Classes.pas	between functions of the file
 00403eb8	FUN_00403eb8	units/Classes.pas	between functions of the file
-00403edc	FUN_00403edc	units/Classes.pas	between functions of the file
-00403ee4	FUN_00403ee4	units/Classes.pas	between functions of the file
-00403f28	FUN_00403f28	units/Classes.pas	between functions of the file
-00403f9c	FUN_00403f9c	units/Classes.pas	between functions of the file
-00403fec	FUN_00403fec	units/Classes.pas	between functions of the file
-00404090	FUN_00404090	units/Classes.pas	between functions of the file
-004040a0	FUN_004040a0	units/Classes.pas	between functions of the file
+00403edc	System._LStrLen	units/Classes.pas	between functions of the file
+00403ee4	System._LStrCat	units/Classes.pas	between functions of the file
+00403f28	System._LStrCat3	units/Classes.pas	between functions of the file
+00403f9c	System._LStrCatN	units/Classes.pas	between functions of the file
+00403fec	System._LStrCmp	units/Classes.pas	between functions of the file
+00404090	System._LStrAddRef	units/Classes.pas	between functions of the file
+004040a0	System._LStrToPChar	units/Classes.pas	between functions of the file
 004040ac	FUN_004040ac	units/Classes.pas	between functions of the file
-004040e4	FUN_004040e4	units/Classes.pas	between functions of the file
+004040e4	System._LStrCopy	units/Classes.pas	between functions of the file
 00404124	FUN_00404124	units/Classes.pas	between functions of the file
 0040416c	FUN_0040416c	units/Classes.pas	between functions of the file
 004041c8	FUN_004041c8	units/Classes.pas	between functions of the file
@@ -235,7 +235,7 @@ address	name	file	how
 004048a0	FUN_004048a0	units/Classes.pas	between functions of the file
 0040492c	FUN_0040492c	units/Classes.pas	between functions of the file
 00404950	FUN_00404950	units/Classes.pas	between functions of the file
-004049dc	thunk_FUN_00402808	units/Classes.pas	between functions of the file
+004049dc	System._RunError	units/Classes.pas	between functions of the file
 004049ec	FUN_004049ec	units/Classes.pas	between functions of the file
 00404a30	FUN_00404a30	units/Classes.pas	between functions of the file
 00404a6e	FUN_00404a6e	units/Classes.pas	between functions of the file
@@ -281,8 +281,8 @@ address	name	file	how
 0040572c	FUN_0040572c	units/Classes.pas	between functions of the file
 00405788	FUN_00405788	units/Classes.pas	between functions of the file
 00405798	FUN_00405798	units/Classes.pas	between functions of the file
-00405808	FUN_00405808	units/Classes.pas	between functions of the file
-00405860	FUN_00405860	units/Classes.pas	between functions of the file
+00405808	System.LoadResString	units/Classes.pas	between functions of the file
+00405860	System._IntfClear	units/Classes.pas	between functions of the file
 00405878	FUN_00405878	units/Classes.pas	between functions of the file
 00405894	FUN_00405894	units/Classes.pas	between functions of the file
 004058c0	FUN_004058c0	units/Classes.pas	between functions of the file
@@ -662,7 +662,7 @@ address	name	file	how
 00408448	FUN_00408448	units/Classes.pas	between functions of the file
 0040847c	FUN_0040847c	units/Classes.pas	between functions of the file
 00408548	FUN_00408548	units/Classes.pas	between functions of the file
-004085ac	FUN_004085ac	units/Classes.pas	between functions of the file
+004085ac	SysUtils.IntToStr	units/Classes.pas	between functions of the file
 004085dc	FUN_004085dc	units/Classes.pas	between functions of the file
 00408618	FUN_00408618	units/Classes.pas	between functions of the file
 00408654	FUN_00408654	units/Classes.pas	between functions of the file
@@ -672,8 +672,8 @@ address	name	file	how
 004086fc	FUN_004086fc	units/Classes.pas	between functions of the file
 00408728	FUN_00408728	units/Classes.pas	between functions of the file
 00408734	FUN_00408734	units/Classes.pas	between functions of the file
-0040873c	FUN_0040873c	units/Classes.pas	between functions of the file
-004087a4	FUN_004087a4	units/Classes.pas	between functions of the file
+0040873c	SysUtils.FileAge	units/Classes.pas	between functions of the file
+004087a4	SysUtils.FileExists	units/Classes.pas	between functions of the file
 004087b4	FUN_004087b4	units/Classes.pas	between functions of the file
 004087c8	FUN_004087c8	units/Classes.pas	between functions of the file
 004087f0	FUN_004087f0	units/Classes.pas	between functions of the file
@@ -717,8 +717,8 @@ address	name	file	how
 004091dc	FUN_004091dc	units/Classes.pas	between functions of the file
 004091ec	FUN_004091ec	units/Classes.pas	between functions of the file
 00409220	FUN_00409220	units/Classes.pas	between functions of the file
-00409254	FUN_00409254	units/Classes.pas	between functions of the file
-00409268	FUN_00409268	units/Classes.pas	between functions of the file
+00409254	SysUtils.Format	units/Classes.pas	between functions of the file
+00409268	SysUtils.FmtStr	units/Classes.pas	between functions of the file
 00409330	FUN_00409330	units/Classes.pas	between functions of the file
 00409360	FUN_00409360	units/Classes.pas	between functions of the file
 0040939c	FUN_0040939c	units/Classes.pas	between functions of the file
@@ -772,9 +772,9 @@ address	name	file	how
 0040b3cc	FUN_0040b3cc	units/Classes.pas	between functions of the file
 0040b554	FUN_0040b554	units/Classes.pas	between functions of the file
 0040b5cc	FUN_0040b5cc	units/Classes.pas	between functions of the file
-0040b5d8	FUN_0040b5d8	units/Classes.pas	between functions of the file
-0040b614	FUN_0040b614	units/Classes.pas	between functions of the file
-0040b694	FUN_0040b694	units/Classes.pas	between functions of the file
+0040b5d8	SysUtils.Exception.Create	units/Classes.pas	between functions of the file
+0040b614	SysUtils.Exception.CreateFmt	units/Classes.pas	between functions of the file
+0040b694	SysUtils.Exception.CreateRes	units/Classes.pas	between functions of the file
 0040b6d0	FUN_0040b6d0	units/Classes.pas	between functions of the file
 0040b764	FUN_0040b764	units/Classes.pas	between functions of the file
 0040b7ac	EHeapException.FreeInstance	units/Classes.pas	between functions of the file
@@ -812,7 +812,7 @@ address	name	file	how
 0040c8bc	FUN_0040c8bc	units/Classes.pas	between functions of the file
 0040c8f8	FUN_0040c8f8	units/Classes.pas	between functions of the file
 0040c944	FUN_0040c944	units/Classes.pas	between functions of the file
-0040c968	FUN_0040c968	units/Classes.pas	between functions of the file
+0040c968	SysUtils.FreeAndNil	units/Classes.pas	between functions of the file
 0040c978	FUN_0040c978	units/Classes.pas	between functions of the file
 0040ccee	FUN_0040ccee	units/Classes.pas	between functions of the file
 0040cdac	FUN_0040cdac	units/Classes.pas	between functions of the file
@@ -856,9 +856,9 @@ address	name	file	how
 0040e2f0	FUN_0040e2f0	units/Classes.pas	between functions of the file
 0040e328	FUN_0040e328	units/Classes.pas	between functions of the file
 0040e364	FUN_0040e364	units/Classes.pas	between functions of the file
-0040f7d0	FUN_0040f7d0	units/Classes.pas	between functions of the file
+0040f7d0	Classes.Point	units/Classes.pas	between functions of the file
 0040f7d8	FUN_0040f7d8	units/Classes.pas	between functions of the file
-0040f7e8	FUN_0040f7e8	units/Classes.pas	between functions of the file
+0040f7e8	Classes.Rect	units/Classes.pas	between functions of the file
 0040f804	FUN_0040f804	units/Classes.pas	between functions of the file
 0040f820	FUN_0040f820	units/Classes.pas	between functions of the file
 0040f82c	FUN_0040f82c	units/Classes.pas	between functions of the file
@@ -880,18 +880,18 @@ address	name	file	how
 0040ff78	FUN_0040ff78	units/Classes.pas	between functions of the file
 00410020	FUN_00410020	units/Classes.pas	between functions of the file
 004100e4	TList.Destroy	units/Classes.pas	between functions of the file
-00410104	FUN_00410104	units/Classes.pas	between functions of the file
+00410104	Classes.TList.Add	units/Classes.pas	between functions of the file
 00410138	TList.virtual_008	units/Classes.pas	between functions of the file
-00410150	FUN_00410150	units/Classes.pas	between functions of the file
+00410150	Classes.TList.Delete	units/Classes.pas	between functions of the file
 004101b0	FUN_004101b0	units/Classes.pas	between functions of the file
 004101b4	TList.virtual_00c	units/Classes.pas	between functions of the file
 004101ec	FUN_004101ec	units/Classes.pas	between functions of the file
 00410240	FUN_00410240	units/Classes.pas	between functions of the file
 00410290	FUN_00410290	units/Classes.pas	between functions of the file
 004102a8	FUN_004102a8	units/Classes.pas	between functions of the file
-004102b0	FUN_004102b0	units/Classes.pas	between functions of the file
+004102b0	Classes.TList.Get	units/Classes.pas	between functions of the file
 004102d8	TList.virtual_000	units/Classes.pas	between functions of the file
-0041030c	FUN_0041030c	units/Classes.pas	between functions of the file
+0041030c	Classes.TList.IndexOf	units/Classes.pas	between functions of the file
 0041032c	FUN_0041032c	units/Classes.pas	between functions of the file
 00410398	FUN_00410398	units/Classes.pas	between functions of the file
 004103a4	FUN_004103a4	units/Classes.pas	between functions of the file
@@ -1960,7 +1960,7 @@ address	name	file	how
 0042f5ec	FUN_0042f5ec	units/Controls.pas	between functions of the file
 0042f61c	TControl.virtual_038	units/Controls.pas	method of TControl
 0042f64c	FUN_0042f64c	units/Controls.pas	between functions of the file
-0042f720	FUN_0042f720	units/Controls.pas	between functions of the file
+0042f720	Controls.TControl.Perform	units/Controls.pas	between functions of the file
 0042f754	FUN_0042f754	units/Controls.pas	between functions of the file
 0042f7c4	FUN_0042f7c4	units/Controls.pas	between functions of the file
 0042f7e8	TControl.dynamic_ffd2	units/Controls.pas	method of TControl
@@ -2052,8 +2052,8 @@ address	name	file	how
 004315e8	FUN_004315e8	units/Controls.pas	between functions of the file
 00431630	FUN_00431630	units/Controls.pas	between functions of the file
 00431704	FUN_00431704	units/Controls.pas	between functions of the file
-00431780	FUN_00431780	units/Controls.pas	between functions of the file
-004317bc	FUN_004317bc	units/Controls.pas	between functions of the file
+00431780	Controls.TWinControl.GetControl	units/Controls.pas	between functions of the file
+004317bc	Controls.TWinControl.GetControlCount	units/Controls.pas	between functions of the file
 004317dc	FUN_004317dc	units/Controls.pas	between functions of the file
 0043181c	FUN_0043181c	units/Controls.pas	between functions of the file
 00431844	FUN_00431844	units/Controls.pas	between functions of the file
@@ -2203,7 +2203,7 @@ address	name	file	how
 00434960	TWinControl.virtual_0b0	units/Controls.pas	method of TWinControl
 00434998	TWinControl.dynamic_ffb9	units/Controls.pas	method of TWinControl
 004349bc	FUN_004349bc	units/Controls.pas	between functions of the file
-004349e0	FUN_004349e0	units/Controls.pas	between functions of the file
+004349e0	Controls.TWinControl.GetHandle	units/Controls.pas	between functions of the file
 004349f4	TWinControl.virtual_0a4	units/Controls.pas	method of TWinControl
 00434a88	TWinControl.virtual_03c	units/Controls.pas	method of TWinControl
 00434aa8	TWinControl.virtual_040	units/Controls.pas	method of TWinControl
@@ -2216,7 +2216,7 @@ address	name	file	how
 00434bf4	TGroupBox.SetTabOrder	units/StdCtrls.pas	method of TGroupBox
 00434c0c	TGroupBox.SetTabStop	units/StdCtrls.pas	method of TGroupBox
 00434c6c	TForm.SetUseDockManager	units/Forms.pas	method of TForm
-00434cdc	FUN_00434cdc	units/Forms.pas	nearest file
+00434cdc	Controls.TWinControl.HandleAllocated	units/Forms.pas	nearest file
 00434ce8	FUN_00434ce8	units/Forms.pas	nearest file
 00434da0	TWinControl.dynamic_ffb8	units/Controls.pas	method of TWinControl
 00434df8	FUN_00434df8	units/Controls.pas	between functions of the file
@@ -2636,7 +2636,7 @@ address	name	file	how
 0044476c	FUN_0044476c	units/Forms.pas	nearest file
 004447a8	FUN_004447a8	units/Forms.pas	nearest file
 004447f4	FUN_004447f4	units/Forms.pas	nearest file
-00444864	FUN_00444864	units/Forms.pas	nearest file
+00444864	Forms.GetParentForm	units/Forms.pas	nearest file
 0044488c	FUN_0044488c	units/Forms.pas	nearest file
 0044490c	FUN_0044490c	units/Forms.pas	nearest file
 0044499c	TControlScrollBar.virtual_008	units/Forms.pas	method of TControlScrollBar
@@ -3398,18 +3398,18 @@ address	name	file	how
 0045f1d8	TDataList.virtual_000	units/Classes.pas	nearest file
 0045f1e4	TIntegerList.virtual_000	units/Classes.pas	nearest file
 0045f2a8	TBooleanList.virtual_000	units/Classes.pas	nearest file
-0045f46c	FUN_0045f46c	units/Classes.pas	nearest file
+0045f46c	Debug	units/Classes.pas	nearest file
 0045f4f8	FUN_0045f4f8	units/Classes.pas	nearest file
 0045f660	FUN_0045f660	units/Classes.pas	nearest file
 0045f668	FUN_0045f668	units/Classes.pas	nearest file
 0045f834	FUN_0045f834	units/Classes.pas	nearest file
 0045fa3c	FUN_0045fa3c	units/Classes.pas	nearest file
-0045fb90	FUN_0045fb90	units/Classes.pas	nearest file
+0045fb90	TDebug.InProc	units/Classes.pas	nearest file
 0045fc70	TDebug.ExitProc	units/Classes.pas	nearest file
 0045fcf0	TDebug.ClearFile	units/Classes.pas	nearest file
 0045fd98	FUN_0045fd98	units/Classes.pas	nearest file
 0045fe38	FUN_0045fe38	units/Classes.pas	nearest file
-0045fe88	FUN_0045fe88	units/Classes.pas	nearest file
+0045fe88	TDebug.Message	units/Classes.pas	nearest file
 0045fed8	FUN_0045fed8	units/Classes.pas	nearest file
 00460124	FUN_00460124	units/Classes.pas	nearest file
 0046037c	TSafeIniFile.virtual_008	units/Classes.pas	nearest file
@@ -4337,7 +4337,7 @@ address	name	file	how
 0048f44c	FUN_0048f44c	units/SingletonForm.pas	nearest file
 0048f464	FUN_0048f464	units/SingletonForm.pas	nearest file
 0048f49c	FUN_0048f49c	units/SingletonForm.pas	nearest file
-0048f760	FUN_0048f760	units/SingletonForm.pas	nearest file
+0048f760	GetSingletonForm	units/SingletonForm.pas	nearest file
 0048f7d0	TSingletonForm.virtual_02c	units/SingletonForm.pas	method of TSingletonForm
 0048f850	TSingletonForm.Destroy	units/SingletonForm.pas	method of TSingletonForm
 0048f8ec	FUN_0048f8ec	units/SingletonForm.pas	nearest file

@@ -32,7 +32,7 @@ void FUN_00491c7c(int *param_1,char param_2)
     piVar5 = (int *)param_1[0xbe];
     uVar2 = *(int *)(uVar1 + 0x38) - piVar5[0xe];
     if (SBORROW4(*(int *)(uVar1 + 0x38),piVar5[0xe])) {
-      uVar1 = thunk_FUN_00402808(uVar1);
+      uVar1 = System__RunError(uVar1);
       uVar2 = extraout_ECX;
       piVar5 = extraout_EDX;
     }
@@ -42,7 +42,7 @@ void FUN_00491c7c(int *param_1,char param_2)
     }
     iVar4 = iVar3 + *(int *)(uVar1 + 0x30);
     if (SCARRY4(iVar3,*(int *)(uVar1 + 0x30))) {
-      thunk_FUN_00402808(uVar1);
+      System__RunError(uVar1);
       iVar4 = extraout_ECX_00;
       piVar5 = extraout_EDX_00;
     }
@@ -51,7 +51,7 @@ void FUN_00491c7c(int *param_1,char param_2)
     piVar5 = (int *)param_1[0xbe];
     uVar2 = *(int *)(uVar1 + 0x3c) - piVar5[0xf];
     if (SBORROW4(*(int *)(uVar1 + 0x3c),piVar5[0xf])) {
-      uVar1 = thunk_FUN_00402808(uVar1);
+      uVar1 = System__RunError(uVar1);
       uVar2 = extraout_ECX_01;
       piVar5 = extraout_EDX_01;
     }
@@ -61,7 +61,7 @@ void FUN_00491c7c(int *param_1,char param_2)
     }
     iVar4 = iVar3 + *(int *)(uVar1 + 0x34);
     if (SCARRY4(iVar3,*(int *)(uVar1 + 0x34))) {
-      thunk_FUN_00402808(uVar1);
+      System__RunError(uVar1);
       iVar4 = extraout_ECX_02;
       piVar5 = extraout_EDX_02;
     }
@@ -117,18 +117,18 @@ void FUN_00491d98(int param_1,int param_2,int *param_3)
   int i_val;
   int j;
   
-  FUN_00403c5c(param_3);
+  System__LStrClr(param_3);
   i_val = *(int *)(*(uint *)(param_1 + 0x330) + 8);
   if (SBORROW4(i_val,1)) {
-    thunk_FUN_00402808(*(uint *)(param_1 + 0x330));
+    System__RunError(*(uint *)(param_1 + 0x330));
   }
   if (-1 < i_val + -1) {
     j = 0;
     do {
       piVar1 = (int *)FUN_0041ff40(*(undefined4 **)(param_1 + 0x330),j);
-      iVar2 = FUN_0040312c(piVar1,(int)&DAT_0049198c);
+      iVar2 = System__AsClass(piVar1,(int)&DAT_0049198c);
       if (*(int *)(iVar2 + 4) == param_2) {
-        FUN_00403cb0(param_3,*(undefined4 **)(iVar2 + 8));
+        System__LStrAsg(param_3,*(undefined4 **)(iVar2 + 8));
         return;
       }
       j = j + 1;
@@ -161,7 +161,7 @@ void FUN_00491e0c(int param_1,int param_2,undefined4 param_3,int param_4)
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00491e5f;
   puStack_18 = (undefined1 *)0x491e57;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -199,7 +199,7 @@ void TfrmKeySettings_FormKeyDown(int *param_1,undefined4 param_2,ushort *param_3
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00491eee;
   puStack_18 = (undefined1 *)0x491ee6;
-  FUN_00403c5c(&local_c);
+  System__LStrClr(&local_c);
   return;
 }
 
@@ -261,7 +261,7 @@ void TfrmKeySettings_btnOkClick(int param_1)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00491f9d;
   puStack_14 = (undefined1 *)0x491f95;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -299,25 +299,26 @@ void FUN_00491fa4(void)
   uStack_30 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_30;
   puStack_34 = (undefined1 *)0x491fd9;
-  FUN_00403f28((int *)&local_10,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
-               (undefined4 *)"menu.ini");
+  System__LStrCat3((int *)&local_10,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
+                   (undefined4 *)"menu.ini");
   puStack_34 = (undefined1 *)0x491fe8;
   local_c = FUN_00457d38((int *)&PTR_TIniFile_virtual_000_00457cdc,'\x01',local_10);
   puStack_38 = &LAB_00492075;
   uStack_3c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_3c;
   puStack_34 = &stack0xfffffffc;
-  local_8 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
+  local_8 = (int *)System_TObject_Create
+                             ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
   i_val = (**(code **)(*local_c + 8))(local_c,"CONTROLKEYS","count");
   if (SBORROW4(i_val,1)) {
-    thunk_FUN_00402808(i_val);
+    System__RunError(i_val);
   }
   if (-1 < (int)(i_val - 1)) {
     j = 0;
     do {
       uVar2 = 0;
       puVar1 = &local_14;
-      FUN_004085ac(j,&local_18);
+      SysUtils_IntToStr(j,&local_18);
       (**(code **)*local_c)(local_c,"CONTROLKEYS",local_18,puVar1,uVar2);
       (**(code **)(*local_8 + 0x34))(local_8,local_14);
       j = j + 1;
@@ -327,7 +328,7 @@ void FUN_00491fa4(void)
   *in_FS_OFFSET = 0;
   puStack_38 = &LAB_0049207c;
   uStack_3c = 0x492074;
-  FUN_0040c968(&local_c);
+  SysUtils_FreeAndNil(&local_c);
   return;
 }
 
@@ -357,39 +358,39 @@ void FUN_004920e0(int param_1,int *param_2)
   local_10 = 0;
   puStack_1c = (undefined1 *)0x4920f8;
   local_8 = param_1;
-  FUN_00404090(param_1);
+  System__LStrAddRef(param_1);
   puStack_20 = &LAB_004921a9;
   uStack_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_24;
   puStack_1c = &stack0xfffffffc;
-  FUN_00403cf4((int *)&local_c,local_8);
+  System__LStrLAsg((int *)&local_c,local_8);
   (**(code **)(*param_2 + 0x40))();
   iVar1 = FUN_004041c8(",",local_c);
   while (iVar1 != 0) {
     piVar4 = &local_10;
     uVar2 = iVar1 - 1;
     if (SBORROW4(iVar1,1)) {
-      thunk_FUN_00402808((uint)piVar4);
+      System__RunError((uint)piVar4);
       uVar2 = extraout_ECX;
     }
-    FUN_004040e4((int)local_c,0,uVar2,piVar4);
+    System__LStrCopy((int)local_c,0,uVar2,piVar4);
     (**(code **)(*param_2 + 0x34))(param_2,local_10);
     ppcVar5 = &local_c;
-    uVar2 = FUN_00403edc((int)local_c);
+    uVar2 = System__LStrLen((int)local_c);
     iVar3 = iVar1 + 1;
     if (SCARRY4(iVar1,1)) {
-      thunk_FUN_00402808(uVar2);
+      System__RunError(uVar2);
       uVar2 = extraout_ECX_00;
       iVar3 = extraout_EDX;
     }
-    FUN_004040e4((int)local_c,iVar3,uVar2,(int *)ppcVar5);
+    System__LStrCopy((int)local_c,iVar3,uVar2,(int *)ppcVar5);
     iVar1 = FUN_004041c8(",",local_c);
   }
   (**(code **)(*param_2 + 0x34))(param_2,local_c);
   *in_FS_OFFSET = uStack_24;
   puStack_1c = &LAB_004921b0;
   puStack_20 = (undefined1 *)0x4921a8;
-  FUN_00403c80(&local_10,3);
+  System__LStrArrayClr(&local_10,3);
   return;
 }
 
@@ -458,37 +459,38 @@ void TfrmKeySettings_FormCreate(int param_1)
   uVar4 = extraout_ECX_00;
   if (SBORROW4(iVar2,1)) {
     puStack_48 = (undefined1 *)0x492267;
-    uVar3 = thunk_FUN_00402808(uVar3);
+    uVar3 = System__RunError(uVar3);
     uVar4 = extraout_ECX_01;
   }
   if (-1 < (int)uVar3) {
     local_18 = uVar3 + 1;
     local_10 = 0;
     puStack_48 = (undefined1 *)0x492286;
-    local_14 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',uVar4);
+    local_14 = (int *)System_TObject_Create
+                                ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',uVar4);
     puStack_4c = &LAB_00492317;
     uStack_50 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_50;
     puStack_48 = &stack0xfffffffc;
     (**(code **)(*local_c + 0xc))(local_c,local_10,&local_1c);
     FUN_004920e0(local_1c,local_14);
-    iVar2 = FUN_00402f6c((int *)&DAT_0049198c,'\x01',extraout_ECX_02);
+    iVar2 = System_TObject_Create((int *)&DAT_0049198c,'\x01',extraout_ECX_02);
     (**(code **)(*local_14 + 0xc))(local_14,0,&local_20);
     uVar4 = FUN_00408618(local_20);
     *(undefined4 *)(iVar2 + 4) = uVar4;
     (**(code **)(*local_14 + 0xc))(local_14,1,&local_24);
-    FUN_00403cb0((int *)(iVar2 + 8),local_24);
+    System__LStrAsg((int *)(iVar2 + 8),local_24);
     FUN_0041fef4(*(int **)(local_8 + 0x330),iVar2);
     *in_FS_OFFSET = uStack_50;
     puStack_48 = &DAT_0049231e;
     puStack_4c = (undefined1 *)0x492316;
-    FUN_0040c968(&local_14);
+    SysUtils_FreeAndNil(&local_14);
     return;
   }
   *in_FS_OFFSET = uStack_44;
   puStack_3c = &LAB_00492347;
   puStack_40 = (undefined1 *)0x49233f;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -504,19 +506,19 @@ void FUN_0049238c(int param_1,int *param_2,undefined4 param_3,int param_4)
   int i_val;
   int j;
   
-  FUN_00403c5c(param_2);
+  System__LStrClr(param_2);
   uVar1 = *(uint *)(*(int *)(param_4 + -4) + 0x330);
   i_val = *(int *)(uVar1 + 8);
   if (SBORROW4(i_val,1)) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   if (-1 < i_val + -1) {
     j = 0;
     do {
       piVar2 = (int *)FUN_0041ff40(*(undefined4 **)(*(int *)(param_4 + -4) + 0x330),j);
-      iVar3 = FUN_0040312c(piVar2,(int)&DAT_0049198c);
+      iVar3 = System__AsClass(piVar2,(int)&DAT_0049198c);
       if (*(int *)(iVar3 + 4) == param_1) {
-        FUN_00403cb0(param_2,*(undefined4 **)(iVar3 + 8));
+        System__LStrAsg(param_2,*(undefined4 **)(iVar3 + 8));
         return;
       }
       j = j + 1;
@@ -549,7 +551,7 @@ void FUN_00492404(int param_1,int param_2,undefined4 param_3,int param_4)
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00492456;
   puStack_18 = (undefined1 *)0x49244e;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -645,7 +647,7 @@ uint FUN_004925dc(int param_1)
   do {
     j = i_val + 1;
     if (SCARRY4(i_val,1)) {
-      uVar1 = thunk_FUN_00402808(uVar1);
+      uVar1 = System__RunError(uVar1);
     }
     if (j < 7) {
       do {

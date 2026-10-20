@@ -7,7 +7,7 @@ void TfrmDifficulty_FormShow(int *param_1)
 {
   char cVar1;
   undefined4 *puVar2;
-  uint uVar3;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_120;
   undefined1 *puStack_11c;
@@ -22,12 +22,12 @@ void TfrmDifficulty_FormShow(int *param_1)
   puStack_11c = &LAB_0049d08c;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar2 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar2,2);
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,2);
   TBaseFormOneWay_FormShow((int)param_1);
   if (*(char *)(*(int *)PTR_DAT_004ab694 + 0xa8) == '\x02') {
     FUN_00489c28(*(int **)(*(int *)PTR_DAT_004ab694 + 0xb4),(int *)param_1[199],
@@ -54,7 +54,7 @@ void TfrmDifficulty_FormShow(int *param_1)
                  (undefined4 *)"diffic02");
   }
   *in_FS_OFFSET = "FormShow";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -66,7 +66,7 @@ void TfrmDifficulty_virtual_0fc(int *param_1)
 {
   undefined4 *puVar1;
   char cVar2;
-  uint uVar3;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_11c;
   undefined1 *puStack_118;
@@ -81,12 +81,12 @@ void TfrmDifficulty_virtual_0fc(int *param_1)
   puStack_118 = &LAB_0049d26d;
   uStack_11c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_11c;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar1,2);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,2);
   cVar2 = (**(code **)(*(int *)param_1[0xc1] + 0xb8))();
   if (cVar2 == '\0') {
     cVar2 = (**(code **)(*(int *)param_1[0xc2] + 0xb8))();
@@ -112,7 +112,7 @@ void TfrmDifficulty_virtual_0fc(int *param_1)
     }
   }
   *in_FS_OFFSET = "FlowToNext";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -133,7 +133,7 @@ void TfrmDifficulty_virtual_0e4(int *param_1,int *param_2)
 
 {
   if (*(char *)(*(int *)PTR_DAT_004ab694 + 0xa8) == '\x01') {
-    FUN_00403cb0(param_2,(undefined4 *)"quickdif");
+    System__LStrAsg(param_2,(undefined4 *)"quickdif");
   }
   else if (*(char *)(*(int *)PTR_DAT_004ab694 + 0xa8) == '\x02') {
     TGameMenuScreen_virtual_0e4(param_1,param_2);

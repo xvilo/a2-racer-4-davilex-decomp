@@ -6,11 +6,11 @@ void TfrmPlayer_BuildFileList(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  DWORD DVar3;
-  int iVar4;
+  uint debug;
+  DWORD DVar2;
+  int iVar3;
+  int *piVar4;
   int *piVar5;
-  int *piVar6;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_27c;
   undefined1 *puStack_278;
@@ -31,35 +31,35 @@ void TfrmPlayer_BuildFileList(int *param_1)
   uStack_27c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_27c;
   puStack_274 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_264);
-  FUN_00403e80(&local_164,local_264);
-  FUN_00403f9c((int *)&local_160,3);
+  System_TObject_ClassName(*param_1,local_264);
+  System__LStrFromString(&local_164,local_264);
+  System__LStrCatN((int *)&local_160,3);
   puVar1 = local_160;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
   FUN_0045e860(param_1[0xcb]);
-  FUN_00403f28((int *)&local_268,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
-               (undefined4 *)"save*.rcr");
-  DVar3 = FUN_00408854(local_268,0x3f,local_15c);
-  while (DVar3 == 0) {
-    iVar4 = FUN_00481208(local_150);
-    piVar5 = (int *)FUN_00492dd8((int *)&PTR_TStoredGame_virtual_000_00492db4,'\x01',iVar4);
-    piVar6 = (int *)(**(code **)(*piVar5 + 8))();
-    uVar2 = FUN_0045f46c();
-    FUN_0045fd98(uVar2,0x493524,piVar6);
-    if (*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc4) + 0x14) != piVar5[2]) {
-      uVar2 = FUN_0045f46c();
-      FUN_0045fe88(uVar2,0x493544);
-      FUN_0045e7e4(param_1[0xcb],piVar5);
+  System__LStrCat3((int *)&local_268,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
+                   (undefined4 *)"save*.rcr");
+  DVar2 = FUN_00408854(local_268,0x3f,local_15c);
+  while (DVar2 == 0) {
+    iVar3 = FUN_00481208(local_150);
+    piVar4 = (int *)FUN_00492dd8((int *)&PTR_TStoredGame_virtual_000_00492db4,'\x01',iVar3);
+    piVar5 = (int *)(**(code **)(*piVar4 + 8))();
+    debug = Debug();
+    FUN_0045fd98(debug,0x493524,piVar5);
+    if (*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc4) + 0x14) != piVar4[2]) {
+      debug = Debug();
+      TDebug_Message(debug,0x493544);
+      FUN_0045e7e4(param_1[0xcb],piVar4);
     }
-    DVar3 = FUN_004088a4(local_15c);
+    DVar2 = FUN_004088a4(local_15c);
   }
   FUN_004088c8((int)local_15c);
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "BuildFileList";
-  FUN_00403c5c((int *)&local_268);
-  FUN_00403c80(&local_164,2);
+  System__LStrClr((int *)&local_268);
+  System__LStrArrayClr(&local_164,2);
   FUN_0040454c((int)local_15c,(int)&DAT_004075bc);
   return;
 }
@@ -71,8 +71,8 @@ void TfrmPlayer_InitDlg(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  int *piVar3;
+  uint debug;
+  int *piVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_11c;
   undefined1 *puStack_118;
@@ -87,25 +87,25 @@ void TfrmPlayer_InitDlg(int *param_1)
   puStack_118 = &LAB_0049362c;
   uStack_11c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_11c;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
-  piVar3 = TDataList_virtual_018
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
+  piVar2 = TDataList_virtual_018
                      ((int *)&PTR_TDataList_virtual_000_0045e240,'\x01',
                       (int)&PTR_TStoredGame_virtual_000_00492db4);
-  param_1[0xcb] = (int)piVar3;
+  param_1[0xcb] = (int)piVar2;
   TData_SavePlayer(*(int **)PTR_DAT_004ab694);
   param_1[0xca] = *(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc4) + 0x14);
   TfrmPlayer_DeleteBackUps(param_1);
   TfrmPlayer_BackupFiles(param_1);
   TfrmPlayer_BuildFileList(param_1);
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "InitDlg";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -116,7 +116,7 @@ void TfrmPlayer_ExitDlg(int *param_1,int param_2)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_120;
   undefined1 *puStack_11c;
@@ -131,23 +131,23 @@ void TfrmPlayer_ExitDlg(int *param_1,int param_2)
   puStack_11c = &LAB_00493726;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
   if (param_2 == 2) {
     TfrmPlayer_ReplaceFiles(param_1);
     FUN_0047f840(*(int **)PTR_DAT_004ab694,param_1[0xca]);
     param_1[0x8d] = 2;
   }
-  FUN_0040c968(param_1 + 0xcb);
+  SysUtils_FreeAndNil(param_1 + 0xcb);
   TfrmPlayer_DeleteBackUps(param_1);
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "ExitDlg";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -159,9 +159,9 @@ void TfrmPlayer_AddNewPlayer(int *param_1)
 {
   int *piVar1;
   undefined4 *puVar2;
-  uint uVar3;
-  int iVar4;
-  int *piVar5;
+  uint debug;
+  int iVar3;
+  int *piVar4;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_124;
   undefined1 *puStack_120;
@@ -178,33 +178,33 @@ void TfrmPlayer_AddNewPlayer(int *param_1)
   puStack_120 = &LAB_00493875;
   uStack_124 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_124;
-  FUN_00402ee4(*param_1,local_110);
-  FUN_00403e80(&local_10,local_110);
-  FUN_00403f9c((int *)&local_c,3);
+  System_TObject_ClassName(*param_1,local_110);
+  System__LStrFromString(&local_10,local_110);
+  System__LStrCatN((int *)&local_c,3);
   puVar2 = local_c;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar2,0);
-  FUN_00403c5c((int *)&local_8);
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,0);
+  System__LStrClr((int *)&local_8);
   do {
-    iVar4 = TfrmStartInfoKeyBoard_ShowNewPlayerDlg((int *)&local_8);
+    iVar3 = TfrmStartInfoKeyBoard_ShowNewPlayerDlg((int *)&local_8);
     if (local_8 != (undefined4 *)0x0) break;
-  } while (iVar4 != 2);
-  if (iVar4 == 1) {
+  } while (iVar3 != 2);
+  if (iVar3 == 1) {
     FUN_0047fbd4(*(int **)PTR_DAT_004ab694,local_8);
-    piVar5 = (int *)TSettings_virtual_004((int *)&PTR_TSettings_virtual_000_004a6010,'\x01');
-    (**(code **)(*piVar5 + 0xc))
-              (piVar5,*(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18));
+    piVar4 = (int *)TSettings_virtual_004((int *)&PTR_TSettings_virtual_000_004a6010,'\x01');
+    (**(code **)(*piVar4 + 0xc))
+              (piVar4,*(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18));
     piVar1 = *(int **)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18);
-    (**(code **)(*piVar1 + 0xc))(piVar1,piVar5);
-    FUN_00402f9c(piVar5);
+    (**(code **)(*piVar1 + 0xc))(piVar1,piVar4);
+    System_TObject_Free(piVar4);
     TData_SavePlayer(*(int **)PTR_DAT_004ab694);
     TfrmPlayer_BuildFileList(param_1);
     TfrmPlayer_UpdateScreen(param_1);
   }
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "AddNewPlayer";
-  FUN_00403c80(&local_10,3);
+  System__LStrArrayClr(&local_10,3);
   return;
 }
 
@@ -215,9 +215,9 @@ void TfrmPlayer_BackupFiles(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  DWORD DVar3;
-  undefined4 uVar4;
+  uint debug;
+  DWORD DVar2;
+  undefined4 uVar3;
   LPCSTR lpNewFileName;
   LPCSTR lpExistingFileName;
   undefined4 *in_FS_OFFSET;
@@ -245,30 +245,30 @@ void TfrmPlayer_BackupFiles(int *param_1)
   uStack_280 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_280;
   puStack_278 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_264);
-  FUN_00403e80(&local_164,local_264);
-  FUN_00403f9c((int *)&local_160,3);
+  System_TObject_ClassName(*param_1,local_264);
+  System__LStrFromString(&local_164,local_264);
+  System__LStrCatN((int *)&local_160,3);
   puVar1 = local_160;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
-  FUN_00403f9c((int *)&local_268,4);
-  DVar3 = FUN_00408854(local_268,0x3f,local_15c);
-  while (DVar3 == 0) {
-    uVar4 = FUN_00481208(local_150);
-    FUN_004085ac(uVar4,&local_270);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
+  System__LStrCatN((int *)&local_268,4);
+  DVar2 = FUN_00408854(local_268,0x3f,local_15c);
+  while (DVar2 == 0) {
+    uVar3 = FUN_00481208(local_150);
+    SysUtils_IntToStr(uVar3,&local_270);
     bFailIfExists = &DAT_00493ac4;
-    FUN_00403f9c((int *)&local_26c,5);
-    lpNewFileName = FUN_004040a0(local_26c);
-    lpExistingFileName = FUN_004040a0(local_150);
+    System__LStrCatN((int *)&local_26c,5);
+    lpNewFileName = System__LStrToPChar(local_26c);
+    lpExistingFileName = System__LStrToPChar(local_150);
     CopyFileA(lpExistingFileName,lpNewFileName,(BOOL)bFailIfExists);
-    DVar3 = FUN_004088a4(local_15c);
+    DVar2 = FUN_004088a4(local_15c);
   }
   FUN_004088c8((int)local_15c);
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = &DAT_00493ab8;
-  FUN_00403c80(&local_270,3);
-  FUN_00403c80(&local_164,2);
+  System__LStrArrayClr(&local_270,3);
+  System__LStrArrayClr(&local_164,2);
   FUN_0040454c((int)local_15c,(int)&DAT_004075bc);
   return;
 }
@@ -281,9 +281,9 @@ void TfrmPlayer_ReplaceFiles(int *param_1)
 {
   undefined *puVar1;
   undefined4 *puVar2;
-  uint uVar3;
-  DWORD DVar4;
-  undefined4 uVar5;
+  uint debug;
+  DWORD DVar3;
+  undefined4 uVar4;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_288;
   undefined1 *puStack_284;
@@ -311,34 +311,34 @@ void TfrmPlayer_ReplaceFiles(int *param_1)
   uStack_288 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_288;
   puStack_280 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_264);
-  FUN_00403e80(&local_164,local_264);
-  FUN_00403f9c((int *)&local_160,3);
+  System_TObject_ClassName(*param_1,local_264);
+  System__LStrFromString(&local_164,local_264);
+  System__LStrCatN((int *)&local_160,3);
   puVar2 = local_160;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar2,0);
-  FUN_00403f9c((int *)&local_268,4);
-  DVar4 = FUN_00408854(local_268,0x3f,local_15c);
-  while (DVar4 == 0) {
+  debug = Debug();
+  TDebug_InProc(debug,puVar2,0);
+  System__LStrCatN((int *)&local_268,4);
+  DVar3 = FUN_00408854(local_268,0x3f,local_15c);
+  while (DVar3 == 0) {
     FUN_004088e4(local_150);
-    DVar4 = FUN_004088a4(local_15c);
+    DVar3 = FUN_004088a4(local_15c);
   }
   FUN_004088c8((int)local_15c);
-  FUN_00403f9c((int *)&local_26c,4);
-  DVar4 = FUN_00408854(local_26c,0x3f,local_15c);
-  while (DVar4 == 0) {
-    uVar5 = FUN_00481208(local_150);
-    FUN_00481178(uVar5,(int *)&local_274);
-    FUN_00403f28((int *)&local_270,*(undefined4 **)(*(int *)puVar1 + 0xb8),local_274);
+  System__LStrCatN((int *)&local_26c,4);
+  DVar3 = FUN_00408854(local_26c,0x3f,local_15c);
+  while (DVar3 == 0) {
+    uVar4 = FUN_00481208(local_150);
+    FUN_00481178(uVar4,(int *)&local_274);
+    System__LStrCat3((int *)&local_270,*(undefined4 **)(*(int *)puVar1 + 0xb8),local_274);
     FUN_004088fc(local_150,local_270);
-    DVar4 = FUN_004088a4(local_15c);
+    DVar3 = FUN_004088a4(local_15c);
   }
   FUN_004088c8((int)local_15c);
-  uVar3 = FUN_0045f46c();
-  TDebug_ExitProc(uVar3);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = &DAT_00493d2c;
-  FUN_00403c80((int *)&local_274,4);
-  FUN_00403c80(&local_164,2);
+  System__LStrArrayClr((int *)&local_274,4);
+  System__LStrArrayClr(&local_164,2);
   FUN_0040454c((int)local_15c,(int)&DAT_004075bc);
   return;
 }
@@ -350,8 +350,8 @@ void TfrmPlayer_DeleteBackUps(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  DWORD DVar3;
+  uint debug;
+  DWORD DVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_278;
   undefined1 *puStack_274;
@@ -372,24 +372,24 @@ void TfrmPlayer_DeleteBackUps(int *param_1)
   uStack_278 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_278;
   puStack_270 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_264);
-  FUN_00403e80(&local_164,local_264);
-  FUN_00403f9c((int *)&local_160,3);
+  System_TObject_ClassName(*param_1,local_264);
+  System__LStrFromString(&local_164,local_264);
+  System__LStrCatN((int *)&local_160,3);
   puVar1 = local_160;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
-  FUN_00403f9c((int *)&local_268,4);
-  DVar3 = FUN_00408854(local_268,0x3f,local_15c);
-  while (DVar3 == 0) {
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,0);
+  System__LStrCatN((int *)&local_268,4);
+  DVar2 = FUN_00408854(local_268,0x3f,local_15c);
+  while (DVar2 == 0) {
     FUN_004088e4(local_150);
-    DVar3 = FUN_004088a4(local_15c);
+    DVar2 = FUN_004088a4(local_15c);
   }
   FUN_004088c8((int)local_15c);
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = &DAT_00493ed0;
-  FUN_00403c5c((int *)&local_268);
-  FUN_00403c80(&local_164,2);
+  System__LStrClr((int *)&local_268);
+  System__LStrArrayClr(&local_164,2);
   FUN_0040454c((int)local_15c,(int)&DAT_004075bc);
   return;
 }
@@ -441,39 +441,40 @@ void TfrmPlayer_UpdateScreen(int *param_1)
   puStack_164 = &LAB_00494181;
   uStack_168 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_168;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,0);
-  FUN_004085ac(*(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc4) + 0x14),(int *)&local_114);
-  FUN_00403f28(&local_110,(undefined4 *)"Data.MenuStuff.CurrentPlayer : ",local_114);
+  uVar2 = Debug();
+  TDebug_InProc(uVar2,puVar1,0);
+  SysUtils_IntToStr(*(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc4) + 0x14),
+                    (int *)&local_114);
+  System__LStrCat3(&local_110,(undefined4 *)"Data.MenuStuff.CurrentPlayer : ",local_114);
   i_val = local_110;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fe88(uVar2,i_val);
+  uVar2 = Debug();
+  TDebug_Message(uVar2,i_val);
   i_val = FUN_0049421c((int)param_1,
                        *(int *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x10) + 8));
   TGDIButton_SetDefinition((int *)param_1[0xc3],i_val);
   FUN_0048b2b4(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0),local_13c);
-  FUN_00403e80((int *)&local_118,local_13c);
+  System__LStrFromString((int *)&local_118,local_13c);
   TGroupBox_SetCaption(param_1[0xc3],local_118);
   uVar3 = FUN_0045e8a0(param_1[0xcb]);
-  FUN_004085ac(uVar3,(int *)&local_144);
-  FUN_00403f28(&local_140,(undefined4 *)"flcount : ",local_144);
+  SysUtils_IntToStr(uVar3,(int *)&local_144);
+  System__LStrCat3(&local_140,(undefined4 *)"flcount : ",local_144);
   i_val = local_140;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fe88(uVar2,i_val);
+  uVar2 = Debug();
+  TDebug_Message(uVar2,i_val);
   i_val = 0;
   do {
     ppuVar6 = &local_14c;
     uVar2 = i_val + 1;
     if (SCARRY4(i_val,1)) {
-      uVar2 = thunk_FUN_00402808(uVar2);
+      uVar2 = System__RunError(uVar2);
       ppuVar6 = extraout_EDX;
     }
-    FUN_004085ac(uVar2,(int *)ppuVar6);
-    FUN_00403f28((int *)&local_148,(undefined4 *)&DAT_004941fc,local_14c);
+    SysUtils_IntToStr(uVar2,(int *)ppuVar6);
+    System__LStrCat3((int *)&local_148,(undefined4 *)&DAT_004941fc,local_14c);
     piVar4 = (int *)FUN_00415a80((int)param_1,local_148);
     iVar5 = FUN_0045e8a0(param_1[0xcb]);
     if (i_val < iVar5) {
@@ -481,7 +482,7 @@ void TfrmPlayer_UpdateScreen(int *param_1)
       iVar5 = FUN_0049421c((int)param_1,*(int *)(*(int *)(iVar5 + 0xc) + 0x3c));
       TGDIButton_SetDefinition(piVar4,iVar5);
       iVar5 = FUN_00494200((int)param_1,i_val);
-      FUN_00403e80((int *)&local_150,(byte *)(*(int *)(iVar5 + 0xc) + 8));
+      System__LStrFromString((int *)&local_150,(byte *)(*(int *)(iVar5 + 0xc) + 8));
       TGroupBox_SetCaption((int)piVar4,local_150);
       piVar4[3] = i_val;
       FUN_0042ec14(piVar4,extraout_EDX_00,extraout_ECX);
@@ -495,12 +496,12 @@ void TfrmPlayer_UpdateScreen(int *param_1)
   } while (i_val != 4);
   i_val = FUN_0045e8a0(param_1[0xcb]);
   (**(code **)(*(int *)param_1[0xbe] + 0x5c))((int *)param_1[0xbe],0 < i_val);
-  uVar2 = FUN_0045f46c();
+  uVar2 = Debug();
   TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "UpdateScreen";
-  FUN_00403c80((int *)&local_150,5);
-  FUN_00403c80((int *)&local_118,3);
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr((int *)&local_150,5);
+  System__LStrArrayClr((int *)&local_118,3);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -546,14 +547,14 @@ void FUN_0049421c(int param_1,int param_2)
   *in_FS_OFFSET = &uStack_34;
   i_val = FUN_00462414(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x3c),param_2);
   FUN_00480b08(param_2,(int *)&stack0xffffffe8);
-  FUN_00403f28((int *)&stack0xffffffec,(undefined4 *)"defChar",unaff_ESI);
+  System__LStrCat3((int *)&stack0xffffffec,(undefined4 *)"defChar",unaff_ESI);
   iVar1 = FUN_00415a80(param_1,unaff_EBX);
   *in_FS_OFFSET = uStack_34;
   if (*(int *)(iVar1 + 0xc) == 0) {
     puStack_2c = (undefined1 *)0x4942f2;
     FUN_00480b08(i_val,(int *)&local_28);
     puStack_2c = (undefined1 *)0x494302;
-    FUN_00403f28((int *)&local_24,(undefined4 *)&DAT_004943b8,local_28);
+    System__LStrCat3((int *)&local_24,(undefined4 *)&DAT_004943b8,local_28);
     puStack_2c = (undefined1 *)0x49430d;
     FUN_00481698(iVar1,(int)local_24);
     *(undefined4 *)(iVar1 + 0xc) = 1;
@@ -561,7 +562,7 @@ void FUN_0049421c(int param_1,int param_2)
   *in_FS_OFFSET = local_28;
   puStack_20 = &LAB_0049433c;
   local_24 = (undefined1 *)0x494334;
-  FUN_00403c80((int *)&local_28,6);
+  System__LStrArrayClr((int *)&local_28,6);
   return;
 }
 
@@ -571,11 +572,11 @@ void FUN_0049421c(int param_1,int param_2)
 void TfrmPlayer_btn1Click(int *param_1,int param_2)
 
 {
-  uint uVar1;
-  undefined4 uVar2;
-  int iVar3;
+  uint debug;
+  undefined4 uVar1;
+  int iVar2;
   int *in_FS_OFFSET;
-  char *pcVar4;
+  char *pcVar3;
   int iStack_12c;
   undefined1 *puStack_128;
   undefined1 *puStack_124;
@@ -593,30 +594,30 @@ void TfrmPlayer_btn1Click(int *param_1,int param_2)
   *in_FS_OFFSET = (int)&iStack_12c;
   local_c = *(undefined4 *)(param_2 + 0xc);
   local_8 = 0;
-  FUN_00402ee4(*param_1,local_114);
-  FUN_00403e80(&local_14,local_114);
-  pcVar4 = "btn1Click";
-  FUN_00403f9c(&local_10,3);
-  iVar3 = local_10;
-  uVar1 = FUN_0045f46c();
-  FUN_0045fa3c(uVar1,iVar3,0,(int)pcVar4);
-  iVar3 = *(int *)(param_2 + 0xc);
-  if (iVar3 == -1) {
+  System_TObject_ClassName(*param_1,local_114);
+  System__LStrFromString(&local_14,local_114);
+  pcVar3 = "btn1Click";
+  System__LStrCatN(&local_10,3);
+  iVar2 = local_10;
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar2,0,(int)pcVar3);
+  iVar2 = *(int *)(param_2 + 0xc);
+  if (iVar2 == -1) {
     TfrmPlayer_AddNewPlayer(param_1);
   }
   else {
-    FUN_00402f9c(*(int **)(*(int *)PTR_DAT_004ab694 + 0xc0));
-    uVar2 = TSaveGame_virtual_004((int *)&PTR_TSaveGame_virtual_000_0048aa08,'\x01');
-    *(undefined4 *)(*(int *)PTR_DAT_004ab694 + 0xc0) = uVar2;
-    iVar3 = FUN_0045e640(param_1[0xcb],iVar3);
-    FUN_0047f840(*(int **)PTR_DAT_004ab694,*(undefined4 *)(iVar3 + 8));
+    System_TObject_Free(*(int **)(*(int *)PTR_DAT_004ab694 + 0xc0));
+    uVar1 = TSaveGame_virtual_004((int *)&PTR_TSaveGame_virtual_000_0048aa08,'\x01');
+    *(undefined4 *)(*(int *)PTR_DAT_004ab694 + 0xc0) = uVar1;
+    iVar2 = FUN_0045e640(param_1[0xcb],iVar2);
+    FUN_0047f840(*(int **)PTR_DAT_004ab694,*(undefined4 *)(iVar2 + 8));
   }
   TfrmPlayer_BuildFileList(param_1);
   TfrmPlayer_UpdateScreen(param_1);
-  uVar1 = FUN_0045f46c();
-  TDebug_ExitProc(uVar1);
-  *in_FS_OFFSET = (int)pcVar4;
-  FUN_00403c80(&local_14,2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = (int)pcVar3;
+  System__LStrArrayClr(&local_14,2);
   return;
 }
 
@@ -627,8 +628,8 @@ void TfrmPlayer_btnDeletePlayerClick(int *param_1)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
-  int iVar3;
+  uint debug;
+  int iVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_148;
   undefined1 *puStack_144;
@@ -646,28 +647,28 @@ void TfrmPlayer_btnDeletePlayerClick(int *param_1)
   puStack_144 = &LAB_00494618;
   uStack_148 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_148;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,1);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,1);
   FUN_0048b2b4(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0),local_134);
-  FUN_00403e80((int *)&local_110,local_134);
-  iVar3 = TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(param_1,local_110);
-  if (iVar3 == 1) {
+  System__LStrFromString((int *)&local_110,local_134);
+  iVar2 = TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(param_1,local_110);
+  if (iVar2 == 1) {
     FUN_0047fdc8(*(int **)PTR_DAT_004ab694,
                  *(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc4) + 0x14));
-    iVar3 = param_1[0xc4];
-    (**(code **)(iVar3 + 0x108))(*(undefined4 *)(iVar3 + 0x10c),iVar3);
+    iVar2 = param_1[0xc4];
+    (**(code **)(iVar2 + 0x108))(*(undefined4 *)(iVar2 + 0x10c),iVar2);
     TfrmPlayer_BuildFileList(param_1);
     TfrmPlayer_UpdateScreen(param_1);
   }
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
+  debug = Debug();
+  TDebug_ExitProc(debug);
   *in_FS_OFFSET = "btnDeletePlayerClick";
-  FUN_00403c5c((int *)&local_110);
-  FUN_00403c80(&local_c,2);
+  System__LStrClr((int *)&local_110);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -721,7 +722,7 @@ void FUN_004946e8(int *param_1)
   *in_FS_OFFSET = &uStack_28;
   j = FUN_00462434(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x3c));
   if (SBORROW4(j,1)) {
-    thunk_FUN_00402808(j);
+    System__RunError(j);
   }
   if (-1 < (int)(j - 1)) {
     i_val = 0;
@@ -730,7 +731,7 @@ void FUN_004946e8(int *param_1)
                          ((int *)&PTR_TPersistent_virtual_000_00466ed8,'\x01',param_1);
       TGDIButtonDefinition_SetTranslucent((int)piVar1,'\x01');
       FUN_00480b08(i_val,(int *)&local_10);
-      FUN_00403f28(&local_c,(undefined4 *)"defChar",local_10);
+      System__LStrCat3(&local_c,(undefined4 *)"defChar",local_10);
       (**(code **)(*piVar1 + 0x18))(piVar1,local_c);
       TGDIButtonDefinition_SetFont((int)piVar1);
       (**(code **)(*(int *)piVar1[0x1a] + 0x2c))((int *)piVar1[0x1a],10);
@@ -746,7 +747,7 @@ void FUN_004946e8(int *param_1)
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_004947f1;
   puStack_24 = (undefined1 *)0x4947e9;
-  FUN_00403c80((int *)&local_10,2);
+  System__LStrArrayClr((int *)&local_10,2);
   return;
 }
 

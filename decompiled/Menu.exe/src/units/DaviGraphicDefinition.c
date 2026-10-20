@@ -62,7 +62,7 @@ undefined4 FUN_0045d910(int *param_1,uint param_2,undefined4 param_3)
   i_val = (**(code **)(*piVar1 + 0x20))();
   y2_val = i_val - 1;
   if (SBORROW4(i_val,1)) {
-    y2_val = thunk_FUN_00402808(y2_val);
+    y2_val = System__RunError(y2_val);
   }
   if (-1 < (int)y2_val) {
     j = y2_val + 1;
@@ -81,7 +81,7 @@ LAB_0045da4d:
             bVar6 = SCARRY4(x_val_00,1);
             x_val_00 = x_val_00 + 1;
             if (bVar6) {
-              thunk_FUN_00402808(y2_val);
+              System__RunError(y2_val);
             }
             iVar4 = (**(code **)(*piVar1 + 0x2c))();
             if (iVar4 <= x_val_00) break;
@@ -94,7 +94,7 @@ LAB_0045da4d:
           do {
             x_val = iVar4 + 1;
             if (SCARRY4(iVar4,1)) {
-              thunk_FUN_00402808(y2_val);
+              System__RunError(y2_val);
             }
             iVar4 = (**(code **)(*piVar1 + 0x2c))();
             if (iVar4 <= x_val) break;
@@ -107,7 +107,7 @@ LAB_0045da4d:
           puVar7 = &stack0xfffffffc;
           if (SCARRY4(i_val,1)) {
             puVar7 = &stack0xfffffffc;
-            y2_val = thunk_FUN_00402808(y2_val);
+            y2_val = System__RunError(y2_val);
           }
           FUN_0045d8cc(x_val_00,i_val,x_val,y2_val,(int)puVar7);
           x_val_00 = x_val;
@@ -121,7 +121,7 @@ LAB_0045da4d:
   *in_FS_OFFSET = uStack_2c;
   puStack_24 = (undefined1 *)0x45da84;
   puStack_28 = (undefined1 *)0x45da7c;
-  uVar2 = FUN_00402f9c(piVar1);
+  uVar2 = System_TObject_Free(piVar1);
   return uVar2;
 }
 
@@ -149,7 +149,8 @@ int * TDaviGraphicDef_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar4 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffdc,in_stack_ffffffe0);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffdc,
+                                         in_stack_ffffffe0);
     param_3 = extraout_ECX;
     cVar4 = extraout_DL;
   }
@@ -172,7 +173,7 @@ int * TDaviGraphicDef_virtual_02c(int *param_1,char param_2,int *param_3)
     }
     i_val = i_val + 1;
   } while (i_val != 7);
-  iVar2 = FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',uVar3);
+  iVar2 = System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',uVar3);
   param_1[0x13] = iVar2;
   param_1[0x11] = 0x68;
   param_1[0x12] = 0x18;
@@ -180,7 +181,7 @@ int * TDaviGraphicDef_virtual_02c(int *param_1,char param_2,int *param_3)
   piVar1 = FUN_00418040((int *)&PTR_TPersistent_virtual_000_00416a80,'\x01',extraout_ECX_03);
   param_1[0x14] = (int)piVar1;
   if (cVar4 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffdc;
   }
   return param_1;
@@ -196,12 +197,12 @@ void TDaviGraphicDef_Destroy(int *param_1,char param_2)
   byte extraout_DL;
   uint i_val;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   FUN_0045debc((int)piVar1,0x4403);
-  FUN_0040c968(piVar1 + 0x14);
+  SysUtils_FreeAndNil(piVar1 + 0x14);
   i_val = 0;
   do {
-    FUN_00402f9c((int *)piVar1[(i_val & 0x7f) + 9]);
+    System_TObject_Free((int *)piVar1[(i_val & 0x7f) + 9]);
     piVar1[(i_val & 0x7f) + 9] = 0;
     i_val = i_val + 1;
   } while ((char)i_val != '\a');
@@ -209,10 +210,10 @@ void TDaviGraphicDef_Destroy(int *param_1,char param_2)
     DeleteObject((HGDIOBJ)piVar1[0x10]);
     piVar1[0x10] = 0;
   }
-  FUN_00402f9c((int *)piVar1[0x13]);
+  System_TObject_Free((int *)piVar1[0x13]);
   TComponent_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -229,35 +230,35 @@ int TDaviGraphicDef_GetUpLink(int param_1,uint param_2)
   int *piVar4;
   
   if (6 < param_2) {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   iVar1 = *(int *)(param_1 + 0x24 + (param_2 & 0xff) * 4);
   piVar4 = *(int **)(iVar1 + 0xc);
   if (piVar4 != (int *)0x0) {
     (**(code **)(*piVar4 + 0x3c))(piVar4,*(undefined1 *)(param_1 + 0x54));
-    uVar2 = FUN_00403114(piVar4,(int)&LAB_00454aa4);
+    uVar2 = System__IsClass(piVar4,(int)&LAB_00454aa4);
     if ((char)uVar2 == '\0') {
-      uVar2 = FUN_00403114(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
+      uVar2 = System__IsClass(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
       if ((char)uVar2 == '\0') {
-        uVar2 = FUN_00403114(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
+        uVar2 = System__IsClass(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
         if ((char)uVar2 != '\0') {
-          piVar3 = (int *)FUN_0040312c(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
+          piVar3 = (int *)System__AsClass(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
           (**(code **)(*piVar3 + 0x88))(piVar3,*(undefined1 *)(param_1 + 0x55));
-          piVar4 = (int *)FUN_0040312c(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
+          piVar4 = (int *)System__AsClass(piVar4,(int)&PTR_TPersistent_virtual_000_0045b71c);
           (**(code **)(*piVar4 + 0x84))(piVar4,*(undefined4 *)(param_1 + 0x58));
         }
       }
       else {
-        piVar3 = (int *)FUN_0040312c(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
+        piVar3 = (int *)System__AsClass(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
         FUN_0041ee80(piVar3,*(char *)(param_1 + 0x55));
-        piVar4 = (int *)FUN_0040312c(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
+        piVar4 = (int *)System__AsClass(piVar4,(int)&PTR_TPersistent_virtual_000_004173a4);
         FUN_0041ee30(piVar4,*(int *)(param_1 + 0x58));
       }
     }
     else {
-      piVar3 = (int *)FUN_0040312c(piVar4,(int)&LAB_00454aa4);
+      piVar3 = (int *)System__AsClass(piVar4,(int)&LAB_00454aa4);
       FUN_0045727c(piVar3,*(char *)(param_1 + 0x55));
-      piVar4 = (int *)FUN_0040312c(piVar4,(int)&LAB_00454aa4);
+      piVar4 = (int *)System__AsClass(piVar4,(int)&LAB_00454aa4);
       FUN_00457260(piVar4,*(int *)(param_1 + 0x58));
     }
   }
@@ -357,13 +358,13 @@ void FUN_0045debc(int param_1,undefined4 param_2)
   iVar1 = *(int *)(*(uint *)(param_1 + 0x4c) + 8);
   i_val = iVar1 + -1;
   if (SBORROW4(iVar1,1)) {
-    thunk_FUN_00402808(*(uint *)(param_1 + 0x4c));
+    System__RunError(*(uint *)(param_1 + 0x4c));
   }
   if (-1 < i_val) {
     do {
       uVar2 = 0;
-      iVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x4c),i_val);
-      FUN_0042f720(iVar1,param_2,0,uVar2);
+      iVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x4c),i_val);
+      Controls_TControl_Perform(iVar1,param_2,0,uVar2);
       i_val = i_val + -1;
     } while (i_val != -1);
   }
@@ -398,7 +399,7 @@ void FUN_0045df20(int param_1,uint param_2,undefined4 *param_3)
   puVar4 = param_3;
   piVar1 = (int *)FUN_0045df74(param_1,param_2);
   uVar3 = (**(code **)(*piVar1 + 0x2c))();
-  FUN_0040f7e8(0,0,uVar3,puVar4,uVar2);
+  Classes_Rect(0,0,uVar3,puVar4,uVar2);
   if (*(short *)(param_1 + 0x62) != 0) {
     (**(code **)(param_1 + 0x60))(*(undefined4 *)(param_1 + 100),param_1,param_2,param_3);
   }
@@ -425,11 +426,11 @@ void FUN_0045df90(int param_1,int param_2)
 {
   int iVar1;
   
-  iVar1 = FUN_0041030c(*(int *)(param_1 + 0x4c),param_2);
+  iVar1 = Classes_TList_IndexOf(*(int *)(param_1 + 0x4c),param_2);
   if (iVar1 == -1) {
-    FUN_00410104(*(int **)(param_1 + 0x4c),param_2);
-    FUN_0042f720(param_2,0x4400,0,0);
-    FUN_0042f720(param_2,0x4401,0,0);
+    Classes_TList_Add(*(int **)(param_1 + 0x4c),param_2);
+    Controls_TControl_Perform(param_2,0x4400,0,0);
+    Controls_TControl_Perform(param_2,0x4401,0,0);
   }
   return;
 }
@@ -442,10 +443,10 @@ void FUN_0045dfd4(int param_1,int param_2)
 {
   int iVar1;
   
-  iVar1 = FUN_0041030c(*(int *)(param_1 + 0x4c),param_2);
+  iVar1 = Classes_TList_IndexOf(*(int *)(param_1 + 0x4c),param_2);
   if (iVar1 != -1) {
-    FUN_00410150(*(int **)(param_1 + 0x4c),iVar1);
-    FUN_0042f720(param_2,0x4402,0,0);
+    Classes_TList_Delete(*(int **)(param_1 + 0x4c),iVar1);
+    Controls_TControl_Perform(param_2,0x4402,0,0);
   }
   return;
 }

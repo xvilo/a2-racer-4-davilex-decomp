@@ -44,7 +44,7 @@ void FUN_004617f4(void)
         i_val = i_val + -1;
       } while (i_val != 0);
     }
-    FUN_00402f9c(DAT_004ad138);
+    System_TObject_Free(DAT_004ad138);
   }
   return;
 }
@@ -85,16 +85,16 @@ void FUN_004619c0(int param_1,int *param_2,undefined4 param_3,int param_4)
   local_c = 0;
   puStack_14 = (undefined1 *)0x4619d9;
   local_8 = param_1;
-  FUN_00404090(param_1);
+  System__LStrAddRef(param_1);
   puStack_18 = &LAB_00461a30;
   iStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = (int)&iStack_1c;
   puStack_14 = &stack0xfffffffc;
-  FUN_004085ac(*(undefined4 *)(*(int *)(param_4 + -8) + 0x44),&local_c);
+  SysUtils_IntToStr(*(undefined4 *)(*(int *)(param_4 + -8) + 0x44),&local_c);
   iVar1 = local_8;
-  FUN_00403f9c(param_2,4);
+  System__LStrCatN(param_2,4);
   *in_FS_OFFSET = iVar1;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -131,38 +131,38 @@ void FUN_00461a4c(undefined4 param_1,int param_2)
   local_18 = (undefined1 *)0x461a6b;
   local_c = param_1;
   local_8 = param_2;
-  FUN_00404090(param_2);
+  System__LStrAddRef(param_2);
   local_1c = &LAB_00461b67;
   local_20 = (undefined *)*in_FS_OFFSET;
   *in_FS_OFFSET = &local_20;
   local_28 = (undefined *)0x461a87;
   local_18 = &stack0xfffffffc;
   FUN_004619c0(0x461b80,(int *)&local_10,extraout_ECX,(int)&stack0xfffffffc);
-  uVar1 = FUN_004087a4(local_10);
+  uVar1 = SysUtils_FileExists(local_10);
   if ((char)uVar1 != '\0') {
     local_28 = (undefined *)0x461aa6;
     FUN_004619c0(0x461b90,(int *)&stack0xffffffec,extraout_ECX_00,(int)&stack0xfffffffc);
-    uVar1 = FUN_004087a4(unaff_EBX);
+    uVar1 = SysUtils_FileExists(unaff_EBX);
     if ((char)uVar1 != '\0') {
       local_28 = (undefined *)0x461ac5;
       FUN_004619c0(0x461ba0,(int *)&local_18,extraout_ECX_01,(int)&stack0xfffffffc);
-      uVar1 = FUN_004087a4(local_18);
+      uVar1 = SysUtils_FileExists(local_18);
       if ((char)uVar1 != '\0') {
         local_28 = (undefined *)0x461ae0;
         FUN_004619c0(0x461bb0,(int *)&local_1c,extraout_ECX_02,(int)&stack0xfffffffc);
-        uVar1 = FUN_004087a4(local_1c);
+        uVar1 = SysUtils_FileExists(local_1c);
         if ((char)uVar1 != '\0') {
           local_28 = (undefined *)0x461afb;
           FUN_004619c0(0x461bc0,(int *)&local_20,extraout_ECX_03,(int)&stack0xfffffffc);
-          uVar1 = FUN_004087a4(local_20);
+          uVar1 = SysUtils_FileExists(local_20);
           if ((char)uVar1 != '\0') {
             local_28 = (undefined *)0x461b16;
             FUN_004619c0(0x461bd0,(int *)&stack0xffffffdc,extraout_ECX_04,(int)&stack0xfffffffc);
-            uVar1 = FUN_004087a4(puVar2);
+            uVar1 = SysUtils_FileExists(puVar2);
             if ((char)uVar1 != '\0') {
               local_28 = (undefined *)0x461b31;
               FUN_004619c0(0x461be0,(int *)&local_28,extraout_ECX_05,(int)&stack0xfffffffc);
-              FUN_004087a4(local_28);
+              SysUtils_FileExists(local_28);
             }
           }
         }
@@ -172,9 +172,9 @@ void FUN_00461a4c(undefined4 param_1,int param_2)
   *in_FS_OFFSET = local_20;
   local_18 = &LAB_00461b6e;
   local_1c = (undefined1 *)0x461b5e;
-  FUN_00403c80((int *)&local_28,7);
+  System__LStrArrayClr((int *)&local_28,7);
   local_1c = (undefined1 *)0x461b66;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -196,14 +196,14 @@ void TTrack_virtual_000(int param_1)
   puStack_14 = &LAB_00461c45;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
-  FUN_00403e80(&local_8,(byte *)(param_1 + 0xc));
+  System__LStrFromString(&local_8,(byte *)(param_1 + 0xc));
   FUN_0045ee68(param_1,0x461c58,local_8);
   uVar1 = FUN_00461c7c(param_1,0);
   FUN_0045ef0c(param_1,0x461c68,uVar1);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00461c4c;
   puStack_14 = (undefined1 *)0x461c44;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -232,8 +232,8 @@ void TTrack_LoadFromIniFile(int *param_1,int param_2)
 
 {
   undefined1 uVar1;
-  uint uVar2;
-  int *piVar3;
+  uint debug;
+  int *piVar2;
   int i_val;
   undefined4 extraout_ECX;
   byte j;
@@ -250,7 +250,7 @@ void TTrack_LoadFromIniFile(int *param_1,int param_2)
   undefined4 *local_120;
   byte local_11c [152];
   undefined4 uStackY_84;
-  int *piVar4;
+  int *piVar3;
   undefined4 uStack_28;
   undefined1 *puStack_24;
   undefined1 *puStack_20;
@@ -270,64 +270,65 @@ void TTrack_LoadFromIniFile(int *param_1,int param_2)
   puStack_24 = &LAB_00461f54;
   uStack_28 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_28;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80((int *)&stack0xffffffe4,local_11c);
-  FUN_00403f9c((int *)&stack0xffffffe8,3);
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,unaff_ESI,0);
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString((int *)&stack0xffffffe4,local_11c);
+  System__LStrCatN((int *)&stack0xffffffe8,3);
+  debug = Debug();
+  TDebug_InProc(debug,unaff_ESI,0);
   param_1[2] = param_2;
-  FUN_004085ac(param_2,(int *)&local_120);
-  FUN_00403f28(&local_c,(undefined4 *)"track",local_120);
+  SysUtils_IntToStr(param_2,(int *)&local_120);
+  System__LStrCat3(&local_c,(undefined4 *)"track",local_120);
   (**(code **)*local_8)(local_8,local_c,&DAT_00461fb0);
   FUN_00403eb8(local_11c,local_124,0xff);
   FUN_00402b0c((byte *)(param_1 + 3),local_11c,0x20);
   (**(code **)*local_8)(local_8,local_c,"story");
-  FUN_00403cb0(param_1 + 0xd,local_128);
+  System__LStrAsg(param_1 + 0xd,local_128);
   (**(code **)*local_8)(local_8,local_c,&DAT_00461fd0);
-  FUN_00403cb0(param_1 + 0xc,local_12c);
+  System__LStrAsg(param_1 + 0xc,local_12c);
   i_val = (**(code **)(*local_8 + 8))(local_8,local_c,"nrlaps");
   param_1[0x12] = i_val;
   uVar1 = (**(code **)(*local_8 + 0x10))(local_8,local_c,"british");
   *(undefined1 *)(param_1 + 0x13) = uVar1;
   (**(code **)*local_8)(local_8,local_c,"wintext");
-  FUN_00403cb0(param_1 + 0xe,local_130);
+  System__LStrAsg(param_1 + 0xe,local_130);
   (**(code **)*local_8)(local_8,local_c,"QualifyText");
-  FUN_00403cb0(param_1 + 0x10,local_134);
+  System__LStrAsg(param_1 + 0x10,local_134);
   (**(code **)*local_8)(local_8,local_c,"losetext");
-  FUN_00403cb0(param_1 + 0xf,local_138);
+  System__LStrAsg(param_1 + 0xf,local_138);
   i_val = (**(code **)(*local_8 + 8))(local_8,local_c,"indexingame");
   param_1[0x11] = i_val;
-  piVar3 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
-  FUN_004603e0(local_8,local_c,"qualifyposition",&local_10,piVar3);
+  piVar2 = (int *)System_TObject_Create
+                            ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
+  FUN_004603e0(local_8,local_c,"qualifyposition",&local_10,piVar2);
   j = 0;
   do {
-    (**(code **)(*piVar3 + 0xc))(piVar3,j,&local_13c);
+    (**(code **)(*piVar2 + 0xc))(piVar2,j,&local_13c);
     i_val = FUN_00408618(local_13c);
     param_1[j + 0x14] = i_val;
     j = j + 1;
   } while (j != 3);
-  piVar4 = &local_10;
+  piVar3 = &local_10;
   uStackY_84 = 0x461edd;
-  FUN_004603e0(local_8,local_c,"chasetime",piVar4,piVar3);
+  FUN_004603e0(local_8,local_c,"chasetime",piVar3,piVar2);
   j = 0;
   do {
     uStackY_84 = 0x461ef1;
-    (**(code **)(*piVar3 + 0xc))(piVar3,j,&local_140);
+    (**(code **)(*piVar2 + 0xc))(piVar2,j,&local_140);
     uStackY_84 = 0x461efc;
     i_val = FUN_00408618(local_140);
     param_1[j + 0x17] = i_val;
     j = j + 1;
   } while (j != 3);
   uStackY_84 = 0x461f12;
-  FUN_00402f9c(piVar3);
+  System_TObject_Free(piVar2);
   uStackY_84 = 0x461f17;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   uStackY_84 = 0x461f1c;
-  TDebug_ExitProc(uVar2);
-  *in_FS_OFFSET = piVar4;
-  FUN_00403c80((int *)&local_140,9);
-  FUN_00403c80((int *)&stack0xffffffe4,2);
-  FUN_00403c80(&local_10,2);
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = piVar3;
+  System__LStrArrayClr((int *)&local_140,9);
+  System__LStrArrayClr((int *)&stack0xffffffe4,2);
+  System__LStrArrayClr(&local_10,2);
   return;
 }
 
@@ -414,10 +415,10 @@ void FUN_00462154(int param_1,undefined4 *param_2)
   iStack_2c = *in_FS_OFFSET;
   *in_FS_OFFSET = (int)&iStack_2c;
   local_8 = param_2;
-  piVar1 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',0);
-  FUN_00403cf4((int *)&stack0xffffffe8,0x462334);
-  FUN_004085ac((uint)local_9,(int *)&stack0xffffffe4);
-  FUN_00403f28(&i_val,(undefined4 *)"specs",unaff_ESI);
+  piVar1 = (int *)System_TObject_Create((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',0);
+  System__LStrLAsg((int *)&stack0xffffffe8,0x462334);
+  SysUtils_IntToStr((uint)local_9,(int *)&stack0xffffffe4);
+  System__LStrCat3(&i_val,(undefined4 *)"specs",unaff_ESI);
   puStackY_38 = (undefined1 *)0x4621cc;
   FUN_004603e0(local_8,unaff_EBX,i_val,&local_10,piVar1);
   puStackY_38 = (undefined1 *)0x4621db;
@@ -452,22 +453,22 @@ void FUN_00462154(int param_1,undefined4 *param_2)
   uVar2 = FUN_00408618(local_134);
   *(undefined4 *)(param_1 + 0x40) = uVar2;
   puStackY_38 = (undefined1 *)0x4622b1;
-  FUN_004085ac((uint)local_9,(int *)&local_138);
+  SysUtils_IntToStr((uint)local_9,(int *)&local_138);
   puStackY_38 = (undefined1 *)0x4622c4;
-  FUN_00403f28(&i_val,(undefined4 *)&DAT_00462354,local_138);
+  System__LStrCat3(&i_val,(undefined4 *)&DAT_00462354,local_138);
   puStackY_38 = &LAB_00462364;
   ppuStackY_3c = &local_13c;
   uStackY_40 = 0x4622dd;
   (**(code **)*local_8)(local_8,unaff_EBX,i_val);
   uStackY_40 = 0x4622eb;
-  FUN_00403cb0((int *)(param_1 + 0x2c),local_13c);
+  System__LStrAsg((int *)(param_1 + 0x2c),local_13c);
   uStackY_40 = 0x4622f2;
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   *in_FS_OFFSET = (int)ppuStackY_3c;
   puStackY_38 = (undefined1 *)0x46230f;
-  FUN_00403c80((int *)&local_13c,8);
+  System__LStrArrayClr((int *)&local_13c,8);
   puStackY_38 = (undefined1 *)0x46231c;
-  FUN_00403c80((int *)&stack0xffffffe4,4);
+  System__LStrArrayClr((int *)&stack0xffffffe4,4);
   return;
 }
 
@@ -521,14 +522,15 @@ int * FUN_00462444(int *param_1,char param_2,int param_3,int param_4)
   
   cVar3 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar3 = extraout_DL;
   }
   TDataObject_virtual_004(param_1,'\0',param_3);
   uVar2 = extraout_ECX_00;
   if (param_3 == 0) {
-    FUN_00403c40("aTrackList  =  nil");
+    System__Assert("aTrackList  =  nil");
     uVar2 = extraout_ECX_01;
   }
   piVar1 = TIntegerList_virtual_004((int *)&PTR_TIntegerList_virtual_000_0045e2b4,'\x01',uVar2);
@@ -539,7 +541,7 @@ int * FUN_00462444(int *param_1,char param_2,int param_3,int param_4)
   param_1[5] = param_3;
   param_1[6] = param_4;
   if (cVar3 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -554,14 +556,14 @@ void TRace_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   FUN_0045eb18(piVar1[2]);
-  FUN_0040c968(piVar1 + 2);
+  SysUtils_FreeAndNil(piVar1 + 2);
   FUN_0045eb18(piVar1[3]);
-  FUN_0040c968(piVar1 + 3);
+  SysUtils_FreeAndNil(piVar1 + 3);
   TDataObject_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -587,7 +589,7 @@ void FUN_004625a4(int param_1,int param_2)
   
   iVar1 = FUN_00462434(param_1);
   if (iVar1 <= param_2) {
-    FUN_00403c40("illegal index");
+    System__Assert("illegal index");
   }
   iVar1 = FUN_0045e990(*(int *)(param_1 + 0xc),param_2);
   FUN_0045e640(*(int *)(param_1 + 0x18),iVar1);
@@ -629,16 +631,16 @@ void FUN_00462620(int *param_1,int param_2)
   local_10 = 0;
   iVar3 = 0;
   local_8 = param_2;
-  FUN_00402ee4(*param_1,local_118);
-  FUN_00403e80(&local_18,local_118);
-  FUN_00403ee4(&local_18,(undefined4 *)".GetRaceIndex");
+  System_TObject_ClassName(*param_1,local_118);
+  System__LStrFromString(&local_18,local_118);
+  System__LStrCat(&local_18,(undefined4 *)".GetRaceIndex");
   iVar1 = local_18;
-  i_val = FUN_0045f46c();
+  i_val = Debug();
   FUN_0045fa3c(i_val,iVar1,2,iVar3);
   local_c = -1;
   i_val = FUN_00462abc((int)param_1);
   if (SBORROW4(i_val,1)) {
-    thunk_FUN_00402808(i_val);
+    System__RunError(i_val);
   }
   iVar1 = local_c;
   if (-1 < (int)(i_val - 1)) {
@@ -654,15 +656,15 @@ void FUN_00462620(int *param_1,int param_2)
   }
   local_c = iVar1;
   if (local_c < 0) {
-    FUN_004085ac(*(undefined4 *)(local_8 + 8),(int *)&local_120);
-    FUN_00403f28(&local_11c,(undefined4 *)"GetRaceIndex : Track not found in Race. AbsIndex = ",
-                 local_120);
-    FUN_00403c40(local_11c);
+    SysUtils_IntToStr(*(undefined4 *)(local_8 + 8),(int *)&local_120);
+    System__LStrCat3(&local_11c,(undefined4 *)"GetRaceIndex : Track not found in Race. AbsIndex = ",
+                     local_120);
+    System__Assert(local_11c);
   }
   *in_FS_OFFSET = iVar3;
   puStack_138 = &LAB_00462747;
-  FUN_00403c80((int *)&local_120,2);
-  FUN_00403c5c(&local_18);
+  System__LStrArrayClr((int *)&local_120,2);
+  System__LStrClr(&local_18);
   return;
 }
 
@@ -676,7 +678,7 @@ void FUN_004627d0(int param_1,int param_2)
   
   iVar1 = FUN_00462abc(param_1);
   if (iVar1 <= param_2) {
-    FUN_00403c40("illegal index");
+    System__Assert("illegal index");
   }
   iVar1 = FUN_0045e990(*(int *)(param_1 + 8),param_2);
   FUN_0045e640(*(int *)(param_1 + 0x14),iVar1);
@@ -729,19 +731,20 @@ void TRace_virtual_01c(int *param_1,int *param_2)
   uStack_14c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_14c;
   local_8 = param_2;
-  FUN_00402ee4(*param_1,local_118);
-  FUN_00403e80(&local_18,local_118);
+  System_TObject_ClassName(*param_1,local_118);
+  System__LStrFromString(&local_18,local_118);
   puVar6 = &DAT_00462a6c;
   pcVar5 = "LoadFromIni";
   iVar1 = local_18;
-  FUN_00403f9c((int *)&local_14,3);
+  System__LStrCatN((int *)&local_14,3);
   puVar4 = local_14;
-  j = FUN_0045f46c();
-  FUN_0045fb90(j,puVar4,0);
+  j = Debug();
+  TDebug_InProc(j,puVar4,0);
   (**(code **)(*param_1 + 0x18))(param_1,&local_11c,*param_1,0,pcVar5,puVar6,iVar1);
   iVar1 = (**(code **)(*local_8 + 8))(local_8,local_11c,"defaultchar");
   param_1[4] = iVar1;
-  local_c = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
+  local_c = (int *)System_TObject_Create
+                             ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',extraout_ECX);
   FUN_0045eb18(param_1[2]);
   piVar2 = &local_120;
   piVar3 = local_c;
@@ -749,7 +752,7 @@ void TRace_virtual_01c(int *param_1,int *param_2)
   FUN_004603e0(local_8,local_124,"trackix",piVar2,piVar3);
   j = (**(code **)(*local_c + 0x14))();
   if (SBORROW4(j,1)) {
-    thunk_FUN_00402808(j);
+    System__RunError(j);
   }
   if (-1 < (int)(j - 1)) {
     i_val = 0;
@@ -768,7 +771,7 @@ void TRace_virtual_01c(int *param_1,int *param_2)
   FUN_004603e0(local_8,local_130,"charix",piVar2,piVar3);
   j = (**(code **)(*local_c + 0x14))();
   if (SBORROW4(j,1)) {
-    thunk_FUN_00402808(j);
+    System__RunError(j);
   }
   if (-1 < (int)(j - 1)) {
     i_val = 0;
@@ -780,12 +783,12 @@ void TRace_virtual_01c(int *param_1,int *param_2)
       j = j - 1;
     } while (j != 0);
   }
-  FUN_00402f9c(local_c);
-  j = FUN_0045f46c();
+  System_TObject_Free(local_c);
+  j = Debug();
   TDebug_ExitProc(j);
   *in_FS_OFFSET = piVar2;
-  FUN_00403c80((int *)&local_134,7);
-  FUN_00403c80(&local_18,2);
+  System__LStrArrayClr((int *)&local_134,7);
+  System__LStrArrayClr(&local_18,2);
   return;
 }
 
@@ -815,7 +818,7 @@ void TTourRace_virtual_000(int param_1)
 void TTourRace_virtual_018(undefined4 param_1,int *param_2)
 
 {
-  FUN_00403cb0(param_2,(undefined4 *)"TOURRACE");
+  System__LStrAsg(param_2,(undefined4 *)"TOURRACE");
   return;
 }
 
@@ -834,14 +837,15 @@ void FUN_00462c48(int *param_1,char param_2,int param_3,int param_4)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffec,in_stack_fffffff0);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffec,
+                                         in_stack_fffffff0);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
   param_1[2] = param_3;
   param_1[1] = param_4;
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffec;
   }
   return;
@@ -957,7 +961,7 @@ void FUN_00462d80(int *param_1,undefined *param_2,int *param_3)
 
 {
   int iVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_168;
   undefined1 *puStackY_164;
@@ -966,7 +970,7 @@ void FUN_00462d80(int *param_1,undefined *param_2,int *param_3)
   char *pcStackY_158;
   undefined *puStackY_154;
   int iStackY_150;
-  char *pcVar3;
+  char *pcVar2;
   undefined4 uStack_138;
   undefined1 *puStack_134;
   undefined1 *puStack_130;
@@ -986,37 +990,37 @@ void FUN_00462d80(int *param_1,undefined *param_2,int *param_3)
   local_1c = 0;
   puStack_130 = (undefined1 *)0x462dae;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_134 = &LAB_00462ee7;
   uStack_138 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_138;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_130 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar3 = "GetBitmap";
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar2 = "GetBitmap";
   iStackY_150 = 0x462e01;
-  FUN_00403f9c(&local_18,3);
+  System__LStrCatN(&local_18,3);
   iStackY_150 = local_18;
   puStackY_154 = (undefined *)0x462e0a;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   iVar1 = iStackY_150;
   iStackY_150 = 0x462e16;
-  FUN_0045fa3c(uVar2,iVar1,2,(int)pcVar3);
+  FUN_0045fa3c(debug,iVar1,2,(int)pcVar2);
   if (param_3 == (int *)0x0) {
     iStackY_150 = 0x462e27;
-    FUN_00402ee4(*param_1,local_11c);
+    System_TObject_ClassName(*param_1,local_11c);
     iStackY_150 = 0x462e38;
-    FUN_00403e80(&local_124,local_11c);
+    System__LStrFromString(&local_124,local_11c);
     iStackY_150 = local_124;
     puStackY_154 = &DAT_00462efc;
     pcStackY_158 = "GetBitmap";
     pcStackY_15c = " aBitmap = nil";
     puStackY_160 = (undefined1 *)0x462e5d;
-    FUN_00403f9c(&local_120,4);
+    System__LStrCatN(&local_120,4);
     puStackY_160 = (undefined1 *)0x462e72;
-    FUN_00403c40(local_120);
+    System__Assert(local_120);
   }
   puStackY_160 = (undefined1 *)0x462e7c;
   local_c = (int *)FUN_004635b8(param_1,local_8);
@@ -1028,7 +1032,7 @@ void FUN_00462d80(int *param_1,undefined *param_2,int *param_3)
   *in_FS_OFFSET = uStackY_168;
   puStackY_160 = &LAB_00462eb4;
   puStackY_164 = (undefined1 *)0x462eac;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -1039,7 +1043,7 @@ void FUN_00462f5c(int *param_1,undefined *param_2,uint param_3)
 
 {
   int iVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_168;
   undefined1 *puStackY_164;
@@ -1048,7 +1052,7 @@ void FUN_00462f5c(int *param_1,undefined *param_2,uint param_3)
   char *pcStackY_158;
   undefined *puStackY_154;
   int iStackY_150;
-  char *pcVar3;
+  char *pcVar2;
   undefined4 uStack_138;
   undefined1 *puStack_134;
   undefined1 *puStack_130;
@@ -1068,37 +1072,37 @@ void FUN_00462f5c(int *param_1,undefined *param_2,uint param_3)
   local_1c = 0;
   puStack_130 = (undefined1 *)0x462f8a;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_134 = &LAB_004630cd;
   uStack_138 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_138;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_130 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar3 = "GetWav";
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar2 = "GetWav";
   iStackY_150 = 0x462fdd;
-  FUN_00403f9c(&local_18,3);
+  System__LStrCatN(&local_18,3);
   iStackY_150 = local_18;
   puStackY_154 = (undefined *)0x462fe6;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   iVar1 = iStackY_150;
   iStackY_150 = 0x462ff2;
-  FUN_0045fa3c(uVar2,iVar1,0,(int)pcVar3);
+  FUN_0045fa3c(debug,iVar1,0,(int)pcVar2);
   if (param_3 == 0) {
     iStackY_150 = 0x463003;
-    FUN_00402ee4(*param_1,local_11c);
+    System_TObject_ClassName(*param_1,local_11c);
     iStackY_150 = 0x463014;
-    FUN_00403e80(&local_124,local_11c);
+    System__LStrFromString(&local_124,local_11c);
     iStackY_150 = local_124;
     puStackY_154 = &DAT_004630e4;
     pcStackY_158 = "GetWav";
     pcStackY_15c = " aWave = nil";
     puStackY_160 = (undefined1 *)0x463039;
-    FUN_00403f9c(&local_120,4);
+    System__LStrCatN(&local_120,4);
     puStackY_160 = (undefined1 *)0x46304e;
-    FUN_00403c40(local_120);
+    System__Assert(local_120);
   }
   puStackY_160 = (undefined1 *)0x463058;
   local_c = (int *)FUN_004635b8(param_1,local_8);
@@ -1110,7 +1114,7 @@ void FUN_00462f5c(int *param_1,undefined *param_2,uint param_3)
   *in_FS_OFFSET = uStackY_168;
   puStackY_160 = &LAB_00463090;
   puStackY_164 = (undefined1 *)0x463088;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -1121,7 +1125,7 @@ void TResourceManager_Create(int *param_1,char param_2,undefined4 *param_3)
 
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *extraout_ECX;
   undefined4 extraout_ECX_00;
   undefined4 *in_FS_OFFSET;
@@ -1143,31 +1147,32 @@ void TResourceManager_Create(int *param_1,char param_2,undefined4 *param_3)
   local_10 = 0;
   if (param_2 != '\0') {
     puStackY_134 = (undefined1 *)0x46316b;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffed0,in_stack_fffffed4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffed0,
+                                         in_stack_fffffed4);
     param_3 = extraout_ECX;
   }
   puStackY_134 = (undefined1 *)0x46317a;
   local_8 = param_3;
-  FUN_00404090((int)param_3);
+  System__LStrAddRef((int)param_3);
   puStackY_138 = &LAB_0046324c;
   uStackY_13c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_13c;
   puStackY_134 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_110);
-  FUN_00403e80(&local_10,local_110);
-  FUN_00403f9c((int *)&local_c,3);
+  System_TObject_ClassName(*param_1,local_110);
+  System__LStrFromString(&local_10,local_110);
+  System__LStrCatN((int *)&local_c,3);
   puVar1 = local_c;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar1,2);
-  FUN_00402f6c(param_1,'\0',extraout_ECX_00);
-  FUN_00403f28((int *)&local_114,local_8,(undefined4 *)&DAT_00463298);
-  FUN_004040a0(local_114);
-  FUN_00403f28((int *)&local_118,local_8,(undefined4 *)&DAT_004632a8);
-  FUN_004040a0(local_118);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,2);
+  System_TObject_Create(param_1,'\0',extraout_ECX_00);
+  System__LStrCat3((int *)&local_114,local_8,(undefined4 *)&DAT_00463298);
+  System__LStrToPChar(local_114);
+  System__LStrCat3((int *)&local_118,local_8,(undefined4 *)&DAT_004632a8);
+  System__LStrToPChar(local_118);
   xvga_init_fileio();
   *in_FS_OFFSET = "Create";
-  FUN_00403c80((int *)&local_118,2);
-  FUN_00403c80(&local_10,3);
+  System__LStrArrayClr((int *)&local_118,2);
+  System__LStrArrayClr(&local_10,3);
   return;
 }
 
@@ -1179,7 +1184,7 @@ void TResourceManager_Destroy(int *param_1,char param_2)
 {
   undefined4 *puVar1;
   int *piVar2;
-  uint uVar3;
+  uint debug;
   byte extraout_DL;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_120;
@@ -1192,21 +1197,21 @@ void TResourceManager_Destroy(int *param_1,char param_2)
   local_8 = (undefined4 *)0x0;
   local_c = 0;
   puStack_118 = (undefined1 *)0x4632c8;
-  piVar2 = FUN_004032fc(param_1,param_2);
+  piVar2 = System__BeforeDestruction(param_1,param_2);
   puStack_11c = &LAB_00463350;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
   puStack_118 = &stack0xfffffffc;
-  FUN_00402ee4(*piVar2,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
+  System_TObject_ClassName(*piVar2,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
   puVar1 = local_8;
-  uVar3 = FUN_0045f46c();
-  FUN_0045fb90(uVar3,puVar1,2);
+  debug = Debug();
+  TDebug_InProc(debug,puVar1,2);
   xvga_exit_fileio();
   TObject_Destroy(piVar2,extraout_DL & 0xfc);
   *in_FS_OFFSET = "Destroy";
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1224,17 +1229,17 @@ void FUN_00463388(undefined4 param_1,undefined *param_2)
   
   puStack_10 = (undefined1 *)0x463398;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_14 = &LAB_004633cd;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
-  FUN_004040a0(local_8);
+  System__LStrToPChar(local_8);
   xvga_file_exist();
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_004633d4;
   puStack_14 = (undefined1 *)0x4633cc;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -1245,7 +1250,7 @@ void FUN_004633dc(int *param_1,undefined *param_2,int *param_3)
 
 {
   int iVar1;
-  uint uVar2;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStackY_168;
   undefined1 *puStackY_164;
@@ -1254,7 +1259,7 @@ void FUN_004633dc(int *param_1,undefined *param_2,int *param_3)
   char *pcStackY_158;
   undefined *puStackY_154;
   int iStackY_150;
-  char *pcVar3;
+  char *pcVar2;
   undefined4 uStack_138;
   undefined1 *puStack_134;
   undefined1 *puStack_130;
@@ -1274,37 +1279,37 @@ void FUN_004633dc(int *param_1,undefined *param_2,int *param_3)
   local_1c = 0;
   puStack_130 = (undefined1 *)0x46340a;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_134 = &LAB_00463543;
   uStack_138 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_138;
   local_14 = local_8;
   local_10 = 0xb;
   puStack_130 = &stack0xfffffffc;
-  FUN_00402ee4(*param_1,local_11c);
-  FUN_00403e80(&local_1c,local_11c);
-  pcVar3 = "GetTarga";
+  System_TObject_ClassName(*param_1,local_11c);
+  System__LStrFromString(&local_1c,local_11c);
+  pcVar2 = "GetTarga";
   iStackY_150 = 0x46345d;
-  FUN_00403f9c(&local_18,3);
+  System__LStrCatN(&local_18,3);
   iStackY_150 = local_18;
   puStackY_154 = (undefined *)0x463466;
-  uVar2 = FUN_0045f46c();
+  debug = Debug();
   iVar1 = iStackY_150;
   iStackY_150 = 0x463472;
-  FUN_0045fa3c(uVar2,iVar1,2,(int)pcVar3);
+  FUN_0045fa3c(debug,iVar1,2,(int)pcVar2);
   if (param_3 == (int *)0x0) {
     iStackY_150 = 0x463483;
-    FUN_00402ee4(*param_1,local_11c);
+    System_TObject_ClassName(*param_1,local_11c);
     iStackY_150 = 0x463494;
-    FUN_00403e80(&local_124,local_11c);
+    System__LStrFromString(&local_124,local_11c);
     iStackY_150 = local_124;
     puStackY_154 = &DAT_00463558;
     pcStackY_158 = "GetTarga";
     pcStackY_15c = " aTarga = nil";
     puStackY_160 = (undefined1 *)0x4634b9;
-    FUN_00403f9c(&local_120,4);
+    System__LStrCatN(&local_120,4);
     puStackY_160 = (undefined1 *)0x4634ce;
-    FUN_00403c40(local_120);
+    System__Assert(local_120);
   }
   puStackY_160 = (undefined1 *)0x4634d8;
   local_c = (int *)FUN_004635b8(param_1,local_8);
@@ -1316,7 +1321,7 @@ void FUN_004633dc(int *param_1,undefined *param_2,int *param_3)
   *in_FS_OFFSET = uStackY_168;
   puStackY_160 = &LAB_00463510;
   puStackY_164 = (undefined1 *)0x463508;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -1342,13 +1347,13 @@ void FUN_004635b8(undefined4 param_1,undefined *param_2)
   local_c = 0;
   puStack_1c = (undefined1 *)0x4635d1;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_20 = &LAB_00463666;
   local_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &local_24;
   puStack_28 = (undefined *)0x4635e7;
   puStack_1c = &stack0xfffffffc;
-  puStack_28 = FUN_004040a0(local_8);
+  puStack_28 = System__LStrToPChar(local_8);
   puStack_2c = (undefined1 *)0x4635ed;
   src_fopen = xvga_src_fopen();
   puVar1 = puStack_28;
@@ -1362,7 +1367,7 @@ void FUN_004635b8(undefined4 param_1,undefined *param_2)
   *in_FS_OFFSET = local_24;
   puStack_1c = &LAB_0046366d;
   puStack_20 = (undefined1 *)0x463665;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -1381,22 +1386,22 @@ void FUN_004636a0(undefined4 param_1,undefined *param_2)
   
   puStack_14 = (undefined1 *)0x4636b1;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_18 = &LAB_004636ff;
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_14 = &stack0xfffffffc;
-  FUN_004040a0(local_8);
+  System__LStrToPChar(local_8);
   xvga_src_fopen();
   src_filelength = xvga_src_filelength();
   if ((int)src_filelength < 0) {
-    thunk_FUN_00402808(src_filelength);
+    System__RunError(src_filelength);
   }
   xvga_src_fclose();
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00463706;
   puStack_18 = (undefined1 *)0x4636fe;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -1419,7 +1424,8 @@ int * TCustomGDIGraphic_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -1436,7 +1442,7 @@ int * TCustomGDIGraphic_virtual_02c(int *param_1,char param_2,int *param_3)
   TControl_SetHeight(param_1,0x32);
   *(undefined1 *)((int)param_1 + 0x13d) = 0xff;
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -1457,14 +1463,14 @@ void TCustomGDIGraphic_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x463c4f;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_00463c99;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
   local_9 = extraout_DL;
-  FUN_0040c968(local_8 + 0x4b);
-  FUN_0040c968(local_8 + 0x4c);
+  SysUtils_FreeAndNil(local_8 + 0x4b);
+  SysUtils_FreeAndNil(local_8 + 0x4c);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00463ca0;
   puStack_14 = (undefined1 *)0x463c98;
@@ -1484,11 +1490,11 @@ int * FUN_00463cb4(int *param_1)
   
   piVar1 = (int *)(**(code **)(*param_1 + 0xa8))();
   piVar3 = (int *)0x0;
-  uVar2 = FUN_00403114(piVar1,(int)&LAB_00454aa4);
+  uVar2 = System__IsClass(piVar1,(int)&LAB_00454aa4);
   if ((char)uVar2 == '\0') {
-    uVar2 = FUN_00403114(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
+    uVar2 = System__IsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
     if ((char)uVar2 != '\0') {
-      piVar1 = (int *)FUN_0040312c(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
+      piVar1 = (int *)System__AsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
       piVar3 = (int *)(**(code **)(*piVar1 + 0x70))(piVar1,piVar1[0xb]);
       (**(code **)(*piVar3 + 0x3c))(piVar3,(char)param_1[0x4d]);
       FUN_0045727c(piVar3,*(char *)((int)param_1 + 0x135));
@@ -1496,7 +1502,7 @@ int * FUN_00463cb4(int *param_1)
     }
   }
   else {
-    piVar3 = (int *)FUN_0040312c(piVar1,(int)&LAB_00454aa4);
+    piVar3 = (int *)System__AsClass(piVar1,(int)&LAB_00454aa4);
     (**(code **)(*piVar3 + 0x3c))(piVar3,(char)param_1[0x4d]);
     FUN_0045727c(piVar3,*(char *)((int)param_1 + 0x135));
     FUN_00457260(piVar3,param_1[0x4e]);
@@ -1535,7 +1541,7 @@ void TCustomGDIGraphic_virtual_084(int *param_1)
   local_8 = param_1;
   if (SCARRY4(text,1)) {
     puStack_20 = (undefined1 *)0x463d87;
-    thunk_FUN_00402808((uint)param_1);
+    System__RunError((uint)param_1);
   }
   if ((char)local_8[0x4a] != '\0') {
     return;
@@ -1573,8 +1579,8 @@ void TCustomGDIGraphic_virtual_084(int *param_1)
     TBrush_SetStyle(*(int **)(local_8[0x48] + 0x14),'\x01');
     format = 0x25;
     lprc_val = &local_18;
-    text = FUN_00403edc(local_8[2]);
-    lpchText = FUN_004040a0((undefined *)local_8[2]);
+    text = System__LStrLen(local_8[2]);
+    lpchText = System__LStrToPChar((undefined *)local_8[2]);
     hdc = (HDC)FUN_004194d8((int *)local_8[0x48]);
     DrawTextA(hdc,lpchText,text,lprc_val,format);
   }

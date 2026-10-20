@@ -19,8 +19,8 @@ void FUN_00457308(void)
   _DAT_004ac8e0 = _DAT_004ac8e0 + 1;
   if (_DAT_004ac8e0 == 0) {
     FUN_0041b6f4(&PTR_TPicture_virtual_000_0041702c,(int)&LAB_00454aa4);
-    FUN_00402f9c(DAT_004ac8e8);
-    FUN_00402f9c(DAT_004ac8e4);
+    System_TObject_Free(DAT_004ac8e8);
+    System_TObject_Free(DAT_004ac8e4);
   }
   *in_FS_OFFSET = uStack_10;
   return;
@@ -165,7 +165,8 @@ int * TDaviAVILoader_virtual_018(int *param_1,char param_2,undefined4 *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -175,7 +176,7 @@ int * TDaviAVILoader_virtual_018(int *param_1,char param_2,undefined4 *param_3)
   FUN_00456634(piVar1,extraout_EDX,extraout_ECX_01);
   (**(code **)(*param_1 + 0xc))();
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -196,14 +197,14 @@ void TDaviAVILoader_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x45752f;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_00457574;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
   local_9 = extraout_DL;
   (**(code **)(*local_8 + 0x10))();
-  FUN_0040c968(local_8 + 0x2a);
+  SysUtils_FreeAndNil(local_8 + 0x2a);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0045757b;
   puStack_14 = (undefined1 *)0x457573;
@@ -255,41 +256,41 @@ void TDaviAVILoader_virtual_00c(int *param_1)
   *in_FS_OFFSET = (int)&iStack_144;
   AVIFileInit();
   if (*(int *)(param_1[1] + -4) == 0) {
-    thunk_FUN_00402808(0);
+    System__RunError(0);
   }
   iVar1 = AVIFileOpen();
   if (iVar1 != 0) {
-    FUN_00402ee4(*param_1,local_10c);
-    FUN_00403e80(&local_c,local_10c);
+    System_TObject_ClassName(*param_1,local_10c);
+    System__LStrFromString(&local_c,local_10c);
     local_130[6] = param_1[1];
     local_114 = 0xb;
-    FUN_00409254((byte *)"AVIFileOpen Error on %s.",local_130 + 6,0,&local_110);
-    FUN_00403f9c(&local_8,4);
-    FUN_00403c40(local_8);
+    SysUtils_Format((byte *)"AVIFileOpen Error on %s.",local_130 + 6,0,&local_110);
+    System__LStrCatN(&local_8,4);
+    System__Assert(local_8);
   }
   iVar1 = AVIFileGetStream();
   if (iVar1 != 0) {
     AVIFileRelease();
-    FUN_00402ee4(*param_1,local_10c);
-    FUN_00403e80(local_130 + 4,local_10c);
+    System_TObject_ClassName(*param_1,local_10c);
+    System__LStrFromString(local_130 + 4,local_10c);
     local_130[6] = param_1[1];
     local_114 = 0xb;
-    FUN_00409254((byte *)"AVIFileGetStream Error in %s.",local_130 + 6,0,local_130 + 3);
-    FUN_00403f9c(local_130 + 5,4);
-    FUN_00403c40(local_130[5]);
+    SysUtils_Format((byte *)"AVIFileGetStream Error in %s.",local_130 + 6,0,local_130 + 3);
+    System__LStrCatN(local_130 + 5,4);
+    System__Assert(local_130[5]);
   }
   iVar1 = AVIStreamGetFrameOpen();
   param_1[5] = iVar1;
   if (iVar1 == 0) {
     AVIStreamRelease();
     AVIFileRelease();
-    FUN_00402ee4(*param_1,local_10c);
-    FUN_00403e80(local_130 + 1,local_10c);
+    System_TObject_ClassName(*param_1,local_10c);
+    System__LStrFromString(local_130 + 1,local_10c);
     local_130[6] = param_1[1];
     local_114 = 0xb;
-    FUN_00409254((byte *)"No decompressor found for AVI file: %s.",local_130 + 6,0,local_130);
-    FUN_00403f9c(local_130 + 2,4);
-    FUN_00403c40(local_130[2]);
+    SysUtils_Format((byte *)"No decompressor found for AVI file: %s.",local_130 + 6,0,local_130);
+    System__LStrCatN(local_130 + 2,4);
+    System__Assert(local_130[2]);
   }
   AVIFileGetStream();
   iVar1 = param_1[4];
@@ -297,25 +298,25 @@ void TDaviAVILoader_virtual_00c(int *param_1)
   iVar3 = param_1[2];
   uVar2 = param_1[0xf];
   if ((int)uVar2 < 0) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar3 = extraout_ECX;
   }
   *(uint *)(iVar3 + 4) = uVar2;
   uVar2 = param_1[0xd] / param_1[0xc];
   if ((int)uVar2 < 0) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar3 = extraout_ECX_00;
   }
   *(uint *)(iVar3 + 8) = uVar2;
   uVar2 = param_1[0x16] - param_1[0x14];
   if (SBORROW4(param_1[0x16],param_1[0x14])) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar3 = extraout_ECX_01;
   }
   *(uint *)(iVar3 + 0xc) = uVar2;
   uVar2 = param_1[0x17] - param_1[0x15];
   if (SBORROW4(param_1[0x17],param_1[0x15])) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar3 = extraout_ECX_02;
   }
   *(uint *)(iVar3 + 0x10) = uVar2;
@@ -324,26 +325,26 @@ void TDaviAVILoader_virtual_00c(int *param_1)
   *(undefined4 *)(uVar2 + 8) = 0;
   iVar4 = param_1[0xe];
   if ((iVar4 < 0) || (iVar4 == -1)) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar3 = extraout_ECX_03;
     iVar4 = extraout_EDX;
   }
   *(int *)(uVar2 + 0xc) = iVar4;
   iVar4 = *(int *)(iVar3 + 4) + -1;
   if (*(int *)(iVar3 + 4) == 0) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar4 = extraout_EDX_00;
   }
   if (iVar4 == -1) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
     iVar4 = extraout_EDX_01;
   }
   *(int *)(uVar2 + 0x10) = iVar4;
   FUN_00457194((int *)param_1[0x2a],*(int *)(param_1[2] + 0xc),*(int *)(param_1[2] + 0x10),0x18);
   *in_FS_OFFSET = iVar1;
-  FUN_00403c80(local_130,6);
-  FUN_00403c5c(&local_110);
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(local_130,6);
+  System__LStrClr(&local_110);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -424,15 +425,15 @@ void TDaviAVILoader_virtual_01c(int *param_1,uint param_2)
   *in_FS_OFFSET = (int)&iStack_124;
   if (((int)param_2 < param_1[0xe]) ||
      (uVar4 = param_2, puVar3 = &stack0xfffffffc, param_1[0xf] <= (int)param_2)) {
-    FUN_00402ee4(*param_1,local_10c);
-    FUN_00403e80(&local_c,local_10c);
-    FUN_00403f9c(&local_8,4);
-    uVar4 = FUN_00403c40(local_8);
+    System_TObject_ClassName(*param_1,local_10c);
+    System__LStrFromString(&local_c,local_10c);
+    System__LStrCatN(&local_8,4);
+    uVar4 = System__Assert(local_8);
     puVar3 = puStack_11c;
   }
   puStack_11c = puVar3;
   if ((int)param_2 < 0) {
-    thunk_FUN_00402808(uVar4);
+    System__RunError(uVar4);
   }
   iVar1 = param_1[5];
   lpbmi = (BITMAPINFO *)AVIStreamGetFrame();
@@ -443,18 +444,18 @@ void TDaviAVILoader_virtual_01c(int *param_1,uint param_2)
     uVar7 = extraout_ECX;
     uVar8 = extraout_EDX;
     if ((int)uVar4 != lVar2) {
-      pBVar5 = (BITMAPINFO *)thunk_FUN_00402808((uint)lpbmi);
+      pBVar5 = (BITMAPINFO *)System__RunError((uint)lpbmi);
       uVar7 = extraout_ECX_00;
       uVar8 = extraout_EDX_00;
     }
     src_height = uVar4 + (lpbmi->bmiHeader).biSize;
     if (CARRY4(uVar4,(lpbmi->bmiHeader).biSize)) {
-      pBVar5 = (BITMAPINFO *)thunk_FUN_00402808((uint)pBVar5);
+      pBVar5 = (BITMAPINFO *)System__RunError((uint)pBVar5);
       uVar7 = extraout_ECX_01;
       uVar8 = extraout_EDX_01;
     }
     if (src_height < 0) {
-      thunk_FUN_00402808((uint)pBVar5);
+      System__RunError((uint)pBVar5);
       uVar7 = extraout_ECX_02;
       uVar8 = extraout_EDX_02;
     }
@@ -476,7 +477,7 @@ void TDaviAVILoader_virtual_01c(int *param_1,uint param_2)
                   iUsage,rop);
   }
   *in_FS_OFFSET = iVar1;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -495,13 +496,14 @@ int * FUN_00457d38(int *param_1,char param_2,undefined4 *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
-  FUN_00403cb0(param_1 + 1,param_3);
+  System__LStrAsg(param_1 + 1,param_3);
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -520,7 +522,8 @@ void FUN_00457d74(int *param_1,undefined4 param_2,undefined4 param_3)
   undefined1 *puStack_18;
   
   puStack_18 = (undefined1 *)0x457d8c;
-  piVar1 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',param_3);
+  piVar1 = (int *)System_TObject_Create((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',param_3)
+  ;
   puStack_1c = &LAB_00457dcd;
   uStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_20;
@@ -530,7 +533,7 @@ void FUN_00457d74(int *param_1,undefined4 param_2,undefined4 param_3)
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_00457dd4;
   puStack_1c = (undefined1 *)0x457dcc;
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -563,17 +566,17 @@ void TCustomIniFile_virtual_008
   ppbVar3 = &local_c;
   local_8 = param_3;
   (**(code **)*param_1)(param_1,param_2,param_3,ppbVar3,0);
-  iVar1 = FUN_00403edc((int)local_c);
+  iVar1 = System__LStrLen((int)local_c);
   iVar2 = extraout_ECX;
   if (((2 < iVar1) && (*local_c == 0x30)) && ((local_c[1] == 0x58 || (local_c[1] == 0x78)))) {
-    FUN_004040e4((int)local_c,3,0x7fffffff,(int *)&local_10);
-    FUN_00403f28((int *)&local_c,(undefined4 *)&DAT_00457ea0,local_10);
+    System__LStrCopy((int)local_c,3,0x7fffffff,(int *)&local_10);
+    System__LStrCat3((int *)&local_c,(undefined4 *)&DAT_00457ea0,local_10);
     iVar2 = extraout_ECX_00;
   }
   FUN_00408654(local_c,param_4,iVar2);
   *in_FS_OFFSET = (int)ppbVar3;
   puStack_24 = &LAB_00457e8b;
-  FUN_00403c80((int *)&local_10,2);
+  System__LStrArrayClr((int *)&local_10,2);
   return;
 }
 
@@ -596,13 +599,13 @@ void TCustomIniFile_virtual_00c
   puStack_1c = &LAB_00457ef0;
   iStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = (int)&iStack_20;
-  FUN_004085ac(param_4,&local_8);
+  SysUtils_IntToStr(param_4,&local_8);
   iVar1 = local_8;
   (**(code **)(*param_1 + 4))(param_1,param_2,param_3);
   *in_FS_OFFSET = iVar1;
   puStack_1c = &LAB_00457ef7;
   iStack_20 = 0x457eef;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -664,7 +667,7 @@ void TCustomIniFile_virtual_018
   *in_FS_OFFSET = (int)piStack_38;
   puStack_30 = &LAB_00457fd8;
   uStack_34 = 0x457fd0;
-  FUN_00403c5c(&local_18);
+  System__LStrClr(&local_18);
   return;
 }
 
@@ -713,7 +716,7 @@ void TCustomIniFile_virtual_01c
   *in_FS_OFFSET = (int)piStack_38;
   puStack_30 = &LAB_00458090;
   uStack_34 = 0x458088;
-  FUN_00403c5c(&local_18);
+  System__LStrClr(&local_18);
   return;
 }
 
@@ -762,7 +765,7 @@ void TCustomIniFile_virtual_020
   *in_FS_OFFSET = (int)ppuStack_38;
   puStack_30 = &LAB_00458148;
   uStack_34 = 0x458140;
-  FUN_00403c5c((int *)&local_18);
+  System__LStrClr((int *)&local_18);
   return;
 }
 
@@ -811,7 +814,7 @@ void TCustomIniFile_virtual_024
   *in_FS_OFFSET = (int)piStack_38;
   puStack_30 = &LAB_00458200;
   uStack_34 = 0x4581f8;
-  FUN_00403c5c(&local_18);
+  System__LStrClr(&local_18);
   return;
 }
 
@@ -839,7 +842,7 @@ void TCustomIniFile_virtual_028(int *param_1,undefined4 param_2,undefined1 *para
   *in_FS_OFFSET = iVar1;
   puStack_1c = &LAB_00458262;
   iStack_20 = 0x45825a;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -867,7 +870,7 @@ void TCustomIniFile_virtual_02c(int *param_1,undefined4 param_2,undefined1 *para
   *in_FS_OFFSET = iVar1;
   puStack_1c = &LAB_004582c2;
   iStack_20 = 0x4582ba;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -895,7 +898,7 @@ void TCustomIniFile_virtual_030(int *param_1,undefined4 param_2,undefined4 param
   *in_FS_OFFSET = iVar1;
   puStack_1c = &LAB_00458326;
   iStack_20 = 0x45831e;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 

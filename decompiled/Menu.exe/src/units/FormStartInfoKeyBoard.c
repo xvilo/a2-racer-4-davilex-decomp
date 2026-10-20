@@ -56,37 +56,38 @@ void FUN_00497d6c(int param_1,undefined4 param_2,undefined4 param_3)
   uVar4 = extraout_ECX;
   if (SBORROW4(iVar2,1)) {
     puStack_48 = (undefined1 *)0x497dd4;
-    uVar3 = thunk_FUN_00402808(uVar3);
+    uVar3 = System__RunError(uVar3);
     uVar4 = extraout_ECX_00;
   }
   if (-1 < (int)uVar3) {
     local_18 = uVar3 + 1;
     local_10 = 0;
     puStack_48 = (undefined1 *)0x497df3;
-    local_14 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',uVar4);
+    local_14 = (int *)System_TObject_Create
+                                ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',uVar4);
     puStack_4c = &LAB_00497e84;
     uStack_50 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_50;
     puStack_48 = &stack0xfffffffc;
     (**(code **)(*local_c + 0xc))(local_c,local_10,&local_1c);
     FUN_00497c88(local_1c,local_14);
-    iVar2 = FUN_00402f6c((int *)&DAT_0049198c,'\x01',extraout_ECX_01);
+    iVar2 = System_TObject_Create((int *)&DAT_0049198c,'\x01',extraout_ECX_01);
     (**(code **)(*local_14 + 0xc))(local_14,0,&local_20);
     uVar4 = FUN_00408618(local_20);
     *(undefined4 *)(iVar2 + 4) = uVar4;
     (**(code **)(*local_14 + 0xc))(local_14,1,&local_24);
-    FUN_00403cb0((int *)(iVar2 + 8),local_24);
+    System__LStrAsg((int *)(iVar2 + 8),local_24);
     FUN_0041fef4(*(int **)(local_8 + 0x324),iVar2);
     *in_FS_OFFSET = uStack_50;
     puStack_48 = &DAT_00497e8b;
     puStack_4c = (undefined1 *)0x497e83;
-    FUN_0040c968(&local_14);
+    SysUtils_FreeAndNil(&local_14);
     return;
   }
   *in_FS_OFFSET = uStack_44;
   puStack_3c = &LAB_00497eb4;
   puStack_40 = (undefined1 *)0x497eac;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -102,19 +103,19 @@ void FUN_00497edc(int param_1,int *param_2,undefined4 param_3,int param_4)
   int i_val;
   int j;
   
-  FUN_00403c5c(param_2);
+  System__LStrClr(param_2);
   uVar1 = *(uint *)(*(int *)(param_4 + -4) + 0x324);
   i_val = *(int *)(uVar1 + 8);
   if (SBORROW4(i_val,1)) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   if (-1 < i_val + -1) {
     j = 0;
     do {
       piVar2 = (int *)FUN_0041ff40(*(undefined4 **)(*(int *)(param_4 + -4) + 0x324),j);
-      iVar3 = FUN_0040312c(piVar2,(int)&DAT_0049198c);
+      iVar3 = System__AsClass(piVar2,(int)&DAT_0049198c);
       if (*(int *)(iVar3 + 4) == param_1) {
-        FUN_00403cb0(param_2,*(undefined4 **)(iVar3 + 8));
+        System__LStrAsg(param_2,*(undefined4 **)(iVar3 + 8));
         return;
       }
       j = j + 1;
@@ -187,7 +188,7 @@ void FUN_00497f54(int param_1)
   *in_FS_OFFSET = uStack_34;
   puStack_2c = &LAB_004980cf;
   puStack_30 = (undefined1 *)0x4980c7;
-  FUN_00403c80((int *)&local_24,7);
+  System__LStrArrayClr((int *)&local_24,7);
   return;
 }
 
@@ -212,7 +213,7 @@ void TfrmStartInfoKeyBoard_GDIFormShow(int *param_1)
 void TfrmStartInfoKeyBoard_ShowStartInfoDlg(void)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
@@ -221,9 +222,9 @@ void TfrmStartInfoKeyBoard_ShowStartInfoDlg(void)
   undefined4 local_8;
   
   puStack_10 = (undefined1 *)0x498137;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x498147;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowStartInfoDlg",0);
+  TDebug_InProc(debug,(undefined4 *)"ShowStartInfoDlg",0);
   if (*(char *)(*(int *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18) + 0xc) + 0x24)
       == '\0') {
     puStack_10 = (undefined1 *)0x49816f;
@@ -243,7 +244,7 @@ void TfrmStartInfoKeyBoard_ShowStartInfoDlg(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_004981be;
   puStack_14 = (undefined1 *)0x4981b6;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -253,34 +254,34 @@ void TfrmStartInfoKeyBoard_ShowStartInfoDlg(void)
 void TfrmStartInfoKeyBoard_ShowWheelSettingsDlg(undefined4 param_1,int param_2)
 
 {
-  uint uVar1;
-  int *piVar2;
-  int iVar3;
+  uint debug;
+  int *piVar1;
+  int iVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
   undefined1 *puStack_10;
   
   puStack_10 = (undefined1 *)0x4981fc;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x49820c;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowWheelSettingsDlg",0);
+  TDebug_InProc(debug,(undefined4 *)"ShowWheelSettingsDlg",0);
   puStack_10 = (undefined1 *)0x49821a;
-  piVar2 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_004929c4,'\x01',0);
+  piVar1 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_004929c4,'\x01',0);
   puStack_14 = &LAB_0049827b;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
-  piVar2[0xc1] = param_2;
+  piVar1[0xc1] = param_2;
   puStack_10 = &stack0xfffffffc;
-  TDaviGraphicSlider_SetPosition((int *)piVar2[0xbf],*(int *)(param_2 + 0x2c));
-  iVar3 = (**(code **)(*piVar2 + 0xd8))();
-  if (iVar3 == 1) {
-    *(undefined4 *)(param_2 + 0x2c) = *(undefined4 *)(piVar2[0xbf] + 0x204);
+  TDaviGraphicSlider_SetPosition((int *)piVar1[0xbf],*(int *)(param_2 + 0x2c));
+  iVar2 = (**(code **)(*piVar1 + 0xd8))();
+  if (iVar2 == 1) {
+    *(undefined4 *)(param_2 + 0x2c) = *(undefined4 *)(piVar1[0xbf] + 0x204);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00498282;
   puStack_14 = (undefined1 *)0x49827a;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -290,34 +291,34 @@ void TfrmStartInfoKeyBoard_ShowWheelSettingsDlg(undefined4 param_1,int param_2)
 void TfrmStartInfoKeyBoard_ShowJoystickSettingsDlg(undefined4 param_1,int param_2)
 
 {
-  uint uVar1;
-  int *piVar2;
-  int iVar3;
+  uint debug;
+  int *piVar1;
+  int iVar2;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
   undefined1 *puStack_10;
   
   puStack_10 = (undefined1 *)0x4982c0;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x4982d0;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowJoystickSettingsDlg",0);
+  TDebug_InProc(debug,(undefined4 *)"ShowJoystickSettingsDlg",0);
   puStack_10 = (undefined1 *)0x4982de;
-  piVar2 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00492bb8,'\x01',0);
+  piVar1 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00492bb8,'\x01',0);
   puStack_14 = &LAB_0049833f;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
-  piVar2[0xc1] = param_2;
+  piVar1[0xc1] = param_2;
   puStack_10 = &stack0xfffffffc;
-  TDaviGraphicSlider_SetPosition((int *)piVar2[0xbf],*(int *)(param_2 + 0x28));
-  iVar3 = (**(code **)(*piVar2 + 0xd8))();
-  if (iVar3 == 1) {
-    *(undefined4 *)(param_2 + 0x28) = *(undefined4 *)(piVar2[0xbf] + 0x204);
+  TDaviGraphicSlider_SetPosition((int *)piVar1[0xbf],*(int *)(param_2 + 0x28));
+  iVar2 = (**(code **)(*piVar1 + 0xd8))();
+  if (iVar2 == 1) {
+    *(undefined4 *)(param_2 + 0x28) = *(undefined4 *)(piVar1[0xbf] + 0x204);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00498346;
   puStack_14 = (undefined1 *)0x49833e;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -327,29 +328,29 @@ void TfrmStartInfoKeyBoard_ShowJoystickSettingsDlg(undefined4 param_1,int param_
 void TfrmStartInfoKeyBoard_ShowKeySettingsDlg(int param_1)
 
 {
-  uint uVar1;
-  int *piVar2;
+  uint debug;
+  int *piVar1;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
   undefined1 *puStack_10;
   
   puStack_10 = (undefined1 *)0x498384;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x498394;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowKeySettingsDlg",0);
+  TDebug_InProc(debug,(undefined4 *)"ShowKeySettingsDlg",0);
   puStack_10 = (undefined1 *)0x4983a2;
-  piVar2 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_004919f4,'\x01',0);
+  piVar1 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_004919f4,'\x01',0);
   puStack_14 = &LAB_004983dd;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
-  piVar2[0xcd] = param_1;
+  piVar1[0xcd] = param_1;
   puStack_10 = &stack0xfffffffc;
-  (**(code **)(*piVar2 + 0xd8))();
+  (**(code **)(*piVar1 + 0xd8))();
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_004983e4;
   puStack_14 = (undefined1 *)0x4983dc;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -359,7 +360,7 @@ void TfrmStartInfoKeyBoard_ShowKeySettingsDlg(int param_1)
 void TfrmStartInfoKeyBoard_ShowNewPlayerDlg(int *param_1)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_2c;
   undefined1 *puStack_28;
@@ -377,9 +378,9 @@ void TfrmStartInfoKeyBoard_ShowNewPlayerDlg(int *param_1)
   uStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_20;
   puStack_24 = (undefined1 *)0x498435;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_24 = (undefined1 *)0x498445;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowNewPlayerDlg",2);
+  TDebug_InProc(debug,(undefined4 *)"ShowNewPlayerDlg",2);
   puStack_24 = (undefined1 *)0x498453;
   local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00494ba4,'\x01',0)
   ;
@@ -389,11 +390,11 @@ void TfrmStartInfoKeyBoard_ShowNewPlayerDlg(int *param_1)
   puStack_24 = &stack0xfffffffc;
   local_8 = (**(code **)(*local_c + 0xd8))();
   TGroupBox_GetCaption(local_c[0xbe],(int *)&local_10);
-  FUN_00403cb0(param_1,local_10);
+  System__LStrAsg(param_1,local_10);
   *in_FS_OFFSET = uStack_2c;
   puStack_24 = &LAB_004984aa;
   puStack_28 = (undefined1 *)0x4984a2;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -403,7 +404,7 @@ void TfrmStartInfoKeyBoard_ShowNewPlayerDlg(int *param_1)
 void TfrmStartInfoKeyBoard_ShowHighScoreDlg(int *param_1)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_2c;
   undefined1 *puStack_28;
@@ -421,9 +422,9 @@ void TfrmStartInfoKeyBoard_ShowHighScoreDlg(int *param_1)
   uStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_20;
   puStack_24 = (undefined1 *)0x498511;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_24 = (undefined1 *)0x498521;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowHighScoreDlg",2);
+  TDebug_InProc(debug,(undefined4 *)"ShowHighScoreDlg",2);
   puStack_24 = (undefined1 *)0x49852f;
   local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00494de0,'\x01',0)
   ;
@@ -434,11 +435,11 @@ void TfrmStartInfoKeyBoard_ShowHighScoreDlg(int *param_1)
   TGroupBox_SetCaption(local_c[0xbe],(uint *)*param_1);
   local_8 = (**(code **)(*local_c + 0xd8))();
   TGroupBox_GetCaption(local_c[0xbe],(int *)&local_10);
-  FUN_00403cb0(param_1,local_10);
+  System__LStrAsg(param_1,local_10);
   *in_FS_OFFSET = uStack_2c;
   puStack_24 = &LAB_00498596;
   puStack_28 = (undefined1 *)0x49858e;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -466,7 +467,7 @@ void FUN_004985dc(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0049862c;
   puStack_14 = (undefined1 *)0x498624;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -476,7 +477,7 @@ void FUN_004985dc(void)
 void TfrmStartInfoKeyBoard_ShowPlayerDlg(void)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
@@ -485,9 +486,9 @@ void TfrmStartInfoKeyBoard_ShowPlayerDlg(void)
   int local_8;
   
   puStack_10 = (undefined1 *)0x49863f;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x49864f;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowPlayerDlg",2);
+  TDebug_InProc(debug,(undefined4 *)"ShowPlayerDlg",2);
   puStack_10 = (undefined1 *)0x49865d;
   local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_004930d0,'\x01',0)
   ;
@@ -501,7 +502,7 @@ void TfrmStartInfoKeyBoard_ShowPlayerDlg(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_004986ac;
   puStack_14 = (undefined1 *)0x4986a4;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -511,7 +512,7 @@ void TfrmStartInfoKeyBoard_ShowPlayerDlg(void)
 void TfrmStartInfoKeyBoard_ShowNoMoneyDlg(void)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
@@ -520,9 +521,9 @@ void TfrmStartInfoKeyBoard_ShowNoMoneyDlg(void)
   undefined4 local_8;
   
   puStack_10 = (undefined1 *)0x4986db;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x4986eb;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowNoMoneyDlg",2);
+  TDebug_InProc(debug,(undefined4 *)"ShowNoMoneyDlg",2);
   puStack_10 = (undefined1 *)0x4986f9;
   local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00496f28,'\x01',0)
   ;
@@ -534,7 +535,7 @@ void TfrmStartInfoKeyBoard_ShowNoMoneyDlg(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00498735;
   puStack_14 = (undefined1 *)0x49872d;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -544,7 +545,7 @@ void TfrmStartInfoKeyBoard_ShowNoMoneyDlg(void)
 void TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(undefined4 param_1,undefined4 *param_2)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_28;
   undefined1 *puStack_24;
@@ -558,15 +559,15 @@ void TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(undefined4 param_1,undefined4 *pa
   
   puStack_14 = (undefined1 *)0x498769;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_18 = &LAB_004987f7;
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_20 = (undefined1 *)0x49877c;
   puStack_14 = &stack0xfffffffc;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_20 = (undefined1 *)0x49878c;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowDeletePlayerDlg",2);
+  TDebug_InProc(debug,(undefined4 *)"ShowDeletePlayerDlg",2);
   puStack_20 = (undefined1 *)0x49879a;
   local_10 = (int *)TfrmCoolDialog_virtual_02c
                               ((int *)&PTR_TWinControl_virtual_000_00496c14,'\x01',0);
@@ -579,7 +580,7 @@ void TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(undefined4 param_1,undefined4 *pa
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_004987e1;
   puStack_24 = (undefined1 *)0x4987d9;
-  FUN_00402f9c(local_10);
+  System_TObject_Free(local_10);
   return;
 }
 
@@ -589,7 +590,7 @@ void TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(undefined4 param_1,undefined4 *pa
 void TfrmStartInfoKeyBoard_ShowDoubleKeysDlg(undefined4 param_1,undefined4 *param_2)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_28;
   undefined1 *puStack_24;
@@ -603,15 +604,15 @@ void TfrmStartInfoKeyBoard_ShowDoubleKeysDlg(undefined4 param_1,undefined4 *para
   
   puStack_14 = (undefined1 *)0x498839;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_18 = &LAB_004988c7;
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_20 = (undefined1 *)0x49884c;
   puStack_14 = &stack0xfffffffc;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_20 = (undefined1 *)0x49885c;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowDoubleKeysDlg",2);
+  TDebug_InProc(debug,(undefined4 *)"ShowDoubleKeysDlg",2);
   puStack_20 = (undefined1 *)0x49886a;
   local_10 = (int *)TfrmCoolDialog_virtual_02c
                               ((int *)&PTR_TWinControl_virtual_000_004948a8,'\x01',0);
@@ -624,7 +625,7 @@ void TfrmStartInfoKeyBoard_ShowDoubleKeysDlg(undefined4 param_1,undefined4 *para
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_004988b1;
   puStack_24 = (undefined1 *)0x4988a9;
-  FUN_00402f9c(local_10);
+  System_TObject_Free(local_10);
   return;
 }
 
@@ -634,7 +635,7 @@ void TfrmStartInfoKeyBoard_ShowDoubleKeysDlg(undefined4 param_1,undefined4 *para
 void FUN_004988f8(void)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
@@ -643,9 +644,9 @@ void FUN_004988f8(void)
   undefined4 local_8;
   
   puStack_10 = (undefined1 *)0x498903;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x498913;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowOptionsDlg",0);
+  TDebug_InProc(debug,(undefined4 *)"ShowOptionsDlg",0);
   puStack_10 = (undefined1 *)0x498921;
   local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00497320,'\x01',0)
   ;
@@ -657,7 +658,7 @@ void FUN_004988f8(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0049895d;
   puStack_14 = (undefined1 *)0x498955;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 
@@ -667,7 +668,7 @@ void FUN_004988f8(void)
 void FUN_0049898c(void)
 
 {
-  uint uVar1;
+  uint debug;
   undefined4 *in_FS_OFFSET;
   undefined4 uStack_18;
   undefined1 *puStack_14;
@@ -676,9 +677,9 @@ void FUN_0049898c(void)
   undefined4 local_8;
   
   puStack_10 = (undefined1 *)0x498997;
-  uVar1 = FUN_0045f46c();
+  debug = Debug();
   puStack_10 = (undefined1 *)0x4989a7;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowOptionsDlg",0);
+  TDebug_InProc(debug,(undefined4 *)"ShowOptionsDlg",0);
   puStack_10 = (undefined1 *)0x4989b5;
   local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_0049504c,'\x01',0)
   ;
@@ -690,7 +691,7 @@ void FUN_0049898c(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_004989f1;
   puStack_14 = (undefined1 *)0x4989e9;
-  FUN_00402f9c(local_c);
+  System_TObject_Free(local_c);
   return;
 }
 

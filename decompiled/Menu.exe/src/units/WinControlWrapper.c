@@ -154,7 +154,8 @@ int * TWinControlWrapper_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -170,7 +171,7 @@ int * TWinControlWrapper_virtual_02c(int *param_1,char param_2,int *param_3)
   *(int **)(iVar1 + 0x2c) = param_1;
   *(undefined4 *)(iVar1 + 0x28) = *(undefined4 *)(*param_1 + 0x88);
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -192,7 +193,7 @@ void TWinControlWrapper_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x4651f7;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_00465273;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
@@ -205,7 +206,7 @@ void TWinControlWrapper_Destroy(int *param_1,char param_2)
     local_8[0x4d] = 0;
     local_8[0x4a] = 0;
     puStack_10 = &stack0xfffffffc;
-    FUN_0042f720(0,2,0,0);
+    Controls_TControl_Perform(0,2,0,0);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0046527a;
@@ -237,13 +238,13 @@ void TWinControlWrapper_virtual_018(int *param_1,uint *param_2)
   iVar1 = FUN_004656b4((int)param_1);
   if (iVar1 != 0) {
     piVar2 = (int *)FUN_004656b4((int)param_1);
-    FUN_00403f28(&local_8,(undefined4 *)"Wrapper",param_2);
+    System__LStrCat3(&local_8,(undefined4 *)"Wrapper",param_2);
     (**(code **)(*piVar2 + 0x18))(piVar2,local_8);
   }
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_004652f6;
   puStack_18 = (undefined1 *)0x4652ee;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -263,7 +264,7 @@ undefined4 TWinControlWrapper_virtual_0ac(int param_1)
   iVar1 = FUN_004656b4(param_1);
   if (iVar1 != 0) {
     piVar2 = (int *)FUN_004656b4(param_1);
-    uVar3 = FUN_00403178(piVar2,extraout_EDX,extraout_ECX);
+    uVar3 = System__CallDynaInst(piVar2,extraout_EDX,extraout_ECX);
   }
   return uVar3;
 }
@@ -440,7 +441,7 @@ undefined4 FUN_004654ec(int *param_1,int param_2)
   undefined4 uVar4;
   
   uVar4 = CONCAT31((int3)((uint)unaff_EBX >> 8),1);
-  piVar3 = FUN_00444864(param_1);
+  piVar3 = Forms_GetParentForm(param_1);
   if (((piVar3 != (int *)0x0) && (*(char *)((int)piVar3 + 0x215) != '\0')) &&
      (cVar1 = FUN_00433654(piVar3,param_2), cVar1 != '\0')) {
     return uVar4;
@@ -464,7 +465,7 @@ undefined1 FUN_0046555c(int *param_1,int param_2,undefined3 param_3)
   undefined4 uStack_8;
   
   uStack_8 = CONCAT13(1,param_3);
-  piVar2 = FUN_00444864(param_1);
+  piVar2 = Forms_GetParentForm(param_1);
   if ((piVar2 != (int *)0x0) && (*(char *)((int)piVar2 + 0x215) != '\0')) {
     cVar1 = FUN_00433654(piVar2,param_2);
     if (cVar1 != '\0') goto LAB_004655bb;
@@ -493,7 +494,7 @@ undefined4 FUN_004655c4(int *param_1,int param_2)
   undefined4 uVar4;
   
   uVar4 = CONCAT31((int3)((uint)unaff_EBX >> 8),1);
-  piVar3 = FUN_00444864(param_1);
+  piVar3 = Forms_GetParentForm(param_1);
   if (((piVar3 != (int *)0x0) && (*(char *)((int)piVar3 + 0x215) != '\0')) &&
      (cVar1 = FUN_00433654(piVar3,param_2), cVar1 != '\0')) {
     return uVar4;
@@ -522,7 +523,7 @@ undefined4 TWinControlWrapper_virtual_0b0(int param_1)
   iVar1 = FUN_004656b4(param_1);
   if (iVar1 != 0) {
     piVar2 = (int *)FUN_004656b4(param_1);
-    uVar3 = FUN_00403178(piVar2,extraout_EDX,extraout_ECX);
+    uVar3 = System__CallDynaInst(piVar2,extraout_EDX,extraout_ECX);
   }
   return uVar3;
 }
@@ -656,12 +657,12 @@ void TWinControlWrapper_virtual_088(int param_1,int *param_2)
     iVar1 = *param_2;
     if (iVar1 < 0x101) {
       if (iVar1 == 0x100) {
-        iVar1 = FUN_0042f720(param_1,0x100,param_2[1],param_2[2]);
+        iVar1 = Controls_TControl_Perform(param_1,0x100,param_2[1],param_2[2]);
         param_2[3] = iVar1;
       }
       else if (iVar1 < 8) {
         if (iVar1 == 7) {
-          iVar1 = FUN_0042f720(param_1,7,param_2[1],param_2[2]);
+          iVar1 = Controls_TControl_Perform(param_1,7,param_2[1],param_2[2]);
           param_2[3] = iVar1;
         }
         else if (iVar1 == 2) {
@@ -680,28 +681,28 @@ void TWinControlWrapper_virtual_088(int param_1,int *param_2)
         }
       }
       else if (iVar1 == 8) {
-        iVar1 = FUN_0042f720(param_1,8,param_2[1],param_2[2]);
+        iVar1 = Controls_TControl_Perform(param_1,8,param_2[1],param_2[2]);
         param_2[3] = iVar1;
       }
       else if (iVar1 == 0x87) {
-        iVar1 = FUN_0042f720(param_1,0x87,param_2[1],param_2[2]);
+        iVar1 = Controls_TControl_Perform(param_1,0x87,param_2[1],param_2[2]);
         param_2[3] = iVar1;
       }
     }
     else if (iVar1 == 0x101) {
-      iVar1 = FUN_0042f720(param_1,0x101,param_2[1],param_2[2]);
+      iVar1 = Controls_TControl_Perform(param_1,0x101,param_2[1],param_2[2]);
       param_2[3] = iVar1;
     }
     else if (iVar1 == 0x102) {
-      iVar1 = FUN_0042f720(param_1,0x102,param_2[1],param_2[2]);
+      iVar1 = Controls_TControl_Perform(param_1,0x102,param_2[1],param_2[2]);
       param_2[3] = iVar1;
     }
     else if (iVar1 == 0xb01a) {
-      iVar1 = FUN_0042f720(param_1,0xb01a,param_2[1],param_2[2]);
+      iVar1 = Controls_TControl_Perform(param_1,0xb01a,param_2[1],param_2[2]);
       param_2[3] = iVar1;
     }
     else if (iVar1 == 0xb01b) {
-      iVar1 = FUN_0042f720(param_1,0xb01b,param_2[1],param_2[2]);
+      iVar1 = Controls_TControl_Perform(param_1,0xb01b,param_2[1],param_2[2]);
       param_2[3] = iVar1;
     }
   }
@@ -829,12 +830,12 @@ void FUN_00465adc(int *param_1,LONG *param_2,int param_3,uint param_4)
   bVar3 = SBORROW4(i_val.right,1);
   i_val.right = i_val.right + -1;
   if (bVar3) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
   }
   bVar3 = SBORROW4(i_val.bottom,1);
   i_val.bottom = i_val.bottom + -1;
   if (bVar3) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   TBrush_SetColor((int *)param_1[5],
                   *(undefined4 *)(param_3 + (uint)(byte)(&DAT_004ab045)[(param_4 & 0xff) * 5] * 4));
@@ -842,12 +843,12 @@ void FUN_00465adc(int *param_1,LONG *param_2,int param_3,uint param_4)
   bVar3 = SCARRY4(i_val.left,1);
   i_val.left = i_val.left + 1;
   if (bVar3) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
   }
   bVar3 = SCARRY4(i_val.top,1);
   i_val.top = i_val.top + 1;
   if (bVar3) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   TBrush_SetColor((int *)param_1[5],
                   *(undefined4 *)(param_3 + (uint)(byte)(&DAT_004ab046)[(param_4 & 0xff) * 5] * 4));
@@ -855,12 +856,12 @@ void FUN_00465adc(int *param_1,LONG *param_2,int param_3,uint param_4)
   bVar3 = SBORROW4(i_val.right,1);
   i_val.right = i_val.right + -1;
   if (bVar3) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
   }
   bVar3 = SBORROW4(i_val.bottom,1);
   i_val.bottom = i_val.bottom + -1;
   if (bVar3) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   TBrush_SetColor((int *)param_1[5],
                   *(undefined4 *)(param_3 + (uint)(byte)(&DAT_004ab047)[(param_4 & 0xff) * 5] * 4));
@@ -868,12 +869,12 @@ void FUN_00465adc(int *param_1,LONG *param_2,int param_3,uint param_4)
   bVar3 = SCARRY4(i_val.left,1);
   i_val.left = i_val.left + 1;
   if (bVar3) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
   }
   bVar3 = SCARRY4(i_val.top,1);
   i_val.top = i_val.top + 1;
   if (bVar3) {
-    thunk_FUN_00402808(uVar1);
+    System__RunError(uVar1);
   }
   TBrush_SetColor((int *)param_1[5],
                   *(undefined4 *)(param_3 + (uint)(byte)(&DAT_004ab048)[(param_4 & 0xff) * 5] * 4));
@@ -895,7 +896,7 @@ void FUN_00465c38(int *param_1,LONG *param_2,char param_3)
   RECT local_14;
   
   bVar3 = 0;
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   if (bVar1) {
     pRVar2 = &local_14;
     for (i_val = 4; i_val != 0; i_val = i_val + -1) {
@@ -905,7 +906,7 @@ void FUN_00465c38(int *param_1,LONG *param_2,char param_3)
     }
     i_val = -(uint)(param_3 != '\0');
     pRVar2 = &local_14;
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     InvalidateRect(hWnd,pRVar2,i_val);
   }
   return;

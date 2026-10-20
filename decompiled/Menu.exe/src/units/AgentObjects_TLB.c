@@ -23,9 +23,9 @@ int FUN_0046fcd4(int *param_1)
   int iVar3;
   
   iVar3 = 0;
-  piVar1 = FUN_00444864(param_1);
+  piVar1 = Forms_GetParentForm(param_1);
   if (piVar1 != (int *)0x0) {
-    uVar2 = FUN_00403114(piVar1,(int)&PTR_TWinControl_virtual_000_00442fd4);
+    uVar2 = System__IsClass(piVar1,(int)&PTR_TWinControl_virtual_000_00442fd4);
     if (((char)uVar2 == '\0') || (*(char *)((int)piVar1 + 0x217) == '\x01')) {
       if (*(int *)(*(int *)PTR_DAT_004ab8ac + 0x38) != 0) {
         iVar3 = *(int *)(*(int *)(*(int *)PTR_DAT_004ab8ac + 0x38) + 0x230);
@@ -74,7 +74,7 @@ void FUN_0046fd38(int *param_1,VARIANTARG *pvarg_val)
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_0046fd92;
   puStack_18 = (undefined1 *)0x46fd8a;
-  FUN_00405860((int *)&local_8);
+  System__IntfClear((int *)&local_8);
   return;
 }
 
@@ -174,8 +174,9 @@ void FUN_0046fecc(int param_1)
     hWnd = *(HWND *)(param_1 + 0x214);
     (**(code **)(hWnd->unused + 0xc))();
     if (hWnd == (HWND)0x0) {
-      piVar1 = FUN_0040b694((int *)&DAT_0046bfdc,'\x01',(undefined4 *)PTR_PTR_004aba20);
-      FUN_004036f4(piVar1);
+      piVar1 = SysUtils_Exception_CreateRes
+                         ((int *)&DAT_0046bfdc,'\x01',(undefined4 *)PTR_PTR_004aba20);
+      System__RaiseExcept(piVar1);
     }
     *(HWND *)(param_1 + 0x14c) = hWnd;
     LVar2 = GetWindowLongA(hWnd,-4);
@@ -337,7 +338,7 @@ void FUN_0046ffa0(int *param_1,int param_2,int *param_3)
     while (k != 0) {
       k = k + -1;
       puStack_2b0 = (undefined1 *)0x470134;
-      FUN_00403c5c((int *)(auStack_110 + k * 2));
+      System__LStrClr((int *)(auStack_110 + k * 2));
     }
   }
   return;
@@ -377,7 +378,7 @@ void TAgent_virtual_0b4(uint param_1)
   *(undefined **)(param_1 + 0x1f0) = &DAT_004ab130;
   iVar1 = (param_1 + 600) - param_1;
   if (param_1 + 600 < param_1) {
-    thunk_FUN_00402808(param_1);
+    System__RunError(param_1);
     iVar1 = extraout_EDX;
   }
   _DAT_004ab180 = iVar1;
@@ -415,7 +416,7 @@ void FUN_0047283c(void)
   puStack_20 = (undefined1 *)0x47289a;
   FUN_00405038((VARIANTARG *)&union_2683.n2);
   puStack_20 = (undefined1 *)0x4728a2;
-  FUN_00405860((int *)&local_8);
+  System__IntfClear((int *)&local_8);
   return;
 }
 
@@ -461,14 +462,14 @@ void FUN_00472904(int param_1,int *param_2)
   puStack_18 = &LAB_00472953;
   puStack_1c = (undefined1 *)*in_FS_OFFSET;
   *in_FS_OFFSET = &puStack_1c;
-  FUN_00405860(param_2);
+  System__IntfClear(param_2);
   FUN_004728e0(param_1,(int *)&local_8);
   piVar1 = local_8;
   iVar2 = (**(code **)(*local_8 + 0x1c))();
   FUN_0040595c(iVar2);
   *in_FS_OFFSET = piVar1;
   puStack_1c = &LAB_0047295a;
-  FUN_00405860((int *)&local_8);
+  System__IntfClear((int *)&local_8);
   return;
 }
 

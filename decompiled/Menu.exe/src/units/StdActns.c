@@ -14,14 +14,15 @@ int * THintAction_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe8,in_stack_ffffffec);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe8,
+                                         in_stack_ffffffec);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
   TCustomAction_virtual_02c(param_1,'\0',param_3);
   *(undefined1 *)(param_1 + 0x14) = 0;
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe8;
   }
   return param_1;
@@ -43,10 +44,10 @@ void FUN_00439d30(int *param_1,undefined4 param_2)
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
-        uVar2 = FUN_00403114(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
+        piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
+        uVar2 = System__IsClass(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
         if ((char)uVar2 != '\0') {
-          piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
+          piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
           (**(code **)(*piVar1 + 0x48))(piVar1,param_2);
         }
         j = j + 1;
@@ -75,10 +76,10 @@ void FUN_00439d88(int *param_1,int param_2)
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
-        uVar2 = FUN_00403114(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
+        piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
+        uVar2 = System__IsClass(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
         if ((char)uVar2 != '\0') {
-          piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
+          piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
           (**(code **)(*piVar1 + 0x4c))(piVar1,param_2);
         }
         j = j + 1;
@@ -103,23 +104,23 @@ void THintAction_SetHint(int *param_1,uint *param_2)
   int i_val;
   undefined1 in_ZF;
   
-  FUN_00403fec(param_2,(uint *)param_1[0x18]);
+  System__LStrCmp(param_2,(uint *)param_1[0x18]);
   if (!(bool)in_ZF) {
     i_val = *(int *)(param_1[0x10] + 8);
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
-        uVar2 = FUN_00403114(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
+        piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
+        uVar2 = System__IsClass(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
         if ((char)uVar2 != '\0') {
-          piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
+          piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
           (**(code **)(*piVar1 + 0x50))(piVar1,param_2);
         }
         j = j + 1;
         i_val = i_val + -1;
       } while (i_val != 0);
     }
-    FUN_00403cb0(param_1 + 0x18,param_2);
+    System__LStrAsg(param_1 + 0x18,param_2);
     (**(code **)(*param_1 + 0x30))();
   }
   return;
@@ -141,10 +142,10 @@ void FUN_00439e48(int *param_1,int param_2)
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
-        uVar2 = FUN_00403114(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
+        piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
+        uVar2 = System__IsClass(piVar1,(int)&PTR_TBasicActionLink_virtual_000_00439530);
         if ((char)uVar2 != '\0') {
-          piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x10],j);
+          piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x10],j);
           (**(code **)(*piVar1 + 0x54))(piVar1,param_2);
         }
         j = j + 1;

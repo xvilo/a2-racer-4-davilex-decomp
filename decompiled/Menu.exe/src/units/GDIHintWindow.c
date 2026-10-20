@@ -14,13 +14,13 @@ void TGDIHintWindow_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x465f33;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_00465f70;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
   local_9 = extraout_DL;
-  FUN_0040c968(local_8 + 0x80);
+  SysUtils_FreeAndNil(local_8 + 0x80);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00465f77;
   puStack_14 = (undefined1 *)0x465f6f;
@@ -49,7 +49,7 @@ void TGDIHintWindow_CMTextChanged(int *param_1,undefined4 *param_2)
   
   uVar2 = param_2[2];
   iVar1 = FUN_00465fd0(param_1);
-  FUN_0042f720(iVar1,*param_2,param_2[1],uVar2);
+  Controls_TControl_Perform(iVar1,*param_2,param_2[1],uVar2);
   return;
 }
 
@@ -107,24 +107,24 @@ void FUN_00465ffc(int *param_1,int *param_2)
   uStack_124 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_124;
   iVar4 = 0;
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TPersistent_virtual_000_00466ed8);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TPersistent_virtual_000_00466ed8);
   if ((char)uVar1 != '\0') {
-    iVar2 = FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_00466ed8);
-    uVar1 = FUN_00403114(*(int **)(iVar2 + 4),(int)&PTR_TControl_virtual_000_0042a694);
+    iVar2 = System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_00466ed8);
+    uVar1 = System__IsClass(*(int **)(iVar2 + 4),(int)&PTR_TControl_virtual_000_0042a694);
     if ((char)uVar1 != '\0') {
-      piVar3 = (int *)FUN_0040312c(*(int **)(iVar2 + 4),(int)&PTR_TControl_virtual_000_0042a694);
+      piVar3 = (int *)System__AsClass(*(int **)(iVar2 + 4),(int)&PTR_TControl_virtual_000_0042a694);
       iVar4 = FUN_0044488c(piVar3);
     }
   }
   if (iVar4 == 0) {
-    FUN_00402ee4(*param_1,local_10c);
-    FUN_00403e80(&local_c,local_10c);
+    System_TObject_ClassName(*param_1,local_10c);
+    System__LStrFromString(&local_c,local_10c);
     pcStack_134 = "Could not acquire the form for the Hint";
-    FUN_00403f9c(&local_8,4);
-    FUN_00403c40(local_8);
+    System__LStrCatN(&local_8,4);
+    System__Assert(local_8);
   }
   *in_FS_OFFSET = pcStack_134;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -155,7 +155,7 @@ void TGDIHintWindow_virtual_0b8(int *param_1,uint *param_2,uint *param_3)
   cy = 0;
   i_val = 0;
   hWndInsertAfter = (HWND)0xffffffff;
-  hWnd = (HWND)FUN_004349e0(param_1);
+  hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
   SetWindowPos(hWnd,hWndInsertAfter,x_val[0],x_val[1],i_val,cy,uFlags);
   return;
 }
@@ -210,12 +210,12 @@ undefined4 TGDIHintWindow_virtual_0c4(int *param_1,int param_2)
   BOOL BVar3;
   
   uVar2 = THintWindow_virtual_0c4(param_1,param_2);
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   if (bVar1) {
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     BVar3 = IsWindowVisible(hWnd);
     if (BVar3 == 0) {
-      FUN_0040c968(param_1 + 0x80);
+      SysUtils_FreeAndNil(param_1 + 0x80);
     }
   }
   return uVar2;
@@ -250,7 +250,8 @@ void TGDIHint_virtual_02c(int *param_1,char param_2,int *param_3)
   local_5 = 0;
   if (param_2 != '\0') {
     puStackY_130 = (undefined1 *)0x4662a4;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffed4,in_stack_fffffed8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffed4,
+                                         in_stack_fffffed8);
     param_3 = extraout_ECX;
     local_5 = extraout_DL;
   }
@@ -258,23 +259,23 @@ void TGDIHint_virtual_02c(int *param_1,char param_2,int *param_3)
   uStackY_138 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_138;
   puStackY_130 = &stack0xfffffffc;
-  uVar1 = FUN_00403114(param_3,(int)&PTR_TWinControl_virtual_000_00465e10);
+  uVar1 = System__IsClass(param_3,(int)&PTR_TWinControl_virtual_000_00465e10);
   if ((char)uVar1 == '\0') {
-    FUN_00402ee4(*param_1,local_110);
-    FUN_00403e80(&local_10,local_110);
+    System_TObject_ClassName(*param_1,local_110);
+    System__LStrFromString(&local_10,local_110);
     pcStackY_148 = "Object has wrong owner, it must be created by a TGDIHintWindow class.";
-    FUN_00403f9c(&local_c,4);
-    FUN_00403c40(local_c);
+    System__LStrCatN(&local_c,4);
+    System__Assert(local_c);
   }
   TGraphicControl_virtual_02c(param_1,'\0',param_3);
-  iVar2 = FUN_0040312c(param_3,(int)&PTR_TWinControl_virtual_000_00465e10);
+  iVar2 = System__AsClass(param_3,(int)&PTR_TWinControl_virtual_000_00465e10);
   param_1[0x4c] = iVar2;
   iVar2 = *(int *)(iVar2 + 0x204);
   param_1[0x4d] = iVar2;
   (**(code **)(*param_1 + 0x60))(param_1,iVar2);
-  FUN_00403178(param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),1),extraout_ECX_00);
+  System__CallDynaInst(param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),1),extraout_ECX_00);
   *in_FS_OFFSET = pcStackY_148;
-  FUN_00403c80(&local_10,2);
+  System__LStrArrayClr(&local_10,2);
   return;
 }
 
@@ -307,7 +308,7 @@ void TGDIHint_CMTextChanged(int *param_1)
     uVar1 = FUN_00419338((int *)param_1[0x48],local_8);
     iVar2 = uVar1 + 6;
     if (SCARRY4(uVar1,6)) {
-      thunk_FUN_00402808(uVar1);
+      System__RunError(uVar1);
       iVar2 = extraout_EDX;
     }
     TControl_SetWidth(param_1,iVar2);
@@ -315,7 +316,7 @@ void TGDIHint_CMTextChanged(int *param_1)
     uVar1 = FUN_00419354((int *)param_1[0x48],local_c);
     iVar2 = uVar1 + 4;
     if (SCARRY4(uVar1,4)) {
-      thunk_FUN_00402808(uVar1);
+      System__RunError(uVar1);
       iVar2 = extraout_EDX_00;
     }
     TControl_SetHeight(param_1,iVar2);
@@ -323,7 +324,7 @@ void TGDIHint_CMTextChanged(int *param_1)
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_004664d8;
   puStack_18 = (undefined1 *)0x4664d0;
-  FUN_00403c80((int *)&local_c,2);
+  System__LStrArrayClr((int *)&local_c,2);
   return;
 }
 
@@ -392,14 +393,14 @@ void TGDIHint_virtual_084(int *param_1)
         format_val = FUN_00457194(local_c,piVar8[0x23],piVar8[0x10],0x20);
         text = left_val.bottom - left_val.top;
         if (SBORROW4(left_val.bottom,left_val.top)) {
-          thunk_FUN_00402808(format_val);
+          System__RunError(format_val);
           text = extraout_EDX;
         }
         iVar3 = FUN_00420cac(piVar8[0x10],text);
         piVar5 = local_2c;
         text = left_val.right - left_val.left;
         if (SBORROW4(left_val.right,left_val.left)) {
-          thunk_FUN_00402808((uint)piVar5);
+          System__RunError((uint)piVar5);
           text = extraout_EDX_00;
         }
         text = FUN_00420cac(piVar8[0x23],text);
@@ -421,7 +422,7 @@ void TGDIHint_virtual_084(int *param_1)
         piVar5 = (int *)FUN_00456800((int)local_c,uVar7,uVar6);
         FUN_00418f14((int *)local_8[0x48],local_2c,piVar5,piVar8);
         *in_FS_OFFSET = uVar10;
-        FUN_0040c968(&local_c);
+        SysUtils_FreeAndNil(&local_c);
         return;
       }
       FUN_00418f9c((int *)local_8[0x48],0,0,piVar8);
@@ -445,28 +446,28 @@ LAB_004666ca:
   bVar9 = SCARRY4(left_val.left,2);
   left_val.left = left_val.left + 2;
   if (bVar9) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   bVar9 = SCARRY4(left_val.top,2);
   left_val.top = left_val.top + 2;
   if (bVar9) {
-    thunk_FUN_00402808(format_val);
+    System__RunError(format_val);
   }
   format_val = FUN_004306a8((int)local_8);
   format_val = format_val | 0x810;
   if ((int)format_val < 0) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   lprc = &left_val;
   text = -1;
   TGroupBox_GetCaption((int)local_8,(int *)&local_30);
-  lpchText = FUN_004040a0(local_30);
+  lpchText = System__LStrToPChar(local_30);
   hdc = (HDC)FUN_004194d8((int *)local_8[0x48]);
   DrawTextA(hdc,lpchText,text,lprc,format_val);
   *in_FS_OFFSET = uStack_44;
   puStack_3c = &LAB_00466786;
   puStack_40 = (undefined1 *)0x46677e;
-  FUN_00403c5c((int *)&local_30);
+  System__LStrClr((int *)&local_30);
   return;
 }
 
@@ -478,9 +479,9 @@ void FUN_0046678c(int param_1,undefined4 param_2,undefined4 param_3,int *param_4
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_00403114(param_4,(int)&PTR_TPersistent_virtual_000_00466ed8);
+  uVar1 = System__IsClass(param_4,(int)&PTR_TPersistent_virtual_000_00466ed8);
   if ((char)uVar1 == '\0') {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   *(int **)(param_1 + 0x128) = param_4;
   return;
@@ -498,11 +499,11 @@ int * FUN_00466814(int param_1)
   
   piVar1 = (int *)FUN_00467d48(*(int *)(param_1 + 0x128),5);
   piVar3 = (int *)0x0;
-  uVar2 = FUN_00403114(piVar1,(int)&LAB_00454aa4);
+  uVar2 = System__IsClass(piVar1,(int)&LAB_00454aa4);
   if ((char)uVar2 == '\0') {
-    uVar2 = FUN_00403114(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
+    uVar2 = System__IsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
     if ((char)uVar2 != '\0') {
-      piVar1 = (int *)FUN_0040312c(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
+      piVar1 = (int *)System__AsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045b71c);
       piVar3 = (int *)(**(code **)(*piVar1 + 0x70))(piVar1,piVar1[0xb]);
       (**(code **)(*piVar3 + 0x3c))(piVar3,(char)piVar1[0x13]);
       FUN_0045727c(piVar3,(char)piVar1[0x15]);
@@ -510,7 +511,7 @@ int * FUN_00466814(int param_1)
     }
   }
   else {
-    piVar3 = (int *)FUN_0040312c(piVar1,(int)&LAB_00454aa4);
+    piVar3 = (int *)System__AsClass(piVar1,(int)&LAB_00454aa4);
   }
   return piVar3;
 }
@@ -579,7 +580,7 @@ void FUN_004668a0(int *param_1,uint *param_2,uint *param_3)
   local_c = param_3;
   local_8 = param_1;
   if (SBORROW4(local_1c[3],local_1c[1])) {
-    uVar3 = thunk_FUN_00402808(uVar3);
+    uVar3 = System__RunError(uVar3);
     puVar2 = puStack_3c;
   }
   puStack_3c = puVar2;
@@ -588,19 +589,19 @@ void FUN_004668a0(int *param_1,uint *param_2,uint *param_3)
   piVar1 = (int *)(i_val + 0x34);
   iVar6 = local_1c[1] - *piVar1;
   if (SBORROW4(local_1c[1],*piVar1)) {
-    thunk_FUN_00402808((uint)local_8);
+    System__RunError((uint)local_8);
     iVar6 = extraout_EDX;
   }
   uVar5 = local_1c[0];
   piVar1 = (int *)(i_val + 0x30);
   uVar4 = local_1c[0] - *piVar1;
   if (SBORROW4(local_1c[0],*piVar1)) {
-    uVar4 = thunk_FUN_00402808(uVar4);
+    uVar4 = System__RunError(uVar4);
     iVar6 = extraout_EDX_00;
   }
   i_val = local_1c[2] - uVar5;
   if (SBORROW4(local_1c[2],uVar5)) {
-    uVar4 = thunk_FUN_00402808(uVar4);
+    uVar4 = System__RunError(uVar4);
     i_val = extraout_ECX;
     iVar6 = extraout_EDX_01;
   }
@@ -616,65 +617,65 @@ void FUN_004668a0(int *param_1,uint *param_2,uint *param_3)
   bVar10 = SCARRY4(local_1c[3],4);
   local_1c[3] = local_1c[3] + 4;
   if (bVar10) {
-    thunk_FUN_00402808(uVar3);
+    System__RunError(uVar3);
   }
   uVar3 = local_8[0x4d];
   i_val = *(int *)(uVar3 + 0x38) + -0x14;
   if (SBORROW4(*(int *)(uVar3 + 0x38),0x14)) {
-    uVar3 = thunk_FUN_00402808(uVar3);
+    uVar3 = System__RunError(uVar3);
     i_val = extraout_EDX_02;
   }
   uVar5 = *(int *)(uVar3 + 0x3c) - 0x14;
   if (SBORROW4(*(int *)(uVar3 + 0x3c),0x14)) {
-    uVar5 = thunk_FUN_00402808(uVar5);
+    uVar5 = System__RunError(uVar5);
     i_val = extraout_EDX_03;
   }
   if ((int)uVar5 < (int)local_1c[3]) {
     iVar6 = local_1c[3] - uVar5;
     if (SBORROW4(local_1c[3],uVar5)) {
-      uVar5 = thunk_FUN_00402808(uVar5);
+      uVar5 = System__RunError(uVar5);
       iVar6 = extraout_ECX_00;
       i_val = extraout_EDX_04;
     }
     bVar10 = SBORROW4(local_1c[1],iVar6);
     local_1c[1] = local_1c[1] - iVar6;
     if (bVar10) {
-      uVar5 = thunk_FUN_00402808(uVar5);
+      uVar5 = System__RunError(uVar5);
       i_val = extraout_EDX_05;
     }
     iVar6 = local_1c[3] - uVar5;
     if (SBORROW4(local_1c[3],uVar5)) {
-      uVar5 = thunk_FUN_00402808(uVar5);
+      uVar5 = System__RunError(uVar5);
       iVar6 = extraout_ECX_01;
       i_val = extraout_EDX_06;
     }
     bVar10 = SBORROW4(local_1c[3],iVar6);
     local_1c[3] = local_1c[3] - iVar6;
     if (bVar10) {
-      thunk_FUN_00402808(uVar5);
+      System__RunError(uVar5);
       i_val = extraout_EDX_07;
     }
   }
   if (i_val < (int)local_1c[2]) {
     uVar3 = local_1c[2] - i_val;
     if (SBORROW4(local_1c[2],i_val)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
       i_val = extraout_EDX_08;
     }
     bVar10 = SBORROW4(local_1c[0],uVar3);
     local_1c[0] = local_1c[0] - uVar3;
     if (bVar10) {
-      thunk_FUN_00402808(uVar3);
+      System__RunError(uVar3);
       i_val = extraout_EDX_09;
     }
     uVar3 = local_1c[2] - i_val;
     if (SBORROW4(local_1c[2],i_val)) {
-      uVar3 = thunk_FUN_00402808(uVar3);
+      uVar3 = System__RunError(uVar3);
     }
     bVar10 = SBORROW4(local_1c[2],uVar3);
     local_1c[2] = local_1c[2] - uVar3;
     if (bVar10) {
-      thunk_FUN_00402808(uVar3);
+      System__RunError(uVar3);
     }
   }
   if ((int)local_1c[0] < 0) {
@@ -685,17 +686,17 @@ void FUN_004668a0(int *param_1,uint *param_2,uint *param_3)
   }
   i_val = local_1c[2] - local_1c[0];
   if (SBORROW4(local_1c[2],local_1c[0])) {
-    local_1c[0] = thunk_FUN_00402808(local_1c[0]);
+    local_1c[0] = System__RunError(local_1c[0]);
     i_val = extraout_ECX_02;
   }
   iVar6 = local_1c[3] - local_1c[1];
   if (SBORROW4(local_1c[3],local_1c[1])) {
-    local_1c[0] = thunk_FUN_00402808(local_1c[0]);
+    local_1c[0] = System__RunError(local_1c[0]);
     iVar6 = extraout_ECX_03;
     local_1c[1] = extraout_EDX_10;
   }
   (**(code **)(*local_8 + 0x7c))(local_8,local_1c[0],local_1c[1],iVar6,i_val);
-  FUN_00403178(local_8,CONCAT31((int3)((uint)extraout_EDX_11 >> 8),1),extraout_ECX_04);
+  System__CallDynaInst(local_8,CONCAT31((int3)((uint)extraout_EDX_11 >> 8),1),extraout_ECX_04);
   (**(code **)(*local_8 + 0x74))();
   *in_FS_OFFSET = iVar6;
   *(undefined1 *)(local_8 + 0x4b) = 0;
@@ -719,9 +720,9 @@ void FUN_00466a44(int param_1,undefined4 param_2,undefined *param_3,LPRECT param
   LPRECT lprc_val;
   int text;
   
-  uVar3 = FUN_00403114(param_5,(int)&PTR_TPersistent_virtual_000_00466ed8);
+  uVar3 = System__IsClass(param_5,(int)&PTR_TPersistent_virtual_000_00466ed8);
   if ((char)uVar3 == '\0') {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   *(int **)(param_1 + 0x128) = param_5;
   piVar4 = (int *)FUN_00467d48(*(int *)(param_1 + 0x128),5);
@@ -731,33 +732,33 @@ void FUN_00466a44(int param_1,undefined4 param_2,undefined *param_3,LPRECT param
     lprc_val = param_4;
     piVar4 = (int *)FUN_00467d48(*(int *)(param_1 + 0x128),5);
     uVar3 = (**(code **)(*piVar4 + 0x20))();
-    FUN_0040f7e8(0,0,uVar3,&lprc_val->left,uVar5);
+    Classes_Rect(0,0,uVar3,&lprc_val->left,uVar5);
   }
   else {
-    FUN_0040f7e8(0,0,param_2,&param_4->left,0);
+    Classes_Rect(0,0,param_2,&param_4->left,0);
   }
   TCanvas_SetFont(*(int *)(param_1 + 0x120));
   format_val = FUN_004306a8(param_1);
   format_val = format_val | 0xc10;
   if ((int)format_val < 0) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   text = -1;
   lprc_val = param_4;
-  lpchText = FUN_004040a0(param_3);
+  lpchText = System__LStrToPChar(param_3);
   hdc = (HDC)FUN_004194d8(*(int **)(param_1 + 0x120));
   format_val = DrawTextA(hdc,lpchText,text,lprc_val,format_val);
   pLVar1 = &param_4->right;
   text = *pLVar1;
   *pLVar1 = *pLVar1 + 6;
   if (SCARRY4(text,6)) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   pLVar1 = &param_4->bottom;
   text = *pLVar1;
   *pLVar1 = *pLVar1 + 2;
   if (SCARRY4(text,2)) {
-    thunk_FUN_00402808(format_val);
+    System__RunError(format_val);
   }
   return;
 }

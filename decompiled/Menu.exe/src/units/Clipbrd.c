@@ -44,8 +44,9 @@ void FUN_004294a4(int param_1,int *param_2)
   uVar1 = extraout_ECX;
   while( true ) {
     if (sVar4 == 0) {
-      piVar3 = FUN_0040b694((int *)&DAT_00407624,'\x01',(undefined4 *)PTR_PTR_004ab6c0);
-      FUN_004036f4(piVar3);
+      piVar3 = SysUtils_Exception_CreateRes
+                         ((int *)&DAT_00407624,'\x01',(undefined4 *)PTR_PTR_004ab6c0);
+      System__RaiseExcept(piVar3);
       *in_FS_OFFSET = uStack_20;
       puStack_18 = (undefined1 *)0x42954d;
       puStack_1c = (undefined1 *)0x429545;
@@ -133,14 +134,14 @@ void TClipboard_virtual_000(int *param_1,int *param_2)
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TPicture_virtual_000_0041702c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TPicture_virtual_000_0041702c);
   if ((char)uVar1 != '\0') {
     FUN_004294a4((int)param_1,param_2);
     return;
   }
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TPersistent_virtual_000_004173a4);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TPersistent_virtual_000_004173a4);
   if ((char)uVar1 == '\0') {
-    uVar1 = FUN_00403114(param_2,(int)&LAB_00417234);
+    uVar1 = System__IsClass(param_2,(int)&LAB_00417234);
     if ((char)uVar1 == '\0') {
       TPersistent_virtual_000(param_1,param_2);
     }
@@ -234,12 +235,12 @@ void TClipboard_virtual_008(int *param_1,int *param_2)
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TPicture_virtual_000_0041702c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TPicture_virtual_000_0041702c);
   if ((char)uVar1 != '\0') {
     FUN_00429688((int)param_1,(int)param_2);
     return;
   }
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TPersistent_virtual_000_00416f48);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TPersistent_virtual_000_00416f48);
   if ((char)uVar1 == '\0') {
     TPersistent_virtual_008(param_1,param_2);
   }
@@ -256,7 +257,7 @@ int FUN_004297dc(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {
   if (DAT_004ac744 == 0) {
-    DAT_004ac744 = FUN_00402f6c((int *)&LAB_0042925c,'\x01',param_3);
+    DAT_004ac744 = System_TObject_Create((int *)&LAB_0042925c,'\x01',param_3);
   }
   return DAT_004ac744;
 }
@@ -280,7 +281,7 @@ void FUN_004297fc(void)
   *in_FS_OFFSET = &uStack_10;
   _DAT_004ac740 = _DAT_004ac740 + 1;
   if (_DAT_004ac740 == 0) {
-    FUN_00402f9c(DAT_004ac744);
+    System_TObject_Free(DAT_004ac744);
   }
   *in_FS_OFFSET = uStack_10;
   return;

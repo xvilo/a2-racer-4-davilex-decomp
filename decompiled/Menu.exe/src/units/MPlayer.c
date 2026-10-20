@@ -16,7 +16,8 @@ int * TMediaPlayer_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
@@ -44,7 +45,7 @@ int * TMediaPlayer_virtual_02c(int *param_1,char param_2,int *param_3)
   *(undefined1 *)(param_1 + 0xb7) = 0;
   TGroupBox_SetTabStop((int)param_1,'\x01');
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -61,14 +62,14 @@ void TMediaPlayer_Destroy(int *param_1,char param_2,undefined4 param_3)
   undefined4 uStack_c;
   
   uStack_c = param_3;
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   if (*(ushort *)((int)piVar1 + 0x2da) != 0) {
     mciSendCommandA((uint)*(ushort *)((int)piVar1 + 0x2da),0x804,2,(DWORD_PTR)&uStack_c);
   }
   FUN_004a1bfc((int)piVar1);
   TCustomControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -112,7 +113,7 @@ void FUN_004a1a8c(int param_1)
   undefined *local_18;
   undefined1 local_14;
   
-  FUN_0040f7d0(0,0,&local_28);
+  Classes_Point(0,0,&local_28);
   *(undefined4 *)(param_1 + 0x2a8) = local_28;
   *(undefined4 *)(param_1 + 0x2ac) = local_24;
   i_val = 0;
@@ -171,7 +172,7 @@ void FUN_004a1bfc(int param_1)
   do {
     j = 0;
     do {
-      FUN_00402f9c(*(int **)(param_1 + (uint)i_val * 0x10 + 0x1fc + (uint)j * 4));
+      System_TObject_Free(*(int **)(param_1 + (uint)i_val * 0x10 + 0x1fc + (uint)j * 4));
       j = j + 1;
     } while (j != 3);
     i_val = i_val + 1;
@@ -476,7 +477,7 @@ void FUN_004a1e64(int *param_1,byte param_2,int left_val)
   uVar7 = (**(code **)(*piVar2 + 0x20))();
   piVar13 = aiStack_30;
   uVar8 = (**(code **)(*piVar2 + 0x2c))();
-  FUN_0040f7e8(0,0,uVar8,piVar13,uVar7);
+  Classes_Rect(0,0,uVar8,piVar13,uVar7);
   piVar13 = aiStack_30;
   uVar6 = 0x8080;
   iVar5 = (**(code **)(*piVar2 + 0x20))();
@@ -484,7 +485,7 @@ void FUN_004a1e64(int *param_1,byte param_2,int left_val)
   iVar9 = (**(code **)(*piVar2 + 0x2c))();
   FUN_0040f804(i_val.left + left_val,i_val.top,iVar9,piVar12,iVar5);
   FUN_00418c54(piVar1,aiStack_20,piVar2,uVar6,piVar13);
-  pHVar10 = (HWND)FUN_004349e0(param_1);
+  pHVar10 = (HWND)Controls_TWinControl_GetHandle(param_1);
   pHVar11 = GetFocus();
   if ((pHVar10 == pHVar11) && ((char)uVar6 == (char)param_1[0xb2])) {
     FUN_0040f804(left_val,0,param_1[0xa9],&i_val.left,param_1[0xf]);
@@ -650,7 +651,7 @@ LAB_004a246a:
         *(byte *)(param_1 + 0xb2) = i_val;
         (**(code **)(*param_1 + 0xb4))();
       }
-      FUN_0040f7e8(left_val,0,param_1[0xa9] + left_val,local_1c,param_1[0xf]);
+      Classes_Rect(left_val,0,param_1[0xa9] + left_val,local_1c,param_1[0xf]);
       piVar2 = local_1c;
       piVar3 = param_1 + 0xa5;
       for (j = 4; j != 0; j = j + -1) {
@@ -699,7 +700,7 @@ void TMediaPlayer_WMMouseMove(int *param_1,int param_2)
   LONG local_10;
   
   if ((char)param_1[0xa4] != '\0') {
-    FUN_0040f7d0((int)*(short *)(param_2 + 8),(int)*(short *)(param_2 + 10),&local_14);
+    Classes_Point((int)*(short *)(param_2 + 8),(int)*(short *)(param_2 + 10),&local_14);
     pt.y = local_10;
     pt.x = local_14;
     BVar1 = PtInRect((RECT *)(param_1 + 0xa5),pt);
@@ -743,8 +744,9 @@ void FUN_004a256c(int *param_1,undefined4 param_2,undefined4 param_3)
   undefined3 uStack_b;
   
   _local_c = CONCAT31((int3)((uint)param_3 >> 8),1);
-  FUN_00403178(param_1,CONCAT31((int3)((uint)param_2 >> 8),*(undefined1 *)((int)param_1 + 0x292)),
-               &local_c);
+  System__CallDynaInst
+            (param_1,CONCAT31((int3)((uint)param_2 >> 8),*(undefined1 *)((int)param_1 + 0x292)),
+             &local_c);
   if (local_c != '\0') {
     iVar1 = extraout_ECX;
     uVar2 = extraout_EDX;
@@ -806,8 +808,9 @@ void FUN_004a256c(int *param_1,undefined4 param_2,undefined4 param_3)
 void FUN_004a262c(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,CONCAT31((int3)((uint)param_2 >> 8),*(undefined1 *)((int)param_1 + 0x292)),
-               param_3);
+  System__CallDynaInst
+            (param_1,CONCAT31((int3)((uint)param_2 >> 8),*(undefined1 *)((int)param_1 + 0x292)),
+             param_3);
   return;
 }
 
@@ -830,8 +833,9 @@ void TMediaPlayer_WMLButtonUp(int *param_1)
                                   *(undefined1 *)((int)param_1 + 0x292)),extraout_ECX);
     if (((char)param_1[0xc1] != '\0') &&
        ((param_1[0xbb] == 0 && (*(char *)((int)param_1 + 0x2c9) != '\0')))) {
-      FUN_00403178(param_1,CONCAT31((int3)((uint)extraout_EDX_00 >> 8),
-                                    *(undefined1 *)((int)param_1 + 0x292)),extraout_ECX_00);
+      System__CallDynaInst
+                (param_1,CONCAT31((int3)((uint)extraout_EDX_00 >> 8),
+                                  *(undefined1 *)((int)param_1 + 0x292)),extraout_ECX_00);
       FUN_004a1ca0(param_1);
     }
   }
@@ -888,8 +892,9 @@ void TMediaPlayer_dynamic_ffc0(int *param_1,short *param_2,undefined4 param_3)
       FUN_004a256c(param_1,CONCAT31((int3)(CONCAT22((short)((uint)param_1 >> 0x10),sVar1 + -0x20) >>
                                           8),i_val),param_3);
       if ((char)param_1[0xc1] != '\0') {
-        FUN_00403178(param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),
-                                      *(undefined1 *)((int)param_1 + 0x292)),extraout_ECX);
+        System__CallDynaInst
+                  (param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),
+                                    *(undefined1 *)((int)param_1 + 0x292)),extraout_ECX);
         FUN_004a1ca0(param_1);
       }
     }
@@ -965,7 +970,7 @@ void TMediaPlayer_MMMciNotify(int *param_1,int param_2,undefined4 param_3)
   else if (iVar1 == 8) {
     *(undefined1 *)(param_1 + 0xbc) = 3;
   }
-  FUN_00403178(param_1,iVar3,param_3);
+  System__CallDynaInst(param_1,iVar3,param_3);
   return;
 }
 
@@ -978,8 +983,9 @@ void FUN_004a2864(int param_1)
   int *piVar1;
   
   if (*(char *)(param_1 + 0x2c9) == '\0') {
-    piVar1 = FUN_0040b694((int *)&DAT_004a138c,'\x01',(undefined4 *)PTR_PTR_004ab74c);
-    FUN_004036f4(piVar1);
+    piVar1 = SysUtils_Exception_CreateRes
+                       ((int *)&DAT_004a138c,'\x01',(undefined4 *)PTR_PTR_004ab74c);
+    System__RaiseExcept(piVar1);
   }
   return;
 }
@@ -1063,13 +1069,13 @@ void FUN_004a2970(int *param_1)
   puStack_3c = &LAB_004a2bbb;
   uStack_40 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_40;
-  FUN_00402c30(&local_18,0x14,0);
+  System_FillChar(&local_18,0x14,0);
   if (*(char *)((int)param_1 + 0x2c9) != '\0') {
     FUN_004a2bd0(param_1,extraout_EDX,extraout_ECX);
   }
   local_18 = 0;
   local_10 = (&PTR_DAT_004ab588)[*(byte *)(param_1 + 0xb7)];
-  local_c = FUN_004040a0((undefined *)param_1[0xc0]);
+  local_c = System__LStrToPChar((undefined *)param_1[0xc0]);
   param_1[0xb4] = 0;
   if (*(char *)((int)param_1 + 0x2d6) == '\0') {
     param_1[0xb4] = 2;
@@ -1095,7 +1101,7 @@ void FUN_004a2970(int *param_1)
   if (*(char *)((int)param_1 + 0x307) != '\0') {
     param_1[0xb4] = param_1[0xb4] | 0x100;
   }
-  local_18 = FUN_004349e0(param_1);
+  local_18 = Controls_TWinControl_GetHandle(param_1);
   MVar2 = mciSendCommandA(0,0x803,param_1[0xb4],(DWORD_PTR)&local_18);
   param_1[0xbb] = MVar2;
   if (MVar2 == 0) {
@@ -1128,19 +1134,19 @@ void FUN_004a2970(int *param_1)
     }
     cVar1 = FUN_004a3b58((int)param_1);
     if (cVar1 == '\x02') {
-      FUN_00403178(param_1,0,extraout_ECX_00);
+      System__CallDynaInst(param_1,0,extraout_ECX_00);
     }
     FUN_004a1ca0(param_1);
   }
   else {
     FUN_004a3c24((int)param_1,(int *)&local_2c);
-    piVar3 = FUN_0040b5d8((int *)&DAT_004a138c,'\x01',local_2c);
-    FUN_004036f4(piVar3);
+    piVar3 = SysUtils_Exception_Create((int *)&DAT_004a138c,'\x01',local_2c);
+    System__RaiseExcept(piVar3);
   }
   *in_FS_OFFSET = uStack_40;
   puStack_38 = &LAB_004a2bc2;
   puStack_3c = (undefined1 *)0x4a2bba;
-  FUN_00403c5c((int *)&local_2c);
+  System__LStrClr((int *)&local_2c);
   return;
 }
 
@@ -1171,7 +1177,7 @@ void FUN_004a2bd0(int *param_1,undefined4 param_2,int param_3)
       *(undefined1 *)((int)param_1 + 0x2d7) = 0;
     }
     local_c = param_3;
-    local_c = FUN_004349e0(param_1);
+    local_c = Controls_TWinControl_GetHandle(param_1);
     MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x804,param_1[0xb4],
                             (DWORD_PTR)&local_c);
     param_1[0xbb] = MVar1;
@@ -1233,7 +1239,7 @@ void FUN_004a2c98(int *param_1)
     local_c = param_1[0xb8];
     *(undefined1 *)((int)param_1 + 0x2d9) = 0;
   }
-  local_14 = FUN_004349e0(param_1);
+  local_14 = Controls_TWinControl_GetHandle(param_1);
   MVar3 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x806,param_1[0xb4],
                           (DWORD_PTR)&local_14);
   param_1[0xbb] = MVar3;
@@ -1278,7 +1284,7 @@ void FUN_004a2da8(int *param_1)
     local_8 = param_1[0xb8];
     *(undefined1 *)((int)param_1 + 0x2d9) = 0;
   }
-  local_10 = FUN_004349e0(param_1);
+  local_10 = Controls_TWinControl_GetHandle(param_1);
   MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x80f,param_1[0xb4],
                           (DWORD_PTR)&local_10);
   param_1[0xbb] = MVar1;
@@ -1312,7 +1318,7 @@ void FUN_004a2e80(int *param_1,undefined4 param_2,int param_3)
     }
     *(undefined1 *)((int)param_1 + 0x2d7) = 0;
   }
-  local_8 = FUN_004349e0(param_1);
+  local_8 = Controls_TWinControl_GetHandle(param_1);
   MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x808,param_1[0xb4],
                           (DWORD_PTR)&local_8);
   param_1[0xbb] = MVar1;
@@ -1333,8 +1339,9 @@ void FUN_004a2f14(int *param_1)
   undefined4 extraout_EDX_00;
   
   if (*(char *)((int)param_1 + 0x2c9) == '\0') {
-    piVar2 = FUN_0040b694((int *)&DAT_004a138c,'\x01',(undefined4 *)PTR_PTR_004ab74c);
-    FUN_004036f4(piVar2);
+    piVar2 = SysUtils_Exception_CreateRes
+                       ((int *)&DAT_004a138c,'\x01',(undefined4 *)PTR_PTR_004ab74c);
+    System__RaiseExcept(piVar2);
   }
   cVar1 = FUN_004a3b58((int)param_1);
   if (cVar1 == '\x02') {
@@ -1375,7 +1382,7 @@ void FUN_004a2f60(int *param_1,undefined4 param_2,int param_3)
     }
     *(undefined1 *)((int)param_1 + 0x2d7) = 0;
   }
-  local_8 = FUN_004349e0(param_1);
+  local_8 = Controls_TWinControl_GetHandle(param_1);
   MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x809,param_1[0xb4],
                           (DWORD_PTR)&local_8);
   param_1[0xbb] = MVar1;
@@ -1403,7 +1410,7 @@ void FUN_004a2ff4(int *param_1,undefined4 param_2,int param_3)
   if ((*(char *)((int)param_1 + 0x2d6) != '\0') && ((char)param_1[0xb5] != '\0')) {
     param_1[0xb4] = param_1[0xb4] | 2;
   }
-  local_c = FUN_004349e0(param_1);
+  local_c = Controls_TWinControl_GetHandle(param_1);
   MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x855,param_1[0xb4],
                           (DWORD_PTR)&local_c);
   param_1[0xbb] = MVar1;
@@ -1495,7 +1502,7 @@ void FUN_004a30a8(int *param_1)
   else {
     param_1[0xb4] = uVar3 | 0x200;
   }
-  local_14 = FUN_004349e0(param_1);
+  local_14 = Controls_TWinControl_GetHandle(param_1);
   MVar8 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x807,param_1[0xb4],
                           (DWORD_PTR)&local_14);
   param_1[0xbb] = MVar8;
@@ -1541,7 +1548,7 @@ void FUN_004a3238(int *param_1)
   if (cVar2 != '\n') {
     param_1[0xb4] = uVar1 | 0x100;
 LAB_004a33bf:
-    local_18 = FUN_004349e0(param_1);
+    local_18 = Controls_TWinControl_GetHandle(param_1);
     MVar8 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x807,param_1[0xb4],
                             (DWORD_PTR)&local_18);
     param_1[0xbb] = MVar8;
@@ -1633,7 +1640,7 @@ void FUN_004a33f4(int *param_1)
     }
     param_1[0xb4] = param_1[0xb4] | 0x20000;
     local_c = param_1[0xba];
-    local_10 = FUN_004349e0(param_1);
+    local_10 = Controls_TWinControl_GetHandle(param_1);
     MVar3 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x80e,param_1[0xb4],
                             (DWORD_PTR)&local_10);
     param_1[0xbb] = MVar3;
@@ -1671,7 +1678,7 @@ void FUN_004a34d0(int *param_1)
     }
     param_1[0xb4] = param_1[0xb4] | 0x30000;
     local_8 = param_1[0xba];
-    local_c = FUN_004349e0(param_1);
+    local_c = Controls_TWinControl_GetHandle(param_1);
     MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x80e,param_1[0xb4],
                             (DWORD_PTR)&local_c);
     param_1[0xbb] = MVar1;
@@ -1707,7 +1714,7 @@ void FUN_004a3594(int *param_1)
       *(undefined1 *)((int)param_1 + 0x2d7) = 0;
     }
     param_1[0xb4] = param_1[0xb4] | 0x100;
-    local_10[0] = FUN_004349e0(param_1);
+    local_10[0] = Controls_TWinControl_GetHandle(param_1);
     MVar1 = mciSendCommandA((uint)*(ushort *)((int)param_1 + 0x2da),0x80d,param_1[0xb4],
                             (DWORD_PTR)local_10);
     param_1[0xbb] = MVar1;
@@ -1818,7 +1825,7 @@ void TMediaPlayer_SetDisplay(int param_1,int *param_2)
   }
   else {
     *(undefined4 *)(param_1 + 0x2d0) = 0x10002;
-    local_18 = FUN_004349e0(param_2);
+    local_18 = Controls_TWinControl_GetHandle(param_2);
     MVar1 = mciSendCommandA((uint)*(ushort *)(param_1 + 0x2da),0x841,*(DWORD_PTR *)(param_1 + 0x2d0)
                             ,(DWORD_PTR)auStack_1c);
     *(MCIERROR *)(param_1 + 0x2ec) = MVar1;
@@ -1894,7 +1901,7 @@ void FUN_004a3834(int param_1,undefined4 *param_2)
   }
   if ((*(char *)(param_1 + 0x2c9) != '\0') && (*(char *)(param_1 + 0x2cf) != '\0')) {
     if ((local_40[3] == 0) && (local_40[2] == 0)) {
-      FUN_0040f7e8(local_40[0],local_40[1],*(undefined4 *)(param_1 + 0x2f8),local_1c,
+      Classes_Rect(local_40[0],local_40[1],*(undefined4 *)(param_1 + 0x2f8),local_1c,
                    *(undefined4 *)(param_1 + 0x2fc));
     }
     else {

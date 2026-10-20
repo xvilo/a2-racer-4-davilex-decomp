@@ -23,7 +23,7 @@ void TCustomIniFile_virtual_034(int *param_1,undefined4 param_2,undefined1 *para
   *in_FS_OFFSET = iVar1;
   puStack_1c = &LAB_00458386;
   iStack_20 = 0x45837e;
-  FUN_00403c5c(&local_8);
+  System__LStrClr(&local_8);
   return;
 }
 
@@ -50,7 +50,8 @@ void FUN_004583c4(int *param_1,undefined4 param_2,undefined4 param_3)
   undefined1 *puStack_1c;
   
   puStack_1c = (undefined1 *)0x4583df;
-  piVar1 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',param_3);
+  piVar1 = (int *)System_TObject_Create((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',param_3)
+  ;
   puStack_20 = &LAB_00458422;
   uStack_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_24;
@@ -60,7 +61,7 @@ void FUN_004583c4(int *param_1,undefined4 param_2,undefined4 param_3)
   *in_FS_OFFSET = uStack_24;
   puStack_1c = &LAB_00458429;
   puStack_20 = (undefined1 *)0x458421;
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -79,14 +80,14 @@ void TIniFile_virtual_000
   DWORD DVar1;
   CHAR local_804 [2048];
   
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
   DVar1 = 0x800;
   lpReturnedString = local_804;
-  lpDefault = FUN_004040a0(param_5);
-  lpKeyName = FUN_004040a0(param_3);
-  lpAppName = FUN_004040a0(param_2);
+  lpDefault = System__LStrToPChar(param_5);
+  lpKeyName = System__LStrToPChar(param_3);
+  lpAppName = System__LStrToPChar(param_2);
   DVar1 = GetPrivateProfileStringA(lpAppName,lpKeyName,lpDefault,lpReturnedString,DVar1,lpFileName);
-  FUN_00403d44(param_4,(undefined4 *)local_804,DVar1);
+  System__LStrFromPCharLen(param_4,(undefined4 *)local_804,DVar1);
   return;
 }
 
@@ -105,16 +106,16 @@ void TIniFile_virtual_004(int param_1,undefined *param_2,undefined *param_3,unde
   undefined4 local_c;
   undefined1 local_8;
   
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
-  lpString = FUN_004040a0(param_4);
-  lpKeyName = FUN_004040a0(param_3);
-  lpAppName = FUN_004040a0(param_2);
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
+  lpString = System__LStrToPChar(param_4);
+  lpKeyName = System__LStrToPChar(param_3);
+  lpAppName = System__LStrToPChar(param_2);
   BVar1 = WritePrivateProfileStringA(lpAppName,lpKeyName,lpString,lpFileName);
   if (BVar1 == 0) {
     local_c = *(undefined4 *)(param_1 + 4);
     local_8 = 0xb;
     uVar2 = FUN_0040b6d0((int)&DAT_00407624,'\x01',(undefined4 *)PTR_PTR_004ab938,0,&local_c);
-    FUN_004036f4(uVar2);
+    System__RaiseExcept(uVar2);
   }
   return;
 }
@@ -150,7 +151,7 @@ void TIniFile_virtual_03c(int param_1,int *param_2)
   *in_FS_OFFSET = &uStack_20;
   puStack_24 = (undefined1 *)0x458529;
   local_8 = param_2;
-  returned_string = (LPSTR)FUN_0040277c(0x4000);
+  returned_string = (LPSTR)System__GetMem(0x4000);
   puStack_28 = &LAB_004585d5;
   uStack_2c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_2c;
@@ -162,7 +163,7 @@ void TIniFile_virtual_03c(int param_1,int *param_2)
   *in_FS_OFFSET = &uStack_38;
   puStack_30 = &stack0xfffffffc;
   (**(code **)(*local_8 + 0x40))();
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
   DVar1 = GetPrivateProfileStringA
                     ((LPCSTR)0x0,(LPCSTR)0x0,(LPCSTR)0x0,returned_string,0x4000,lpFileName);
   pcVar3 = returned_string;
@@ -214,7 +215,7 @@ void TIniFile_virtual_038(int param_1,undefined *param_2,int *param_3)
   *in_FS_OFFSET = &uStack_24;
   puStack_28 = (undefined1 *)0x45862c;
   local_8 = param_3;
-  local_c = (char *)FUN_0040277c(0x4000);
+  local_c = (char *)System__GetMem(0x4000);
   puStack_2c = &LAB_004586de;
   uStack_30 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_30;
@@ -226,12 +227,12 @@ void TIniFile_virtual_038(int param_1,undefined *param_2,int *param_3)
   *in_FS_OFFSET = &uStack_3c;
   puStack_34 = &stack0xfffffffc;
   (**(code **)(*local_8 + 0x40))();
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
   DVar2 = 0x4000;
   lpDefault = (LPCSTR)0x0;
   lpKeyName = (LPCSTR)0x0;
   returned_string = local_c;
-  lpAppName = FUN_004040a0(param_2);
+  lpAppName = System__LStrToPChar(param_2);
   DVar2 = GetPrivateProfileStringA(lpAppName,lpKeyName,lpDefault,returned_string,DVar2,lpFileName);
   returned_string = local_c;
   if (DVar2 != 0) {
@@ -285,7 +286,8 @@ void TIniFile_virtual_040(int *param_1,undefined4 param_2,int *param_3)
   local_10 = param_3;
   local_c = param_2;
   local_8 = param_1;
-  local_14 = (int *)FUN_00402f6c((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',param_3);
+  local_14 = (int *)System_TObject_Create
+                              ((int *)&PTR_TPersistent_virtual_000_0040eee8,'\x01',param_3);
   puStack_40 = &LAB_004587fa;
   uStack_44 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_44;
@@ -332,16 +334,16 @@ void TIniFile_virtual_044(int param_1,undefined *param_2)
   undefined4 local_10;
   undefined1 local_c;
   
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
   lpString = (LPCSTR)0x0;
   lpKeyName = (LPCSTR)0x0;
-  lpAppName = FUN_004040a0(param_2);
+  lpAppName = System__LStrToPChar(param_2);
   BVar1 = WritePrivateProfileStringA(lpAppName,lpKeyName,lpString,lpFileName);
   if (BVar1 == 0) {
     local_10 = *(undefined4 *)(param_1 + 4);
     local_c = 0xb;
     uVar2 = FUN_0040b6d0((int)&DAT_00407624,'\x01',(undefined4 *)PTR_PTR_004ab938,0,&local_10);
-    FUN_004036f4(uVar2);
+    System__RaiseExcept(uVar2);
   }
   return;
 }
@@ -357,10 +359,10 @@ void TIniFile_virtual_048(int param_1,undefined *param_2,undefined *param_3)
   LPCSTR lpAppName;
   LPCSTR lpString;
   
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
   lpString = (LPCSTR)0x0;
-  lpKeyName = FUN_004040a0(param_3);
-  lpAppName = FUN_004040a0(param_2);
+  lpKeyName = System__LStrToPChar(param_3);
+  lpAppName = System__LStrToPChar(param_2);
   WritePrivateProfileStringA(lpAppName,lpKeyName,lpString,lpFileName);
   return;
 }
@@ -373,7 +375,7 @@ void TIniFile_virtual_04c(int param_1)
 {
   LPCSTR lpFileName;
   
-  lpFileName = FUN_004040a0(*(undefined **)(param_1 + 4));
+  lpFileName = System__LStrToPChar(*(undefined **)(param_1 + 4));
   WritePrivateProfileStringA((LPCSTR)0x0,(LPCSTR)0x0,(LPCSTR)0x0,lpFileName);
   return;
 }
@@ -433,7 +435,7 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
       do {
         i_val = (*param_1 & 0x7f) + 1;
         if (SCARRY4((uint)(*param_1 & 0x7f),1)) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           i_val = extraout_ECX;
           param_2 = extraout_EDX;
         }
@@ -441,7 +443,7 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
         if (*param_1 < 0x80) {
           param_1 = param_1 + 1;
           if (SBORROW4(i_val,1)) {
-            param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+            param_1 = (byte *)System__RunError((uint)param_1);
             iVar2 = extraout_ECX_02;
             param_2 = extraout_EDX_02;
           }
@@ -457,19 +459,19 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
           }
           i_val = (int)((longlong)iVar2 * 3);
           if ((longlong)i_val != (longlong)iVar2 * 3) {
-            param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+            param_1 = (byte *)System__RunError((uint)param_1);
             iVar2 = extraout_ECX_03;
             param_2 = extraout_EDX_03;
           }
           if (SCARRY4(i_val,1)) {
-            param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+            param_1 = (byte *)System__RunError((uint)param_1);
             iVar2 = extraout_ECX_04;
             param_2 = extraout_EDX_04;
           }
           bVar3 = SCARRY4(local_c,i_val + 1);
           local_c = local_c + i_val + 1;
           if (bVar3) {
-            param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+            param_1 = (byte *)System__RunError((uint)param_1);
             iVar2 = extraout_ECX_05;
             param_2 = extraout_EDX_05;
           }
@@ -477,7 +479,7 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
         else {
           pbVar1 = param_1 + 1;
           if (SBORROW4(i_val,1)) {
-            pbVar1 = (byte *)thunk_FUN_00402808((uint)pbVar1);
+            pbVar1 = (byte *)System__RunError((uint)pbVar1);
             iVar2 = extraout_ECX_00;
             param_2 = extraout_EDX_00;
           }
@@ -494,21 +496,21 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
           bVar3 = SCARRY4(local_c,4);
           local_c = local_c + 4;
           if (bVar3) {
-            param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+            param_1 = (byte *)System__RunError((uint)param_1);
             iVar2 = extraout_ECX_01;
             param_2 = extraout_EDX_01;
           }
         }
         i_val = (int)((longlong)iVar2 * 3);
         if ((longlong)i_val != (longlong)iVar2 * 3) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           i_val = extraout_ECX_06;
           param_2 = extraout_EDX_06;
         }
         bVar3 = SCARRY4(local_10,i_val);
         local_10 = local_10 + i_val;
         if (bVar3) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           param_2 = extraout_EDX_07;
         }
       } while (local_10 < param_3);
@@ -518,7 +520,7 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
     do {
       i_val = (*param_1 & 0x7f) + 1;
       if (SCARRY4((uint)(*param_1 & 0x7f),1)) {
-        param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+        param_1 = (byte *)System__RunError((uint)param_1);
         i_val = extraout_ECX_07;
         param_2 = extraout_EDX_08;
       }
@@ -526,7 +528,7 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
       if (*param_1 < 0x80) {
         param_1 = param_1 + 1;
         if (SBORROW4(i_val,1)) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           iVar2 = extraout_ECX_10;
           param_2 = extraout_EDX_11;
         }
@@ -543,19 +545,19 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
         }
         i_val = (int)((longlong)iVar2 * 4);
         if ((longlong)i_val != (longlong)iVar2 * 4) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           iVar2 = extraout_ECX_11;
           param_2 = extraout_EDX_12;
         }
         if (SCARRY4(i_val,1)) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           iVar2 = extraout_ECX_12;
           param_2 = extraout_EDX_13;
         }
         bVar3 = SCARRY4(local_c,i_val + 1);
         local_c = local_c + i_val + 1;
         if (bVar3) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           iVar2 = extraout_ECX_13;
           param_2 = extraout_EDX_14;
         }
@@ -563,7 +565,7 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
       else {
         pbVar1 = param_1 + 1;
         if (SBORROW4(i_val,1)) {
-          pbVar1 = (byte *)thunk_FUN_00402808((uint)pbVar1);
+          pbVar1 = (byte *)System__RunError((uint)pbVar1);
           iVar2 = extraout_ECX_08;
           param_2 = extraout_EDX_09;
         }
@@ -581,21 +583,21 @@ int FUN_00458a04(byte *param_1,byte *param_2,int param_3,int param_4)
         bVar3 = SCARRY4(local_c,5);
         local_c = local_c + 5;
         if (bVar3) {
-          param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+          param_1 = (byte *)System__RunError((uint)param_1);
           iVar2 = extraout_ECX_09;
           param_2 = extraout_EDX_10;
         }
       }
       i_val = (int)((longlong)iVar2 * 4);
       if ((longlong)i_val != (longlong)iVar2 * 4) {
-        param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+        param_1 = (byte *)System__RunError((uint)param_1);
         i_val = extraout_ECX_14;
         param_2 = extraout_EDX_15;
       }
       bVar3 = SCARRY4(local_10,i_val);
       local_10 = local_10 + i_val;
       if (bVar3) {
-        param_1 = (byte *)thunk_FUN_00402808((uint)param_1);
+        param_1 = (byte *)System__RunError((uint)param_1);
         param_2 = extraout_EDX_16;
       }
     } while (local_10 < param_3);
@@ -667,33 +669,33 @@ void TTarga_virtual_050(int *param_1,int *param_2)
   FUN_00456634(param_1,param_2,0);
   (**(code **)(*param_2 + 4))(param_2,&local_2e,0x12);
   if (local_2d != '\0') {
-    FUN_00402ee4(*local_8,local_138);
-    FUN_00403e80(&local_38,local_138);
+    System_TObject_ClassName(*local_8,local_138);
+    System__LStrFromString(&local_38,local_138);
     pcStack_170 = ".LoadFromStream";
     puStack_174 = &DAT_00459064;
-    FUN_00403f9c(&local_34,4);
-    FUN_00403c40(local_34);
+    System__LStrCatN(&local_34,4);
+    System__Assert(local_34);
   }
   if (local_2d != '\x01') {
     local_17 = (local_2c & 8) != 0;
     local_2c = local_2c & 0xf7;
     if (local_2c != 2) {
-      FUN_00402ee4(*local_8,local_138);
-      FUN_00403e80(local_14c + 3,local_138);
+      System_TObject_ClassName(*local_8,local_138);
+      System__LStrFromString(local_14c + 3,local_138);
       pcStack_170 = ".LoadFromStream";
       puStack_174 = &DAT_00459064;
-      FUN_00403f9c(local_14c + 4,4);
-      FUN_00403c40(local_14c[4]);
+      System__LStrCatN(local_14c + 4,4);
+      System__Assert(local_14c[4]);
     }
     if (local_2c == 2) {
       if ((local_1e != 0x18) && (local_1e != 0x20)) {
-        FUN_00402ee4(*local_8,local_138);
-        FUN_00403e80(local_14c + 1,local_138);
+        System_TObject_ClassName(*local_8,local_138);
+        System__LStrFromString(local_14c + 1,local_138);
         pcStack_170 = ".LoadFromStream";
         puStack_174 = &DAT_00459064;
         pcStack_168 = "Not a 24 or 32 bit Targa file";
-        FUN_00403f9c(local_14c + 2,4);
-        FUN_00403c40(local_14c[2]);
+        System__LStrCatN(local_14c + 2,4);
+        System__Assert(local_14c[2]);
       }
       if ((local_1e == 0x18) || (local_1e == 0x20)) {
         pcStack_170 = (char *)0x458df0;
@@ -701,7 +703,7 @@ void TTarga_virtual_050(int *param_1,int *param_2)
         if ((local_1d & 0x20) == 0) {
           uVar1 = local_20 - 1;
           if (SBORROW4((uint)local_20,1)) {
-            uVar1 = thunk_FUN_00402808(uVar1);
+            uVar1 = System__RunError(uVar1);
           }
           local_c = 0xffffffff;
           local_10 = uVar1;
@@ -711,31 +713,31 @@ void TTarga_virtual_050(int *param_1,int *param_2)
           local_c = 1;
         }
         if (local_2e == 0) {
-          FUN_00403c5c(local_8 + 0x132);
+          System__LStrClr(local_8 + 0x132);
         }
         else {
           FUN_00404210(local_8 + 0x132,(uint)local_2e);
           uVar1 = FUN_004040ac(local_8 + 0x132);
           i_val = 0;
           if (*(int *)(uVar1 - 4) == 0) {
-            uVar1 = thunk_FUN_00402808(uVar1);
+            uVar1 = System__RunError(uVar1);
             i_val = extraout_EDX;
           }
           (**(code **)(*param_2 + 4))(param_2,uVar1 + i_val,local_2e);
         }
         uVar1 = (uint)(local_1e >> 3) * (uint)local_22;
         if (0xffff < uVar1) {
-          uVar1 = thunk_FUN_00402808(uVar1);
+          uVar1 = System__RunError(uVar1);
         }
         local_16 = (ushort)uVar1;
         if (local_8[0x24] < (int)(uVar1 & 0xffff)) {
-          FUN_00402ee4(*local_8,local_138);
-          FUN_00403e80(&local_150,local_138);
+          System_TObject_ClassName(*local_8,local_138);
+          System__LStrFromString(&local_150,local_138);
           pcStack_170 = ".LoadFromStream";
           puStack_174 = &DAT_00459064;
           pcStack_168 = "Targa image doesn\'t fit in the DIB";
-          FUN_00403f9c(local_14c,4);
-          FUN_00403c40(local_14c[0]);
+          System__LStrCatN(local_14c,4);
+          System__Assert(local_14c[0]);
         }
         local_14 = local_10;
         if (local_17 != '\0') {
@@ -745,7 +747,7 @@ void TTarga_virtual_050(int *param_1,int *param_2)
           *in_FS_OFFSET = &puStack_174;
           uVar1 = local_20 - 1;
           if (SBORROW4((uint)local_20,1)) {
-            uVar1 = thunk_FUN_00402808(uVar1);
+            uVar1 = System__RunError(uVar1);
           }
           if (-1 < (int)uVar1) {
             i_val = uVar1 + 1;
@@ -757,30 +759,30 @@ void TTarga_virtual_050(int *param_1,int *param_2)
               iVar5 = FUN_00412664(param_2);
               uVar1 = iVar5 - iVar2;
               if (SBORROW4(iVar5,iVar2)) {
-                uVar1 = thunk_FUN_00402808(uVar1);
+                uVar1 = System__RunError(uVar1);
               }
               iVar2 = iVar4 + uVar1;
               if (SCARRY4(iVar4,uVar1)) {
-                thunk_FUN_00402808(uVar1);
+                System__RunError(uVar1);
                 iVar2 = extraout_EDX_00;
               }
               FUN_00412674(param_2,iVar2);
               bVar7 = SCARRY4(local_14,local_c);
               local_14 = local_14 + local_c;
               if (bVar7) {
-                thunk_FUN_00402808(local_c);
+                System__RunError(local_c);
               }
               i_val = i_val + -1;
             } while (i_val != 0);
           }
           *in_FS_OFFSET = puStack_174;
           pcStack_170 = (char *)0x458fc5;
-          FUN_00402794((int)local_1c);
+          System__FreeMem((int)local_1c);
           return;
         }
         uVar1 = local_20 - 1;
         if (SBORROW4((uint)local_20,1)) {
-          uVar1 = thunk_FUN_00402808(uVar1);
+          uVar1 = System__RunError(uVar1);
         }
         if (-1 < (int)uVar1) {
           i_val = uVar1 + 1;
@@ -790,7 +792,7 @@ void TTarga_virtual_050(int *param_1,int *param_2)
             bVar7 = SCARRY4(local_14,local_c);
             local_14 = local_14 + local_c;
             if (bVar7) {
-              thunk_FUN_00402808(local_c);
+              System__RunError(local_c);
             }
             i_val = i_val + -1;
           } while (i_val != 0);
@@ -801,9 +803,9 @@ void TTarga_virtual_050(int *param_1,int *param_2)
   *in_FS_OFFSET = pcStack_168;
   puStack_160 = &LAB_0045903c;
   puStack_164 = (undefined1 *)0x459027;
-  FUN_00403c80(&local_150,6);
+  System__LStrArrayClr(&local_150,6);
   puStack_164 = (undefined1 *)0x459034;
-  FUN_00403c80(&local_38,2);
+  System__LStrArrayClr(&local_38,2);
   return;
 }
 
@@ -851,33 +853,33 @@ void TTarga_virtual_054(int *param_1,int *param_2)
   cVar1 = (**(code **)(*param_1 + 0x1c))();
   if (cVar1 == '\0') {
     if ((param_1[0xf] != 0x18) && (param_1[0xf] != 0x20)) {
-      FUN_00402ee4(*param_1,local_128);
-      FUN_00403e80(&local_28,local_128);
-      FUN_00403f9c(&local_24,4);
-      FUN_00403c40(local_24);
+      System_TObject_ClassName(*param_1,local_128);
+      System__LStrFromString(&local_28,local_128);
+      System__LStrCatN(&local_24,4);
+      System__Assert(local_24);
     }
     if ((param_1[0xf] == 0x18) || (param_1[0xf] == 0x20)) {
       FUN_00407090((undefined4 *)local_20,0x12);
-      uVar2 = FUN_00403edc(param_1[0x132]);
+      uVar2 = System__LStrLen(param_1[0x132]);
       if (0xff < uVar2) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       local_20[0] = (char)uVar2;
       local_20[1] = 0;
       local_20[2] = 2;
       uVar2 = param_1[0x23];
       if (0xffff < uVar2) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       local_14 = (ushort)uVar2;
       uVar2 = param_1[0x10];
       if (0xffff < uVar2) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       local_12 = (ushort)uVar2;
       uVar2 = param_1[0xf];
       if (0xff < uVar2) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       local_10 = (byte)uVar2;
       local_f = 0x20;
@@ -886,27 +888,27 @@ void TTarga_virtual_054(int *param_1,int *param_2)
         uVar2 = FUN_004040ac(param_1 + 0x132);
         iVar4 = 0;
         if (*(int *)(uVar2 - 4) == 0) {
-          uVar2 = thunk_FUN_00402808(uVar2);
+          uVar2 = System__RunError(uVar2);
           iVar4 = extraout_EDX;
         }
         (**(code **)(*local_8 + 8))(local_8,uVar2 + iVar4,local_20[0]);
       }
       uVar2 = (uint)(local_10 >> 3) * (uint)local_14;
       if (0xffff < uVar2) {
-        uVar2 = thunk_FUN_00402808(uVar2);
+        uVar2 = System__RunError(uVar2);
       }
       local_e = (undefined2)uVar2;
       uVar2 = uVar2 & 0xffff;
       if (param_1[0x24] < (int)uVar2) {
-        FUN_00402ee4(*param_1,local_128);
-        FUN_00403e80(&local_130,local_128);
+        System_TObject_ClassName(*param_1,local_128);
+        System__LStrFromString(&local_130,local_128);
         pcStack_148 = "Targa destination image is larger than DIB";
-        FUN_00403f9c(&local_12c,4);
-        uVar2 = FUN_00403c40(local_12c);
+        System__LStrCatN(&local_12c,4);
+        uVar2 = System__Assert(local_12c);
       }
       j = (uint)local_12;
       if (SBORROW4(j,1)) {
-        thunk_FUN_00402808(uVar2);
+        System__RunError(uVar2);
       }
       if (-1 < (int)(j - 1)) {
         i_val = 0;
@@ -922,9 +924,9 @@ void TTarga_virtual_054(int *param_1,int *param_2)
   *in_FS_OFFSET = pcStack_148;
   puStack_140 = &LAB_0045938c;
   puStack_144 = (undefined1 *)0x459377;
-  FUN_00403c80(&local_130,2);
+  System__LStrArrayClr(&local_130,2);
   puStack_144 = (undefined1 *)0x459384;
-  FUN_00403c80(&local_28,2);
+  System__LStrArrayClr(&local_28,2);
   return;
 }
 

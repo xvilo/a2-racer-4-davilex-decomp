@@ -18,18 +18,19 @@ int * TDaviLinkedGraphic_virtual_014(int *param_1,char param_2,undefined4 param_
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
-  FUN_00402f6c(param_1,'\0',param_3);
+  System_TObject_Create(param_1,'\0',param_3);
   *(undefined1 *)(param_1 + 1) = 1;
   piVar1 = TDIB_virtual_00c((int *)&LAB_00454aa4,'\x01',extraout_ECX_00);
   param_1[3] = (int)piVar1;
-  piVar1 = (int *)FUN_0040312c(piVar1,(int)&LAB_00454aa4);
+  piVar1 = (int *)System__AsClass(piVar1,(int)&LAB_00454aa4);
   FUN_00456634(piVar1,extraout_EDX,extraout_ECX_01);
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -50,13 +51,13 @@ void TDaviLinkedGraphic_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x45cb7b;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_0045cbb6;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
   local_9 = extraout_DL;
-  FUN_0040c968(local_8 + 3);
+  SysUtils_FreeAndNil(local_8 + 3);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0045cbbd;
   puStack_14 = (undefined1 *)0x45cbb5;
@@ -79,21 +80,21 @@ void FUN_0045cbd0(undefined4 param_1,uint *param_2)
   
   puStack_10 = (undefined1 *)0x45cbe0;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_14 = &LAB_0045cc50;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   bVar1 = true;
   puStack_10 = &stack0xfffffffc;
-  FUN_00403fec(local_8,(uint *)&DAT_0045cc68);
-  if (((!bVar1) && (FUN_00403fec(local_8,(uint *)&DAT_0045cc78), !bVar1)) &&
-     (FUN_00403fec(local_8,(uint *)&DAT_0045cc88), !bVar1)) {
-    FUN_00403fec(local_8,(uint *)&DAT_0045cc98);
+  System__LStrCmp(local_8,(uint *)&DAT_0045cc68);
+  if (((!bVar1) && (System__LStrCmp(local_8,(uint *)&DAT_0045cc78), !bVar1)) &&
+     (System__LStrCmp(local_8,(uint *)&DAT_0045cc88), !bVar1)) {
+    System__LStrCmp(local_8,(uint *)&DAT_0045cc98);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0045cc57;
   puStack_14 = (undefined1 *)0x45cc4f;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -123,11 +124,11 @@ void FUN_0045cca0(int *param_1,char param_2)
   puStack_11c = &LAB_0045cdb6;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_0040c968(param_1 + 3);
+  SysUtils_FreeAndNil(param_1 + 3);
   if (param_2 == '\0') {
     piVar2 = TDIB_virtual_00c((int *)&LAB_00454aa4,'\x01',extraout_ECX);
     param_1[3] = (int)piVar2;
-    piVar2 = (int *)FUN_0040312c(piVar2,(int)&LAB_00454aa4);
+    piVar2 = (int *)System__AsClass(piVar2,(int)&LAB_00454aa4);
     FUN_00456634(piVar2,extraout_EDX,extraout_ECX_00);
   }
   else if (param_2 == '\x01') {
@@ -144,17 +145,17 @@ void FUN_0045cca0(int *param_1,char param_2)
     param_1[3] = (int)piVar2;
   }
   else {
-    FUN_00402ee4(*param_1,local_10c);
-    FUN_00403e80(&local_c,local_10c);
+    System_TObject_ClassName(*param_1,local_10c);
+    System__LStrFromString(&local_c,local_10c);
     pcStack_130 = " Unhandled case-part";
-    FUN_00403f9c(&local_8,4);
-    FUN_00403c40(local_8);
+    System__LStrCatN(&local_8,4);
+    System__Assert(local_8);
   }
   iVar1 = param_1[3];
   *(int *)(iVar1 + 8) = param_1[4];
   *(int *)(iVar1 + 0xc) = param_1[5];
   *in_FS_OFFSET = pcStack_130;
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -218,26 +219,26 @@ void TDaviLinkedGraphic_SetFilename(int *param_1,uint *param_2)
   uVar4 = param_2 == (uint *)0x0;
   puVar1 = &stack0xfffffffc;
   if (!(bool)uVar4) {
-    uVar3 = FUN_004087a4((undefined *)param_2);
+    uVar3 = SysUtils_FileExists((undefined *)param_2);
     uVar4 = 0;
     puVar1 = puStack_12c;
     if (((char)uVar3 == '\0') && (uVar4 = (char)param_1[1] == '\0', !(bool)uVar4)) {
-      FUN_00402ee4(*param_1,local_10c);
-      FUN_00403e80(&local_c,local_10c);
+      System_TObject_ClassName(*param_1,local_10c);
+      System__LStrFromString(&local_c,local_10c);
       local_114 = 0xb;
       uVar4 = 1;
       local_118 = param_2;
-      FUN_00409254((byte *)" File \"%s\" not found",&local_118,0,&local_110);
+      SysUtils_Format((byte *)" File \"%s\" not found",&local_118,0,&local_110);
       in_stack_fffffec0 = local_110;
-      FUN_00403f9c(&local_8,3);
-      FUN_00403c40(local_8);
+      System__LStrCatN(&local_8,3);
+      System__Assert(local_8);
       puVar1 = puStack_12c;
     }
   }
   puStack_12c = puVar1;
-  FUN_00403fec(param_2,(uint *)param_1[2]);
+  System__LStrCmp(param_2,(uint *)param_1[2]);
   if ((!(bool)uVar4) && ((char)param_1[1] == '\x01')) {
-    FUN_00403cb0(param_1 + 2,param_2);
+    System__LStrAsg(param_1 + 2,param_2);
     FUN_00408a68((undefined *)param_1[2],(int *)&local_120);
     FUN_0040822c(local_120,(int *)&local_11c);
     cVar2 = FUN_0045cbd0(param_1,local_11c);
@@ -249,9 +250,9 @@ void TDaviLinkedGraphic_SetFilename(int *param_1,uint *param_2)
     (**(code **)(*param_1 + 0x10))(param_1,param_1);
   }
   *in_FS_OFFSET = in_stack_fffffec0;
-  FUN_00403c80((int *)&local_120,2);
-  FUN_00403c5c(&local_110);
-  FUN_00403c80(&local_c,2);
+  System__LStrArrayClr((int *)&local_120,2);
+  System__LStrClr(&local_110);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 
@@ -264,9 +265,9 @@ void TDaviLinkedGraphic_virtual_008(int *param_1,int *param_2)
   undefined4 uVar1;
   int iVar2;
   
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TPersistent_virtual_000_0045ca28);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TPersistent_virtual_000_0045ca28);
   if ((char)uVar1 == '\0') {
-    uVar1 = FUN_00403114(param_2,(int)&PTR_TPersistent_virtual_000_00416f48);
+    uVar1 = System__IsClass(param_2,(int)&PTR_TPersistent_virtual_000_00416f48);
     if ((char)uVar1 == '\0') {
       TPersistent_virtual_008(param_1,param_2);
     }
@@ -276,8 +277,8 @@ void TDaviLinkedGraphic_virtual_008(int *param_1,int *param_2)
     }
   }
   else {
-    iVar2 = FUN_0040312c(param_2,(int)&PTR_TPersistent_virtual_000_0045ca28);
-    FUN_00403cb0(param_1 + 2,*(undefined4 **)(iVar2 + 8));
+    iVar2 = System__AsClass(param_2,(int)&PTR_TPersistent_virtual_000_0045ca28);
+    System__LStrAsg(param_1 + 2,*(undefined4 **)(iVar2 + 8));
     *(undefined1 *)(param_1 + 1) = *(undefined1 *)(iVar2 + 4);
     (**(code **)(*(int *)param_1[3] + 8))((int *)param_1[3],*(undefined4 *)(iVar2 + 0xc));
     (**(code **)(*param_1 + 0x10))(param_1,param_1);
@@ -292,7 +293,7 @@ void FUN_0045d0d8(int *param_1,int param_2)
 
 {
   if (param_2 == 0) {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   (**(code **)(*(int *)param_1[3] + 0x50))((int *)param_1[3],param_2);
   (**(code **)(*param_1 + 0xc))(param_1,param_1);
@@ -317,11 +318,11 @@ bool FUN_0045d374(void)
   piVar1 = *(int **)(*(int *)(in_stack_00000004 + -4) + 0x20);
   if (piVar1 != (int *)0x0) {
     bVar4 = false;
-    uVar2 = FUN_00403114(piVar1,(int)&PTR_TPersistent_virtual_000_0045ca28);
+    uVar2 = System__IsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045ca28);
     uVar5 = (char)uVar2 == '\0';
     if (!(bool)uVar5) {
-      iVar3 = FUN_0040312c(piVar1,(int)&PTR_TPersistent_virtual_000_0045ca28);
-      FUN_00403fec(*(uint **)(*(int *)(in_stack_00000004 + -8) + 8),*(uint **)(iVar3 + 8));
+      iVar3 = System__AsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045ca28);
+      System__LStrCmp(*(uint **)(*(int *)(in_stack_00000004 + -8) + 8),*(uint **)(iVar3 + 8));
       bVar4 = !(bool)uVar5;
     }
   }
@@ -363,12 +364,12 @@ void TDaviLinkedGraphic_virtual_004(int param_1,int *param_2)
   puVar2 = &LAB_0045d16c;
   iVar3 = local_c;
   iVar5 = local_c;
-  FUN_00402ee4(**(int **)(local_c + 0xc),local_110);
-  FUN_00403e80(&local_10,local_110);
+  System_TObject_ClassName(**(int **)(local_c + 0xc),local_110);
+  System__LStrFromString(&local_10,local_110);
   (**(code **)(*local_8 + 8))
             (local_8,local_10,*(char *)(local_c + 4) == '\0' && bVar1,puVar2,iVar3,pcVar4,iVar5);
   *in_FS_OFFSET = puVar2;
-  FUN_00403c5c(&local_10);
+  System__LStrClr(&local_10);
   return;
 }
 

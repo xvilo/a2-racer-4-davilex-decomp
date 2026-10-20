@@ -5,7 +5,7 @@
 void TfrmDeletePlayer_virtual_0e4(undefined4 param_1,int *param_2)
 
 {
-  FUN_00403cb0(param_2,(undefined4 *)"popempty");
+  System__LStrAsg(param_2,(undefined4 *)"popempty");
   return;
 }
 
@@ -23,16 +23,16 @@ void FUN_00496dc4(int param_1,undefined4 *param_2)
   
   puStack_10 = (undefined1 *)0x496dd6;
   local_8 = param_2;
-  FUN_00404090((int)param_2);
+  System__LStrAddRef((int)param_2);
   puStack_14 = &LAB_00496e08;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
-  FUN_00403cb0((int *)(param_1 + 0x300),local_8);
+  System__LStrAsg((int *)(param_1 + 0x300),local_8);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00496e0f;
   puStack_14 = (undefined1 *)0x496e07;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -58,13 +58,13 @@ void TfrmDeletePlayer_GDIFormShow(int *param_1)
   TfrmCoolDialog_GDIFormShow(param_1);
   local_10 = param_1[0xc0];
   local_c = 0xb;
-  FUN_00409254(*(byte **)(PTR_DAT_004ab8b4 + 0xc),&local_10,0,(int *)&local_8);
+  SysUtils_Format(*(byte **)(PTR_DAT_004ab8b4 + 0xc),&local_10,0,(int *)&local_8);
   TGroupBox_SetCaption(param_1[0xbf],local_8);
   TGDIButton_SetDefinition((int *)param_1[0xbd],*(int *)(*(int *)PTR_DAT_004ab694 + 0x9c));
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_00496e9d;
   puStack_1c = (undefined1 *)0x496e95;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 

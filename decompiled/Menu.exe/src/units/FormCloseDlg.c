@@ -10,7 +10,7 @@ undefined4 FUN_0049e048(void)
   
   piVar1 = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_0049de64,'\x01',0);
   uVar2 = (**(code **)(*piVar1 + 0xd8))();
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   return uVar2;
 }
 

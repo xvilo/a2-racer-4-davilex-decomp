@@ -61,12 +61,12 @@ void FUN_004a0304(int param_1)
   TGroupBox_SetCaption(*(int *)(param_1 + 0x2f8),*(uint **)(iVar1 + 0x38));
   local_10 = *(undefined4 *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x2c) + 8);
   local_c = 0;
-  FUN_00409254(*(byte **)(PTR_DAT_004ab8b4 + 0x24),&local_10,0,(int *)&local_8);
+  SysUtils_Format(*(byte **)(PTR_DAT_004ab8b4 + 0x24),&local_10,0,(int *)&local_8);
   TGroupBox_SetCaption(*(int *)(param_1 + 0x2fc),local_8);
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_004a03ab;
   puStack_1c = (undefined1 *)0x4a03a3;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 

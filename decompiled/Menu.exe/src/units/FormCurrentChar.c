@@ -45,7 +45,7 @@ void TfrmCurrentChar_FormShow(int *param_1)
   TBaseFormOneWay_FormShow((int)param_1);
   FUN_0049b630(param_1,extraout_EDX,extraout_ECX);
   iVar2 = FUN_0048d458(*(int *)(*(int *)(*(int *)puVar1 + 0xc0) + 0x10));
-  FUN_004085ac(*(undefined4 *)(iVar2 + 8),(int *)&local_8);
+  SysUtils_IntToStr(*(undefined4 *)(iVar2 + 8),(int *)&local_8);
   TGroupBox_SetCaption(param_1[0xc6],local_8);
   iVar2 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
   FUN_00489e40(*(int **)(*(int *)puVar1 + 0xb4),(int *)param_1[0xc2],(undefined4 *)"chara_",
@@ -59,7 +59,7 @@ void TfrmCurrentChar_FormShow(int *param_1)
   FUN_00480448(*(int **)puVar1,(undefined4 *)&DAT_0049b614);
   *in_FS_OFFSET = iVar2;
   puStack_1c = &LAB_0049b5e9;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -104,7 +104,7 @@ void FUN_0049b630(int *param_1,undefined4 param_2,undefined4 param_3)
   iVar2 = *(int *)(param_1[0xc3] + 0x30);
   iVar4 = *(int *)(param_1[0xc4] + 0x30) - iVar2;
   if (SBORROW4(*(int *)(param_1[0xc4] + 0x30),iVar2)) {
-    thunk_FUN_00402808((uint)piVar3);
+    System__RunError((uint)piVar3);
     iVar4 = extraout_ECX;
     iVar2 = extraout_EDX;
   }
@@ -112,7 +112,7 @@ void FUN_0049b630(int *param_1,undefined4 param_2,undefined4 param_3)
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_0049b6e8;
   puStack_18 = (undefined1 *)0x49b6e0;
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   return;
 }
 

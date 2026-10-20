@@ -21,11 +21,11 @@ void TDaviGraphicHintWindow_virtual_0bc
   }
   local_8 = param_3;
   if (param_4 == (int *)0x0) {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
-  uVar1 = FUN_00403114(param_4,(int)&PTR_TPersistent_virtual_000_0045d61c);
+  uVar1 = System__IsClass(param_4,(int)&PTR_TPersistent_virtual_000_0045d61c);
   if ((char)uVar1 == '\0') {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   piVar2 = FUN_0045dd74((int)param_4,6);
   param_1[0x80] = (int)piVar2;
@@ -52,53 +52,53 @@ void TDaviGraphicHintWindow_virtual_0c0
   LPRECT lprc;
   
   if (param_5 == (int *)0x0) {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
-  uVar2 = FUN_00403114(param_5,(int)&PTR_TPersistent_virtual_000_0045d61c);
+  uVar2 = System__IsClass(param_5,(int)&PTR_TPersistent_virtual_000_0045d61c);
   if ((char)uVar2 == '\0') {
-    FUN_00403c40("Assertion failure");
+    System__Assert("Assertion failure");
   }
   piVar3 = FUN_0045dd74((int)param_5,6);
   text = (**(code **)(*piVar3 + 0x20))();
   format_val = text - 1;
   if (SBORROW4(text,1)) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
-  FUN_0040f7e8(0,0,param_2,&param_4->left,format_val);
+  Classes_Rect(0,0,param_2,&param_4->left,format_val);
   piVar3 = *(int **)(*(int *)(param_1 + 0x1f0) + 0xc);
   (**(code **)(*piVar3 + 8))(piVar3,param_5[0x14]);
   format_val = FUN_004306a8(param_1);
   format_val = format_val | 0xc10;
   if ((int)format_val < 0) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   text = -1;
   lprc = param_4;
-  lpchText = FUN_004040a0(param_3);
+  lpchText = System__LStrToPChar(param_3);
   hdc = (HDC)FUN_004194d8(*(int **)(param_1 + 0x1f0));
   format_val = DrawTextA(hdc,lpchText,text,lprc,format_val);
   pLVar1 = &param_4->right;
   text = *pLVar1;
   *pLVar1 = *pLVar1 + 6;
   if (SCARRY4(text,6)) {
-    thunk_FUN_00402808(format_val);
+    System__RunError(format_val);
   }
   piVar3 = FUN_0045dd74((int)param_5,6);
   text = (**(code **)(*piVar3 + 0x20))();
   format_val = text + param_4->top;
   if (SCARRY4(text,param_4->top)) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   uVar4 = format_val - 1;
   if (SBORROW4(format_val,1)) {
-    uVar4 = thunk_FUN_00402808(uVar4);
+    uVar4 = System__RunError(uVar4);
   }
   param_4->bottom = uVar4;
   pLVar1 = &param_4->bottom;
   text = *pLVar1;
   *pLVar1 = *pLVar1 + -1;
   if (SBORROW4(text,1)) {
-    thunk_FUN_00402808(uVar4);
+    System__RunError(uVar4);
   }
   return;
 }
@@ -132,24 +132,24 @@ void TDaviGraphicHintWindow_virtual_0b4(int *param_1)
   bVar1 = SCARRY4(rect.left,2);
   rect.left = rect.left + 2;
   if (bVar1) {
-    thunk_FUN_00402808(format_val);
+    System__RunError(format_val);
   }
   (**(code **)(**(int **)(param_1[0x7c] + 0xc) + 8))(*(int **)(param_1[0x7c] + 0xc),param_1[0x81]);
   format_val = FUN_004306a8((int)param_1);
   format_val = format_val | 0x814;
   if ((int)format_val < 0) {
-    format_val = thunk_FUN_00402808(format_val);
+    format_val = System__RunError(format_val);
   }
   lprc = &rect;
   cchText = -1;
   TGroupBox_GetCaption((int)param_1,(int *)&local_18);
-  lpchText = FUN_004040a0(local_18);
+  lpchText = System__LStrToPChar(local_18);
   hdc = (HDC)FUN_004194d8((int *)param_1[0x7c]);
   DrawTextA(hdc,lpchText,cchText,lprc,format_val);
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_004692ec;
   puStack_24 = (undefined1 *)0x4692e4;
-  FUN_00403c5c((int *)&local_18);
+  System__LStrClr((int *)&local_18);
   return;
 }
 

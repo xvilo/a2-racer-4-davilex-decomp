@@ -16,7 +16,8 @@ int * TDaviGraphicButton_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -30,7 +31,7 @@ int * TDaviGraphicButton_virtual_02c(int *param_1,char param_2,int *param_3)
   param_1[0x85] = 0;
   *(undefined1 *)(param_1 + 0x86) = 0;
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -45,13 +46,13 @@ void TDaviGraphicButton_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[0x80]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[0x80]);
   TDaviGraphicButton_SetDefinition((int)piVar1,0);
   piVar1[0x85] = 0;
   TWinControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -139,14 +140,14 @@ void TDaviGraphicButton_CNMeasureItem(uint param_1,int param_2)
   iVar3 = *(int *)(param_2 + 8);
   iVar2 = *(int *)(param_1 + 0x38);
   if (iVar2 < 0) {
-    param_1 = thunk_FUN_00402808(param_1);
+    param_1 = System__RunError(param_1);
     iVar2 = extraout_ECX;
     iVar3 = extraout_EDX;
   }
   *(int *)(iVar3 + 0xc) = iVar2;
   uVar1 = *(uint *)(param_1 + 0x3c);
   if ((int)uVar1 < 0) {
-    uVar1 = thunk_FUN_00402808(uVar1);
+    uVar1 = System__RunError(uVar1);
     iVar3 = extraout_EDX_00;
   }
   *(uint *)(iVar3 + 0x10) = uVar1;
@@ -204,7 +205,8 @@ void TDaviGraphicButton_CMMouseLeave(int *param_1)
 void TDaviGraphicButton_WMLButtonDblClk(int param_1,int param_2)
 
 {
-  FUN_0042f720(param_1,0x201,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8));
+  Controls_TControl_Perform(param_1,0x201,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8))
+  ;
   return;
 }
 
@@ -223,11 +225,11 @@ void TDaviGraphicButton_virtual_090(int *param_1,int *param_2)
   if ((param_1[0x82] != 0) && (*(char *)(param_1[0x82] + 0x54) != '\0')) {
     param_2[2] = param_2[2] | 0x20;
     index_val = -0x10;
-    pHVar1 = (HWND)FUN_004349e0((int *)param_1[9]);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle((int *)param_1[9]);
     new_long = GetWindowLongA(pHVar1,index_val);
     new_long = new_long & 0xfdffffff;
     index_val = -0x10;
-    pHVar1 = (HWND)FUN_004349e0((int *)param_1[9]);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle((int *)param_1[9]);
     SetWindowLongA(pHVar1,index_val,new_long);
   }
   return;
@@ -256,7 +258,7 @@ void TDaviGraphicButton_virtual_098(int *param_1)
   if ((*(byte *)(param_1 + 8) & 0x10) == 0) {
     bRedraw = -1;
     pHVar1 = (HRGN)param_1[0x85];
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetWindowRgn(hWnd,pHVar1,bRedraw);
   }
   return;
@@ -318,7 +320,7 @@ void TDaviGraphicButton_virtual_0c0(int *param_1,int param_2)
     lprc_val = &local_24;
     cchText = -1;
     TGroupBox_GetCaption((int)param_1,(int *)&local_28);
-    lpchText = FUN_004040a0(local_28);
+    lpchText = System__LStrToPChar(local_28);
     pHVar1 = (HDC)FUN_004194d8((int *)param_1[0x80]);
     DrawTextA(pHVar1,lpchText,cchText,lprc_val,UVar3);
     if ((*(byte *)(param_1 + 8) & 0x10) != 0) {
@@ -331,7 +333,7 @@ void TDaviGraphicButton_virtual_0c0(int *param_1,int param_2)
   *in_FS_OFFSET = uStack_4c;
   puStack_44 = &LAB_00469c2e;
   puStack_48 = (undefined1 *)0x469c26;
-  FUN_00403c5c((int *)&local_28);
+  System__LStrClr((int *)&local_28);
   return;
 }
 
@@ -390,11 +392,11 @@ void TDaviGraphicButton_message_4402(int *param_1)
   HRGN hRgn;
   BOOL bRedraw;
   
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   if ((bVar1) && ((*(byte *)(param_1 + 8) & 0x10) == 0)) {
     bRedraw = -1;
     hRgn = (HRGN)0x0;
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetWindowRgn(hWnd,hRgn,bRedraw);
   }
   param_1[0x85] = 0;
@@ -524,12 +526,12 @@ void TDaviGraphicButton_virtual_074(int param_1)
   RECT local_14;
   
   if (*(int *)(param_1 + 0x24) != 0) {
-    bVar1 = FUN_00434cdc(*(int *)(param_1 + 0x24));
+    bVar1 = Controls_TWinControl_HandleAllocated(*(int *)(param_1 + 0x24));
     if (bVar1) {
       FUN_0042e13c(param_1,&local_14.left);
       bErase = -1;
       lpRect = &local_14;
-      hWnd = (HWND)FUN_004349e0(*(int **)(param_1 + 0x24));
+      hWnd = (HWND)Controls_TWinControl_GetHandle(*(int **)(param_1 + 0x24));
       InvalidateRect(hWnd,lpRect,bErase);
     }
   }

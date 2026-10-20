@@ -16,10 +16,10 @@ void TfrmLoseNormal_FormShow(int *param_1)
 
 {
   undefined *puVar1;
-  uint uVar2;
-  int iVar3;
+  uint debug;
+  int iVar2;
   uint *in_FS_OFFSET;
-  undefined4 *puVar4;
+  undefined4 *puVar3;
   uint uStack_128;
   undefined1 *puStack_124;
   undefined1 *puStack_120;
@@ -36,33 +36,33 @@ void TfrmLoseNormal_FormShow(int *param_1)
   puStack_124 = &LAB_0049f69c;
   uStack_128 = *in_FS_OFFSET;
   *in_FS_OFFSET = (uint)&uStack_128;
-  FUN_00402ee4(*param_1,local_10c);
-  FUN_00403e80(&local_c,local_10c);
-  FUN_00403f9c((int *)&local_8,3);
-  puVar4 = local_8;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fb90(uVar2,puVar4,2);
+  System_TObject_ClassName(*param_1,local_10c);
+  System__LStrFromString(&local_c,local_10c);
+  System__LStrCatN((int *)&local_8,3);
+  puVar3 = local_8;
+  debug = Debug();
+  TDebug_InProc(debug,puVar3,2);
   TBaseFormOneWay_FormShow((int)param_1);
-  iVar3 = FUN_0048c624(*(int *)(*(int *)puVar1 + 0xc0));
+  iVar2 = FUN_0048c624(*(int *)(*(int *)puVar1 + 0xc0));
   FUN_00489e40(*(int **)(*(int *)puVar1 + 0xb4),(int *)param_1[0xc1],(undefined4 *)"trname",
-               *(int *)(iVar3 + 8));
-  iVar3 = FUN_0048d458(*(int *)(*(int *)(*(int *)puVar1 + 0xc0) + 0x10));
-  FUN_004085ac(*(undefined4 *)(iVar3 + 8),(int *)&local_110);
+               *(int *)(iVar2 + 8));
+  iVar2 = FUN_0048d458(*(int *)(*(int *)(*(int *)puVar1 + 0xc0) + 0x10));
+  SysUtils_IntToStr(*(undefined4 *)(iVar2 + 8),(int *)&local_110);
   TGroupBox_SetCaption(param_1[0xbf],local_110);
-  iVar3 = FUN_0048c624(*(int *)(*(int *)puVar1 + 0xc0));
-  TGroupBox_SetCaption(param_1[0xbe],*(uint **)(iVar3 + 0x3c));
-  iVar3 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
+  iVar2 = FUN_0048c624(*(int *)(*(int *)puVar1 + 0xc0));
+  TGroupBox_SetCaption(param_1[0xbe],*(uint **)(iVar2 + 0x3c));
+  iVar2 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
   FUN_00489e40(*(int **)(*(int *)puVar1 + 0xb4),(int *)param_1[0xb7],(undefined4 *)"los_ch",
-               *(int *)(iVar3 + 0x10));
-  uVar2 = 2;
-  iVar3 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
-  FUN_004806b0(*(int **)puVar1,0x49f6f8,*(int *)(iVar3 + 0x10),uVar2);
+               *(int *)(iVar2 + 0x10));
+  debug = 2;
+  iVar2 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
+  FUN_004806b0(*(int **)puVar1,0x49f6f8,*(int *)(iVar2 + 0x10),debug);
   TTimer_SetInterval(param_1[0xc2],0x1194);
   TTimer_SetEnabled(param_1[0xc2],'\x01');
   (**(code **)(*(int *)param_1[0xbc] + 0xb4))();
-  *in_FS_OFFSET = uVar2;
-  FUN_00403c5c((int *)&local_110);
-  FUN_00403c80(&local_c,2);
+  *in_FS_OFFSET = debug;
+  System__LStrClr((int *)&local_110);
+  System__LStrArrayClr(&local_c,2);
   return;
 }
 

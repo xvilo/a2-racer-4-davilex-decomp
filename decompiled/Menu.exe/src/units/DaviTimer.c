@@ -33,7 +33,8 @@ int * TDaviTimer_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
@@ -41,7 +42,7 @@ int * TDaviTimer_virtual_02c(int *param_1,char param_2,int *param_3)
   TDaviTimer_SetInterval((int)param_1,1000,extraout_ECX_00);
   TDaviTimer_SetEnabled((int)param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),1),extraout_ECX_01);
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -63,7 +64,7 @@ void TDaviTimer_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x45afa3;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_0045afdd;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
@@ -161,7 +162,7 @@ void TDaviTimer_SetOnTimer
 void FUN_0045b09c(void)
 
 {
-  FUN_0040c968(&DAT_004aacb4);
+  SysUtils_FreeAndNil(&DAT_004aacb4);
   return;
 }
 
@@ -199,7 +200,8 @@ int * TDaviSharedTimer_virtual_000(int *param_1,char param_2,undefined4 param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -207,7 +209,7 @@ int * TDaviSharedTimer_virtual_000(int *param_1,char param_2,undefined4 param_3)
   piVar1 = FUN_0041fefc((int *)&PTR_TList_virtual_000_0041fda4,'\x01',0);
   param_1[2] = (int)piVar1;
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -228,14 +230,14 @@ void TDaviSharedTimer_Destroy(int *param_1,char param_2)
   int *local_8;
   
   puStack_10 = (undefined1 *)0x45b13b;
-  local_8 = FUN_004032fc(param_1,param_2);
+  local_8 = System__BeforeDestruction(param_1,param_2);
   puStack_14 = &LAB_0045b181;
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
   local_9 = extraout_DL;
-  FUN_0040c968(local_8 + 2);
-  FUN_0040c968(local_8 + 1);
+  SysUtils_FreeAndNil(local_8 + 2);
+  SysUtils_FreeAndNil(local_8 + 1);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0045b188;
   puStack_14 = (undefined1 *)0x45b180;
@@ -255,17 +257,17 @@ uint FUN_0045b19c(int param_1)
   int i_val;
   
   piVar1 = (int *)FUN_0041ff40(*(undefined4 **)(param_1 + 8),0);
-  iVar2 = FUN_0040312c(piVar1,(int)&PTR_TPersistent_virtual_000_0045adf4);
+  iVar2 = System__AsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045adf4);
   uVar3 = *(uint *)(iVar2 + 0x28);
   iVar2 = *(int *)(*(uint *)(param_1 + 8) + 8);
   i_val = iVar2 + -1;
   if (SBORROW4(iVar2,1)) {
-    thunk_FUN_00402808(*(uint *)(param_1 + 8));
+    System__RunError(*(uint *)(param_1 + 8));
   }
   if (0 < i_val) {
     do {
       piVar1 = (int *)FUN_0041ff40(*(undefined4 **)(param_1 + 8),i_val);
-      iVar2 = FUN_0040312c(piVar1,(int)&PTR_TPersistent_virtual_000_0045adf4);
+      iVar2 = System__AsClass(piVar1,(int)&PTR_TPersistent_virtual_000_0045adf4);
       uVar3 = FUN_0045af28(*(uint *)(iVar2 + 0x28),uVar3);
       i_val = i_val + -1;
     } while (i_val != 0);
@@ -308,21 +310,21 @@ void FUN_0045b234(int param_1,undefined4 param_2,undefined4 param_3,int param_4)
   iVar3 = puVar1[2];
   i_val = iVar3 + -1;
   if (SBORROW4(iVar3,1)) {
-    thunk_FUN_00402808(*(uint *)(param_4 + -4));
+    System__RunError(*(uint *)(param_4 + -4));
   }
   if (0 < i_val) {
     piVar2 = (int *)FUN_0041ff40(puVar1,param_1);
-    iVar3 = FUN_0040312c(piVar2,(int)&PTR_TPersistent_virtual_000_0045adf4);
+    iVar3 = System__AsClass(piVar2,(int)&PTR_TPersistent_virtual_000_0045adf4);
     piVar2 = (int *)FUN_0041ff40(*(undefined4 **)(*(int *)(param_4 + -4) + 8),i_val);
-    uVar4 = FUN_0040312c(piVar2,(int)&PTR_TPersistent_virtual_000_0045adf4);
+    uVar4 = System__AsClass(piVar2,(int)&PTR_TPersistent_virtual_000_0045adf4);
     while (*(uint *)(iVar3 + 0x30) < *(uint *)(uVar4 + 0x30)) {
       bVar5 = SBORROW4(i_val,1);
       i_val = i_val + -1;
       if (bVar5) {
-        thunk_FUN_00402808(uVar4);
+        System__RunError(uVar4);
       }
       piVar2 = (int *)FUN_0041ff40(*(undefined4 **)(*(int *)(param_4 + -4) + 8),i_val);
-      uVar4 = FUN_0040312c(piVar2,(int)&PTR_TPersistent_virtual_000_0045adf4);
+      uVar4 = System__AsClass(piVar2,(int)&PTR_TPersistent_virtual_000_0045adf4);
     }
     FUN_004103a4(*(int **)(*(int *)(param_4 + -4) + 8),param_1,i_val);
   }
@@ -369,11 +371,11 @@ void FUN_0045b2d0(int *param_1)
   puVar3 = &stack0xfffffffc;
   local_8 = param_1;
   if (*(int *)(param_1[2] + 8) < 1) {
-    FUN_00402ee4(*param_1,local_110);
-    FUN_00403e80(&local_10,local_110);
+    System_TObject_ClassName(*param_1,local_110);
+    System__LStrFromString(&local_10,local_110);
     pcStack_138 = "No events in queue.";
-    FUN_00403f9c(&local_c,4);
-    FUN_00403c40(local_c);
+    System__LStrCatN(&local_c,4);
+    System__Assert(local_c);
     puVar3 = puStack_120;
   }
   puStack_120 = puVar3;
@@ -381,10 +383,10 @@ void FUN_0045b2d0(int *param_1)
   while( true ) {
     if ((int)((undefined4 *)local_8[2])[2] < 1) break;
     piVar6 = (int *)FUN_0041ff40((undefined4 *)local_8[2],0);
-    iVar7 = FUN_0040312c(piVar6,(int)&PTR_TPersistent_virtual_000_0045adf4);
+    iVar7 = System__AsClass(piVar6,(int)&PTR_TPersistent_virtual_000_0045adf4);
     if (DVar4 < *(uint *)(iVar7 + 0x30)) break;
     piVar6 = (int *)FUN_0041ff40((undefined4 *)local_8[2],0);
-    piVar6 = (int *)FUN_0040312c(piVar6,(int)&PTR_TPersistent_virtual_000_0045adf4);
+    piVar6 = (int *)System__AsClass(piVar6,(int)&PTR_TPersistent_virtual_000_0045adf4);
     uVar2 = piVar6[10];
     puVar1 = (uint *)(piVar6 + 0xc);
     uVar5 = *puVar1;
@@ -392,14 +394,14 @@ void FUN_0045b2d0(int *param_1)
     uVar8 = extraout_ECX;
     uVar9 = extraout_EDX;
     if (CARRY4(uVar5,uVar2)) {
-      thunk_FUN_00402808(uVar2);
+      System__RunError(uVar2);
       uVar8 = extraout_ECX_00;
       uVar9 = extraout_EDX_00;
     }
     if (DVar4 < (uint)piVar6[0xc]) {
       uVar5 = piVar6[10] + DVar4;
       if (CARRY4(piVar6[10],DVar4)) {
-        uVar5 = thunk_FUN_00402808(uVar5);
+        uVar5 = System__RunError(uVar5);
         uVar8 = extraout_ECX_01;
         uVar9 = extraout_EDX_01;
       }
@@ -409,7 +411,7 @@ void FUN_0045b2d0(int *param_1)
     (**(code **)(*piVar6 + 0x30))(piVar6,local_8);
   }
   *in_FS_OFFSET = pcStack_138;
-  FUN_00403c80(&local_10,2);
+  System__LStrArrayClr(&local_10,2);
   return;
 }
 
@@ -426,7 +428,7 @@ void FUN_0045b494(int param_1,int param_2)
   DVar1 = GetTickCount();
   uVar2 = DVar1 + *(uint *)(param_2 + 0x28);
   if (CARRY4(DVar1,*(uint *)(param_2 + 0x28))) {
-    uVar2 = thunk_FUN_00402808(uVar2);
+    uVar2 = System__RunError(uVar2);
   }
   *(uint *)(param_2 + 0x30) = uVar2;
   FUN_0041fef4(*(int **)(param_1 + 8),param_2);

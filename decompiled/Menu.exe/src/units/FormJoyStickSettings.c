@@ -28,13 +28,13 @@ void FUN_00492dd8(int *param_1,char param_2,int param_3)
 
 {
   int iVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  int *piVar4;
+  uint debug;
+  undefined4 uVar2;
+  int *piVar3;
   int extraout_ECX;
   undefined4 extraout_ECX_00;
   int *in_FS_OFFSET;
-  char *pcVar5;
+  char *pcVar4;
   int iStack_148;
   undefined1 *puStack_144;
   undefined1 *puStack_140;
@@ -56,7 +56,8 @@ void FUN_00492dd8(int *param_1,char param_2,int param_3)
   local_8 = (undefined4 *)0x0;
   if (param_2 != '\0') {
     puStack_140 = (undefined1 *)0x492e07;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffec4,in_stack_fffffec8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffec4,
+                                         in_stack_fffffec8);
     param_3 = extraout_ECX;
   }
   puStack_144 = &LAB_00492f34;
@@ -65,31 +66,31 @@ void FUN_00492dd8(int *param_1,char param_2,int param_3)
   local_c = 0;
   puStack_140 = &stack0xfffffffc;
   local_10 = param_3;
-  FUN_00402ee4(*param_1,local_118);
-  FUN_00403e80(&local_18,local_118);
-  pcVar5 = "CreateAndReadHeader";
-  FUN_00403f9c(&local_14,3);
+  System_TObject_ClassName(*param_1,local_118);
+  System__LStrFromString(&local_18,local_118);
+  pcVar4 = "CreateAndReadHeader";
+  System__LStrCatN(&local_14,3);
   iVar1 = local_14;
-  uVar2 = FUN_0045f46c();
-  FUN_0045fa3c(uVar2,iVar1,0,(int)pcVar5);
+  debug = Debug();
+  FUN_0045fa3c(debug,iVar1,0,(int)pcVar4);
   TDataObject_virtual_004(param_1,'\0',extraout_ECX_00);
   FUN_00481178(param_3,(int *)&local_11c);
-  FUN_00403f28((int *)&local_8,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),local_11c);
-  uVar3 = FUN_004087a4((undefined *)local_8);
-  if ((char)uVar3 == '\0') {
-    FUN_00403f28(&local_120,(undefined4 *)"Unable to load: ",local_8);
-    FUN_00403c40(local_120);
+  System__LStrCat3((int *)&local_8,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),local_11c);
+  uVar2 = SysUtils_FileExists((undefined *)local_8);
+  if ((char)uVar2 == '\0') {
+    System__LStrCat3(&local_120,(undefined4 *)"Unable to load: ",local_8);
+    System__Assert(local_120);
   }
   param_1[2] = param_3;
-  piVar4 = FUN_0048c76c((int *)&PTR_TSaveGameHeader_virtual_000_0048c744,'\x01',0);
-  param_1[3] = (int)piVar4;
-  FUN_0048c83c(piVar4,(undefined *)local_8);
-  uVar2 = FUN_0045f46c();
-  TDebug_ExitProc(uVar2);
-  *in_FS_OFFSET = (int)pcVar5;
-  FUN_00403c80(&local_120,2);
-  FUN_00403c80(&local_18,2);
-  FUN_00403c5c((int *)&local_8);
+  piVar3 = FUN_0048c76c((int *)&PTR_TSaveGameHeader_virtual_000_0048c744,'\x01',0);
+  param_1[3] = (int)piVar3;
+  FUN_0048c83c(piVar3,(undefined *)local_8);
+  debug = Debug();
+  TDebug_ExitProc(debug);
+  *in_FS_OFFSET = (int)pcVar4;
+  System__LStrArrayClr(&local_120,2);
+  System__LStrArrayClr(&local_18,2);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -102,11 +103,11 @@ void TStoredGame_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_0040c968(piVar1 + 3);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  SysUtils_FreeAndNil(piVar1 + 3);
   TDataObject_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }

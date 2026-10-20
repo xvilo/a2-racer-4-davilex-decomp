@@ -62,13 +62,13 @@ HANDLE FUN_0042b94c(HWND wnd)
 
 /* ==== 0042b968 FUN_0042b968 ==== */
 
-LRESULT FUN_0042b968(UINT msg,WPARAM param,LPARAM param_3)
+LRESULT FUN_0042b968(UINT msg,WPARAM param_2,LPARAM param)
 
 {
   LRESULT LVar1;
   
   if (*(HWND *)(*(int *)PTR_DAT_004ab8ac + 0x24) != (HWND)0x0) {
-    LVar1 = SendMessageA(*(HWND *)(*(int *)PTR_DAT_004ab8ac + 0x24),msg,param,param_3);
+    LVar1 = SendMessageA(*(HWND *)(*(int *)PTR_DAT_004ab8ac + 0x24),msg,param_2,param);
     return LVar1;
   }
   return 0;
@@ -84,10 +84,10 @@ void FUN_0042bb4c(undefined4 *param_1,int *param_2)
   
   pCVar1 = FUN_0040c0d8(&DAT_0042bb8c,(undefined *)param_1);
   if (pCVar1 == (PCNZCH)0x0) {
-    FUN_00403cb0(param_2,param_1);
+    System__LStrAsg(param_2,param_1);
   }
   else {
-    FUN_004040e4((int)param_1,1,(uint)(pCVar1 + -1),param_2);
+    System__LStrCopy((int)param_1,1,(uint)(pCVar1 + -1),param_2);
   }
   return;
 }
@@ -102,10 +102,10 @@ void FUN_0042bb90(undefined4 *param_1,int *param_2)
   
   pCVar1 = FUN_0040c0d8(&DAT_0042bbd0,(undefined *)param_1);
   if (pCVar1 == (PCNZCH)0x0) {
-    FUN_00403cb0(param_2,param_1);
+    System__LStrAsg(param_2,param_1);
   }
   else {
-    FUN_004040e4((int)param_1,(int)(pCVar1 + 1),0x7fffffff,param_2);
+    System__LStrCopy((int)param_1,(int)(pCVar1 + 1),0x7fffffff,param_2);
   }
   return;
 }
@@ -141,7 +141,7 @@ void FUN_0042bbfc(int *param_1)
   ReleaseCapture();
   DAT_004aa7b8 = (int *)0x0;
   if (param_1 != (int *)0x0) {
-    uVar1 = FUN_00403114(param_1,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+    uVar1 = System__IsClass(param_1,(int)&PTR_TWinControl_virtual_000_0042ac0c);
     piVar2 = param_1;
     if ((char)uVar1 == '\0') {
       if (param_1[9] == 0) {
@@ -150,7 +150,7 @@ void FUN_0042bbfc(int *param_1)
       piVar2 = (int *)param_1[9];
       DAT_004aa7b8 = param_1;
     }
-    hWnd = (HWND)FUN_004349e0(piVar2);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(piVar2);
     SetCapture(hWnd);
   }
   return;
@@ -169,7 +169,7 @@ undefined1 FUN_0042bca8(undefined4 *param_1,int param_2,int *param_3)
     if ((int)param_1[2] <= *param_3) {
       return 0;
     }
-    iVar1 = FUN_004102b0(param_1,*param_3);
+    iVar1 = Classes_TList_Get(param_1,*param_3);
     if (param_2 == *(int *)(iVar1 + 4)) break;
     *param_3 = *param_3 + 1;
   }
@@ -187,7 +187,7 @@ HWND FUN_0042bcdc(void)
   HWND pHVar2;
   int in_stack_00000004;
   
-  pHVar2 = (HWND)FUN_004349e0(*(int **)(in_stack_00000004 + -4));
+  pHVar2 = (HWND)Controls_TWinControl_GetHandle(*(int **)(in_stack_00000004 + -4));
   pHVar1 = pHVar2;
   while (hWnd = pHVar2, hWnd != (HWND)0x0) {
     pHVar2 = GetParent(hWnd);
@@ -209,13 +209,13 @@ void FUN_0042bd04(int *param_1,undefined4 param_2)
   undefined4 local_8;
   
   local_8 = param_2;
-  puVar2 = (undefined4 *)FUN_0040277c(8);
+  puVar2 = (undefined4 *)System__GetMem(8);
   *puVar2 = local_8;
   pHVar3 = FUN_0042bcdc();
   puVar2[1] = pHVar3;
   cVar1 = FUN_0042bca8(param_1,(int)pHVar3,&local_c);
   if (cVar1 == '\0') {
-    FUN_00410104(param_1,(int)puVar2);
+    Classes_TList_Add(param_1,(int)puVar2);
   }
   else {
     FUN_0041032c(param_1,local_c,(int)puVar2);
@@ -237,8 +237,8 @@ void TSiteList_virtual_008(int *param_1)
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      iVar1 = FUN_004102b0(param_1,j);
-      FUN_00402794(iVar1);
+      iVar1 = Classes_TList_Get(param_1,j);
+      System__FreeMem(iVar1);
       j = j + 1;
       i_val = i_val + -1;
     } while (i_val != 0);
@@ -263,7 +263,7 @@ int FUN_0042bd94(undefined4 *param_1,undefined4 param_2,int param_3)
   if (param_1[2] != 0) {
     local_10 = param_3;
     if (param_1[2] == 1) {
-      piVar2 = (int *)FUN_004102b0(param_1,0);
+      piVar2 = (int *)Classes_TList_Get(param_1,0);
       iVar4 = *piVar2;
     }
     else {
@@ -332,8 +332,8 @@ void TDragObject_virtual_010(int *param_1,int *param_2)
 {
   byte abStack_108 [256];
   
-  FUN_00402ee4(*param_1,abStack_108);
-  FUN_00403e80(param_2,abStack_108);
+  System_TObject_ClassName(*param_1,abStack_108);
+  System__LStrFromString(param_2,abStack_108);
   return;
 }
 
@@ -417,13 +417,14 @@ void TBaseDragControlObject_virtual_024(int *param_1,char param_2,int param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffff0,in_stack_fffffff4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffff0,
+                                         in_stack_fffffff4);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
   param_1[0xe] = param_3;
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_00000000;
   }
   return;
@@ -438,7 +439,7 @@ void TBaseDragControlObject_virtual_00c(int param_1,int *param_2)
   undefined4 uVar1;
   
   TDragObject_virtual_00c(param_1,(int)param_2);
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TBaseDragControlObject_virtual_000_00429b10);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TBaseDragControlObject_virtual_000_00429b10);
   if ((char)uVar1 != '\0') {
     *(int *)(param_1 + 0x38) = param_2[0xe];
   }
@@ -451,7 +452,7 @@ void TBaseDragControlObject_virtual_00c(int param_1,int *param_2)
 void TBaseDragControlObject_virtual_020(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(*(int **)(param_1 + 0x38),param_2,param_3);
+  System__CallDynaInst(*(int **)(param_1 + 0x38),param_2,param_3);
   return;
 }
 
@@ -463,7 +464,7 @@ void TBaseDragControlObject_virtual_000
 
 {
   if (param_4 == '\0') {
-    FUN_00403178((int *)param_1[0xe],param_2,param_3);
+    System__CallDynaInst((int *)param_1[0xe],param_2,param_3);
     param_2 = 0;
   }
   (**(code **)(*param_1 + 0x20))(param_1,param_2,param_3,param_5);
@@ -547,7 +548,8 @@ int * TDragDockObject_virtual_024(int *param_1,char param_2,int param_3)
   
   cVar3 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar3 = extraout_DL;
   }
@@ -557,7 +559,7 @@ int * TDragDockObject_virtual_024(int *param_1,char param_2,int param_3)
   uVar2 = FUN_0041fb50(0,0xffffff);
   FUN_004189b8(piVar1,uVar2);
   if (cVar3 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -572,11 +574,11 @@ void TDragDockObject_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[0x10]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[0x10]);
   TObject_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -595,7 +597,7 @@ void TDragDockObject_virtual_00c(int param_1,int *param_2)
   
   bVar4 = 0;
   TBaseDragControlObject_virtual_00c(param_1,param_2);
-  uVar1 = FUN_00403114(param_2,(int)&LAB_00429c24);
+  uVar1 = System__IsClass(param_2,(int)&LAB_00429c24);
   if ((char)uVar1 != '\0') {
     *(char *)(param_1 + 0x54) = (char)param_2[0x15];
     *(int *)(param_1 + 0x58) = param_2[0x16];
@@ -625,7 +627,7 @@ void TDragDockObject_virtual_00c(int param_1,int *param_2)
 void TDragDockObject_virtual_020(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(*(int **)(param_1 + 0x38),param_2,param_3);
+  System__CallDynaInst(*(int **)(param_1 + 0x38),param_2,param_3);
   return;
 }
 
@@ -686,7 +688,7 @@ void TDragDockObject_virtual_028(int param_1,undefined4 *param_2)
 void TDragDockObject_virtual_02c(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(*(int **)(param_1 + 0x38),param_1,param_3);
+  System__CallDynaInst(*(int **)(param_1 + 0x38),param_1,param_3);
   return;
 }
 
@@ -696,7 +698,7 @@ void TDragDockObject_virtual_02c(int param_1,undefined4 param_2,undefined4 param
 void TDragDockObject_virtual_030(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(*(int **)(param_1 + 0x38),param_1,param_3);
+  System__CallDynaInst(*(int **)(param_1 + 0x38),param_1,param_3);
   return;
 }
 
@@ -753,7 +755,7 @@ undefined1 FUN_0042c320(int *param_1,undefined4 param_2,undefined4 param_3,int p
       piVar4 = param;
       param = (int *)piVar4[9];
     } while (param != (int *)0x0);
-    wnd = (HWND)FUN_004349e0(piVar4);
+    wnd = (HWND)Controls_TWinControl_GetHandle(piVar4);
   }
   param = param_1;
   if (wnd != (HWND)0x0) {
@@ -761,16 +763,17 @@ undefined1 FUN_0042c320(int *param_1,undefined4 param_2,undefined4 param_3,int p
       piVar4 = param;
       param = (int *)piVar4[9];
     } while (param != (int *)0x0);
-    local_1c = (HWND)FUN_004349e0(piVar4);
+    local_1c = (HWND)Controls_TWinControl_GetHandle(piVar4);
     if (local_1c != wnd) {
       param = *(int **)(*(int *)(param_4 + -0x10) + 0x24);
       if (param == (int *)0x0) {
-        uVar2 = FUN_00403114(*(int **)(param_4 + -0x10),(int)&PTR_TWinControl_virtual_000_0042ac0c);
+        uVar2 = System__IsClass(*(int **)(param_4 + -0x10),
+                                (int)&PTR_TWinControl_virtual_000_0042ac0c);
         if ((char)uVar2 == '\0') {
           local_20 = 0;
         }
         else {
-          local_20 = FUN_004349e0(*(int **)(param_4 + -0x10));
+          local_20 = Controls_TWinControl_GetHandle(*(int **)(param_4 + -0x10));
         }
       }
       else {
@@ -778,7 +781,7 @@ undefined1 FUN_0042c320(int *param_1,undefined4 param_2,undefined4 param_3,int p
           piVar4 = param;
           param = (int *)piVar4[9];
         } while (param != (int *)0x0);
-        local_20 = FUN_004349e0(piVar4);
+        local_20 = Controls_TWinControl_GetHandle(piVar4);
       }
       local_c = '\0';
       local_14 = *(undefined4 *)(param_4 + -0xc);
@@ -789,11 +792,11 @@ undefined1 FUN_0042c320(int *param_1,undefined4 param_2,undefined4 param_3,int p
       EnumThreadWindows(dwThreadId,lpfn,(LPARAM)param);
       if (local_c != '\0') {
         GetWindowRect(wnd,&local_30);
-        FUN_00403178(param_1,*(undefined4 *)(param_4 + -0x10),&local_40);
-        uVar2 = FUN_00403114(DAT_004ac760,(int)&LAB_00429c24);
+        System__CallDynaInst(param_1,*(undefined4 *)(param_4 + -0x10),&local_40);
+        uVar2 = System__IsClass(DAT_004ac760,(int)&LAB_00429c24);
         if (((((char)uVar2 == '\0') || (*(int *)(DAT_004ac760[0xe] + 0x90) == 0)) ||
-            (pHVar1 = (HWND)FUN_004349e0(*(int **)(DAT_004ac760[0xe] + 0x90)), pHVar1 != wnd)) &&
-           (BVar3 = IntersectRect(&local_30,&local_30,&local_40), BVar3 != 0)) {
+            (pHVar1 = (HWND)Controls_TWinControl_GetHandle(*(int **)(DAT_004ac760[0xe] + 0x90)),
+            pHVar1 != wnd)) && (BVar3 = IntersectRect(&local_30,&local_30,&local_40), BVar3 != 0)) {
           local_5 = 0;
         }
       }
@@ -814,11 +817,11 @@ bool FUN_0042c4b8(void)
   BOOL BVar2;
   int in_stack_00000004;
   
-  uVar1 = FUN_00403114(*(int **)(in_stack_00000004 + -0x10),
-                       (int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar1 = System__IsClass(*(int **)(in_stack_00000004 + -0x10),
+                          (int)&PTR_TWinControl_virtual_000_0042ac0c);
   if ((char)uVar1 != '\0') {
-    hWnd = (HWND)FUN_004349e0(*(int **)(in_stack_00000004 + -0x14));
-    hWndParent = (HWND)FUN_004349e0(*(int **)(in_stack_00000004 + -0x10));
+    hWnd = (HWND)Controls_TWinControl_GetHandle(*(int **)(in_stack_00000004 + -0x14));
+    hWndParent = (HWND)Controls_TWinControl_GetHandle(*(int **)(in_stack_00000004 + -0x10));
     BVar2 = IsChild(hWndParent,hWnd);
     return BVar2 != 0;
   }
@@ -882,7 +885,7 @@ int * FUN_0042c4fc(LONG *param_1,int *param_2)
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        local_18 = (int *)FUN_004102b0(DAT_004ac784,j);
+        local_18 = (int *)Classes_TList_Get(DAT_004ac784,j);
         puVar5 = extraout_ECX_00;
         uVar6 = extraout_EDX_00;
         if ((local_18 != local_14) && ((char)local_18[0x5a] != '\0')) {
@@ -890,7 +893,7 @@ int * FUN_0042c4fc(LONG *param_1,int *param_2)
           puVar5 = extraout_ECX_01;
           uVar6 = extraout_EDX_01;
           if (cVar1 != '\0') {
-            hWnd = (HWND)FUN_004349e0(local_18);
+            hWnd = (HWND)Controls_TWinControl_GetHandle(local_18);
             BVar3 = IsWindowVisible(hWnd);
             puVar5 = extraout_ECX_02;
             uVar6 = extraout_EDX_02;
@@ -906,7 +909,7 @@ int * FUN_0042c4fc(LONG *param_1,int *param_2)
                   if (iVar4 < 2) goto LAB_0042c603;
                 }
                 local_5 = '\x01';
-                FUN_00403178(local_18,local_14,&local_2c);
+                System__CallDynaInst(local_18,local_14,&local_2c);
                 puVar5 = extraout_ECX_04;
                 uVar6 = extraout_EDX_05;
                 if (local_5 != '\0') {
@@ -955,16 +958,17 @@ void FUN_0042c648(int param_1,char param_2,undefined4 param_3)
   
   if (param_1 != 0) {
     if (DAT_004ac784 == (int *)0x0) {
-      DAT_004ac784 = (int *)FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
+      DAT_004ac784 = (int *)System_TObject_Create
+                                      ((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
     }
-    iVar1 = FUN_0041030c((int)DAT_004ac784,param_1);
+    iVar1 = Classes_TList_IndexOf((int)DAT_004ac784,param_1);
     if (param_2 == '\0') {
       if (iVar1 != -1) {
-        FUN_00410150(DAT_004ac784,iVar1);
+        Classes_TList_Delete(DAT_004ac784,iVar1);
       }
     }
     else if (iVar1 == -1) {
-      FUN_00410104(DAT_004ac784,param_1);
+      Classes_TList_Add(DAT_004ac784,param_1);
     }
   }
   return;
@@ -1051,7 +1055,7 @@ int * FUN_0042c750(POINT *point,int *param_2,char param_3,int *param_4)
   else {
     piVar2 = FUN_0042c4fc(&point->x,param_4);
     if (piVar2 != (int *)0x0) {
-      iVar3 = FUN_004349e0(piVar2);
+      iVar3 = Controls_TWinControl_GetHandle(piVar2);
       *param_2 = iVar3;
     }
   }
@@ -1093,8 +1097,8 @@ undefined4 FUN_0042c7dc(void)
      (iVar2 = FUN_004332a0((int)piVar1), iVar2 != 0)) {
     iVar2 = FUN_004332a0((int)piVar1);
     if ((iVar2 == 1) &&
-       (iVar2 = FUN_004102b0((undefined4 *)piVar1[0x50],0), iVar2 == *(int *)(DAT_004ac760 + 0x38)))
-    {
+       (iVar2 = Classes_TList_Get((undefined4 *)piVar1[0x50],0),
+       iVar2 == *(int *)(DAT_004ac760 + 0x38))) {
       return 0;
     }
     piVar3 = FUN_0042d198((POINT *)(DAT_004ac760 + 0xc),0);
@@ -1105,7 +1109,7 @@ undefined4 FUN_0042c7dc(void)
       if (piVar1 == piVar3) {
         return 0;
       }
-      iVar2 = FUN_0041030c(piVar1[0x50],(int)piVar3);
+      iVar2 = Classes_TList_IndexOf(piVar1[0x50],(int)piVar3);
       if (iVar2 != -1) break;
       piVar3 = (int *)piVar3[9];
     }
@@ -1213,18 +1217,18 @@ void FUN_0042c870(POINT *point)
   SetCursor(pHVar8);
   if (DAT_004ac77c == '\x02') {
     if (piVar6 == (int *)0x0) {
-      FUN_00403178((int *)DAT_004ac760[0xe],DAT_004ac760,point->x);
+      System__CallDynaInst((int *)DAT_004ac760[0xe],DAT_004ac760,point->x);
     }
     else {
       piVar6 = (int *)FUN_0042c7dc();
       DAT_004ac760[0x16] = (int)piVar6;
       if (piVar6 == (int *)0x0) {
-        uVar3 = FUN_00403178((int *)DAT_004ac760[1],DAT_004ac760 + 5,extraout_ECX);
+        uVar3 = System__CallDynaInst((int *)DAT_004ac760[1],DAT_004ac760 + 5,extraout_ECX);
         *(undefined1 *)(DAT_004ac760 + 0x15) = uVar3;
       }
       else {
         FUN_0042e2d8(piVar6,&point->x,(int *)local_18);
-        uVar3 = FUN_00403178(piVar6,local_18,extraout_ECX_00);
+        uVar3 = System__CallDynaInst(piVar6,local_18,extraout_ECX_00);
         *(undefined1 *)(DAT_004ac760 + 0x15) = uVar3;
       }
     }
@@ -1269,7 +1273,7 @@ void FUN_0042cb44(int *param_1,char param_2,undefined4 param_3)
   DAT_004ac774 = GetCursor();
   DAT_004ac768 = FUN_0042be38();
   DAT_004ac778 = param_3;
-  uVar3 = FUN_00403114(param_1,(int)&LAB_00429c24);
+  uVar3 = System__IsClass(param_1,(int)&LAB_00429c24);
   if ((char)uVar3 == '\0') {
     if (param_2 == '\0') {
       DAT_004ac77c = '\0';
@@ -1312,7 +1316,7 @@ void FUN_0042cb44(int *param_1,char param_2,undefined4 param_3)
     FUN_004361e4(DAT_004ac780,wnd,tagPOINT_004ac76c.x,LVar4);
     uVar3 = extraout_ECX_00;
   }
-  DAT_004ac788 = FUN_00402f6c((int *)&PTR_TList_virtual_000_0042bc8c,'\x01',uVar3);
+  DAT_004ac788 = System_TObject_Create((int *)&PTR_TList_virtual_000_0042bc8c,'\x01',uVar3);
   if (DAT_004ac77c != '\0') {
     FUN_0042c870(&tagPOINT_004ac76c);
   }
@@ -1354,7 +1358,7 @@ void FUN_0042ccb4(int *param_1,char param_2,undefined4 param_3)
   local_5 = param_2;
   if (*(char *)((int)param_1 + 0x8b) == '\0') {
     puStack_34 = &stack0xfffffffc;
-    FUN_00403178(param_1,&local_c,param_3);
+    System__CallDynaInst(param_1,&local_c,param_3);
     if (DAT_004ac75c == (int *)0x0) {
       *in_FS_OFFSET = uStack_3c;
       return;
@@ -1367,7 +1371,7 @@ void FUN_0042ccb4(int *param_1,char param_2,undefined4 param_3)
     }
   }
   else {
-    FUN_00403178(param_1,&local_c,param_3);
+    System__CallDynaInst(param_1,&local_c,param_3);
     if (DAT_004ac75c == (int *)0x0) {
       *in_FS_OFFSET = uStack_3c;
       return;
@@ -1377,30 +1381,30 @@ void FUN_0042ccb4(int *param_1,char param_2,undefined4 param_3)
       DAT_004ac764 = 1;
     }
     piVar2 = (int *)local_c[0xe];
-    uVar1 = FUN_00403114(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+    uVar1 = System__IsClass(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
     if ((char)uVar1 == '\0') {
       piVar2 = (int *)local_c[0xe];
       if ((piVar2[9] == 0) &&
-         (uVar1 = FUN_00403114(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c),
+         (uVar1 = System__IsClass(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c),
          (char)uVar1 == '\0')) {
         GetCursorPos(&point);
         local_c[0x11] = point.x;
         local_c[0x12] = point.y;
       }
       else {
-        FUN_0040f7d0(0,0,local_24);
+        Classes_Point(0,0,local_24);
         FUN_0042e2ac(piVar2,local_24,&local_1c);
         local_c[0x11] = local_1c;
         local_c[0x12] = local_18;
       }
-      FUN_0040f7d0(local_c[0x11] + *(int *)(local_c[0xe] + 0x38),
-                   local_c[0x12] + *(int *)(local_c[0xe] + 0x3c),&local_1c);
+      Classes_Point(local_c[0x11] + *(int *)(local_c[0xe] + 0x38),
+                    local_c[0x12] + *(int *)(local_c[0xe] + 0x3c),&local_1c);
       local_c[0x13] = local_1c;
       local_c[0x14] = local_18;
     }
     else {
       lpRect = (LPRECT)(local_c + 0x11);
-      hWnd = (HWND)FUN_004349e0(piVar2);
+      hWnd = (HWND)Controls_TWinControl_GetHandle(piVar2);
       GetWindowRect(hWnd,lpRect);
     }
     piVar2 = local_c + 0x11;
@@ -1431,8 +1435,9 @@ undefined1 FUN_0042ce7c(void)
     cVar1 = (**(code **)(*DAT_004ac75c + 0x50))();
     if ((cVar1 == '\0') && (DAT_004ac75c[0x24] != 0)) {
       if ((int *)DAT_004ac75c[0x24] != (int *)0x0) {
-        uVar2 = FUN_00403178((int *)DAT_004ac75c[0x24],*(undefined4 *)(DAT_004ac760 + 4),
-                             DAT_004ac75c);
+        uVar2 = System__CallDynaInst
+                          ((int *)DAT_004ac75c[0x24],*(undefined4 *)(DAT_004ac760 + 4),DAT_004ac75c)
+        ;
       }
     }
     else {
@@ -1484,7 +1489,7 @@ void FUN_0042ceec(char param_1)
   *(undefined1 *)(DAT_004ac760 + 0xc) = 1;
   FUN_0042be80(DAT_004ac760,DAT_004ac768);
   if (DAT_004ac77c == '\x02') {
-    piVar8 = (int *)FUN_0040312c(DAT_004ac760,(int)&LAB_00429c24);
+    piVar8 = (int *)System__AsClass(DAT_004ac760,(int)&LAB_00429c24);
     (**(code **)(*piVar8 + 0x30))();
     *(bool *)(piVar8 + 0x1b) = piVar8[1] == 0;
   }
@@ -1494,7 +1499,7 @@ LAB_0042cfbb:
     local_14 = DAT_004ac760[4];
   }
   else {
-    uVar4 = FUN_00403114((int *)DAT_004ac760[1],(int)&PTR_TControl_virtual_000_0042a694);
+    uVar4 = System__IsClass((int *)DAT_004ac760[1],(int)&PTR_TControl_virtual_000_0042a694);
     if ((char)uVar4 == '\0') goto LAB_0042cfbb;
     local_18 = DAT_004ac760[5];
     local_14 = DAT_004ac760[6];
@@ -1517,11 +1522,11 @@ LAB_0042cffa:
 LAB_0042d006:
   if (DAT_004ac77c == '\x02') {
     if ((cVar2 != '\0') && ((char)piVar8[0x1b] != '\0')) {
-      piVar5 = FUN_00444864((int *)piVar8[0xe]);
+      piVar5 = Forms_GetParentForm((int *)piVar8[0xe]);
       if ((piVar5 != (int *)0x0) && (piVar5[0x82] == piVar8[0xe])) {
         TForm_SetActiveControl(piVar5,(int *)0x0,extraout_ECX);
       }
-      FUN_0042f720(DAT_004ac75c,0xb03a,0,DAT_004ac760);
+      Controls_TControl_Perform(DAT_004ac75c,0xb03a,0,DAT_004ac760);
     }
   }
   else if (DAT_004ac780 == 0) {
@@ -1547,7 +1552,7 @@ LAB_0042d006:
   *in_FS_OFFSET = uStack_34;
   puStack_2c = &LAB_0042d119;
   puStack_30 = (undefined1 *)0x42d0e4;
-  FUN_00402f9c(DAT_004ac788);
+  System_TObject_Free(DAT_004ac788);
   DAT_004ac788 = (int *)0x0;
   *(undefined1 *)(piVar1 + 0xc) = 0;
   puStack_30 = (undefined1 *)local_14;
@@ -1622,10 +1627,10 @@ void FUN_0042d1e0(int *param_1,int param_2,undefined4 param_3)
   int iVar1;
   
   if (*param_1 == 0) {
-    iVar1 = FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
+    iVar1 = System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
     *param_1 = iVar1;
   }
-  FUN_00410104((int *)*param_1,param_2);
+  Classes_TList_Add((int *)*param_1,param_2);
   return;
 }
 
@@ -1637,7 +1642,7 @@ void FUN_0042d208(int *param_1,int param_2)
 {
   FUN_00410448((int *)*param_1,param_2);
   if (*(int *)(*param_1 + 8) == 0) {
-    FUN_00402f9c((int *)*param_1);
+    System_TObject_Free((int *)*param_1);
     *param_1 = 0;
   }
   return;
@@ -1686,7 +1691,7 @@ void FUN_0042d258(void)
     i_val = local_c[2];
     do {
       puStack_24 = (undefined1 *)0x42d29a;
-      local_14 = (int *)FUN_004102b0(local_c,j);
+      local_14 = (int *)Classes_TList_Get(local_c,j);
       puStack_24 = (undefined1 *)0x42d2a5;
       cVar1 = FUN_00419374((int)local_14);
       if (cVar1 != '\0') {
@@ -1741,7 +1746,7 @@ void FUN_0042d314(void)
     do {
       i_val = iVar1;
       puStack_20 = (undefined1 *)0x42d34f;
-      local_10 = (int *)FUN_004102b0(local_c,i_val);
+      local_10 = (int *)Classes_TList_Get(local_c,i_val);
       puStack_20 = (undefined1 *)0x42d35a;
       cVar2 = FUN_00419374((int)local_10);
       if (cVar2 != '\0') {
@@ -1776,11 +1781,11 @@ void TControlCanvas_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   FUN_0042d494(piVar1);
   TCanvas_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -1816,7 +1821,7 @@ void TControlCanvas_virtual_014(int *param_1)
       }
       iVar2 = (**(code **)(*(int *)param_1[0x16] + 0x44))((int *)param_1[0x16],param_1 + 0x18);
       param_1[0x17] = iVar2;
-      FUN_00410104(piVar1,(int)param_1);
+      Classes_TList_Add(piVar1,(int)param_1);
       *in_FS_OFFSET = uStack_18;
       puStack_10 = (undefined1 *)0x42d478;
       puStack_14 = (undefined1 *)0x42d470;
@@ -1894,14 +1899,15 @@ int * TSizeConstraints_virtual_00c(int *param_1,char param_2,int param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe4,in_stack_ffffffe8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe4,
+                                         in_stack_ffffffe8);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
-  FUN_00402f6c(param_1,'\0',param_3);
+  System_TObject_Create(param_1,'\0',param_3);
   param_1[1] = param_3;
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe4;
   }
   return param_1;
@@ -1917,14 +1923,14 @@ void TSizeConstraints_virtual_000(int *param_1,int *param_2)
   undefined4 uVar2;
   undefined4 extraout_ECX;
   
-  uVar2 = FUN_00403114(param_2,(int)&PTR_TSizeConstraints_virtual_000_00429f14);
+  uVar2 = System__IsClass(param_2,(int)&PTR_TSizeConstraints_virtual_000_00429f14);
   if ((char)uVar2 != '\0') {
     param_2[2] = param_1[2];
     param_2[3] = param_1[3];
     param_2[4] = param_1[4];
     iVar1 = param_1[2];
     param_2[2] = iVar1;
-    FUN_00403178(param_2,iVar1,extraout_ECX);
+    System__CallDynaInst(param_2,iVar1,extraout_ECX);
     return;
   }
   TPersistent_virtual_000(param_1,param_2);
@@ -1943,7 +1949,7 @@ void TSizeConstraints_SetMaxHeight(int *param_1,int param_2,uint param_3)
       if ((param_3 != 0) && (param_3 < (uint)param_1[4])) {
         param_1[4] = param_3;
       }
-      FUN_00403178(param_1,0xffffffff,param_3);
+      System__CallDynaInst(param_1,0xffffffff,param_3);
       return;
     }
   }
@@ -1953,7 +1959,7 @@ void TSizeConstraints_SetMaxHeight(int *param_1,int param_2,uint param_3)
       if ((param_3 != 0) && (param_3 < (uint)param_1[5])) {
         param_1[5] = param_3;
       }
-      FUN_00403178(param_1,0,param_3);
+      System__CallDynaInst(param_1,0,param_3);
       return;
     }
   }
@@ -1963,7 +1969,7 @@ void TSizeConstraints_SetMaxHeight(int *param_1,int param_2,uint param_3)
       if ((param_1[2] != 0) && ((uint)param_1[2] < param_3)) {
         param_1[2] = param_3;
       }
-      FUN_00403178(param_1,0,param_3);
+      System__CallDynaInst(param_1,0,param_3);
       return;
     }
   }
@@ -1972,7 +1978,7 @@ void TSizeConstraints_SetMaxHeight(int *param_1,int param_2,uint param_3)
     if ((param_1[3] != 0) && ((uint)param_1[3] < param_3)) {
       param_1[3] = param_3;
     }
-    FUN_00403178(param_1,0,param_3);
+    System__CallDynaInst(param_1,0,param_3);
   }
   return;
 }
@@ -1997,7 +2003,7 @@ void TControlActionLink_virtual_000(int param_1,int *param_2)
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_0040312c(param_2,(int)&PTR_TControl_virtual_000_0042a694);
+  uVar1 = System__AsClass(param_2,(int)&PTR_TControl_virtual_000_0042a694);
   *(undefined4 *)(param_1 + 0x18) = uVar1;
   return;
 }
@@ -2031,9 +2037,9 @@ void TControlActionLink_virtual_060(int param_1,int *param_2)
   uStack_38 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_38;
   local_5 = 1;
-  uVar2 = FUN_00403114(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
+  uVar2 = System__IsClass(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
   if ((char)uVar2 != '\0') {
-    cVar1 = FUN_00403178(*(int **)(param_1 + 0x10),param_2,extraout_ECX);
+    cVar1 = System__CallDynaInst(*(int **)(param_1 + 0x10),param_2,extraout_ECX);
     if ((((cVar1 != '\0') && (*(char *)(*(int *)PTR_DAT_004ab8ac + 0x6c) != '\0')) &&
         (*(short *)(*(int *)(param_1 + 0x10) + 0x68) != 0)) && (*param_2 != 0)) {
       ppuVar3 = &local_c;
@@ -2042,16 +2048,16 @@ void TControlActionLink_virtual_060(int param_1,int *param_2)
       FUN_0043c90c(*(ushort *)(*(int *)(param_1 + 0x10) + 0x68),&local_20);
       local_14 = local_20;
       local_10 = 0xb;
-      FUN_00409254((byte *)"%s (%s)",&local_1c,1,(int *)ppuVar3);
-      FUN_00403cb0(param_2,local_c);
+      SysUtils_Format((byte *)"%s (%s)",&local_1c,1,(int *)ppuVar3);
+      System__LStrAsg(param_2,local_c);
     }
   }
   *in_FS_OFFSET = uStack_38;
   puStack_30 = &LAB_0042d73a;
   puStack_34 = (undefined1 *)0x42d72a;
-  FUN_00403c5c(&local_20);
+  System__LStrClr(&local_20);
   puStack_34 = (undefined1 *)0x42d732;
-  FUN_00403c5c((int *)&local_c);
+  System__LStrClr((int *)&local_c);
   return;
 }
 
@@ -2079,13 +2085,13 @@ void TControlActionLink_virtual_020(int param_1)
   if (cVar2 != '\0') {
     TGroupBox_GetCaption(*(int *)(param_1 + 0x18),(int *)&local_8);
     puVar1 = local_8;
-    iVar3 = FUN_0040312c(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
-    FUN_00403fec(puVar1,*(uint **)(iVar3 + 0x54));
+    iVar3 = System__AsClass(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
+    System__LStrCmp(puVar1,*(uint **)(iVar3 + 0x54));
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0042d7c2;
   puStack_14 = (undefined1 *)0x42d7ba;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -2101,7 +2107,7 @@ undefined4 TControlActionLink_virtual_028(int param_1)
   cVar1 = TActionLink_virtual_028(param_1);
   if (cVar1 != '\0') {
     cVar1 = (**(code **)(**(int **)(param_1 + 0x18) + 0x4c))();
-    iVar2 = FUN_0040312c(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
+    iVar2 = System__AsClass(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
     if (cVar1 == *(char *)(iVar2 + 0x59)) {
       return CONCAT31((int3)((uint)iVar2 >> 8),1);
     }
@@ -2123,8 +2129,8 @@ undefined4 TControlActionLink_virtual_030(int param_1)
   cVar1 = TActionLink_virtual_030(param_1);
   uVar4 = cVar1 == '\0';
   if (!(bool)uVar4) {
-    iVar2 = FUN_0040312c(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
-    puVar3 = FUN_00403fec(*(uint **)(*(int *)(param_1 + 0x18) + 0x70),*(uint **)(iVar2 + 0x60));
+    iVar2 = System__AsClass(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
+    puVar3 = System__LStrCmp(*(uint **)(*(int *)(param_1 + 0x18) + 0x70),*(uint **)(iVar2 + 0x60));
     if ((bool)uVar4) {
       return CONCAT31((int3)((uint)puVar3 >> 8),1);
     }
@@ -2143,7 +2149,7 @@ undefined4 TControlActionLink_virtual_03c(int param_1)
   
   cVar1 = TActionLink_virtual_03c(param_1);
   if (cVar1 != '\0') {
-    iVar2 = FUN_0040312c(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
+    iVar2 = System__AsClass(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
     if (*(char *)(iVar2 + 0x6a) == *(char *)(*(int *)(param_1 + 0x18) + 0x47)) {
       return CONCAT31((int3)((uint)iVar2 >> 8),1);
     }
@@ -2209,7 +2215,7 @@ void TControlActionLink_virtual_050(int *param_1,undefined4 *param_2)
   
   cVar1 = (**(code **)(*param_1 + 0x30))();
   if (cVar1 != '\0') {
-    FUN_00403cb0((int *)(param_1[6] + 0x70),param_2);
+    System__LStrAsg((int *)(param_1[6] + 0x70),param_2);
   }
   return;
 }
@@ -2267,7 +2273,8 @@ int * TControl_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -2296,7 +2303,7 @@ int * TControl_virtual_02c(int *param_1,char param_2,int *param_3)
   *(undefined2 *)((int)param_1 + 0x6a) = 0xfff4;
   param_1[0x29] = (int)&PTR_TWinControl_virtual_000_00443c6c;
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -2313,27 +2320,27 @@ void TControl_Destroy(int *param_1,char param_2)
   byte extraout_DL;
   undefined4 auStack_18 [4];
   
-  piVar2 = FUN_004032fc(param_1,param_2);
+  piVar2 = System__BeforeDestruction(param_1,param_2);
   FUN_0044c2e0(*(int *)PTR_DAT_004ab8ac,(int)piVar2);
   iVar1 = piVar2[0x24];
   if ((iVar1 == 0) || ((*(byte *)(iVar1 + 0x20) & 8) != 0)) {
     (**(code **)(*piVar2 + 0x60))(piVar2,0);
   }
   else {
-    FUN_0042f720(iVar1,0xb039,0,piVar2);
+    Controls_TControl_Perform(iVar1,0xb039,0,piVar2);
     (**(code **)(*piVar2 + 0x60))(piVar2,0);
     FUN_0042e13c((int)piVar2,auStack_18);
-    FUN_00403178(piVar2,0xffffffff,auStack_18);
+    System__CallDynaInst(piVar2,0xffffffff,auStack_18);
     piVar2[0x24] = 0;
   }
-  FUN_00402f9c((int *)piVar2[0x17]);
+  System_TObject_Free((int *)piVar2[0x17]);
   piVar2[0x17] = 0;
-  FUN_00402f9c((int *)piVar2[0x19]);
-  FUN_00402f9c((int *)piVar2[0x16]);
+  System_TObject_Free((int *)piVar2[0x19]);
+  System_TObject_Free((int *)piVar2[0x16]);
   FUN_00408d6c(piVar2[0x15]);
   TComponent_Destroy(piVar2,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar2);
+    System__ClassDestroy(piVar2);
   }
   return;
 }
@@ -2392,7 +2399,7 @@ void TControl_dynamic_fff9(int *param_1,int *param_2)
   undefined4 uVar1;
   
   if (param_2 != (int *)param_1[9]) {
-    uVar1 = FUN_00403114(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+    uVar1 = System__IsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
     if ((char)uVar1 != '\0') {
       (**(code **)(*param_1 + 0x60))(param_1,param_2);
     }
@@ -2414,7 +2421,7 @@ undefined1 TControl_dynamic_ffd6(int *param_1,undefined4 param_2,undefined4 para
   
   local_13 = 0;
   if (*(char *)((int)param_1 + 0x47) != '\0') {
-    pHVar1 = (HPALETTE)FUN_00403178(param_1,param_2,param_3);
+    pHVar1 = (HPALETTE)System__CallDynaInst(param_1,param_2,param_3);
     if (pHVar1 != (HPALETTE)0x0) {
       hdc = (HDC)(**(code **)(*param_1 + 0x44))(param_1,&pHStack_10);
       pHVar1 = SelectPalette(hdc,pHVar1,-(uint)((char)param_2 != '\x01'));
@@ -2487,7 +2494,7 @@ void TControl_virtual_014(int *param_1,int *param_2)
   
   *(ushort *)(param_1 + 0x11) = *(ushort *)(param_1 + 0x11) | 8;
   piVar1 = (int *)param_2[0xb];
-  uVar2 = FUN_00403114(piVar1,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar2 = System__IsClass(piVar1,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   uVar3 = extraout_ECX;
   if ((char)uVar2 != '\0') {
     (**(code **)(*param_1 + 0x60))(param_1,piVar1);
@@ -2496,11 +2503,11 @@ void TControl_virtual_014(int *param_1,int *param_2)
   TComponent_virtual_014(param_1,param_2,uVar3);
   *(ushort *)(param_1 + 0x11) = *(ushort *)(param_1 + 0x11) & 0xfff7;
   if (param_1[9] != 0) {
-    FUN_0042f720((int)param_1,0xb009,0,0);
-    FUN_0042f720((int)param_1,0xb008,0,0);
-    FUN_0042f720((int)param_1,0xb023,0,0);
-    FUN_0042f720((int)param_1,0xb035,0,0);
-    FUN_0042f720((int)param_1,0xb03d,0,0);
+    Controls_TControl_Perform((int)param_1,0xb009,0,0);
+    Controls_TControl_Perform((int)param_1,0xb008,0,0);
+    Controls_TControl_Perform((int)param_1,0xb023,0,0);
+    Controls_TControl_Perform((int)param_1,0xb035,0,0);
+    Controls_TControl_Perform((int)param_1,0xb03d,0,0);
   }
   return;
 }
@@ -2552,10 +2559,10 @@ void TControl_virtual_07c(int *param_1,int param_2,int param_3,int param_4,int p
     param_1[0xf] = param_4;
     FUN_0042de78((int)param_1);
     (**(code **)(*param_1 + 0x74))();
-    FUN_0042f720((int)param_1,0x47,0,0);
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    Controls_TControl_Perform((int)param_1,0x47,0,0);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
     if ((*(byte *)(param_1 + 8) & 1) == 0) {
-      FUN_00403178(param_1,extraout_EDX_00,extraout_ECX_00);
+      System__CallDynaInst(param_1,extraout_EDX_00,extraout_ECX_00);
     }
   }
   return;
@@ -2604,7 +2611,7 @@ void FUN_0042de78(int param_1)
     }
     iVar3 = *(int *)(param_1 + 0x24);
     if ((iVar3 != 0) && ((*(byte *)(iVar3 + 0x20) & 2) == 0)) {
-      bVar2 = FUN_00434cdc(iVar3);
+      bVar2 = Controls_TWinControl_HandleAllocated(iVar3);
       if (bVar2) {
         (**(code **)(**(int **)(param_1 + 0x24) + 0x40))(*(int **)(param_1 + 0x24),auStack_18);
         *(undefined4 *)(param_1 + 0x80) = uStack_10;
@@ -2701,7 +2708,7 @@ void TControl_dynamic_ffd1(int *param_1,int *param_2,undefined4 *param_3)
     }
     if (((param_2 != (int *)0x0) && (param_2 != (int *)0xffffffff)) && (param_2[0x50] != 0)) {
       puStack_28 = (undefined1 *)0x42e041;
-      FUN_00410104((int *)param_2[0x50],(int)local_8);
+      Classes_TList_Add((int *)param_2[0x50],(int)local_8);
       uVar2 = extraout_ECX_00;
     }
   }
@@ -2712,7 +2719,7 @@ void TControl_dynamic_ffd1(int *param_1,int *param_2,undefined4 *param_3)
   puStack_28 = &stack0xfffffffc;
   if (param_2 != (int *)0xffffffff) {
     puStack_28 = &stack0xfffffffc;
-    FUN_00403178(local_8,param_2,local_18);
+    System__CallDynaInst(local_8,param_2,local_18);
     uVar2 = extraout_ECX_01;
   }
   piVar1 = (int *)local_8[0x24];
@@ -2723,12 +2730,12 @@ void TControl_dynamic_ffd1(int *param_1,int *param_2,undefined4 *param_3)
     else {
       local_8[0x24] = (int)param_2;
       if (param_2 != (int *)0x0) {
-        FUN_00403178(param_2,local_8,local_18);
+        System__CallDynaInst(param_2,local_8,local_18);
         uVar2 = extraout_ECX_02;
       }
     }
     if (piVar1 != (int *)0x0) {
-      FUN_00403178(piVar1,local_8,uVar2);
+      System__CallDynaInst(piVar1,local_8,uVar2);
     }
   }
   *in_FS_OFFSET = uStack_30;
@@ -2744,7 +2751,7 @@ void TControl_dynamic_ffe6(int *param_1,int param_2,int *param_3)
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_00403114(param_1,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar1 = System__IsClass(param_1,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   if ((char)uVar1 == '\0') {
     FUN_0042eb70((int)param_1,*(char *)((int)param_1 + 0x47),'\0');
   }
@@ -2826,9 +2833,10 @@ void TControl_virtual_03c(int param_1,int *param_2)
     local_8 = 0xb;
     puVar3 = &local_c;
     in_stack_ffffffd4 = 0;
-    FUN_00405808((undefined4 *)PTR_PTR_004ab8f0,(int *)&local_10);
-    uVar2 = FUN_0040b614((int)&DAT_0040ea0c,'\x01',local_10,in_stack_ffffffd4,puVar3);
-    FUN_004036f4(uVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab8f0,(int *)&local_10);
+    uVar2 = SysUtils_Exception_CreateFmt
+                      ((int)&DAT_0040ea0c,'\x01',local_10,in_stack_ffffffd4,puVar3);
+    System__RaiseExcept(uVar2);
     puVar1 = puStack_1c;
   }
   puStack_1c = puVar1;
@@ -2837,7 +2845,7 @@ void TControl_virtual_03c(int param_1,int *param_2)
   param_2[1] = param_2[1] + *(int *)(param_1 + 0x34);
   *in_FS_OFFSET = in_stack_ffffffd4;
   puStack_24 = &LAB_0042e2a4;
-  FUN_00403c5c((int *)&local_10);
+  System__LStrClr((int *)&local_10);
   return;
 }
 
@@ -2880,7 +2888,7 @@ void FUN_0042e304(int *param_1,undefined4 param_2)
   undefined4 uVar1;
   
   for (; param_1 != (int *)0x0; param_1 = (int *)param_1[9]) {
-    uVar1 = FUN_00403114(param_1,(int)&PTR_TWinControl_virtual_000_00442cf0);
+    uVar1 = System__IsClass(param_1,(int)&PTR_TWinControl_virtual_000_00442cf0);
     if ((char)uVar1 != '\0') {
       FUN_004486c8((int)param_1,param_2);
     }
@@ -2905,7 +2913,7 @@ void FUN_0042e334(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
     local_14 = param_2;
     local_10 = param_3;
     local_8 = param_3;
-    FUN_0042f720(*(int *)(param_1 + 0x90),0xb042,param_1,&local_14);
+    Controls_TControl_Perform(*(int *)(param_1 + 0x90),0xb042,param_1,&local_14);
   }
   return;
 }
@@ -2916,7 +2924,7 @@ void FUN_0042e334(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
 void FUN_0042e3a0(int param_1)
 
 {
-  FUN_0042f720(param_1,0xb037,0,param_1);
+  Controls_TControl_Perform(param_1,0xb037,0,param_1);
   return;
 }
 
@@ -2925,17 +2933,17 @@ void FUN_0042e3a0(int param_1)
 
 /* WARNING: Removing unreachable block (ram,0x0042e48a) */
 
-void TControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TControl_dynamic_ffed(int *param_1,int numerator,int denominator_2)
 
 {
   int *piVar1;
   int number;
-  int denominator_2;
+  int denominator;
   byte bVar2;
   int local_18;
   int local_14;
   
-  if (numerator != denominator) {
+  if (numerator != denominator_2) {
     if ((*(byte *)(param_1 + 8) & 1) == 0) {
       bVar2 = 0x1f;
     }
@@ -2946,36 +2954,36 @@ void TControl_dynamic_ffed(int *param_1,int numerator,int denominator)
       number = param_1[0xc];
     }
     else {
-      number = MulDiv(param_1[0xc],numerator,denominator);
+      number = MulDiv(param_1[0xc],numerator,denominator_2);
     }
     if ((bVar2 & 2) == 0) {
       local_18 = param_1[0xd];
     }
     else {
-      local_18 = MulDiv(param_1[0xd],numerator,denominator);
+      local_18 = MulDiv(param_1[0xd],numerator,denominator_2);
     }
     if (((bVar2 & 4) == 0) || ((*(byte *)((int)param_1 + 0x41) & 1) != 0)) {
       local_14 = param_1[0xe];
     }
     else if ((bVar2 & 1) == 0) {
-      local_14 = MulDiv(param_1[0xe],numerator,denominator);
+      local_14 = MulDiv(param_1[0xe],numerator,denominator_2);
     }
     else {
-      local_14 = MulDiv(param_1[0xc] + param_1[0xe],numerator,denominator);
+      local_14 = MulDiv(param_1[0xc] + param_1[0xe],numerator,denominator_2);
       local_14 = local_14 - number;
     }
     if (((bVar2 & 8) == 0) || ((*(byte *)((int)param_1 + 0x41) & 2) != 0)) {
-      denominator_2 = param_1[0xf];
+      denominator = param_1[0xf];
     }
     else {
-      denominator_2 = MulDiv(param_1[0xd] + param_1[0xf],numerator,denominator);
-      denominator_2 = denominator_2 - local_18;
+      denominator = MulDiv(param_1[0xd] + param_1[0xf],numerator,denominator_2);
+      denominator = denominator - local_18;
     }
-    (**(code **)(*param_1 + 0x7c))(param_1,number,local_18,denominator_2,local_14);
+    (**(code **)(*param_1 + 0x7c))(param_1,number,local_18,denominator,local_14);
     if ((*(char *)((int)param_1 + 0x49) == '\0') && ((bVar2 & 0x10) != 0)) {
       piVar1 = (int *)param_1[0x16];
       number = TFont_GetSize((int)piVar1);
-      number = MulDiv(number,numerator,denominator_2);
+      number = MulDiv(number,numerator,denominator);
       TFont_SetSize(piVar1,number);
     }
   }
@@ -3011,12 +3019,12 @@ void TControl_virtual_018(int *param_1,uint *param_2)
   if (((*(byte *)(param_1 + 0x10) & 0x20) != 0) &&
      (uVar5 = (*(byte *)(param_1 + 8) & 1) == 0, puVar3 = &stack0xfffffffc, (bool)uVar5)) {
     TGroupBox_GetCaption((int)param_1,(int *)&local_c);
-    FUN_00403fec((uint *)param_1[2],local_c);
+    System__LStrCmp((uint *)param_1[2],local_c);
     puVar3 = puStack_1c;
     if ((bool)uVar5) {
       piVar1 = (int *)param_1[1];
       if (piVar1 != (int *)0x0) {
-        uVar4 = FUN_00403114(piVar1,(int)&PTR_TControl_virtual_000_0042a694);
+        uVar4 = System__IsClass(piVar1,(int)&PTR_TControl_virtual_000_0042a694);
         if (((char)uVar4 != '\0') && (puVar3 = puStack_1c, (*(byte *)(piVar1 + 8) & 1) != 0))
         goto LAB_0042e576;
       }
@@ -3035,7 +3043,7 @@ LAB_0042e57c:
   *in_FS_OFFSET = uStack_24;
   puStack_1c = &LAB_0042e5b1;
   puStack_20 = (undefined1 *)0x42e5a9;
-  FUN_00403c5c((int *)&local_c);
+  System__LStrClr((int *)&local_c);
   return;
 }
 
@@ -3072,8 +3080,9 @@ void TControl_virtual_060(int *param_1,int *param_2,undefined4 param_3)
   
   if (param_2 != (int *)param_1[9]) {
     if (param_1 == param_2) {
-      piVar1 = FUN_0040b694((int *)&DAT_0040ea0c,'\x01',(undefined4 *)PTR_PTR_004ab8f4);
-      FUN_004036f4(piVar1);
+      piVar1 = SysUtils_Exception_CreateRes
+                         ((int *)&DAT_0040ea0c,'\x01',(undefined4 *)PTR_PTR_004ab8f4);
+      System__RaiseExcept(piVar1);
       param_3 = extraout_ECX;
     }
     if ((int *)param_1[9] != (int *)0x0) {
@@ -3096,7 +3105,7 @@ void TControl_virtual_05c(int param_1,char param_2)
 {
   if (param_2 != *(char *)(param_1 + 0x48)) {
     *(char *)(param_1 + 0x48) = param_2;
-    FUN_0042f720(param_1,0xb00c,0,0);
+    Controls_TControl_Perform(param_1,0xb00c,0,0);
   }
   return;
 }
@@ -3107,7 +3116,7 @@ void TControl_virtual_05c(int param_1,char param_2)
 void FUN_0042e6a8(int param_1)
 
 {
-  FUN_0042f720(param_1,0xe,0,0);
+  Controls_TControl_Perform(param_1,0xe,0,0);
   return;
 }
 
@@ -3117,7 +3126,7 @@ void FUN_0042e6a8(int param_1)
 void FUN_0042e6b8(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_0042f720(param_1,0xd,param_3,param_2);
+  Controls_TControl_Perform(param_1,0xd,param_3,param_2);
   return;
 }
 
@@ -3130,7 +3139,7 @@ void TControl_virtual_068(int param_1,char param_2)
   if (param_2 != *(char *)(param_1 + 0x4f)) {
     *(char *)(param_1 + 0x4f) = param_2;
     *(undefined1 *)(param_1 + 0x50) = 0;
-    FUN_0042f720(param_1,0xb03c,0,0);
+    Controls_TControl_Perform(param_1,0xb03c,0,0);
   }
   return;
 }
@@ -3152,7 +3161,7 @@ void FUN_0042e7e4(int param_1)
     uVar2 = TFont_GetHeight(*(int *)(param_1 + 0x58));
     *(undefined4 *)(param_1 + 0x74) = uVar2;
   }
-  FUN_0042f720(param_1,0xb00e,0,0);
+  Controls_TControl_Perform(param_1,0xb00e,0,0);
   return;
 }
 
@@ -3164,7 +3173,7 @@ void TControl_virtual_064(int param_1,char param_2)
 {
   if ((param_2 != *(char *)(param_1 + 0x50)) &&
      (*(char *)(param_1 + 0x50) = param_2, *(int *)(param_1 + 0x24) != 0)) {
-    FUN_0042f720(param_1,0xb03d,0,0);
+    Controls_TControl_Perform(param_1,0xb03d,0,0);
   }
   return;
 }
@@ -3180,7 +3189,7 @@ HCURSOR __stdcall TControl_SetCursor(HCURSOR hCursor)
   
   if (in_DX != (short)in_EAX[0x1a].unused) {
     *(short *)&in_EAX[0x1a].unused = in_DX;
-    in_EAX = (HCURSOR)FUN_0042f720((int)in_EAX,0xb00f,0,0);
+    in_EAX = (HCURSOR)Controls_TControl_Perform((int)in_EAX,0xb00f,0,0);
   }
   return in_EAX;
 }
@@ -3223,7 +3232,7 @@ void FUN_0042e950(int *param_1,char param_2)
 void FUN_0042e978(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,CONCAT31((int3)((uint)param_2 >> 8),1),param_3);
+  System__CallDynaInst(param_1,CONCAT31((int3)((uint)param_2 >> 8),1),param_3);
   return;
 }
 
@@ -3233,7 +3242,7 @@ void FUN_0042e978(int *param_1,undefined4 param_2,undefined4 param_3)
 void FUN_0042e988(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,0,param_3);
+  System__CallDynaInst(param_1,0,param_3);
   return;
 }
 
@@ -3250,7 +3259,7 @@ void FUN_0042e998(int *param_1,int param_2)
   undefined4 extraout_EDX;
   
   if (param_1[9] != 0) {
-    iVar2 = FUN_0041030c(*(int *)(param_1[9] + 0x134),(int)param_1);
+    iVar2 = Classes_TList_IndexOf(*(int *)(param_1[9] + 0x134),(int)param_1);
     if (-1 < iVar2) {
       iVar1 = (*(int **)(param_1[9] + 0x134))[2];
       if (param_2 < 0) {
@@ -3260,12 +3269,12 @@ void FUN_0042e998(int *param_1,int param_2)
         param_2 = iVar1 + -1;
       }
       if (iVar2 != param_2) {
-        FUN_00410150(*(int **)(param_1[9] + 0x134),iVar2);
+        Classes_TList_Delete(*(int **)(param_1[9] + 0x134),iVar2);
         FUN_0041032c(*(int **)(param_1[9] + 0x134),param_2,(int)param_1);
         FUN_0042eb70((int)param_1,*(char *)((int)param_1 + 0x47),'\x01');
         piVar3 = (int *)FUN_0044488c(param_1);
         if ((*(byte *)(piVar3 + 0x11) & 4) != 0) {
-          FUN_00403178(piVar3,CONCAT31((int3)((uint)extraout_EDX >> 8),1),extraout_ECX);
+          System__CallDynaInst(piVar3,CONCAT31((int3)((uint)extraout_EDX >> 8),1),extraout_ECX);
         }
       }
     }
@@ -3320,9 +3329,10 @@ void TControl_virtual_044(int param_1)
     local_8 = 0xb;
     puVar3 = &local_c;
     in_stack_ffffffd4 = 0;
-    FUN_00405808((undefined4 *)PTR_PTR_004ab8f0,(int *)&local_10);
-    uVar2 = FUN_0040b614((int)&DAT_0040ea0c,'\x01',local_10,in_stack_ffffffd4,puVar3);
-    FUN_004036f4(uVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab8f0,(int *)&local_10);
+    uVar2 = SysUtils_Exception_CreateFmt
+                      ((int)&DAT_0040ea0c,'\x01',local_10,in_stack_ffffffd4,puVar3);
+    System__RaiseExcept(uVar2);
     puVar1 = puStack_1c;
   }
   puStack_1c = puVar1;
@@ -3331,7 +3341,7 @@ void TControl_virtual_044(int param_1)
   IntersectClipRect(hdc,0,0,*(int *)(param_1 + 0x38),*(int *)(param_1 + 0x3c));
   *in_FS_OFFSET = in_stack_ffffffd4;
   puStack_24 = &LAB_0042ead9;
-  FUN_00403c5c((int *)&local_10);
+  System__LStrClr((int *)&local_10);
   return;
 }
 
@@ -3352,14 +3362,14 @@ undefined1 FUN_0042eae4(void)
   
   local_5 = 1;
   puVar1 = *(undefined4 **)(*(int *)(*(int *)(in_stack_00000004 + -4) + 0x24) + 0x134);
-  i_val = FUN_0041030c((int)puVar1,*(int *)(in_stack_00000004 + -4));
+  i_val = Classes_TList_IndexOf((int)puVar1,*(int *)(in_stack_00000004 + -4));
   do {
     do {
       if (i_val < 1) {
         return 0;
       }
       i_val = i_val + -1;
-      iVar2 = FUN_004102b0(puVar1,i_val);
+      iVar2 = Classes_TList_Get(puVar1,i_val);
     } while ((*(char *)(iVar2 + 0x47) == '\0') || ((*(byte *)(iVar2 + 0x40) & 0x40) == 0));
     FUN_0042e13c(iVar2,&local_28.left);
     IntersectRect(&local_18,(RECT *)(in_stack_00000004 + -0x14),&local_28);
@@ -3395,7 +3405,7 @@ void FUN_0042eb70(int param_1,char param_2,char param_3)
     return;
   }
   local_8 = param_1;
-  bVar2 = FUN_00434cdc(*(int *)(param_1 + 0x24));
+  bVar2 = Controls_TWinControl_HandleAllocated(*(int *)(param_1 + 0x24));
   if (bVar2) {
     FUN_0042e13c(local_8,&local_18.left);
     if (((param_3 == '\0') && ((*(byte *)(*(int *)(local_8 + 0x24) + 0x40) & 0x40) == 0)) &&
@@ -3407,7 +3417,7 @@ void FUN_0042eb70(int param_1,char param_2,char param_3)
     }
     bErase = -(uint)bVar1;
     lpRect = &local_18;
-    hWnd = (HWND)FUN_004349e0(*(int **)(local_8 + 0x24));
+    hWnd = (HWND)Controls_TWinControl_GetHandle(*(int **)(local_8 + 0x24));
     InvalidateRect(hWnd,lpRect,bErase);
     return;
   }
@@ -3493,10 +3503,10 @@ void TControl_virtual_078(int *param_1)
   if (((*(char *)((int)param_1 + 0x47) != '\0') ||
       (((*(byte *)(param_1 + 8) & 0x10) != 0 && ((*(byte *)((int)param_1 + 0x41) & 4) == 0)))) &&
      (param_1[9] != 0)) {
-    bVar1 = FUN_00434cdc(param_1[9]);
+    bVar1 = Controls_TWinControl_HandleAllocated(param_1[9]);
     if (bVar1) {
       if ((*(byte *)(param_1 + 0x10) & 0x40) != 0) {
-        pHVar2 = (HWND)FUN_004349e0((int *)param_1[9]);
+        pHVar2 = (HWND)Controls_TWinControl_GetHandle((int *)param_1[9]);
         hdc = GetDC(pHVar2);
         uVar3 = *in_FS_OFFSET;
         *in_FS_OFFSET = &stack0xffffffe4;
@@ -3504,7 +3514,7 @@ void TControl_virtual_078(int *param_1)
                           param_1[0xd] + param_1[0xf]);
         FUN_00432654(param_1[9],hdc,(int)param_1);
         *in_FS_OFFSET = uVar3;
-        pHVar2 = (HWND)FUN_004349e0((int *)param_1[9]);
+        pHVar2 = (HWND)Controls_TWinControl_GetHandle((int *)param_1[9]);
         ReleaseDC(pHVar2,hdc);
         return;
       }
@@ -3586,10 +3596,11 @@ void FUN_0042edc0(int *param_1,char param_2,int param_3)
   LONG LStack_14;
   LONG LStack_10;
   
-  uVar1 = FUN_00403114(param_1,(int)&PTR_TWinControl_virtual_000_00442cf0);
+  uVar1 = System__IsClass(param_1,(int)&PTR_TWinControl_virtual_000_00442cf0);
   if (((char)uVar1 != '\0') && (*(char *)((int)param_1 + 0x8b) != '\x01')) {
-    piVar2 = FUN_0040b694((int *)&DAT_0040ea0c,'\x01',(undefined4 *)PTR_PTR_004ab8e8);
-    FUN_004036f4(piVar2);
+    piVar2 = SysUtils_Exception_CreateRes
+                       ((int *)&DAT_0040ea0c,'\x01',(undefined4 *)PTR_PTR_004ab8e8);
+    System__RaiseExcept(piVar2);
   }
   FUN_0042f754(param_1);
   if ((DAT_004ac75c == 0) || (DAT_004ac75c == -1)) {
@@ -3600,7 +3611,7 @@ void FUN_0042edc0(int *param_1,char param_2,int param_3)
       point.x = LStack_14;
       point.y = LStack_10;
       uVar1 = FUN_004070fc((undefined2 *)&point);
-      FUN_0042f720((int)param_1,0x202,0,uVar1);
+      Controls_TControl_Perform((int)param_1,0x202,0,uVar1);
     }
     if (param_3 < 0) {
       param_3 = *(int *)(DAT_004ac74c + 8);
@@ -3713,7 +3724,7 @@ void TControl_dynamic_ffd7(undefined4 param_1,int *param_2)
   }
   else {
     lpRect = (LPRECT)(param_2 + 0x11);
-    hWnd = (HWND)FUN_004349e0((int *)param_2[1]);
+    hWnd = (HWND)Controls_TWinControl_GetHandle((int *)param_2[1]);
     GetWindowRect(hWnd,lpRect);
     iVar1 = param_2[1];
     if ((*(char *)(iVar1 + 0x17c) != '\0') && (*(int *)(iVar1 + 0x148) != 0)) {
@@ -3731,7 +3742,7 @@ void TControl_dynamic_ffd7(undefined4 param_1,int *param_2)
 void TControl_dynamic_ffe9(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,param_2,param_3);
+  System__CallDynaInst(param_1,param_2,param_3);
   return;
 }
 
@@ -3828,7 +3839,7 @@ void TControl_dynamic_ffea(undefined4 param_1,int *param_2,char param_3)
 void TControl_dynamic_ffe0(int *param_1,undefined4 param_2)
 
 {
-  FUN_00403178(param_1,param_2,0);
+  System__CallDynaInst(param_1,param_2,0);
   return;
 }
 
@@ -3838,7 +3849,7 @@ void TControl_dynamic_ffe0(int *param_1,undefined4 param_2)
 void TControl_dynamic_ffdf(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,param_2,CONCAT31((int3)((uint)param_3 >> 8),1));
+  System__CallDynaInst(param_1,param_2,CONCAT31((int3)((uint)param_3 >> 8),1));
   return;
 }
 
@@ -3858,30 +3869,30 @@ void FUN_0042f1c8(int *param_1,int param_2)
   
   piVar2 = *(int **)(param_2 + 8);
   piVar6 = (int *)piVar2[2];
-  uVar3 = FUN_00403114(piVar6,(int)&LAB_00429c24);
+  uVar3 = System__IsClass(piVar6,(int)&LAB_00429c24);
   cVar5 = (char)uVar3;
   if ((DAT_004ac764 != '\0') && (cVar5 == '\0')) {
-    iVar4 = FUN_0040312c(piVar6,(int)&PTR_TBaseDragControlObject_virtual_000_00429b9c);
+    iVar4 = System__AsClass(piVar6,(int)&PTR_TBaseDragControlObject_virtual_000_00429b9c);
     piVar6 = *(int **)(iVar4 + 0x38);
   }
   FUN_0042e2d8(param_1,piVar2,local_18);
   if (*(byte *)(param_2 + 4) < 3) {
     if (cVar5 == '\0') {
       bVar1 = *(byte *)(param_2 + 4);
-      FUN_00403178(param_1,piVar6,local_18[0]);
+      System__CallDynaInst(param_1,piVar6,local_18[0]);
     }
     else {
       bVar1 = *(byte *)(param_2 + 4);
-      FUN_00403178((int *)piVar2[3],piVar6,local_18[0]);
+      System__CallDynaInst((int *)piVar2[3],piVar6,local_18[0]);
     }
     *(uint *)(param_2 + 0xc) = (uint)bVar1;
   }
   else if (*(byte *)(param_2 + 4) == 3) {
     if (cVar5 == '\0') {
-      FUN_00403178(param_1,piVar6,local_18[0]);
+      System__CallDynaInst(param_1,piVar6,local_18[0]);
     }
     else {
-      FUN_00403178((int *)piVar2[3],piVar6,local_18[0]);
+      System__CallDynaInst((int *)piVar2[3],piVar6,local_18[0]);
     }
   }
   return;
@@ -3918,7 +3929,7 @@ undefined4 FUN_0042f2b8(int *param_1,int *param_2,int param_3,undefined1 param_4
   if ((param_2 == (int *)0x0) || (param_2 == (int *)0xffffffff)) {
     i_val = param_1[0x24];
     if (((i_val == 0) || (*(char *)(i_val + 0x17c) == '\0')) || (*(int *)(i_val + 0x148) == 0)) {
-      FUN_0040f7d0(param_1[0xc],param_1[0xd],&local_28);
+      Classes_Point(param_1[0xc],param_1[0xd],&local_28);
       local_20[0].x = local_28;
       local_20[0].y = local_24;
       if ((int *)param_1[9] != (int *)0x0) {
@@ -3932,7 +3943,7 @@ undefined4 FUN_0042f2b8(int *param_1,int *param_2,int param_3,undefined1 param_4
       UVar7 = 2;
       points = local_20;
       hWndTo = (HWND)0x0;
-      pHVar1 = (HWND)FUN_004349e0((int *)param_1[0x24]);
+      pHVar1 = (HWND)Controls_TWinControl_GetHandle((int *)param_1[0x24]);
       MapWindowPoints(pHVar1,hWndTo,points,UVar7);
     }
     i_val = FUN_0042e6c4((int)param_1);
@@ -3957,7 +3968,7 @@ LAB_0042f3c2:
     local_9 = '\x01';
   }
   else {
-    i_val = FUN_00403178((int *)param_1[0x24],param_2,param_1);
+    i_val = System__CallDynaInst((int *)param_1[0x24],param_2,param_1);
     if ((char)i_val != '\0') goto LAB_0042f3c2;
     local_9 = '\0';
     uVar4 = 0;
@@ -3969,7 +3980,7 @@ LAB_0042f3c2:
       pHVar1 = (HWND)0x0;
     }
     else {
-      pHVar1 = (HWND)FUN_004349e0((int *)param_1[0x24]);
+      pHVar1 = (HWND)Controls_TWinControl_GetHandle((int *)param_1[0x24]);
     }
     FUN_0042e13c((int)param_1,&local_20[0].x);
     if (pHVar1 != (HWND)0x0) {
@@ -3987,11 +3998,11 @@ LAB_0042f3c2:
     }
     UVar7 = 1;
     points = local_20;
-    pHVar1 = (HWND)FUN_004349e0(param_2);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_2);
     MapWindowPoints((HWND)0x0,pHVar1,points,UVar7);
-    FUN_00403178(param_2,local_10,local_20[0].x);
+    System__CallDynaInst(param_2,local_10,local_20[0].x);
     *in_FS_OFFSET = local_20[0].y;
-    uVar3 = FUN_00402f9c(local_10);
+    uVar3 = System_TObject_Free(local_10);
     return uVar3;
   }
 LAB_0042f492:
@@ -4020,7 +4031,7 @@ char FUN_0042f4a0(int *param_1,undefined4 *param_2)
     puVar5 = puVar5 + 1;
   }
   if ((int *)param_1[0x24] != (int *)0x0) {
-    cVar1 = FUN_00403178((int *)param_1[0x24],0,param_1);
+    cVar1 = System__CallDynaInst((int *)param_1[0x24],0,param_1);
     if (cVar1 == '\0') {
       cVar1 = '\0';
       goto LAB_0042f4d8;
@@ -4031,14 +4042,14 @@ LAB_0042f4d8:
   if (cVar1 != '\0') {
     piVar2 = FUN_00430118(param_1,local_2c);
     if (piVar2 == (int *)0x0) {
-      FUN_00403178(param_1,0,local_2c);
+      System__CallDynaInst(param_1,0,local_2c);
     }
     else {
       uVar3 = TForm_GetClientHeight(piVar2);
       puVar5 = auStack_1c;
       uVar4 = TForm_GetClientWidth(piVar2);
-      FUN_0040f7e8(0,0,uVar4,puVar5,uVar3);
-      FUN_00403178(param_1,piVar2,auStack_1c);
+      Classes_Rect(0,0,uVar4,puVar5,uVar3);
+      System__CallDynaInst(param_1,piVar2,auStack_1c);
     }
   }
   return cVar1;
@@ -4177,9 +4188,10 @@ void FUN_0042f64c(int *param_1,int *param_2,int *param_3)
 }
 
 
-/* ==== 0042f720 FUN_0042f720 ==== */
+/* ==== 0042f720 Controls.TControl.Perform ==== */
 
-undefined4 FUN_0042f720(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+undefined4
+Controls_TControl_Perform(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 
 {
   undefined4 local_14;
@@ -4287,7 +4299,7 @@ void TControl_virtual_06c(int *param_1,uint *param_2,undefined4 param_3)
             if (uVar1 != 0x203) goto LAB_0042f8f7;
           }
           if (*(char *)((int)param_1 + 0x4d) == '\x01') {
-            FUN_00403178(param_1,param_2,param_3);
+            System__CallDynaInst(param_1,param_2,param_3);
             return;
           }
           *(ushort *)(param_1 + 0x11) = *(ushort *)(param_1 + 0x11) | 1;
@@ -4295,12 +4307,12 @@ void TControl_virtual_06c(int *param_1,uint *param_2,undefined4 param_3)
       }
       goto LAB_0042f8f7;
     }
-    piVar3 = FUN_00444864(param_1);
+    piVar3 = Forms_GetParentForm(param_1);
     if (piVar3 == (int *)0x0) goto LAB_0042f8f7;
     cVar2 = (**(code **)(*piVar3 + 0xdc))(piVar3,param_1,param_2);
   }
   else {
-    piVar3 = FUN_00444864(param_1);
+    piVar3 = Forms_GetParentForm(param_1);
     if ((piVar3 == (int *)0x0) || (piVar3[0x8e] == 0)) goto LAB_0042f8f7;
     cVar2 = (**(code **)(*(int *)piVar3[0x8e] + 0x24))((int *)piVar3[0x8e],param_1,param_2);
   }
@@ -4453,8 +4465,9 @@ void FUN_0042faf0(int *param_1,int param_2,undefined1 param_3,byte param_4)
   
   if ((*(byte *)((int)param_1 + 0x41) & 0x10) == 0) {
     bVar1 = FUN_00444718(CONCAT22(*(short *)(param_2 + 10) >> 0xf,*(undefined2 *)(param_2 + 4)));
-    FUN_00403178(param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),param_3),
-                 CONCAT31(extraout_var,bVar1 | param_4));
+    System__CallDynaInst
+              (param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),param_3),
+               CONCAT31(extraout_var,bVar1 | param_4));
   }
   return;
 }
@@ -4511,7 +4524,7 @@ void TControl_WMLButtonDblClk(int *param_1,int param_2)
     uVar2 = extraout_EDX_00;
   }
   if ((*(byte *)(param_1 + 0x10) & 8) != 0) {
-    FUN_00403178(param_1,uVar2,uVar1);
+    System__CallDynaInst(param_1,uVar2,uVar1);
   }
   FUN_0042faf0(param_1,param_2,0,0x40);
   return;
@@ -4631,7 +4644,7 @@ void TControl_WMMouseMove(int *param_1,int param_2)
   (**(code **)(*param_1 + -0x10))(param_1,param_2);
   if ((*(byte *)((int)param_1 + 0x41) & 0x10) == 0) {
     bVar1 = FUN_00444718(CONCAT22(*(short *)(param_2 + 10) >> 0xf,*(undefined2 *)(param_2 + 4)));
-    FUN_00403178(param_1,CONCAT31(extraout_var,bVar1),(int)*(short *)(param_2 + 8));
+    System__CallDynaInst(param_1,CONCAT31(extraout_var,bVar1),(int)*(short *)(param_2 + 8));
   }
   return;
 }
@@ -4663,8 +4676,9 @@ void FUN_0042fdd4(int *param_1,int param_2,undefined1 param_3)
   
   if ((*(byte *)((int)param_1 + 0x41) & 0x10) == 0) {
     bVar1 = FUN_00444718(CONCAT22(*(short *)(param_2 + 10) >> 0xf,*(undefined2 *)(param_2 + 4)));
-    FUN_00403178(param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),param_3),
-                 CONCAT31(extraout_var,bVar1));
+    System__CallDynaInst
+              (param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),param_3),
+               CONCAT31(extraout_var,bVar1));
   }
   return;
 }
@@ -4695,7 +4709,7 @@ void TControl_WMLButtonUp(int *param_1,int param_2)
     pt.x = LStack_24;
     BVar1 = PtInRect(&RStack_1c,pt);
     if (BVar1 != 0) {
-      FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+      System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
     }
   }
   FUN_0042fdd4(param_1,param_2,0);
@@ -4737,7 +4751,7 @@ void TControl_message_001f(int *param_1)
   if (bVar1) {
     FUN_0042e950(param_1,'\0');
     if ((*(byte *)(param_1 + 0x11) & 1) != 0) {
-      FUN_0042f720((int)param_1,0x202,0,0xffffffff);
+      Controls_TControl_Perform((int)param_1,0x202,0,0xffffffff);
       return;
     }
   }
@@ -4940,7 +4954,7 @@ void TControl_CMMouseEnter(int param_1)
 
 {
   if (*(int *)(param_1 + 0x24) != 0) {
-    FUN_0042f720(*(int *)(param_1 + 0x24),0xb013,0,param_1);
+    Controls_TControl_Perform(*(int *)(param_1 + 0x24),0xb013,0,param_1);
   }
   return;
 }
@@ -4952,7 +4966,7 @@ void TControl_CMMouseLeave(int param_1)
 
 {
   if (*(int *)(param_1 + 0x24) != 0) {
-    FUN_0042f720(*(int *)(param_1 + 0x24),0xb014,0,param_1);
+    Controls_TControl_Perform(*(int *)(param_1 + 0x24),0xb014,0,param_1);
   }
   return;
 }
@@ -5017,7 +5031,7 @@ void FUN_004301a0(void)
   int local_8;
   
   piVar3 = (int *)(in_stack_00000004 + -4);
-  FUN_0040f7d0(*(undefined4 *)(*piVar3 + 0x30),*(undefined4 *)(*piVar3 + 0x34),local_14);
+  Classes_Point(*(undefined4 *)(*piVar3 + 0x30),*(undefined4 *)(*piVar3 + 0x34),local_14);
   FUN_0042e2ac(*(int **)(*piVar3 + 0x24),local_14,&local_c);
   iVar1 = *(int *)(*(int *)(in_stack_00000004 + -8) + 8);
   piVar2 = *(int **)(*piVar3 + 0x24);
@@ -5046,7 +5060,7 @@ void TControl_CMFloatChanged(int *param_1,int param_2)
     piVar2 = FUN_00430118(param_1,(undefined4 *)(*(int *)(param_2 + 8) + 0x44));
     if (piVar2 != (int *)0x0) {
       *(int **)(*(int *)(param_2 + 8) + 4) = piVar2;
-      iVar3 = FUN_004349e0(piVar2);
+      iVar3 = Controls_TWinControl_GetHandle(piVar2);
       *(int *)(*(int *)(param_2 + 8) + 8) = iVar3;
     }
   }
@@ -5085,7 +5099,7 @@ void TControl_dynamic_fff0(int *param_1,int *param_2,char param_3)
   puStack_20 = &LAB_00430371;
   uStack_24 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_24;
-  uVar2 = FUN_00403114(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
+  uVar2 = System__IsClass(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
   if ((char)uVar2 == '\0') goto LAB_00430356;
   if (param_3 == '\0') {
 LAB_004302ea:
@@ -5096,7 +5110,7 @@ LAB_004302ea:
     uVar4 = local_8 == 0;
     if ((bool)uVar4) goto LAB_004302ea;
     TGroupBox_GetCaption((int)param_1,(int *)&local_c);
-    FUN_00403fec(local_c,(uint *)param_1[2]);
+    System__LStrCmp(local_c,(uint *)param_1[2]);
     if ((bool)uVar4) goto LAB_004302ea;
   }
   if (param_3 == '\0') {
@@ -5112,7 +5126,7 @@ LAB_00430303:
     if (cVar1 == '\x01') goto LAB_00430303;
   }
   if ((param_3 == '\0') || (param_1[0x1c] == 0)) {
-    FUN_00403cb0(param_1 + 0x1c,(undefined4 *)param_2[0x18]);
+    System__LStrAsg(param_1 + 0x1c,(undefined4 *)param_2[0x18]);
     uVar2 = extraout_ECX_01;
     uVar3 = extraout_EDX_01;
   }
@@ -5129,7 +5143,7 @@ LAB_00430356:
   *in_FS_OFFSET = uStack_24;
   puStack_1c = &LAB_00430378;
   puStack_20 = (undefined1 *)0x430370;
-  FUN_00403c80((int *)&local_c,2);
+  System__LStrArrayClr((int *)&local_c,2);
   return;
 }
 
@@ -5216,7 +5230,7 @@ void TControl_virtual_00c(int *param_1)
   iVar1 = TButton_GetAction((int)param_1);
   if (iVar1 != 0) {
     uVar2 = TButton_GetAction((int)param_1);
-    FUN_00403178(param_1,uVar2,CONCAT31((int3)((uint)extraout_ECX >> 8),1));
+    System__CallDynaInst(param_1,uVar2,CONCAT31((int3)((uint)extraout_ECX >> 8),1));
   }
   FUN_0042de78((int)param_1);
   return;
@@ -5241,7 +5255,7 @@ void TControl_virtual_000(int *param_1,int *param_2)
   puStack_1c = &LAB_0043051d;
   uStack_20 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_20;
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
   if ((char)uVar1 == '\0') {
     TPersistent_virtual_000(param_1,param_2);
   }
@@ -5258,7 +5272,7 @@ void TControl_virtual_000(int *param_1,int *param_2)
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_00430524;
   puStack_1c = (undefined1 *)0x43051c;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -5356,7 +5370,7 @@ undefined4 TControl_virtual_050(int *param_1)
   
   if (param_1[0x24] != 0) {
     iVar1 = (**(code **)(*param_1 + 0x54))();
-    uVar2 = FUN_00403114((int *)param_1[0x24],iVar1);
+    uVar2 = System__IsClass((int *)param_1[0x24],iVar1);
     if ((char)uVar2 != '\0') {
       return CONCAT31((int3)((uint)uVar2 >> 8),1);
     }
@@ -5394,7 +5408,7 @@ uint FUN_00430668(int *param_1,uint param_2,undefined4 param_3)
   char cVar1;
   uint uVar2;
   
-  cVar1 = FUN_00403178(param_1,param_2,param_3);
+  cVar1 = System__CallDynaInst(param_1,param_2,param_3);
   if (cVar1 != '\0') {
     if ((param_2 & 2) == 2) {
       param_2 = param_2 & 0xfffffffd;
@@ -5494,15 +5508,15 @@ void TControl_WMContextMenu(int *param_1,int param_2)
       }
     }
     local_28[0] = 0;
-    FUN_00403178(param_1,&local_30,local_28);
+    System__CallDynaInst(param_1,&local_30,local_28);
     *(uint *)(param_2 + 0xc) = (uint)local_28[0];
     if (local_28[0] == 0) {
-      piVar2 = (int *)FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+      piVar2 = (int *)System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
       if ((piVar2 != (int *)0x0) && (*(char *)((int)piVar2 + 0x51) != '\0')) {
         FUN_0042e304(param_1,0);
         piVar2[0x15] = (int)param_1;
         if (local_38 < 0) {
-          FUN_0040f7d0(0,0,aiStack_14);
+          Classes_Point(0,0,aiStack_14);
           FUN_0042e2ac(param_1,aiStack_14,&local_38);
         }
         (**(code **)(*piVar2 + 0x40))(piVar2,local_38,local_34);
@@ -5542,7 +5556,7 @@ void TWinControlActionLink_virtual_000(int param_1,int *param_2)
   undefined4 uVar1;
   
   TControlActionLink_virtual_000(param_1,param_2);
-  uVar1 = FUN_0040312c(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar1 = System__AsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   *(undefined4 *)(param_1 + 0x20) = uVar1;
   return;
 }
@@ -5558,7 +5572,7 @@ undefined4 TWinControlActionLink_virtual_02c(int param_1)
   
   cVar1 = TActionLink_virtual_02c(param_1);
   if (cVar1 != '\0') {
-    iVar2 = FUN_0040312c(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
+    iVar2 = System__AsClass(*(int **)(param_1 + 0x10),(int)&PTR_TCustomAction_virtual_000_0043943c);
     if (*(int *)(iVar2 + 0x5c) == *(int *)(*(int *)(param_1 + 0x20) + 0x150)) {
       return CONCAT31((int3)((uint)*(int *)(iVar2 + 0x5c) >> 8),1);
     }
@@ -5606,7 +5620,8 @@ void TWinControl_virtual_02c(int *param_1,char param_2,int *param_3)
   local_5 = 0;
   if (param_2 != '\0') {
     puStackY_28 = (undefined1 *)0x4308d9;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffdc,in_stack_ffffffe0);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffdc,
+                                         in_stack_ffffffe0);
     param_3 = extraout_ECX;
     local_5 = extraout_DL;
   }
@@ -5624,11 +5639,11 @@ void TWinControl_virtual_02c(int *param_1,char param_2,int *param_3)
   param_1[0x5c] = -1;
   *(undefined1 *)(param_1 + 0x55) = 3;
   if (*(short *)(PTR_DAT_004aba14 + 4) == 0x11) {
-    FUN_00403c5c(param_1 + 0x56);
+    System__LStrClr(param_1 + 0x56);
   }
   else {
     FUN_0044b568(*(int *)PTR_DAT_004ab9f8,(int *)&local_c,extraout_ECX_01);
-    FUN_00403cb0(param_1 + 0x56,local_c);
+    System__LStrAsg(param_1 + 0x56,local_c);
   }
   *(undefined1 *)(param_1 + 0x5f) = 0;
   *(undefined1 *)((int)param_1 + 0x122) = 0xf;
@@ -5638,7 +5653,7 @@ void TWinControl_virtual_02c(int *param_1,char param_2,int *param_3)
   *in_FS_OFFSET = uStackY_30;
   puStackY_28 = &LAB_004309b9;
   puStackY_2c = (undefined1 *)0x4309b1;
-  FUN_00403c5c((int *)&local_c);
+  System__LStrClr((int *)&local_c);
   return;
 }
 
@@ -5654,34 +5669,34 @@ void TWinControl_Destroy(int *param_1,char param_2)
   undefined4 extraout_ECX;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   FUN_0041581c((int)piVar1);
   if ((char)piVar1[0x51] != '\0') {
     *(undefined1 *)(piVar1 + 0x51) = 0;
     FUN_0042c648((int)piVar1,'\0',extraout_ECX);
   }
-  FUN_00405860(piVar1 + 0x52);
-  FUN_00402f9c((int *)piVar1[0x50]);
+  System__IntfClear(piVar1 + 0x52);
+  System_TObject_Free((int *)piVar1[0x50]);
   if (piVar1[9] != 0) {
     FUN_0043157c(piVar1,'\x01');
   }
   if (piVar1[0x53] != 0) {
     (**(code **)(*piVar1 + 0x9c))();
   }
-  iVar2 = FUN_004317bc((int)piVar1);
+  iVar2 = Controls_TWinControl_GetControlCount((int)piVar1);
   while (iVar2 != 0) {
-    piVar3 = (int *)FUN_00431780((int)piVar1,iVar2 + -1);
+    piVar3 = (int *)Controls_TWinControl_GetControl((int)piVar1,iVar2 + -1);
     FUN_004315e8((int)piVar1,piVar3);
     (**(code **)(*piVar3 + -4))(piVar3,1);
-    iVar2 = FUN_004317bc((int)piVar1);
+    iVar2 = Controls_TWinControl_GetControlCount((int)piVar1);
   }
-  FUN_00402f9c((int *)piVar1[0x4c]);
+  System_TObject_Free((int *)piVar1[0x4c]);
   if (piVar1[0x57] != 0) {
     FUN_00444618(piVar1[0x57]);
   }
   TControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -5705,7 +5720,7 @@ void FUN_00430ab0(int param_1,undefined4 param_2,undefined4 param_3)
   
   if (*(int *)(param_1 + 0x180) != 0) {
     puStack_1c = (undefined1 *)0x430ad7;
-    piVar2 = (int *)FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
+    piVar2 = (int *)System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
     puStack_20 = &LAB_00430b74;
     uStack_24 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_24;
@@ -5716,7 +5731,7 @@ void FUN_00430ab0(int param_1,undefined4 param_2,undefined4 param_3)
       k = 0;
       j = i_val;
       do {
-        iVar3 = FUN_004102b0(*(undefined4 **)(param_1 + 0x180),k);
+        iVar3 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x180),k);
         iVar1 = *(int *)(iVar3 + 0x170);
         if ((-1 < iVar1) && (iVar1 < i_val)) {
           FUN_004103fc(piVar2,iVar1,iVar3);
@@ -5728,7 +5743,7 @@ void FUN_00430ab0(int param_1,undefined4 param_2,undefined4 param_3)
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        k = FUN_004102b0(piVar2,j);
+        k = Classes_TList_Get(piVar2,j);
         if (k != 0) {
           FUN_00434b98(k,(short)j);
         }
@@ -5739,7 +5754,7 @@ void FUN_00430ab0(int param_1,undefined4 param_2,undefined4 param_3)
     *in_FS_OFFSET = uStack_24;
     puStack_1c = (undefined1 *)0x430b7b;
     puStack_20 = (undefined1 *)0x430b73;
-    FUN_00402f9c(piVar2);
+    System_TObject_Free(piVar2);
     return;
   }
   return;
@@ -5840,15 +5855,15 @@ void FUN_00430c60(int *param_1,byte param_2,undefined4 param_3,int param_4)
       iVar6 = param_1[0xd];
       local_10 = param_1[0xe];
       local_14 = param_1[0xf];
-      bVar2 = FUN_00434cdc(param_1[9]);
+      bVar2 = Controls_TWinControl_HandleAllocated(param_1[9]);
       if (bVar2) {
         (**(code **)(*(int *)local_8[9] + 0x40))((int *)local_8[9],local_2c);
         numerator = local_24;
         numerator_2 = local_20;
       }
       else {
-        FUN_0040f7d0(*(undefined4 *)(local_8[9] + 0x38),*(undefined4 *)(local_8[9] + 0x3c),
-                     &numerator);
+        Classes_Point(*(undefined4 *)(local_8[9] + 0x38),*(undefined4 *)(local_8[9] + 0x3c),
+                      &numerator);
       }
       if ((*(byte *)((int)local_8 + 0x51) & 4) == 0) {
         if ((*(byte *)((int)local_8 + 0x51) & 1) == 0) {
@@ -5949,20 +5964,20 @@ void FUN_00430ffc(byte param_1,undefined4 param_2,undefined4 param_3,int param_4
        (((*(byte *)(*(int *)(param_4 + -0xc) + 0x20) & 0x10) != 0 &&
         ((*(byte *)(*(int *)(param_4 + -0xc) + 0x41) & 4) == 0)))))) &&
      (param_1 == *(byte *)(*(int *)(param_4 + -0xc) + 0x4b))) {
-    FUN_00410104(*(int **)(param_4 + -8),*(int *)(param_4 + -0xc));
+    Classes_TList_Add(*(int **)(param_4 + -8),*(int *)(param_4 + -0xc));
   }
-  i_val = FUN_004317bc(*(int *)(param_4 + -0x10));
+  i_val = Controls_TWinControl_GetControlCount(*(int *)(param_4 + -0x10));
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      iVar1 = FUN_00431780(*(int *)(param_4 + -0x10),j);
+      iVar1 = Controls_TWinControl_GetControl(*(int *)(param_4 + -0x10),j);
       if (((param_1 == *(byte *)(iVar1 + 0x4b)) &&
           ((((param_1 == 0 || (*(char *)(iVar1 + 0x47) != '\0')) ||
             ((*(uint *)(iVar1 + 0x40) & 0x401) == 0x401)) ||
            (((*(byte *)(iVar1 + 0x20) & 0x10) != 0 && ((*(byte *)(iVar1 + 0x41) & 4) == 0)))))) &&
          (iVar1 != *(int *)(param_4 + -0xc))) {
         for (k = 0; k < *(int *)(*(int *)(param_4 + -8) + 8); k = k + 1) {
-          iVar2 = FUN_004102b0(*(undefined4 **)(param_4 + -8),k);
+          iVar2 = Classes_TList_Get(*(undefined4 **)(param_4 + -8),k);
           uVar3 = FUN_00430c00(iVar1,iVar2,param_1);
           if ((char)uVar3 != '\0') break;
         }
@@ -5977,7 +5992,7 @@ void FUN_00430ffc(byte param_1,undefined4 param_2,undefined4 param_3,int param_4
     j = 0;
     do {
       iVar1 = param_4;
-      piVar4 = (int *)FUN_004102b0(*(undefined4 **)(param_4 + -8),j);
+      piVar4 = (int *)Classes_TList_Get(*(undefined4 **)(param_4 + -8),j);
       FUN_00430c60(piVar4,param_1,extraout_ECX,iVar1);
       j = j + 1;
       i_val = i_val + -1;
@@ -6001,15 +6016,15 @@ undefined4 FUN_00431150(void)
   
   piVar3 = (int *)(in_stack_00000004 + -0x10);
   uVar2 = CONCAT31((int3)((uint)unaff_EBX >> 8),1);
-  i_val = FUN_004317bc(*piVar3);
+  i_val = Controls_TWinControl_GetControlCount(*piVar3);
   i_val = i_val + -1;
   if (-1 < i_val) {
     do {
-      iVar1 = FUN_00431780(*piVar3,i_val);
+      iVar1 = Controls_TWinControl_GetControl(*piVar3,i_val);
       if (*(char *)(iVar1 + 0x4b) != '\0') {
         return uVar2;
       }
-      iVar1 = FUN_00431780(*piVar3,i_val);
+      iVar1 = Controls_TWinControl_GetControl(*piVar3,i_val);
       if (*(char *)(iVar1 + 0x51) != '\x03') {
         return uVar2;
       }
@@ -6064,7 +6079,8 @@ void TWinControl_virtual_088(int *param_1,undefined4 param_2,undefined4 param_3)
     puStack_1c = (undefined1 *)0x431201;
     (**(code **)(*param_1 + 0x84))(param_1,param_3);
     puStack_1c = (undefined1 *)0x43120d;
-    piVar3 = (int *)FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX);
+    piVar3 = (int *)System_TObject_Create
+                              ((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX);
     puStack_20 = &LAB_0043126a;
     uStack_24 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_24;
@@ -6078,12 +6094,12 @@ void TWinControl_virtual_088(int *param_1,undefined4 param_2,undefined4 param_3)
     *in_FS_OFFSET = uStack_24;
     puStack_1c = (undefined1 *)0x431271;
     puStack_20 = (undefined1 *)0x431269;
-    FUN_00402f9c(piVar3);
+    System_TObject_Free(piVar3);
     return;
   }
   if ((char)param_1[0x5a] != '\0') {
     puStack_1c = (undefined1 *)0x431289;
-    FUN_00403178(param_1,extraout_EDX,puVar1);
+    System__CallDynaInst(param_1,extraout_EDX,puVar1);
   }
   return;
 }
@@ -6104,7 +6120,7 @@ void FUN_00431290(int *param_1,undefined4 param_2)
   
   puStack_20 = (undefined1 *)0x4312a4;
   local_8 = param_1;
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   if ((bVar1) && ((*(byte *)(local_8 + 8) & 8) == 0)) {
     if ((short)local_8[0x48] == 0) {
       puStack_20 = (undefined1 *)0x4312d0;
@@ -6179,20 +6195,20 @@ void TWinControl_dynamic_ffc7(int *param_1,undefined4 param_2,undefined4 param_3
   undefined1 *puStack_20;
   
   puStack_20 = (undefined1 *)0x43136c;
-  piVar1 = (int *)FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
+  piVar1 = (int *)System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
   puStack_24 = &LAB_00431419;
   uStack_28 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_28;
   puStack_20 = &stack0xfffffffc;
   i_val = TForm_GetClientWidth(param_1);
-  j = FUN_004317bc((int)param_1);
+  j = Controls_TWinControl_GetControlCount((int)param_1);
   if (-1 < j + -1) {
     k = 0;
     do {
-      piVar2 = (int *)FUN_00431780((int)param_1,k);
+      piVar2 = (int *)Controls_TWinControl_GetControl((int)param_1,k);
       if (piVar2[1] == param_1[1]) {
-        iVar3 = FUN_00431780((int)param_1,k);
-        FUN_00410104(piVar1,iVar3);
+        iVar3 = Controls_TWinControl_GetControl((int)param_1,k);
+        Classes_TList_Add(piVar1,iVar3);
         TControl_SetLeft(piVar2,(i_val - piVar2[0xe]) - piVar2[0xc]);
       }
       k = k + 1;
@@ -6204,8 +6220,8 @@ void TWinControl_dynamic_ffc7(int *param_1,undefined4 param_2,undefined4 param_3
     j = 0;
     do {
       uVar4 = 0;
-      k = FUN_004102b0(piVar1,j);
-      FUN_0042f720(k,0xb03e,0,uVar4);
+      k = Classes_TList_Get(piVar1,j);
+      Controls_TControl_Perform(k,0xb03e,0,uVar4);
       j = j + 1;
       i_val = i_val + -1;
     } while (i_val != 0);
@@ -6213,7 +6229,7 @@ void TWinControl_dynamic_ffc7(int *param_1,undefined4 param_2,undefined4 param_3
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_00431420;
   puStack_24 = (undefined1 *)0x431418;
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -6246,28 +6262,29 @@ void TWinControl_dynamic_ffba(int *param_1)
   undefined1 *puStack_20;
   
   puStack_20 = (undefined1 *)0x43143f;
-  i_val = FUN_004317bc((int)param_1);
+  i_val = Controls_TWinControl_GetControlCount((int)param_1);
   if (i_val != 0) {
     puStack_20 = (undefined1 *)0x431453;
-    piVar1 = (int *)FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX);
+    piVar1 = (int *)System_TObject_Create
+                              ((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',extraout_ECX);
     puStack_20 = (undefined1 *)0x43145e;
     FUN_00431324((int)param_1);
     puStack_24 = &LAB_0043150f;
     uStack_28 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_28;
     puStack_20 = &stack0xfffffffc;
-    i_val = FUN_004317bc((int)param_1);
+    i_val = Controls_TWinControl_GetControlCount((int)param_1);
     uVar4 = extraout_ECX_00;
     uVar5 = extraout_EDX;
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        iVar2 = FUN_00431780((int)param_1,j);
+        iVar2 = Controls_TWinControl_GetControl((int)param_1,j);
         uVar4 = extraout_ECX_01;
         uVar5 = extraout_EDX_00;
         if ((byte)(*(char *)(iVar2 + 0x4b) - 3U) < 2) {
-          iVar2 = FUN_00431780((int)param_1,j);
-          FUN_00410104(piVar1,iVar2);
+          iVar2 = Controls_TWinControl_GetControl((int)param_1,j);
+          Classes_TList_Add(piVar1,iVar2);
           uVar4 = extraout_ECX_02;
           uVar5 = extraout_EDX_01;
         }
@@ -6275,12 +6292,12 @@ void TWinControl_dynamic_ffba(int *param_1)
         i_val = i_val + -1;
       } while (i_val != 0);
     }
-    FUN_00403178(param_1,uVar5,uVar4);
+    System__CallDynaInst(param_1,uVar5,uVar4);
     *in_FS_OFFSET = uStack_28;
     puStack_20 = &DAT_00431516;
     while (0 < piVar1[2]) {
       puStack_24 = (undefined1 *)0x4314cf;
-      piVar3 = (int *)FUN_004102b0(piVar1,piVar1[2] + -1);
+      piVar3 = (int *)Classes_TList_Get(piVar1,piVar1[2] + -1);
       uVar6 = (undefined3)((uint)extraout_EDX_02 >> 8);
       if (*(char *)((int)piVar3 + 0x4b) == '\x03') {
         puStack_24 = (undefined1 *)0x4314dc;
@@ -6291,10 +6308,10 @@ void TWinControl_dynamic_ffba(int *param_1)
         TGroupBox_SetAlign(piVar3,CONCAT31(uVar6,3),extraout_ECX_03);
       }
       puStack_24 = (undefined1 *)0x4314f4;
-      FUN_00410150(piVar1,piVar1[2] + -1);
+      Classes_TList_Delete(piVar1,piVar1[2] + -1);
     }
     puStack_24 = (undefined1 *)0x431506;
-    FUN_00402f9c(piVar1);
+    System_TObject_Free(piVar1);
     puStack_24 = (undefined1 *)0x43150e;
     FUN_0043132c((int)param_1);
     return;
@@ -6332,7 +6349,7 @@ void FUN_0043157c(int *param_1,char param_2)
 {
   int *piVar1;
   
-  piVar1 = FUN_00444864(param_1);
+  piVar1 = Forms_GetParentForm(param_1);
   if (piVar1 != (int *)0x0) {
     FUN_00448314(piVar1,(int)param_1,param_2);
   }
@@ -6350,7 +6367,7 @@ void FUN_0043159c(int param_1,int *param_2)
   undefined4 extraout_ECX_00;
   
   if (param_2 != (int *)0x0) {
-    uVar1 = FUN_00403114(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+    uVar1 = System__IsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
     if ((char)uVar1 == '\0') {
       FUN_0042d1e0((int *)(param_1 + 0x134),(int)param_2,extraout_ECX);
     }
@@ -6371,7 +6388,7 @@ void FUN_004315e8(int param_1,int *param_2)
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   if ((char)uVar1 == '\0') {
     FUN_0042d208((int *)(param_1 + 0x134),(int)param_2);
   }
@@ -6392,28 +6409,28 @@ void FUN_00431630(int *param_1,int *param_2,undefined4 param_3)
   bool bVar1;
   undefined4 uVar2;
   
-  FUN_00403178(param_2,param_1,param_3);
-  FUN_0042f720((int)param_1,0xb02c,param_2,1);
+  System__CallDynaInst(param_2,param_1,param_3);
+  Controls_TControl_Perform((int)param_1,0xb02c,param_2,1);
   FUN_0043159c((int)param_1,param_2);
   if ((*(byte *)(param_2 + 0x11) & 8) == 0) {
-    FUN_0042f720((int)param_2,0xb009,0,0);
-    FUN_0042f720((int)param_2,0xb008,0,0);
-    FUN_0042f720((int)param_2,0xb023,0,0);
-    FUN_0042f720((int)param_2,0xb03d,0,0);
-    uVar2 = FUN_00403114(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+    Controls_TControl_Perform((int)param_2,0xb009,0,0);
+    Controls_TControl_Perform((int)param_2,0xb008,0,0);
+    Controls_TControl_Perform((int)param_2,0xb023,0,0);
+    Controls_TControl_Perform((int)param_2,0xb03d,0,0);
+    uVar2 = System__IsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
     if ((char)uVar2 == '\0') {
-      bVar1 = FUN_00434cdc((int)param_1);
+      bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
       if (bVar1) {
         (**(code **)(*param_2 + 0x74))();
       }
     }
     else {
-      FUN_0042f720((int)param_2,0xb011,0,0);
+      Controls_TControl_Perform((int)param_2,0xb011,0,0);
       FUN_00431f54(param_1);
     }
     FUN_00431290(param_1,param_2);
   }
-  FUN_0042f720((int)param_1,0xb036,param_2,1);
+  Controls_TControl_Perform((int)param_1,0xb036,param_2,1);
   return;
 }
 
@@ -6426,10 +6443,10 @@ void FUN_00431704(int *param_1,int *param_2)
   bool bVar1;
   undefined4 uVar2;
   
-  FUN_0042f720((int)param_1,0xb036,param_2,0);
-  uVar2 = FUN_00403114(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  Controls_TControl_Perform((int)param_1,0xb036,param_2,0);
+  uVar2 = System__IsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   if ((char)uVar2 == '\0') {
-    bVar1 = FUN_00434cdc((int)param_1);
+    bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
     if (bVar1) {
       FUN_0042eb70((int)param_2,*(char *)((int)param_2 + 0x47),'\0');
     }
@@ -6439,15 +6456,15 @@ void FUN_00431704(int *param_1,int *param_2)
     FUN_00431dbc(param_2);
   }
   FUN_004315e8((int)param_1,param_2);
-  FUN_0042f720((int)param_1,0xb02c,param_2,0);
+  Controls_TControl_Perform((int)param_1,0xb02c,param_2,0);
   FUN_0043134c(param_1);
   return;
 }
 
 
-/* ==== 00431780 FUN_00431780 ==== */
+/* ==== 00431780 Controls.TWinControl.GetControl ==== */
 
-void FUN_00431780(int param_1,int param_2)
+void Controls_TWinControl_GetControl(int param_1,int param_2)
 
 {
   undefined4 *puVar1;
@@ -6461,18 +6478,18 @@ void FUN_00431780(int param_1,int param_2)
     iVar2 = puVar1[2];
   }
   if (param_2 < iVar2) {
-    FUN_004102b0(puVar1,param_2);
+    Classes_TList_Get(puVar1,param_2);
   }
   else {
-    FUN_004102b0(*(undefined4 **)(param_1 + 0x180),param_2 - iVar2);
+    Classes_TList_Get(*(undefined4 **)(param_1 + 0x180),param_2 - iVar2);
   }
   return;
 }
 
 
-/* ==== 004317bc FUN_004317bc ==== */
+/* ==== 004317bc Controls.TWinControl.GetControlCount ==== */
 
-int FUN_004317bc(int param_1)
+int Controls_TWinControl_GetControlCount(int param_1)
 
 {
   int iVar1;
@@ -6497,11 +6514,11 @@ void FUN_004317dc(int param_1,int param_2)
   int iVar1;
   int j;
   
-  i_val = FUN_004317bc(param_1);
+  i_val = Controls_TWinControl_GetControlCount(param_1);
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      iVar1 = FUN_00431780(param_1,j);
+      iVar1 = Controls_TWinControl_GetControl(param_1,j);
       (**(code **)(iVar1 + 0x28))(*(undefined4 *)(iVar1 + 0x2c),param_2);
       if (*(int *)(param_2 + 0xc) != 0) {
         return;
@@ -6580,14 +6597,14 @@ void FUN_004318b0(int *param_1,uint *param_2)
   if ((char)uVar2 != '\0') {
     *param_2 = *param_2 | 0x4000;
   }
-  cVar1 = FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+  cVar1 = System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   if (cVar1 != '\0') {
-    cVar1 = FUN_00403178(param_1,extraout_EDX_00,extraout_ECX_00);
+    cVar1 = System__CallDynaInst(param_1,extraout_EDX_00,extraout_ECX_00);
     if (cVar1 == '\0') {
       *param_2 = *param_2 | 0x1000;
     }
     else {
-      cVar1 = FUN_00403178(param_1,extraout_EDX_01,extraout_ECX_01);
+      cVar1 = System__CallDynaInst(param_1,extraout_EDX_01,extraout_ECX_01);
       if (cVar1 == '\x01') {
         *param_2 = *param_2;
       }
@@ -6617,7 +6634,7 @@ void TWinControl_virtual_090(int *param_1,int *param_2)
   puStack_11c = &LAB_00431a36;
   uStack_120 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_120;
-  FUN_00402c30(param_2,0x8c,0);
+  System_FillChar(param_2,0x8c,0);
   *param_2 = param_1[0x15];
   param_2[1] = 0x44000000;
   FUN_004318b0(param_1,(uint *)(param_2 + 2));
@@ -6642,7 +6659,7 @@ void TWinControl_virtual_090(int *param_1,int *param_2)
     param_2[7] = param_1[0x59];
   }
   else {
-    iVar2 = FUN_004349e0((int *)param_1[9]);
+    iVar2 = Controls_TWinControl_GetHandle((int *)param_1[9]);
     param_2[7] = iVar2;
   }
   param_2[9] = 0xb;
@@ -6651,13 +6668,13 @@ void TWinControl_virtual_090(int *param_1,int *param_2)
   param_2[0xf] = (int)pHVar3;
   param_2[0x10] = 0;
   param_2[0xd] = DAT_004ac4dc;
-  FUN_00402ee4(*param_1,local_108);
-  FUN_00403e80((int *)&local_8,local_108);
+  System_TObject_ClassName(*param_1,local_108);
+  System__LStrFromString((int *)&local_8,local_108);
   FUN_00408be8((char *)(param_2 + 0x13),local_8);
   *in_FS_OFFSET = uStack_120;
   puStack_118 = &LAB_00431a3d;
   puStack_11c = (undefined1 *)0x431a35;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -6697,9 +6714,9 @@ void TWinControl_virtual_098(int *param_1)
   if ((local_74 == 0) && ((local_89 & 0x40) != 0)) {
     piVar4 = (int *)param_1[1];
     if ((piVar4 != (int *)0x0) && ((*(byte *)(piVar4 + 8) & 2) != 0)) {
-      uVar2 = FUN_00403114(piVar4,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+      uVar2 = System__IsClass(piVar4,(int)&PTR_TWinControl_virtual_000_0042ac0c);
       if ((char)uVar2 != '\0') {
-        local_74 = FUN_004349e0(piVar4);
+        local_74 = Controls_TWinControl_GetHandle(piVar4);
         goto LAB_00431af0;
       }
     }
@@ -6707,9 +6724,9 @@ void TWinControl_virtual_098(int *param_1)
     local_bc = 0xb;
     piVar4 = &local_c0;
     uVar2 = 0;
-    FUN_00405808((undefined4 *)PTR_PTR_004ab8f0,(int *)&local_c4);
-    uVar2 = FUN_0040b614((int)&DAT_0040ea0c,'\x01',local_c4,uVar2,piVar4);
-    FUN_004036f4(uVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab8f0,(int *)&local_c4);
+    uVar2 = SysUtils_Exception_CreateFmt((int)&DAT_0040ea0c,'\x01',local_c4,uVar2,piVar4);
+    System__RaiseExcept(uVar2);
   }
 LAB_00431af0:
   param_1[0x4f] = (int)wndclass_2.lpfnWndProc;
@@ -6735,14 +6752,14 @@ LAB_00431af0:
   FUN_00434ce8((int)param_1);
   uVar5 = 1;
   uVar2 = FUN_00418228(param_1[0x16]);
-  FUN_0042f720((int)param_1,0x30,uVar2,uVar5);
+  Controls_TControl_Perform((int)param_1,0x30,uVar2,uVar5);
   if ((char)param_1[0x13] != '\0') {
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   }
   *in_FS_OFFSET = uStack_d8;
   puStack_d0 = &LAB_00431bd6;
   puStack_d4 = (undefined1 *)0x431bce;
-  FUN_00403c5c((int *)&local_c4);
+  System__LStrClr((int *)&local_c4);
   return;
 }
 
@@ -6824,13 +6841,13 @@ int FUN_00431cdc(int param_1,int param_2)
   int iVar1;
   int j;
   
-  i_val = FUN_0041030c(*(int *)(param_1 + 0x180),param_2);
+  i_val = Classes_TList_IndexOf(*(int *)(param_1 + 0x180),param_2);
   i_val = i_val + 1;
   j = *(int *)(*(int *)(param_1 + 0x180) + 8) + -1;
   if (i_val <= j) {
     j = (j - i_val) + 1;
     do {
-      iVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x180),i_val);
+      iVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x180),i_val);
       if (*(int *)(iVar1 + 0x14c) != 0) {
         return *(int *)(iVar1 + 0x14c);
       }
@@ -6867,11 +6884,11 @@ void TWinControl_virtual_08c(int *data)
       hWndInsertAfter = (HWND)FUN_00431cdc(data[9],(int)data);
       SetWindowPos((HWND)data[0x53],hWndInsertAfter,j,i_val,cx_val,cy,uFlags);
     }
-    j = FUN_004317bc((int)data);
+    j = Controls_TWinControl_GetControlCount((int)data);
     if (-1 < j + -1) {
       i_val = 0;
       do {
-        cx_val = FUN_00431780((int)data,i_val);
+        cx_val = Controls_TWinControl_GetControl((int)data,i_val);
         FUN_0042de78(cx_val);
         i_val = i_val + 1;
         j = j + -1;
@@ -6895,7 +6912,7 @@ void FUN_00431dbc(int *param_1)
     if ((param_1[0x60] != 0) && (i_val = *(int *)(param_1[0x60] + 8), -1 < i_val + -1)) {
       j = 0;
       do {
-        piVar1 = (int *)FUN_004102b0((undefined4 *)param_1[0x60],j);
+        piVar1 = (int *)Classes_TList_Get((undefined4 *)param_1[0x60],j);
         FUN_00431dbc(piVar1);
         j = j + 1;
         i_val = i_val + -1;
@@ -6913,7 +6930,7 @@ void FUN_00431e04(int param_1)
 
 {
   if (*(int *)(param_1 + 0x14c) != 0) {
-    FUN_0042f720(param_1,0xb033,0,0);
+    Controls_TControl_Perform(param_1,0xb033,0,0);
   }
   return;
 }
@@ -6926,7 +6943,7 @@ void TWinControl_CMRecreateWnd(int *param_1,undefined4 param_2,undefined4 param_
 {
   char cVar1;
   
-  cVar1 = FUN_00403178(param_1,param_2,param_3);
+  cVar1 = System__CallDynaInst(param_1,param_2,param_3);
   FUN_00431dbc(param_1);
   FUN_00431f54(param_1);
   if ((cVar1 != '\0') && (param_1[0x53] != 0)) {
@@ -6967,7 +6984,7 @@ void FUN_00431e58(int *param_1)
       j = 0;
       do {
         puStack_1c = (undefined1 *)0x431ed6;
-        piVar2 = (int *)FUN_004102b0((undefined4 *)param_1[0x60],j);
+        piVar2 = (int *)Classes_TList_Get((undefined4 *)param_1[0x60],j);
         puStack_1c = (undefined1 *)0x431edb;
         FUN_00431e58(piVar2);
         j = j + 1;
@@ -6981,7 +6998,7 @@ void FUN_00431e58(int *param_1)
     uStack_24 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_24;
     puStack_1c = &stack0xfffffffc;
-    FUN_0042f720((int)param_1,0xb019,0,0);
+    Controls_TControl_Perform((int)param_1,0xb019,0,0);
     *in_FS_OFFSET = uStack_24;
   }
   return;
@@ -7004,7 +7021,7 @@ void FUN_00431f54(int *param_1)
       return;
     }
   }
-  uVar2 = FUN_00403114(piVar3,(int)&PTR_TWinControl_virtual_000_00442cf0);
+  uVar2 = System__IsClass(piVar3,(int)&PTR_TWinControl_virtual_000_00442cf0);
   if (((char)uVar2 == '\0') && (piVar3[0x59] == 0)) {
     return;
   }
@@ -7030,8 +7047,8 @@ void FUN_0043200c(int *param_1,undefined4 param_2,undefined4 param_3,int param_4
   undefined4 local_c;
   undefined4 local_8;
   
-  FUN_0040f7d0(**(int **)(param_4 + -4) - param_1[0xc],
-               *(int *)(*(int *)(param_4 + -4) + 4) - param_1[0xd],&local_c);
+  Classes_Point(**(int **)(param_4 + -4) - param_1[0xc],
+                *(int *)(*(int *)(param_4 + -4) + 4) - param_1[0xd],&local_c);
   *(undefined4 *)(param_4 + -0xc) = local_c;
   *(undefined4 *)(param_4 + -8) = local_8;
   LVar7 = *(LONG *)(param_4 + -8);
@@ -7051,7 +7068,7 @@ LAB_004320b1:
       cVar2 = (**(code **)(*param_1 + 0x4c))();
       if ((cVar2 != '\0') || (*(char *)(param_4 + -0xd) != '\0')) {
         uVar4 = FUN_004070fc((undefined2 *)(param_4 + -0xc));
-        iVar5 = FUN_0042f720((int)param_1,0xb00a,0,uVar4);
+        iVar5 = Controls_TControl_Perform((int)param_1,0xb00a,0,uVar4);
         if (iVar5 != 0) goto LAB_004320b1;
       }
     }
@@ -7083,7 +7100,7 @@ undefined4 FUN_004320c4(int param_1,undefined4 param_2,undefined4 param_3,char p
      (i_val = *(int *)(*(int *)(param_1 + 0x180) + 8) + -1, -1 < i_val)) {
     do {
       puVar3 = &stack0xfffffffc;
-      piVar2 = (int *)FUN_004102b0(*(undefined4 **)(param_1 + 0x180),i_val);
+      piVar2 = (int *)Classes_TList_Get(*(undefined4 **)(param_1 + 0x180),i_val);
       cVar1 = FUN_0043200c(piVar2,extraout_EDX,extraout_ECX,(int)puVar3);
       if (cVar1 != '\0') break;
       i_val = i_val + -1;
@@ -7093,7 +7110,7 @@ undefined4 FUN_004320c4(int param_1,undefined4 param_2,undefined4 param_3,char p
      (i_val = *(int *)(*(int *)(param_1 + 0x134) + 8) + -1, -1 < i_val)) {
     do {
       puVar3 = &stack0xfffffffc;
-      piVar2 = (int *)FUN_004102b0(*(undefined4 **)(param_1 + 0x134),i_val);
+      piVar2 = (int *)Classes_TList_Get(*(undefined4 **)(param_1 + 0x134),i_val);
       cVar1 = FUN_0043200c(piVar2,extraout_EDX_00,extraout_ECX_00,(int)puVar3);
       if (cVar1 != '\0') {
         return 0;
@@ -7119,7 +7136,7 @@ bool FUN_00432158(int *param_1,undefined4 *param_2)
   int local_18;
   int local_14 [2];
   
-  pHVar1 = (HWND)FUN_004349e0(param_1);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
   pHVar2 = GetCapture();
   if (pHVar1 == pHVar2) {
     iVar3 = 0;
@@ -7136,7 +7153,7 @@ bool FUN_00432158(int *param_1,undefined4 *param_2)
     local_1c = (int)*(short *)(param_2 + 2) - *(int *)(iVar3 + 0x30);
     local_18 = (int)*(short *)((int)param_2 + 10) - *(int *)(iVar3 + 0x34);
     uVar4 = FUN_004070fc((undefined2 *)&local_1c);
-    uVar4 = FUN_0042f720(iVar3,*param_2,param_2[1],uVar4);
+    uVar4 = Controls_TControl_Perform(iVar3,*param_2,param_2[1],uVar4);
     param_2[3] = uVar4;
   }
   return iVar3 != 0;
@@ -7190,7 +7207,7 @@ void TWinControl_virtual_06c(int *param_1,uint *param_2,undefined4 param_3)
       return;
     }
     if (param == 7) {
-      piVar3 = FUN_00444864(param_1);
+      piVar3 = Forms_GetParentForm(param_1);
       param_3 = extraout_ECX;
       if ((piVar3 != (int *)0x0) &&
          (cVar1 = (**(code **)(*piVar3 + 0xd4))(piVar3,param_1), param_3 = extraout_ECX_00,
@@ -7206,12 +7223,12 @@ void TWinControl_virtual_06c(int *param_1,uint *param_2,undefined4 param_3)
       goto LAB_004323ba;
     }
     if (param == 0x1f) {
-      pHVar5 = (HWND)FUN_004349e0(param_1);
+      pHVar5 = (HWND)Controls_TWinControl_GetHandle(param_1);
       pHVar6 = GetCapture();
       param_3 = extraout_ECX_03;
       if (((pHVar5 == pHVar6) && (DAT_004aa7b8 != 0)) && (param_1 == *(int **)(DAT_004aa7b8 + 0x24))
          ) {
-        FUN_0042f720(DAT_004aa7b8,0x1f,0,0);
+        Controls_TControl_Perform(DAT_004aa7b8,0x1f,0,0);
         param_3 = extraout_ECX_04;
       }
       goto LAB_004323ba;
@@ -7236,7 +7253,7 @@ void TWinControl_virtual_06c(int *param_1,uint *param_2,undefined4 param_3)
         param = param_2[2];
         wParam = param_2[1];
         Msg = *param_2;
-        pHVar5 = (HWND)FUN_004349e0(param_1);
+        pHVar5 = (HWND)Controls_TWinControl_GetHandle(param_1);
         DefWindowProcA(pHVar5,Msg,wParam,param);
         return;
       }
@@ -7250,7 +7267,7 @@ void TWinControl_virtual_06c(int *param_1,uint *param_2,undefined4 param_3)
     local_10 = FUN_004447a8((int)local_114);
     local_e = (undefined2)param_2[1];
     local_c = param_2[2];
-    FUN_00403178(param_1,&local_14,extraout_ECX_05);
+    System__CallDynaInst(param_1,&local_14,extraout_ECX_05);
     return;
   }
 LAB_004323ba:
@@ -7273,7 +7290,7 @@ void TWinControl_DefaultHandler(int param_1,UINT *param_2)
   }
   else {
     if ((*param_2 == 0x7b) && (*(int *)(param_1 + 0x24) != 0)) {
-      UVar1 = FUN_0042f720(*(int *)(param_1 + 0x24),0x7b,param_2[1],param_2[2]);
+      UVar1 = Controls_TControl_Perform(*(int *)(param_1 + 0x24),0x7b,param_2[1],param_2[2]);
       param_2[3] = UVar1;
       if (UVar1 != 0) {
         return;
@@ -7316,7 +7333,7 @@ bool FUN_004324c8(HWND wnd,int *param_2)
   
   pvVar1 = FUN_0042b94c(wnd);
   if (pvVar1 != (HANDLE)0x0) {
-    iVar2 = FUN_0042f720((int)pvVar1,*param_2 + 0xbc00,param_2[1],param_2[2]);
+    iVar2 = Controls_TControl_Perform((int)pvVar1,*param_2 + 0xbc00,param_2[1],param_2[2]);
     param_2[3] = iVar2;
   }
   return pvVar1 != (HANDLE)0x0;
@@ -7347,7 +7364,7 @@ void FUN_004324fc(int *param_1,int param_2)
   local_8 = param_1;
   if (hdc == (HDC)0x0) {
     paint = &local_54;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     hdc = BeginPaint(pHVar1,paint);
   }
   uVar3 = *in_FS_OFFSET;
@@ -7362,7 +7379,7 @@ void FUN_004324fc(int *param_1,int param_2)
     if (-1 < i_val + -1) {
       j = 0;
       do {
-        iVar2 = FUN_004102b0((undefined4 *)local_8[0x4d],j);
+        iVar2 = Classes_TList_Get((undefined4 *)local_8[0x4d],j);
         if (((*(char *)(iVar2 + 0x47) != '\0') ||
             (((*(byte *)(iVar2 + 0x20) & 0x10) != 0 && ((*(byte *)(iVar2 + 0x41) & 4) == 0)))) &&
            ((*(byte *)(iVar2 + 0x40) & 0x40) != 0)) {
@@ -7384,7 +7401,7 @@ void FUN_004324fc(int *param_1,int param_2)
   *in_FS_OFFSET = uVar3;
   if (*(int *)(local_c + 4) == 0) {
     paint = &local_54;
-    pHVar1 = (HWND)FUN_004349e0(local_8);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
     EndPaint(pHVar1,paint);
   }
   return;
@@ -7432,15 +7449,16 @@ void FUN_00432654(int param_1,HDC param_2,int param_3)
   }
   if (*(int *)(param_1 + 0x134) != 0) {
     i_val = 0;
-    if ((param_3 != 0) && (i_val = FUN_0041030c(*(int *)(param_1 + 0x134),param_3), i_val < 0)) {
+    if ((param_3 != 0) &&
+       (i_val = Classes_TList_IndexOf(*(int *)(param_1 + 0x134),param_3), i_val < 0)) {
       i_val = 0;
     }
     iVar3 = *(int *)(*(int *)(param_1 + 0x134) + 8);
     for (; i_val < iVar3; i_val = i_val + 1) {
-      iVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x134),i_val);
+      iVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x134),i_val);
       if ((*(char *)(iVar1 + 0x47) != '\0') ||
          (((*(byte *)(iVar1 + 0x20) & 0x10) != 0 && ((*(byte *)(iVar1 + 0x41) & 4) == 0)))) {
-        FUN_0040f7e8(*(undefined4 *)(iVar1 + 0x30),*(undefined4 *)(iVar1 + 0x34),
+        Classes_Rect(*(undefined4 *)(iVar1 + 0x30),*(undefined4 *)(iVar1 + 0x34),
                      *(int *)(iVar1 + 0x30) + *(int *)(iVar1 + 0x38),&RStack_20.left,
                      *(int *)(iVar1 + 0x34) + *(int *)(iVar1 + 0x3c));
         BVar2 = RectVisible(param_2,&RStack_20);
@@ -7451,7 +7469,7 @@ void FUN_00432654(int param_1,HDC param_2,int param_3)
           nSavedDC = SaveDC(param_2);
           FUN_0042d228(param_2,*(int *)(iVar1 + 0x30),*(int *)(iVar1 + 0x34));
           IntersectClipRect(param_2,0,0,*(int *)(iVar1 + 0x38),*(int *)(iVar1 + 0x3c));
-          FUN_0042f720(iVar1,0xf,param_2,0);
+          Controls_TControl_Perform(iVar1,0xf,param_2,0);
           RestoreDC(param_2,nSavedDC);
           *(ushort *)(iVar1 + 0x44) = *(ushort *)(iVar1 + 0x44) & 0xff7f;
         }
@@ -7462,14 +7480,14 @@ void FUN_00432654(int param_1,HDC param_2,int param_3)
      ) {
     i_val = 0;
     do {
-      iVar3 = FUN_004102b0(*(undefined4 **)(param_1 + 0x180),i_val);
+      iVar3 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x180),i_val);
       if (((*(char *)(iVar3 + 0x138) != '\0') && ((*(byte *)(iVar3 + 0x40) & 0x10) != 0)) &&
          ((*(char *)(iVar3 + 0x47) != '\0' ||
           (((*(byte *)(iVar3 + 0x20) & 0x10) != 0 && ((*(byte *)(iVar3 + 0x41) & 4) == 0)))))) {
         CVar4 = FUN_00417d54(0x80000010);
         pHVar5 = CreateSolidBrush(CVar4);
         pHVar6 = pHVar5;
-        FUN_0040f7e8(*(int *)(iVar3 + 0x30) + -1,*(int *)(iVar3 + 0x34) + -1,
+        Classes_Rect(*(int *)(iVar3 + 0x30) + -1,*(int *)(iVar3 + 0x34) + -1,
                      *(int *)(iVar3 + 0x30) + *(int *)(iVar3 + 0x38),&RStack_20.left,
                      *(int *)(iVar3 + 0x34) + *(int *)(iVar3 + 0x3c));
         FrameRect(param_2,&RStack_20,pHVar6);
@@ -7477,7 +7495,7 @@ void FUN_00432654(int param_1,HDC param_2,int param_3)
         CVar4 = FUN_00417d54(0x80000014);
         pHVar5 = CreateSolidBrush(CVar4);
         pHVar6 = pHVar5;
-        FUN_0040f7e8(*(undefined4 *)(iVar3 + 0x30),*(undefined4 *)(iVar3 + 0x34),
+        Classes_Rect(*(undefined4 *)(iVar3 + 0x30),*(undefined4 *)(iVar3 + 0x34),
                      *(int *)(iVar3 + 0x30) + *(int *)(iVar3 + 0x38) + 1,&RStack_20.left,
                      *(int *)(iVar3 + 0x34) + *(int *)(iVar3 + 0x3c) + 1);
         FrameRect(param_2,&RStack_20,pHVar6);
@@ -7514,11 +7532,11 @@ void FUN_00432884(int *param_1,HDC param_2,int param_3,int param_4)
   grfFlags = 0;
   edge_val = 0;
   index_val = -0x14;
-  pHVar1 = (HWND)FUN_004349e0(param_1);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
   window_long = GetWindowLongA(pHVar1,index_val);
   if ((window_long & 0x200) == 0) {
     index_val = -0x10;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     window_long = GetWindowLongA(pHVar1,index_val);
     if ((window_long & 0x800000) != 0) {
       edge_val = 3;
@@ -7535,13 +7553,13 @@ void FUN_00432884(int *param_1,HDC param_2,int param_3,int param_4)
     FUN_0042d228(param_2,rect.left,rect.top);
     IntersectClipRect(param_2,0,0,rect.right - rect.left,rect.bottom - rect.top);
   }
-  FUN_0042f720((int)param_1,0x14,param_2,0);
-  FUN_0042f720((int)param_1,0xf,param_2,0);
+  Controls_TControl_Perform((int)param_1,0x14,param_2,0);
+  Controls_TControl_Perform((int)param_1,0xf,param_2,0);
   if ((param_1[0x60] != 0) && (index_val = *(int *)(param_1[0x60] + 8), -1 < index_val + -1)) {
     j = 0;
     i_val = index_val;
     do {
-      piVar2 = (int *)FUN_004102b0((undefined4 *)param_1[0x60],j);
+      piVar2 = (int *)Classes_TList_Get((undefined4 *)param_1[0x60],j);
       if (*(char *)((int)piVar2 + 0x47) != '\0') {
         FUN_00432884(piVar2,param_2,piVar2[0xc],piVar2[0xd]);
       }
@@ -7590,9 +7608,9 @@ void TWinControl_WMPaint(int *param_1,int param_2)
     uVar4 = *in_FS_OFFSET;
     *in_FS_OFFSET = &stack0xffffff78;
     paint = &local_50;
-    pHVar3 = (HWND)FUN_004349e0(param_1);
+    pHVar3 = (HWND)Controls_TWinControl_GetHandle(param_1);
     hdc = BeginPaint(pHVar3,paint);
-    FUN_0042f720((int)param_1,0x14,hdc_val,hdc_val);
+    Controls_TControl_Perform((int)param_1,0x14,hdc_val,hdc_val);
     *(HDC *)(param_2 + 4) = hdc_val;
     TWinControl_WMPaint(param_1,param_2);
     *(undefined4 *)(param_2 + 4) = 0;
@@ -7604,7 +7622,7 @@ void TWinControl_WMPaint(int *param_1,int param_2)
     (**(code **)(*param_1 + 0x40))(param_1,local_70);
     BitBlt(hdc,0,0,cx_val,cy_val,pHVar2,iVar1,y1,rop);
     paint = &local_50;
-    pHVar3 = (HWND)FUN_004349e0(param_1);
+    pHVar3 = (HWND)Controls_TWinControl_GetHandle(param_1);
     EndPaint(pHVar3,paint);
     *in_FS_OFFSET = uVar4;
     SelectObject(hdc_val,h_val);
@@ -7613,7 +7631,7 @@ void TWinControl_WMPaint(int *param_1,int param_2)
     return;
   }
   if (((*(byte *)((int)param_1 + 0x45) & 1) == 0) &&
-     (iVar1 = FUN_004317bc((int)param_1), iVar1 == 0)) {
+     (iVar1 = Controls_TWinControl_GetControlCount((int)param_1), iVar1 == 0)) {
     (**(code **)(*param_1 + -0x10))(param_1,param_2);
     return;
   }
@@ -7658,7 +7676,7 @@ void TWinControl_WMSysColorChange(int param_1)
 
 {
   FUN_00417950();
-  FUN_0042f720(param_1,0xb024,0,0);
+  Controls_TControl_Perform(param_1,0xb024,0,0);
   return;
 }
 
@@ -7668,7 +7686,8 @@ void TWinControl_WMSysColorChange(int param_1)
 void TWinControl_WMWinIniChange(int param_1,int param_2)
 
 {
-  FUN_0042f720(param_1,0xb025,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8));
+  Controls_TControl_Perform
+            (param_1,0xb025,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8));
   return;
 }
 
@@ -7678,7 +7697,7 @@ void TWinControl_WMWinIniChange(int param_1,int param_2)
 void TWinControl_message_001d(int param_1)
 
 {
-  FUN_0042f720(param_1,0xb026,0,0);
+  Controls_TControl_Perform(param_1,0xb026,0,0);
   return;
 }
 
@@ -7688,7 +7707,7 @@ void TWinControl_message_001d(int param_1)
 void TWinControl_WMTimeChange(int param_1)
 
 {
-  FUN_0042f720(param_1,0xb027,0,0);
+  Controls_TControl_Perform(param_1,0xb027,0,0);
   return;
 }
 
@@ -7882,7 +7901,7 @@ void TWinControl_WMSize(int *param_1,undefined4 param_2)
   (**(code **)(*param_1 + -0x10))(param_1,param_2);
   FUN_0043134c(param_1);
   if ((*(byte *)(param_1 + 8) & 1) == 0) {
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   }
   return;
 }
@@ -8064,13 +8083,13 @@ void FUN_00432f90(int *param_1,undefined4 param_2,undefined4 param_3)
       }
     }
     puStack_18 = puVar1;
-    iVar2 = FUN_004349e0(param_1);
+    iVar2 = Controls_TWinControl_GetHandle(param_1);
     FUN_00438ed0(iVar2,(char)param_1[0x55]);
   }
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_00433076;
   puStack_1c = (undefined1 *)0x43306e;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -8106,14 +8125,14 @@ void FUN_0043307c(int *param_1,undefined4 param_2,undefined4 param_3)
     }
     puStack_10 = puVar1;
     if ((char)param_1[0x55] == '\0') {
-      FUN_004349e0(param_1);
+      Controls_TWinControl_GetHandle(param_1);
       FUN_00438eb4();
     }
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_0043310d;
   puStack_14 = (undefined1 *)0x433105;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -8170,7 +8189,7 @@ void TWinControl_dynamic_ffbb(int param_1,undefined4 param_2,undefined4 param_3,
   int iVar2;
   
   uVar1 = FUN_0040f7d8((short)param_3,(undefined2)param_4);
-  iVar2 = FUN_0042f720(param_1,0xb038,param_2,uVar1);
+  iVar2 = Controls_TControl_Perform(param_1,0xb038,param_2,uVar1);
   if ((-1 < iVar2) && (*(short *)(param_1 + 0x18a) != 0)) {
     (**(code **)(param_1 + 0x188))(*(undefined4 *)(param_1 + 0x18c),param_1,param_2,param_4,param_3)
     ;
@@ -8199,8 +8218,8 @@ void TWinControl_dynamic_ffca
 void TWinControl_dynamic_ffcb(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,param_2,param_3);
-  FUN_00403178(param_1,param_2,param_3);
+  System__CallDynaInst(param_1,param_2,param_3);
+  System__CallDynaInst(param_1,param_2,param_3);
   return;
 }
 
@@ -8219,7 +8238,8 @@ undefined1 TWinControl_dynamic_ffc2(int param_1,undefined4 param_2,undefined4 pa
     (**(code **)(param_1 + 0x1e0))
               (*(undefined4 *)(param_1 + 0x1e4),param_1,param_3,&local_10,param_2);
   }
-  if ((local_10 != '\0') && (iVar1 = FUN_0042f720(param_1,0xb039,param_2,param_3), iVar1 == 0)) {
+  if ((local_10 != '\0') &&
+     (iVar1 = Controls_TControl_Perform(param_1,0xb039,param_2,param_3), iVar1 == 0)) {
     return 1;
   }
   return 0;
@@ -8235,7 +8255,7 @@ void TWinControl_dynamic_ffbd(int param_1,char *param_2,undefined4 *param_3)
   undefined4 uVar2;
   
   piVar1 = (int *)FUN_00415a80(*(int *)(param_1 + 4),param_2);
-  uVar2 = FUN_0040312c(piVar1,(int)&PTR_TControl_virtual_000_0042a694);
+  uVar2 = System__AsClass(piVar1,(int)&PTR_TControl_virtual_000_0042a694);
   *param_3 = uVar2;
   return;
 }
@@ -8264,7 +8284,7 @@ undefined4 FUN_004332b4(int param_1,int param_2)
     uVar1 = 0;
   }
   else {
-    uVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x140),param_2);
+    uVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x140),param_2);
   }
   return uVar1;
 }
@@ -8285,7 +8305,7 @@ void TWinControl_dynamic_ffc1
   local_c = *param_5;
   uStack_8 = param_5[1];
   lpRect = lprc_val;
-  hWnd = (HWND)FUN_004349e0(param_1);
+  hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
   GetWindowRect(hWnd,lpRect);
   InflateRect(lprc_val,10,10);
   if (*(short *)((int)param_1 + 0x1aa) != 0) {
@@ -8307,7 +8327,7 @@ int FUN_00433334(int param_1)
   i_val = FUN_004332a0(param_1);
   if ((0 < i_val) && (j = i_val + -1, -1 < j)) {
     do {
-      iVar1 = FUN_004102b0(*(undefined4 **)(param_1 + 0x140),j);
+      iVar1 = Classes_TList_Get(*(undefined4 **)(param_1 + 0x140),j);
       if (*(char *)(iVar1 + 0x47) == '\0') {
         i_val = i_val + -1;
       }
@@ -8376,12 +8396,12 @@ void TWinControl_CMDockClient(int *param_1,int param_2)
     }
     cPoints = 2;
     points = local_1c;
-    hWndTo = (HWND)FUN_004349e0(local_8);
+    hWndTo = (HWND)Controls_TWinControl_GetHandle(local_8);
     MapWindowPoints((HWND)0x0,hWndTo,points,cPoints);
     FUN_00431324((int)local_8);
     uVar2 = *in_FS_OFFSET;
     *in_FS_OFFSET = &stack0xffffffcc;
-    FUN_00403178(*(int **)(*(int *)(local_c + 4) + 0x38),local_8,local_1c);
+    System__CallDynaInst(*(int **)(*(int *)(local_c + 4) + 0x38),local_8,local_1c);
     if (((char)local_8[0x5f] != '\0') && (local_8[0x52] != 0)) {
       i_val = *(int *)(local_c + 4);
       (**(code **)(*(int *)local_8[0x52] + 0x18))
@@ -8434,7 +8454,7 @@ void TWinControl_CMFloatChanged(int *param_1,int param_2)
     uStack_20 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_20;
     puStack_18 = &stack0xfffffffc;
-    FUN_00403178(param_1,0,*(int *)(param_2 + 8) + 0x44);
+    System__CallDynaInst(param_1,0,*(int *)(param_2 + 8) + 0x44);
     puVar2 = puStack_18;
     *in_FS_OFFSET = uStack_20;
     puStack_18 = (undefined1 *)0x433623;
@@ -8472,15 +8492,15 @@ undefined1 FUN_00433654(int *param_1,int param_2)
   int *piVar3;
   undefined3 extraout_var;
   
-  piVar3 = FUN_00444864(param_1);
+  piVar3 = Forms_GetParentForm(param_1);
   if ((((piVar3 != (int *)0x0) && (param_1 != piVar3)) && (*(char *)((int)piVar3 + 0x215) != '\0'))
      && (cVar1 = FUN_00433654(piVar3,param_2), cVar1 != '\0')) {
     return 1;
   }
   bVar2 = FUN_0044476c(*(uint *)(param_2 + 8));
   if (((*(byte *)((int)param_1 + 0x41) & 0x10) == 0) &&
-     (FUN_00403178(param_1,param_2 + 4,CONCAT31(extraout_var,bVar2)), *(short *)(param_2 + 4) == 0))
-  {
+     (System__CallDynaInst(param_1,param_2 + 4,CONCAT31(extraout_var,bVar2)),
+     *(short *)(param_2 + 4) == 0)) {
     return 1;
   }
   return 0;
@@ -8539,15 +8559,15 @@ undefined1 FUN_00433724(int *param_1,int param_2)
   int *piVar3;
   undefined3 extraout_var;
   
-  piVar3 = FUN_00444864(param_1);
+  piVar3 = Forms_GetParentForm(param_1);
   if ((((piVar3 != (int *)0x0) && (param_1 != piVar3)) && (*(char *)((int)piVar3 + 0x215) != '\0'))
      && (cVar1 = FUN_00433724(piVar3,param_2), cVar1 != '\0')) {
     return 1;
   }
   bVar2 = FUN_0044476c(*(uint *)(param_2 + 8));
   if (((*(byte *)((int)param_1 + 0x41) & 0x10) == 0) &&
-     (FUN_00403178(param_1,param_2 + 4,CONCAT31(extraout_var,bVar2)), *(short *)(param_2 + 4) == 0))
-  {
+     (System__CallDynaInst(param_1,param_2 + 4,CONCAT31(extraout_var,bVar2)),
+     *(short *)(param_2 + 4) == 0)) {
     return 1;
   }
   return 0;
@@ -8608,7 +8628,7 @@ uint FUN_004337ec(int *param_1,int param_2,undefined4 param_3)
   undefined4 local_10;
   
   local_10 = CONCAT31((int3)((uint)param_3 >> 8),1);
-  piVar1 = FUN_00444864(param_1);
+  piVar1 = Forms_GetParentForm(param_1);
   uVar2 = extraout_ECX;
   if (((piVar1 != (int *)0x0) && (param_1 != piVar1)) && (*(char *)((int)piVar1 + 0x215) != '\0')) {
     piVar1 = (int *)FUN_004337ec(piVar1,param_2,extraout_ECX);
@@ -8617,7 +8637,7 @@ uint FUN_004337ec(int *param_1,int param_2,undefined4 param_3)
   }
   if ((*(byte *)((int)param_1 + 0x41) & 0x10) == 0) {
     local_10._0_2_ = CONCAT11(*(undefined1 *)(param_2 + 4),(undefined1)local_10);
-    FUN_00403178(param_1,(int)&local_10 + 1,uVar2);
+    System__CallDynaInst(param_1,(int)&local_10 + 1,uVar2);
     piVar1 = (int *)0x0;
     *(ushort *)(param_2 + 4) = (ushort)local_10._1_1_;
     if (*(char *)(param_2 + 4) == '\0') goto LAB_0043384f;
@@ -8655,12 +8675,14 @@ void TWinControl_CMMouseWheel(int *param_1,int param_2)
   
   *(undefined4 *)(param_2 + 0xc) = 0;
   FUN_004070e8(*(undefined4 *)(param_2 + 8),aiStack_14);
-  cVar1 = FUN_00403178(param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),*(undefined1 *)(param_2 + 4)
-                                       ),(int)*(short *)(param_2 + 6));
+  cVar1 = System__CallDynaInst
+                    (param_1,CONCAT31((int3)((uint)extraout_EDX >> 8),*(undefined1 *)(param_2 + 4)),
+                     (int)*(short *)(param_2 + 6));
   if (cVar1 == '\0') {
     if (param_1[9] != 0) {
-      uVar2 = FUN_0042f720(param_1[9],0xb043,*(undefined4 *)(param_2 + 4),
-                           *(undefined4 *)(param_2 + 8));
+      uVar2 = Controls_TControl_Perform
+                        (param_1[9],0xb043,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8)
+                        );
       *(undefined4 *)(param_2 + 0xc) = uVar2;
     }
   }
@@ -8687,7 +8709,7 @@ void TWinControl_WMMouseWheel(int *param_1,int param_2)
   }
   bVar1 = FUN_00444718(CONCAT22((short)((uint)iVar2 >> 0x10),*(undefined2 *)(param_2 + 4)));
   *(byte *)(param_2 + 4) = bVar1;
-  FUN_00403178(param_1,param_2,extraout_ECX);
+  System__CallDynaInst(param_1,param_2,extraout_ECX);
   if (*(int *)(param_2 + 0xc) == 0) {
     (**(code **)(*param_1 + -0x10))(param_1,param_2);
   }
@@ -8704,14 +8726,15 @@ void TWinControl_dynamic_ffb7(int *param_1,int param_2)
   undefined4 uVar2;
   undefined4 extraout_ECX;
   
-  piVar1 = FUN_00444864(param_1);
+  piVar1 = Forms_GetParentForm(param_1);
   if ((piVar1 == (int *)0x0) || (param_1 == piVar1)) {
-    uVar2 = FUN_0042f720((int)param_1,0xb043,*(undefined4 *)(param_2 + 4),
-                         *(undefined4 *)(param_2 + 8));
+    uVar2 = Controls_TControl_Perform
+                      ((int)param_1,0xb043,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8)
+                      );
     *(undefined4 *)(param_2 + 0xc) = uVar2;
   }
   else {
-    FUN_00403178(piVar1,param_2,extraout_ECX);
+    System__CallDynaInst(piVar1,param_2,extraout_ECX);
   }
   return;
 }
@@ -8750,10 +8773,10 @@ char TWinControl_dynamic_ffc6(int *param_1,undefined1 param_2,int param_3,undefi
         if (iVar4 != 0) {
           param_1[0x5e] = -iVar4;
         }
-        local_11 = FUN_00403178(param_1,CONCAT31(iVar3,local_5),&local_10);
+        local_11 = System__CallDynaInst(param_1,CONCAT31(iVar3,local_5),&local_10);
       }
       else {
-        local_11 = FUN_00403178(param_1,CONCAT31(iVar3,local_5),&local_10);
+        local_11 = System__CallDynaInst(param_1,CONCAT31(iVar3,local_5),&local_10);
       }
     }
   }
@@ -8815,16 +8838,18 @@ undefined1 FUN_00433acc(int param_1,undefined4 param_2,undefined4 param_3,int pa
   undefined4 extraout_EDX;
   int j;
   
-  if ((*(char *)(param_1 + 0x168) != '\0') && (i_val = FUN_004317bc(param_1), -1 < i_val + -1)) {
+  if ((*(char *)(param_1 + 0x168) != '\0') &&
+     (i_val = Controls_TWinControl_GetControlCount(param_1), -1 < i_val + -1)) {
     j = 0;
     do {
-      piVar2 = (int *)FUN_00431780(param_1,j);
+      piVar2 = (int *)Controls_TWinControl_GetControl(param_1,j);
       if (((*(char *)((int)piVar2 + 0x47) != '\0') &&
           (cVar1 = (**(code **)(*piVar2 + 0x4c))(), cVar1 != '\0')) &&
          ((((*(byte *)((int)piVar2 + 0x42) & 1) != 0 &&
-           (iVar3 = FUN_0042f720((int)piVar2,0x112,*(undefined4 *)(*(int *)(param_4 + -4) + 4),
-                                 *(undefined4 *)(*(int *)(param_4 + -4) + 8)), iVar3 != 0)) ||
-          ((uVar4 = FUN_00403114(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c),
+           (iVar3 = Controls_TControl_Perform
+                              ((int)piVar2,0x112,*(undefined4 *)(*(int *)(param_4 + -4) + 4),
+                               *(undefined4 *)(*(int *)(param_4 + -4) + 8)), iVar3 != 0)) ||
+          ((uVar4 = System__IsClass(piVar2,(int)&PTR_TWinControl_virtual_000_0042ac0c),
            (char)uVar4 != '\0' &&
            (cVar1 = FUN_00433acc((int)piVar2,extraout_EDX,extraout_ECX,param_4), cVar1 != '\0'))))))
       {
@@ -8866,9 +8891,9 @@ void TWinControl_WMSysCommand(int *param_1,int param_2,undefined4 param_3)
        (pHVar3 = GetCapture(), param_3 = extraout_ECX_00, iVar6 = extraout_EDX_00,
        pHVar3 == (HWND)0x0)))) &&
      ((param_1 != *(int **)(*(int *)PTR_DAT_004ab8ac + 0x38) &&
-      ((piVar4 = FUN_00444864(param_1), param_3 = extraout_ECX_01, iVar6 = extraout_EDX_01,
+      ((piVar4 = Forms_GetParentForm(param_1), param_3 = extraout_ECX_01, iVar6 = extraout_EDX_01,
        piVar4 != (int *)0x0 &&
-       (iVar5 = FUN_0042f720((int)piVar4,0xb017,0,param_2), param_3 = extraout_ECX_02,
+       (iVar5 = Controls_TControl_Perform((int)piVar4,0xb017,0,param_2), param_3 = extraout_ECX_02,
        iVar6 = extraout_EDX_02, iVar5 != 0)))))) {
     return;
   }
@@ -8982,14 +9007,15 @@ undefined1 TWinControl_dynamic_ffd6(int *param_1,undefined4 param_2,undefined4 p
   local_10._0_2_ = CONCAT11(uVar1,(char)param_2);
   local_10 = (uint)(ushort)local_10;
   if (*(char *)((int)param_1 + 0x47) != '\0') {
-    i_val = FUN_004317bc((int)param_1);
+    i_val = Controls_TWinControl_GetControlCount((int)param_1);
     i_val = i_val + -1;
     if (-1 < i_val) {
       do {
         if (((byte)local_10 & local_10._1_1_) != 0) break;
-        piVar3 = (int *)FUN_00431780((int)param_1,i_val);
-        bVar2 = FUN_00403178(piVar3,CONCAT31((int3)((uint)extraout_EDX >> 8),(byte)local_10),
-                             extraout_ECX);
+        piVar3 = (int *)Controls_TWinControl_GetControl((int)param_1,i_val);
+        bVar2 = System__CallDynaInst
+                          (piVar3,CONCAT31((int3)((uint)extraout_EDX >> 8),(byte)local_10),
+                           extraout_ECX);
         local_10._0_2_ = CONCAT11(bVar2 | local_10._1_1_,(byte)local_10);
         local_10 = (uint)(ushort)local_10;
         i_val = i_val + -1;
@@ -9008,7 +9034,7 @@ void TWinControl_WMQueryNewPalette(int *param_1,int param_2,undefined4 param_3)
   uint uVar1;
   
   *(ushort *)(param_1 + 0x11) = *(ushort *)(param_1 + 0x11) | 4;
-  uVar1 = FUN_00403178(param_1,CONCAT31((int3)((uint)param_2 >> 8),1),param_3);
+  uVar1 = System__CallDynaInst(param_1,CONCAT31((int3)((uint)param_2 >> 8),1),param_3);
   *(uint *)(param_2 + 0xc) = uVar1 & 0x7f;
   return;
 }
@@ -9021,7 +9047,7 @@ void TWinControl_WMPaletteChanged(int *param_1,int param_2,undefined4 param_3)
 {
   uint uVar1;
   
-  uVar1 = FUN_00403178(param_1,0,param_3);
+  uVar1 = System__CallDynaInst(param_1,0,param_3);
   *(uint *)(param_2 + 0xc) = uVar1 & 0x7f;
   return;
 }
@@ -9082,7 +9108,7 @@ void TWinControl_CMEnter(int *param_1,undefined4 param_2,undefined4 param_3)
     if ((char)uVar1 == '\0') {
       if (*(int *)(*(int *)PTR_DAT_004ab8ac + 0x30) != 0) {
         UVar3 = 1;
-        pCVar2 = FUN_004040a0(*(undefined **)(*(int *)PTR_DAT_004ab8ac + 0x30));
+        pCVar2 = System__LStrToPChar(*(undefined **)(*(int *)PTR_DAT_004ab8ac + 0x30));
         LoadKeyboardLayoutA(pCVar2,UVar3);
         param_3 = extraout_ECX_01;
         param_2 = extraout_EDX_01;
@@ -9090,13 +9116,13 @@ void TWinControl_CMEnter(int *param_1,undefined4 param_2,undefined4 param_3)
     }
     else if (*(int *)(*(int *)PTR_DAT_004ab8ac + 0x2c) != 0) {
       UVar3 = 1;
-      pCVar2 = FUN_004040a0(*(undefined **)(*(int *)PTR_DAT_004ab8ac + 0x2c));
+      pCVar2 = System__LStrToPChar(*(undefined **)(*(int *)PTR_DAT_004ab8ac + 0x2c));
       LoadKeyboardLayoutA(pCVar2,UVar3);
       param_3 = extraout_ECX_00;
       param_2 = extraout_EDX_00;
     }
   }
-  FUN_00403178(param_1,param_2,param_3);
+  System__CallDynaInst(param_1,param_2,param_3);
   return;
 }
 
@@ -9106,7 +9132,7 @@ void TWinControl_CMEnter(int *param_1,undefined4 param_2,undefined4 param_3)
 void TWinControl_CMExit(int *param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  FUN_00403178(param_1,param_2,param_3);
+  System__CallDynaInst(param_1,param_2,param_3);
   return;
 }
 
@@ -9224,7 +9250,7 @@ void TWinControl_CMEnabledChanged(int *param_1)
   if ((cVar1 == '\0') && (param_1[9] != 0)) {
     FUN_0043157c(param_1,'\0');
   }
-  bVar2 = FUN_00434cdc((int)param_1);
+  bVar2 = Controls_TWinControl_HandleAllocated((int)param_1);
   if ((bVar2) && ((*(byte *)(param_1 + 8) & 0x10) == 0)) {
     cVar1 = (**(code **)(*param_1 + 0x4c))();
     EnableWindow((HWND)param_1[0x53],-(uint)(cVar1 != '\0'));
@@ -9260,12 +9286,12 @@ void TWinControl_CMFontChanged(int *param_1)
   undefined4 uVar4;
   
   TControl_CMFontChanged(param_1);
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   uVar3 = extraout_var;
   if (bVar1) {
     uVar4 = 0;
     uVar2 = FUN_00418228(param_1[0x16]);
-    FUN_0042f720((int)param_1,0x30,uVar2,uVar4);
+    Controls_TControl_Perform((int)param_1,0x30,uVar2,uVar4);
     uVar3 = extraout_var_00;
   }
   FUN_0043181c((int)param_1,CONCAT22(uVar3,0xb008));
@@ -9290,8 +9316,8 @@ void TWinControl_CMCursorChanged(int *param_1)
     piVar2 = FUN_0042d198(&tStack_c,0);
     if (param_1 == piVar2) {
       uVar4 = 1;
-      iVar3 = FUN_004349e0(param_1);
-      FUN_0042f720((int)param_1,0x20,iVar3,uVar4);
+      iVar3 = Controls_TWinControl_GetHandle(param_1);
+      Controls_TControl_Perform((int)param_1,0x20,iVar3,uVar4);
     }
   }
   return;
@@ -9313,7 +9339,7 @@ void TWinControl_CMBorderChanged(int *param_1)
   UINT uFlags;
   
   (**(code **)(*param_1 + -0x10))();
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   if (bVar1) {
     uFlags = 0x37;
     cy = 0;
@@ -9321,7 +9347,7 @@ void TWinControl_CMBorderChanged(int *param_1)
     Y = 0;
     X = 0;
     hWndInsertAfter = (HWND)0x0;
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetWindowPos(hWnd,hWndInsertAfter,X,Y,cx,cy,uFlags);
   }
   return;
@@ -9342,7 +9368,7 @@ void TWinControl_CMCtl3DChanged(int param_1,undefined4 param_2)
   
   uVar3 = (undefined2)((uint)param_2 >> 0x10);
   if (((*(byte *)(param_1 + 0x40) & 0x10) != 0) && (*(int *)(param_1 + 0x24) != 0)) {
-    bVar1 = FUN_00434cdc(param_1);
+    bVar1 = Controls_TWinControl_HandleAllocated(param_1);
     uVar3 = extraout_var;
     if (bVar1) {
       BVar2 = IsWindowVisible(*(HWND *)(param_1 + 0x14c));
@@ -9491,18 +9517,18 @@ bool FUN_00434180(int *param_1,int param_2,undefined4 param_3)
   iVar5 = param_2;
   if ((*(byte *)(param_1 + 8) & 0x10) == 0) {
     for (; piVar3 != (int *)0x0; piVar3 = (int *)piVar3[9]) {
-      piVar2 = (int *)FUN_00403178(piVar3,iVar5,param_3);
+      piVar2 = (int *)System__CallDynaInst(piVar3,iVar5,param_3);
       param_3 = extraout_ECX;
       iVar5 = extraout_EDX;
       if (((piVar2 != (int *)0x0) && (piVar2[0xb] != 0)) &&
-         (cVar1 = FUN_00403178(piVar2,param_2,extraout_ECX), param_3 = extraout_ECX_00,
+         (cVar1 = System__CallDynaInst(piVar2,param_2,extraout_ECX), param_3 = extraout_ECX_00,
          iVar5 = extraout_EDX_00, cVar1 != '\0')) {
         return true;
       }
     }
-    piVar3 = FUN_00444864(param_1);
+    piVar3 = Forms_GetParentForm(param_1);
     if ((piVar3 != (int *)0x0) &&
-       (cVar1 = FUN_00403178(piVar3,param_2,extraout_ECX_01), cVar1 != '\0')) {
+       (cVar1 = System__CallDynaInst(piVar3,param_2,extraout_ECX_01), cVar1 != '\0')) {
       return true;
     }
   }
@@ -9529,7 +9555,7 @@ void TWinControl_CNKeyDown(int *param_1,int param_2,undefined4 param_3)
     return;
   }
   if ((*(byte *)(param_1 + 8) & 0x10) != 0) goto LAB_004342e1;
-  iVar2 = FUN_0042f720((int)param_1,0xb02e,(uint)*(ushort *)(param_2 + 4),param_1);
+  iVar2 = Controls_TControl_Perform((int)param_1,0xb02e,(uint)*(ushort *)(param_2 + 4),param_1);
   if (iVar2 != 0) {
     return;
   }
@@ -9550,11 +9576,12 @@ LAB_00434291:
   }
   else if (uVar3 == 0x2b) goto LAB_00434291;
   if (((uVar5 != 0) &&
-      (iVar2 = FUN_0042f720((int)param_1,0xb01e,(uint)*(ushort *)(param_2 + 4),0), iVar2 == 0)) &&
-     (uVar3 = FUN_0042f720((int)param_1,0x87,0,0), (uVar3 & uVar5) == 0)) {
+      (iVar2 = Controls_TControl_Perform((int)param_1,0xb01e,(uint)*(ushort *)(param_2 + 4),0),
+      iVar2 == 0)) &&
+     (uVar3 = Controls_TControl_Perform((int)param_1,0x87,0,0), (uVar3 & uVar5) == 0)) {
     uVar6 = *(undefined4 *)(param_2 + 8);
-    piVar4 = FUN_00444864(param_1);
-    iVar2 = FUN_0042f720((int)piVar4,0xb005,(uint)*(ushort *)(param_2 + 4),uVar6);
+    piVar4 = Forms_GetParentForm(param_1);
+    iVar2 = Controls_TControl_Perform((int)piVar4,0xb005,(uint)*(ushort *)(param_2 + 4),uVar6);
     if (iVar2 != 0) {
       return;
     }
@@ -9583,7 +9610,7 @@ void TWinControl_CNKeyUp(int param_1,int param_2)
     else if ((3 < uVar1 - 0x25) && (uVar1 - 0x25 != 6)) {
       return;
     }
-    uVar2 = FUN_0042f720(param_1,0xb01e,(uint)*(ushort *)(param_2 + 4),0);
+    uVar2 = Controls_TControl_Perform(param_1,0xb01e,(uint)*(ushort *)(param_2 + 4),0);
     *(undefined4 *)(param_2 + 0xc) = uVar2;
   }
   return;
@@ -9602,11 +9629,11 @@ void TWinControl_CNChar(int *param_1,int param_2)
   
   if ((*(byte *)(param_1 + 8) & 0x10) == 0) {
     *(undefined4 *)(param_2 + 0xc) = 1;
-    uVar1 = FUN_0042f720((int)param_1,0x87,0,0);
+    uVar1 = Controls_TControl_Perform((int)param_1,0x87,0,0);
     if ((uVar1 & 0x80) == 0) {
       uVar4 = *(undefined4 *)(param_2 + 8);
-      piVar2 = FUN_00444864(param_1);
-      iVar3 = FUN_0042f720((int)piVar2,0xb006,(uint)*(ushort *)(param_2 + 4),uVar4);
+      piVar2 = Forms_GetParentForm(param_1);
+      iVar3 = Controls_TControl_Perform((int)piVar2,0xb006,(uint)*(ushort *)(param_2 + 4),uVar4);
       if (iVar3 != 0) {
         return;
       }
@@ -9633,13 +9660,13 @@ void TWinControl_CNSysKeyDown(int *param_1,int param_2,undefined4 param_3)
     return;
   }
   if ((*(byte *)(param_1 + 8) & 0x10) == 0) {
-    iVar2 = FUN_0042f720((int)param_1,0xb02e,(uint)*(ushort *)(param_2 + 4),param_1);
+    iVar2 = Controls_TControl_Perform((int)param_1,0xb02e,(uint)*(ushort *)(param_2 + 4),param_1);
     if (iVar2 != 0) {
       return;
     }
     uVar4 = *(undefined4 *)(param_2 + 8);
-    piVar3 = FUN_00444864(param_1);
-    iVar2 = FUN_0042f720((int)piVar3,0xb005,(uint)*(ushort *)(param_2 + 4),uVar4);
+    piVar3 = Forms_GetParentForm(param_1);
+    iVar2 = Controls_TControl_Perform((int)piVar3,0xb005,(uint)*(ushort *)(param_2 + 4),uVar4);
     if (iVar2 != 0) {
       return;
     }
@@ -9659,8 +9686,8 @@ void TWinControl_CNSysChar(int *param_1,int param_2)
   
   if (((*(byte *)(param_1 + 8) & 0x10) == 0) && (*(short *)(param_2 + 4) != 0x20)) {
     uVar2 = *(undefined4 *)(param_2 + 8);
-    piVar1 = FUN_00444864(param_1);
-    uVar2 = FUN_0042f720((int)piVar1,0xb006,(uint)*(ushort *)(param_2 + 4),uVar2);
+    piVar1 = Forms_GetParentForm(param_1);
+    uVar2 = Controls_TControl_Perform((int)piVar1,0xb006,(uint)*(ushort *)(param_2 + 4),uVar2);
     *(undefined4 *)(param_2 + 0xc) = uVar2;
   }
   return;
@@ -9688,7 +9715,7 @@ void TWinControl_virtual_07c(int *param_1,int x_val,int y_val,int cy_val,int cx_
      (cy_val == param_1[0xf])) {
     return;
   }
-  bVar1 = FUN_00434cdc((int)param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
   if ((bVar1) && (BVar2 = IsIconic((HWND)param_1[0x53]), BVar2 == 0)) {
     SetWindowPos((HWND)param_1[0x53],(HWND)0x0,x_val,y_val,cx_val,cy_val,0x14);
   }
@@ -9697,7 +9724,7 @@ void TWinControl_virtual_07c(int *param_1,int x_val,int y_val,int cy_val,int cx_
     param_1[0xd] = y_val;
     param_1[0xe] = cx_val;
     param_1[0xf] = cy_val;
-    bVar1 = FUN_00434cdc((int)param_1);
+    bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
     if (bVar1) {
       windowplacement.length = 0x2c;
       GetWindowPlacement((HWND)param_1[0x53],&windowplacement);
@@ -9713,7 +9740,7 @@ void TWinControl_virtual_07c(int *param_1,int x_val,int y_val,int cy_val,int cx_
     }
   }
   FUN_0042de78((int)param_1);
-  FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+  System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   return;
 }
 
@@ -9727,12 +9754,12 @@ void FUN_004344f8(int param_1,undefined4 param_2,undefined4 param_3)
   int *piVar1;
   int j;
   
-  i_val = FUN_004317bc(param_1);
+  i_val = Controls_TWinControl_GetControlCount(param_1);
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      piVar1 = (int *)FUN_00431780(param_1,j);
-      FUN_00403178(piVar1,param_2,param_3);
+      piVar1 = (int *)Controls_TWinControl_GetControl(param_1,j);
+      System__CallDynaInst(piVar1,param_2,param_3);
       j = j + 1;
       i_val = i_val + -1;
     } while (i_val != 0);
@@ -9743,7 +9770,7 @@ void FUN_004344f8(int param_1,undefined4 param_2,undefined4 param_3)
 
 /* ==== 00434540 TWinControl.dynamic_ffed ==== */
 
-void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator_2)
 
 {
   undefined4 *in_FS_OFFSET;
@@ -9757,8 +9784,8 @@ void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_14 = &stack0xfffffffc;
-  FUN_004344f8((int)param_1,numerator,denominator);
-  TControl_dynamic_ffed(param_1,numerator,denominator);
+  FUN_004344f8((int)param_1,numerator,denominator_2);
+  TControl_dynamic_ffed(param_1,numerator,denominator_2);
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00434598;
   puStack_18 = (undefined1 *)0x434590;
@@ -9791,12 +9818,12 @@ LAB_004345ca:
   if (bVar1) {
     ScrollWindow((HWND)param_1[0x53],x_amount,y_amount,(RECT *)0x0,(RECT *)0x0);
   }
-  i_val = FUN_004317bc((int)param_1);
+  i_val = Controls_TWinControl_GetControlCount((int)param_1);
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      piVar3 = (int *)FUN_00431780((int)param_1,j);
-      uVar4 = FUN_00403114(piVar3,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+      piVar3 = (int *)Controls_TWinControl_GetControl((int)param_1,j);
+      uVar4 = System__IsClass(piVar3,(int)&PTR_TWinControl_virtual_000_0042ac0c);
       if (((char)uVar4 == '\0') || (piVar3[0x53] == 0)) {
         piVar3[0xc] = piVar3[0xc] + x_amount;
         piVar3[0xd] = piVar3[0xd] + y_amount;
@@ -9845,7 +9872,7 @@ void FUN_00434690(int param_1,int param_2)
     if (*(int *)(iVar3 + 0x134) != 0) {
       param_2 = param_2 - *(int *)(*(int *)(iVar3 + 0x134) + 8);
     }
-    iVar3 = FUN_0041030c(*(int *)(iVar3 + 0x180),param_1);
+    iVar3 = Classes_TList_IndexOf(*(int *)(iVar3 + 0x180),param_1);
     if (-1 < iVar3) {
       piVar4 = *(int **)(*(int *)(param_1 + 0x24) + 0x180);
       iVar1 = piVar4[2];
@@ -9856,7 +9883,7 @@ void FUN_00434690(int param_1,int param_2)
         param_2 = iVar1 + -1;
       }
       if (iVar3 != param_2) {
-        FUN_00410150(piVar4,iVar3);
+        Classes_TList_Delete(piVar4,iVar3);
         FUN_0041032c(*(int **)(*(int *)(param_1 + 0x24) + 0x180),param_2,param_1);
       }
     }
@@ -9870,15 +9897,15 @@ void FUN_00434690(int param_1,int param_2)
           hWndInsertAfter = (HWND)0x0;
         }
         else if (iVar3 < param_2) {
-          piVar4 = (int *)FUN_004102b0(puVar2,param_2 + 1);
-          hWndInsertAfter = (HWND)FUN_004349e0(piVar4);
+          piVar4 = (int *)Classes_TList_Get(puVar2,param_2 + 1);
+          hWndInsertAfter = (HWND)Controls_TWinControl_GetHandle(piVar4);
         }
         else {
           if (iVar3 <= param_2) {
             return;
           }
-          piVar4 = (int *)FUN_004102b0(puVar2,param_2);
-          hWndInsertAfter = (HWND)FUN_004349e0(piVar4);
+          piVar4 = (int *)Classes_TList_Get(puVar2,param_2);
+          hWndInsertAfter = (HWND)Controls_TWinControl_GetHandle(piVar4);
         }
       }
       SetWindowPos(*(HWND *)(param_1 + 0x14c),hWndInsertAfter,0,0,0,0,3);
@@ -9932,18 +9959,19 @@ void TWinControl_virtual_044(int *param_1,int *param_2)
   DWORD flags;
   
   if ((*(byte *)(param_1 + 8) & 0x10) == 0) {
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     pHVar2 = GetDC(pHVar1);
   }
   else {
     flags = 0x12;
     hrgnClip = (HRGN)0x0;
-    pHVar1 = (HWND)FUN_004349e0(param_1);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
     pHVar2 = GetDCEx(pHVar1,hrgnClip,flags);
   }
   if (pHVar2 == (HDC)0x0) {
-    piVar3 = FUN_0040b694((int *)&DAT_0040e9b0,'\x01',(undefined4 *)PTR_PTR_004ab88c);
-    FUN_004036f4(piVar3);
+    piVar3 = SysUtils_Exception_CreateRes
+                       ((int *)&DAT_0040e9b0,'\x01',(undefined4 *)PTR_PTR_004ab88c);
+    System__RaiseExcept(piVar3);
   }
   *param_2 = param_1[0x53];
   return;
@@ -9958,7 +9986,7 @@ int FUN_0043481c(int param_1)
   int iVar1;
   
   if (*(int **)(param_1 + 0x24) != (int *)0x0) {
-    iVar1 = FUN_004349e0(*(int **)(param_1 + 0x24));
+    iVar1 = Controls_TWinControl_GetHandle(*(int **)(param_1 + 0x24));
     return iVar1;
   }
   return *(int *)(param_1 + 0x164);
@@ -9979,7 +10007,7 @@ int thunk_FUN_00434838(int *param_1)
   } while ((int *)piVar1[9] != (int *)0x0);
   iVar2 = piVar1[0x59];
   if (iVar2 == 0) {
-    iVar2 = FUN_004349e0(piVar1);
+    iVar2 = Controls_TWinControl_GetHandle(piVar1);
   }
   return iVar2;
 }
@@ -9999,7 +10027,7 @@ int FUN_00434838(int *param_1)
   } while ((int *)piVar1[9] != (int *)0x0);
   iVar2 = piVar1[0x59];
   if (iVar2 == 0) {
-    iVar2 = FUN_004349e0(piVar1);
+    iVar2 = Controls_TWinControl_GetHandle(piVar1);
   }
   return iVar2;
 }
@@ -10010,7 +10038,7 @@ int FUN_00434838(int *param_1)
 void TWinControl_virtual_074(int param_1)
 
 {
-  FUN_0042f720(param_1,0xb034,0,0);
+  Controls_TControl_Perform(param_1,0xb034,0,0);
   return;
 }
 
@@ -10022,10 +10050,10 @@ void TWinControl_CMInvalidate(int param_1,int param_2)
 {
   bool bVar1;
   
-  bVar1 = FUN_00434cdc(param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated(param_1);
   if (bVar1) {
     if (*(int *)(param_1 + 0x24) != 0) {
-      FUN_0042f720(*(int *)(param_1 + 0x24),0xb034,1,0);
+      Controls_TControl_Perform(*(int *)(param_1 + 0x24),0xb034,1,0);
     }
     if (*(int *)(param_2 + 4) == 0) {
       InvalidateRect(*(HWND *)(param_1 + 0x14c),(RECT *)0x0,
@@ -10043,7 +10071,7 @@ void TWinControl_virtual_080(int param_1)
 {
   bool bVar1;
   
-  bVar1 = FUN_00434cdc(param_1);
+  bVar1 = Controls_TWinControl_HandleAllocated(param_1);
   if (bVar1) {
     UpdateWindow(*(HWND *)(param_1 + 0x14c));
   }
@@ -10086,7 +10114,7 @@ undefined1 TWinControl_dynamic_ffbc(int *param_1)
   undefined1 local_c;
   
   local_c = 0;
-  piVar2 = FUN_00444864(param_1);
+  piVar2 = Forms_GetParentForm(param_1);
   if (piVar2 != (int *)0x0) {
     for (; piVar2 != param_1; param_1 = (int *)param_1[9]) {
       if (*(char *)((int)param_1 + 0x47) == '\0') {
@@ -10112,7 +10140,7 @@ void TWinControl_virtual_0b0(int *param_1)
   HWND hWnd;
   undefined4 extraout_ECX;
   
-  piVar1 = FUN_00444864(param_1);
+  piVar1 = Forms_GetParentForm(param_1);
   if (piVar1 != (int *)0x0) {
     FUN_0044835c(piVar1,param_1,extraout_ECX);
     return;
@@ -10121,7 +10149,7 @@ void TWinControl_virtual_0b0(int *param_1)
     FUN_0044488c(param_1);
   }
   else {
-    hWnd = (HWND)FUN_004349e0(param_1);
+    hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
     SetFocus(hWnd);
   }
   return;
@@ -10160,9 +10188,9 @@ void FUN_004349bc(int *param_1)
 }
 
 
-/* ==== 004349e0 FUN_004349e0 ==== */
+/* ==== 004349e0 Controls.TWinControl.GetHandle ==== */
 
-int FUN_004349e0(int *param_1)
+int Controls_TWinControl_GetHandle(int *param_1)
 
 {
   FUN_004349bc(param_1);
@@ -10179,12 +10207,12 @@ void TWinControl_virtual_0a4(int param_1,int *param_2)
   int iVar1;
   int j;
   
-  FUN_0040f7e8(0x7fffffff,0x7fffffff,0,param_2,0);
-  i_val = FUN_004317bc(param_1);
+  Classes_Rect(0x7fffffff,0x7fffffff,0,param_2,0);
+  i_val = Controls_TWinControl_GetControlCount(param_1);
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      iVar1 = FUN_00431780(param_1,j);
+      iVar1 = Controls_TWinControl_GetControl(param_1,j);
       if ((*(char *)(iVar1 + 0x47) != '\0') ||
          (((*(byte *)(iVar1 + 0x20) & 0x10) != 0 && ((*(byte *)(iVar1 + 0x41) & 4) == 0)))) {
         if (*(int *)(iVar1 + 0x30) < *param_2) {
@@ -10217,7 +10245,7 @@ void TWinControl_virtual_03c(int *param_1,LPPOINT point)
   
   point->x = 0;
   point->y = 0;
-  hWnd = (HWND)FUN_004349e0(param_1);
+  hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
   ClientToScreen(hWnd,point);
   return;
 }
@@ -10230,7 +10258,7 @@ void TWinControl_virtual_040(int *param_1,LPRECT rect)
 {
   HWND hWnd;
   
-  hWnd = (HWND)FUN_004349e0(param_1);
+  hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
   GetClientRect(hWnd,rect);
   return;
 }
@@ -10253,7 +10281,7 @@ void TWinControl_dynamic_ffef(int *param_1)
   UINT uFlags;
   
   if ((*(byte *)(param_1 + 8) & 1) == 0) {
-    bVar1 = FUN_00434cdc((int)param_1);
+    bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
     if (bVar1) {
       uFlags = 0x16;
       cy = param_1[0xf];
@@ -10261,9 +10289,9 @@ void TWinControl_dynamic_ffef(int *param_1)
       Y = 0;
       X = 0;
       hWndInsertAfter = (HWND)0x0;
-      hWnd = (HWND)FUN_004349e0(param_1);
+      hWnd = (HWND)Controls_TWinControl_GetHandle(param_1);
       SetWindowPos(hWnd,hWndInsertAfter,X,Y,cx,cy,uFlags);
-      FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+      System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
     }
   }
   return;
@@ -10284,9 +10312,9 @@ void TWinControl_dynamic_ffb8(int param_1,int *param_2)
      (i_val = *(int *)(*(int *)(param_1 + 0x16c) + 8), -1 < i_val + -1)) {
     j = 0;
     do {
-      piVar1 = (int *)FUN_004102b0(*(undefined4 **)(param_1 + 0x16c),j);
-      FUN_00410104(param_2,(int)piVar1);
-      FUN_00403178(piVar1,param_2,extraout_ECX);
+      piVar1 = (int *)Classes_TList_Get(*(undefined4 **)(param_1 + 0x16c),j);
+      Classes_TList_Add(param_2,(int)piVar1);
+      System__CallDynaInst(piVar1,param_2,extraout_ECX);
       j = j + 1;
       i_val = i_val + -1;
     } while (i_val != 0);
@@ -10316,14 +10344,14 @@ void FUN_00434df8(int *param_1,int param_2,undefined4 param_3,char param_4,char 
   
   local_10 = (int *)0x0;
   puStack_28 = (undefined1 *)0x434e1a;
-  piVar2 = (int *)FUN_00402f6c((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
+  piVar2 = (int *)System_TObject_Create((int *)&PTR_TList_virtual_000_0040ea6c,'\x01',param_3);
   puStack_2c = &LAB_00434eee;
   uStack_30 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_30;
   puStack_28 = &stack0xfffffffc;
-  FUN_00403178(param_1,piVar2,extraout_ECX);
+  System__CallDynaInst(param_1,piVar2,extraout_ECX);
   if (0 < piVar2[2]) {
-    local_14 = FUN_0041030c((int)piVar2,param_2);
+    local_14 = Classes_TList_IndexOf((int)piVar2,param_2);
     i_val = local_14;
     if (local_14 == -1) {
       if ((char)param_3 == '\0') {
@@ -10348,8 +10376,8 @@ void FUN_00434df8(int *param_1,int param_2,undefined4 param_3,char param_4,char 
           i_val = 0;
         }
       }
-      piVar3 = (int *)FUN_004102b0(piVar2,i_val);
-      cVar1 = FUN_00403178(piVar3,extraout_EDX,extraout_ECX_00);
+      piVar3 = (int *)Classes_TList_Get(piVar2,i_val);
+      cVar1 = System__CallDynaInst(piVar3,extraout_EDX,extraout_ECX_00);
       if (((cVar1 != '\0') && ((param_5 == '\0' || ((char)piVar3[0x5d] != '\0')))) &&
          ((param_4 == '\0' || ((int *)piVar3[9] == param_1)))) {
         local_10 = piVar3;
@@ -10359,7 +10387,7 @@ void FUN_00434df8(int *param_1,int param_2,undefined4 param_3,char param_4,char 
   *in_FS_OFFSET = uStack_30;
   puStack_28 = &LAB_00434ef5;
   puStack_2c = (undefined1 *)0x434eed;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar2);
   return;
 }
 
@@ -10391,7 +10419,7 @@ void FUN_00434f30(int *param_1)
   undefined4 extraout_ECX_01;
   undefined4 uVar3;
   
-  piVar1 = FUN_00444864(param_1);
+  piVar1 = Forms_GetParentForm(param_1);
   if (piVar1 != (int *)0x0) {
     piVar2 = (int *)FUN_00434df8(param_1,0,CONCAT31((int3)((uint)extraout_ECX >> 8),1),'\0','\x01');
     uVar3 = extraout_ECX_00;
@@ -10418,11 +10446,11 @@ void TWinControl_dynamic_fffd
   int iVar1;
   int j;
   
-  i_val = FUN_004317bc(param_1);
+  i_val = Controls_TWinControl_GetControlCount(param_1);
   if (-1 < i_val + -1) {
     j = 0;
     do {
-      iVar1 = FUN_00431780(param_1,j);
+      iVar1 = Controls_TWinControl_GetControl(param_1,j);
       if (*(int *)(iVar1 + 4) == param_2) {
         (*(code *)param_4)(param_5,iVar1);
       }
@@ -10441,12 +10469,12 @@ void TWinControl_dynamic_fffa(undefined4 param_1,int *param_2,int param_3)
 {
   undefined4 uVar1;
   
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TWinControl_virtual_000_0042ac0c);
   if ((char)uVar1 != '\0') {
     FUN_00434690((int)param_2,param_3);
     return;
   }
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TControl_virtual_000_0042a694);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TControl_virtual_000_0042a694);
   if ((char)uVar1 != '\0') {
     FUN_0042e998(param_2,param_3);
   }
@@ -10540,8 +10568,8 @@ void FUN_00435084(int *param_1,int *param_2,int *param_3,int *param_4,int *param
   
   local_c = param_3;
   local_8 = param_2;
-  bVar1 = FUN_00434cdc((int)param_1);
-  if ((bVar1) && (i_val = FUN_004317bc((int)param_1), i_val != 0)) {
+  bVar1 = Controls_TWinControl_HandleAllocated((int)param_1);
+  if ((bVar1) && (i_val = Controls_TWinControl_GetControlCount((int)param_1), i_val != 0)) {
     (**(code **)(*param_1 + 0x40))(param_1,&rect);
     (**(code **)(*param_1 + 0x84))(param_1,&rect);
     puStack_78 = (undefined1 *)0x4350d3;
@@ -10574,11 +10602,11 @@ void FUN_00435084(int *param_1,int *param_2,int *param_3,int *param_4,int *param
       local_40 = 0;
       local_14 = local_1c;
       local_10 = local_18;
-      i_val = FUN_004317bc((int)param_1);
+      i_val = Controls_TWinControl_GetControlCount((int)param_1);
       if (-1 < i_val + -1) {
         j = 0;
         do {
-          piVar5 = (int *)FUN_00431780((int)param_1,j);
+          piVar5 = (int *)Controls_TWinControl_GetControl((int)param_1,j);
           if ((*(char *)((int)piVar5 + 0x47) != '\0') ||
              (((*(byte *)(piVar5 + 8) & 0x10) != 0 && ((*(byte *)((int)piVar5 + 0x41) & 4) == 0))))
           {
@@ -10717,7 +10745,7 @@ void TWinControl_dynamic_fff0(int *param_1,int *param_2,char param_3)
   undefined4 uVar1;
   
   TControl_dynamic_fff0(param_1,param_2,param_3);
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
   if (((char)uVar1 != '\0') && ((param_3 == '\0' || (param_1[0x54] == 0)))) {
     param_1[0x54] = param_2[0x17];
   }
@@ -10742,7 +10770,7 @@ void TWinControl_virtual_000(int *param_1,int *param_2)
   undefined4 uVar1;
   
   TControl_virtual_000(param_1,param_2);
-  uVar1 = FUN_00403114(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
+  uVar1 = System__IsClass(param_2,(int)&PTR_TCustomAction_virtual_000_0043943c);
   if ((char)uVar1 != '\0') {
     FUN_00439d88(param_2,param_1[0x54]);
   }
@@ -10781,11 +10809,11 @@ undefined1 TWinControl_virtual_034(int *param_1,undefined4 param_2,undefined4 pa
   local_10 = param_3;
   local_c = param_2;
   local_8 = param_1;
-  bVar2 = FUN_00434cdc((int)param_1);
+  bVar2 = Controls_TWinControl_HandleAllocated((int)param_1);
   if ((bVar2) && (*(char *)((int)local_8 + 0x4b) != '\x05')) {
     if ((*(byte *)(local_8 + 8) & 0x10) != 0) {
       puStack_48 = (undefined1 *)0x435578;
-      j = FUN_004317bc((int)local_8);
+      j = Controls_TWinControl_GetControlCount((int)local_8);
       if (j < 1) {
         return local_11;
       }
@@ -10802,11 +10830,11 @@ undefined1 TWinControl_virtual_034(int *param_1,undefined4 param_2,undefined4 pa
     uStack_50 = *in_FS_OFFSET;
     *in_FS_OFFSET = &uStack_50;
     puStack_48 = &stack0xfffffffc;
-    j = FUN_004317bc((int)local_8);
+    j = Controls_TWinControl_GetControlCount((int)local_8);
     if (-1 < j + -1) {
       i_val = 0;
       do {
-        piVar4 = (int *)FUN_00431780((int)local_8,i_val);
+        piVar4 = (int *)Controls_TWinControl_GetControl((int)local_8,i_val);
         if ((*(char *)((int)piVar4 + 0x47) != '\0') ||
            (((*(byte *)(piVar4 + 8) & 0x10) != 0 && ((*(byte *)((int)piVar4 + 0x41) & 4) == 0)))) {
           bVar1 = *(byte *)((int)local_8 + 0x4b);
@@ -10908,19 +10936,19 @@ void TWinControl_WMNCPaint(int *param_1,undefined4 param_2)
     (**(code **)(*param_1 + -0x10))(param_1,param_2);
     return;
   }
-  pHVar1 = (HWND)FUN_004349e0(param_1);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
   local_10 = GetWindowDC(pHVar1);
   uVar5 = *in_FS_OFFSET;
   *in_FS_OFFSET = &stack0xffffffa8;
   ptVar2 = &left_val_2;
-  pHVar1 = (HWND)FUN_004349e0(local_8);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
   GetClientRect(pHVar1,ptVar2);
   ptVar2 = &left_val;
-  pHVar1 = (HWND)FUN_004349e0(local_8);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
   GetWindowRect(pHVar1,ptVar2);
   cPoints = 2;
   ptVar2 = &left_val;
-  pHVar1 = (HWND)FUN_004349e0(local_8);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
   MapWindowPoints((HWND)0x0,pHVar1,(LPPOINT)ptVar2,cPoints);
   OffsetRect(&left_val_2,-left_val.left,-left_val.top);
   ExcludeClipRect(local_10,left_val_2.left,left_val_2.top,left_val_2.right,left_val_2.bottom);
@@ -10948,7 +10976,7 @@ void TWinControl_WMNCPaint(int *param_1,undefined4 param_2)
       i_val = i_val + local_8[0x4a];
     }
     index_val = -0x10;
-    pHVar1 = (HWND)FUN_004349e0(local_8);
+    pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
     window_long = GetWindowLongA(pHVar1,index_val);
     if ((*(byte *)((int)local_8 + 0x122) & 1) != 0) {
       left_val.left = left_val.left - i_val;
@@ -10990,7 +11018,7 @@ void TWinControl_WMNCPaint(int *param_1,undefined4 param_2)
   FillRect(local_10,&left_val,hbr);
   *in_FS_OFFSET = uVar5;
   hDC = local_10;
-  pHVar1 = (HWND)FUN_004349e0(local_8);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
   ReleaseDC(pHVar1,hDC);
   return;
 }
@@ -11013,7 +11041,7 @@ void TWinControl_WMContextMenu(int *param_1,int param_2)
     FUN_0042e2d8(param_1,local_14,local_1c);
     iVar1 = FUN_004320c4((int)param_1,local_1c,0,cVar3);
     if (iVar1 != 0) {
-      uVar2 = FUN_0042f720(iVar1,0x7b,0,*(undefined4 *)(param_2 + 8));
+      uVar2 = Controls_TControl_Perform(iVar1,0x7b,0,*(undefined4 *)(param_2 + 8));
       *(undefined4 *)(param_2 + 0xc) = uVar2;
     }
     if (*(int *)(param_2 + 0xc) == 0) {
@@ -11040,7 +11068,8 @@ int * TGraphicControl_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -11049,7 +11078,7 @@ int * TGraphicControl_virtual_02c(int *param_1,char param_2,int *param_3)
   param_1[0x48] = (int)piVar1;
   FUN_0042d4c8(piVar1,(int)param_1);
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -11064,14 +11093,14 @@ void TGraphicControl_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
   if (piVar1 == DAT_004aa7b8) {
     FUN_0042bbfc((int *)0x0);
   }
-  FUN_00402f9c((int *)piVar1[0x48]);
+  System_TObject_Free((int *)piVar1[0x48]);
   TControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -11137,7 +11166,8 @@ int * THintWindow_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe8,in_stack_ffffffec);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe8,
+                                         in_stack_ffffffec);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
@@ -11146,7 +11176,7 @@ int * THintWindow_virtual_02c(int *param_1,char param_2,int *param_3)
   TCanvas_SetFont(param_1[0x7c]);
   TBrush_SetStyle(*(int **)(param_1[0x7c] + 0x14),'\x01');
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe8;
   }
   return param_1;
@@ -11193,15 +11223,15 @@ void THintWindow_WMNCPaint(int *param_1)
   int *local_8;
   
   local_8 = param_1;
-  pHVar1 = (HWND)FUN_004349e0(param_1);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(param_1);
   hdc_val = GetWindowDC(pHVar1);
   uVar2 = *in_FS_OFFSET;
   *in_FS_OFFSET = &stack0xffffffd8;
-  FUN_0040f7e8(0,0,local_8[0xe],&local_1c.left,local_8[0xf]);
+  Classes_Rect(0,0,local_8[0xe],&local_1c.left,local_8[0xf]);
   DrawEdge(hdc_val,&local_1c,1,0xf);
   *in_FS_OFFSET = uVar2;
   hDC = hdc_val;
-  pHVar1 = (HWND)FUN_004349e0(local_8);
+  pHVar1 = (HWND)Controls_TWinControl_GetHandle(local_8);
   ReleaseDC(pHVar1,hDC);
   return;
 }
@@ -11239,13 +11269,13 @@ void THintWindow_virtual_0b4(int *param_1)
   lprc = &rect;
   cchText = -1;
   TGroupBox_GetCaption((int)param_1,(int *)&local_18);
-  lpchText = FUN_004040a0(local_18);
+  lpchText = System__LStrToPChar(local_18);
   hdc = (HDC)FUN_004194d8((int *)param_1[0x7c]);
   DrawTextA(hdc,lpchText,cchText,lprc,format_val);
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_00435d85;
   puStack_24 = (undefined1 *)0x435d7d;
-  FUN_00403c5c((int *)&local_18);
+  System__LStrClr((int *)&local_18);
   return;
 }
 
@@ -11310,7 +11340,7 @@ void THintWindow_CMTextChanged(int *param_1)
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00435e8a;
   puStack_18 = (undefined1 *)0x435e82;
-  FUN_00403c80((int *)&local_c,2);
+  System__LStrArrayClr((int *)&local_c,2);
   return;
 }
 
@@ -11374,7 +11404,7 @@ void THintWindow_virtual_0b8(int *param_1,int *param_2,uint *param_3)
   hWndInsertAfter = (HWND)0xffffffff;
   X = local_18[0];
   Y = local_18[1];
-  hWnd = (HWND)FUN_004349e0(local_8);
+  hWnd = (HWND)Controls_TWinControl_GetHandle(local_8);
   SetWindowPos(hWnd,hWndInsertAfter,X,Y,cx,i_val,uFlags);
   (**(code **)(*local_8 + 0x74))();
   *in_FS_OFFSET = uStack_30;
@@ -11414,12 +11444,12 @@ void THintWindow_virtual_0c0(int param_1,undefined4 param_2,undefined *param_3,L
   int cchText;
   LPRECT lprc;
   
-  FUN_0040f7e8(0,0,param_2,&param_4->left,0);
+  Classes_Rect(0,0,param_2,&param_4->left,0);
   format_val = FUN_004306a8(param_1);
   format_val = format_val | 0xc10;
   cchText = -1;
   lprc = param_4;
-  lpchText = FUN_004040a0(param_3);
+  lpchText = System__LStrToPChar(param_3);
   hdc = (HDC)FUN_004194d8(*(int **)(param_1 + 0x1f0));
   DrawTextA(hdc,lpchText,cchText,lprc,format_val);
   param_4->right = param_4->right + 6;
@@ -11707,7 +11737,8 @@ int * TCustomControl_virtual_02c(int *param_1,char param_2,int *param_3)
   
   cVar2 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffe0,in_stack_ffffffe4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffe0,
+                                         in_stack_ffffffe4);
     param_3 = extraout_ECX;
     cVar2 = extraout_DL;
   }
@@ -11716,7 +11747,7 @@ int * TCustomControl_virtual_02c(int *param_1,char param_2,int *param_3)
   param_1[0x7c] = (int)piVar1;
   FUN_0042d4c8(piVar1,(int)param_1);
   if (cVar2 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_ffffffe0;
   }
   return param_1;
@@ -11731,11 +11762,11 @@ void TCustomControl_Destroy(int *param_1,char param_2)
   int *piVar1;
   byte extraout_DL;
   
-  piVar1 = FUN_004032fc(param_1,param_2);
-  FUN_00402f9c((int *)piVar1[0x7c]);
+  piVar1 = System__BeforeDestruction(param_1,param_2);
+  System_TObject_Free((int *)piVar1[0x7c]);
   TWinControl_Destroy(piVar1,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar1);
+    System__ClassDestroy(piVar1);
   }
   return;
 }
@@ -11812,13 +11843,14 @@ void FUN_004364e4(int *param_1,char param_2,int param_3)
   
   cVar1 = '\0';
   if (param_2 != '\0') {
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_fffffff0,in_stack_fffffff4);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_fffffff0,
+                                         in_stack_fffffff4);
     param_3 = extraout_ECX;
     cVar1 = extraout_DL;
   }
   param_1[7] = param_3;
   if (cVar1 != '\0') {
-    FUN_004032f4(param_1);
+    System__AfterConstruction(param_1);
     *in_FS_OFFSET = in_stack_00000000;
   }
   return;
@@ -11858,8 +11890,8 @@ void FUN_0043651c(int param_1)
       FUN_004365ac(param_1,'\x02');
     }
     else {
-      piVar1 = FUN_0040b5d8((int *)&DAT_00407624,'\x01',(undefined4 *)0x0);
-      FUN_004036f4(piVar1);
+      piVar1 = SysUtils_Exception_Create((int *)&DAT_00407624,'\x01',(undefined4 *)0x0);
+      System__RaiseExcept(piVar1);
     }
     return;
   }
@@ -11885,8 +11917,8 @@ void FUN_00436564(int param_1)
       FUN_00436618(param_1,'\x02');
     }
     else {
-      piVar1 = FUN_0040b5d8((int *)&DAT_00407624,'\x01',(undefined4 *)0x0);
-      FUN_004036f4(piVar1);
+      piVar1 = SysUtils_Exception_Create((int *)&DAT_00407624,'\x01',(undefined4 *)0x0);
+      System__RaiseExcept(piVar1);
     }
     return;
   }
@@ -12017,13 +12049,14 @@ void FUN_00436750(int param_1,int *param_2)
 {
   int *piVar1;
   
-  FUN_00403c5c(param_2);
+  System__LStrClr(param_2);
   if (*(int *)(param_1 + 4) != 0) {
     if (*(int *)(*(int *)(param_1 + 4) + 8) == 0) {
-      piVar1 = FUN_0040b694((int *)&DAT_00407624,'\x01',(undefined4 *)PTR_PTR_004ab7f4);
-      FUN_004036f4(piVar1);
+      piVar1 = SysUtils_Exception_CreateRes
+                         ((int *)&DAT_00407624,'\x01',(undefined4 *)PTR_PTR_004ab7f4);
+      System__RaiseExcept(piVar1);
     }
-    FUN_00403cb0(param_2,*(undefined4 **)(*(int *)(param_1 + 4) + 8));
+    System__LStrAsg(param_2,*(undefined4 **)(*(int *)(param_1 + 4) + 8));
   }
   return;
 }
@@ -12047,7 +12080,7 @@ uint FUN_00436794(int param_1,undefined4 param_2)
   local_c = (int *)0x0;
   uVar1 = *(uint *)(param_1 + 0x1c);
   puStack_1c = (undefined1 *)0x4367bb;
-  uVar2 = FUN_00403178(*(int **)(uVar1 + 0x14),param_2,&local_c);
+  uVar2 = System__CallDynaInst(*(int **)(uVar1 + 0x14),param_2,&local_c);
   local_5 = local_c != (int *)0x0;
   if ((bool)local_5) {
     *(int *)(uVar1 + 0x38) = param_1;
@@ -12163,11 +12196,12 @@ void TDockTree_virtual_024(int *param_1,char param_2,int param_3)
   
   if (param_2 != '\0') {
     puStack_30 = (undefined1 *)0x4369a5;
-    param_1 = (int *)FUN_0040329c((int)param_1,param_2,param_3,in_stack_ffffffd4,in_stack_ffffffd8);
+    param_1 = (int *)System__ClassCreate((int)param_1,param_2,param_3,in_stack_ffffffd4,
+                                         in_stack_ffffffd8);
     param_3 = extraout_ECX;
   }
   puStack_30 = (undefined1 *)0x4369b8;
-  FUN_00402f6c(param_1,'\0',param_3);
+  System_TObject_Create(param_1,'\0',param_3);
   param_1[3] = 4;
   param_1[5] = param_3;
   param_1[0x1c] = 0x40000;
@@ -12195,12 +12229,12 @@ void TDockTree_virtual_024(int *param_1,char param_2,int param_3)
   uStack_38 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_38;
   puStack_30 = &stack0xfffffffc;
-  i_val = FUN_004317bc(param_3);
+  i_val = Controls_TWinControl_GetControlCount(param_3);
   if (-1 < i_val + -1) {
     j = 0;
     do {
       uVar4 = 0;
-      uVar3 = FUN_00431780(param_3,j);
+      uVar3 = Controls_TWinControl_GetControl(param_3,j);
       (**(code **)(*param_1 + 8))(param_1,uVar3,3,uVar4);
       j = j + 1;
       i_val = i_val + -1;
@@ -12225,17 +12259,17 @@ void TDockTree_Destroy(int *param_1,char param_2)
   undefined4 extraout_ECX;
   byte extraout_DL;
   
-  piVar2 = FUN_004032fc(param_1,param_2);
+  piVar2 = System__BeforeDestruction(param_1,param_2);
   if (piVar2[0xc] != 0) {
     iVar1 = piVar2[5];
     *(int *)(iVar1 + 0x28) = piVar2[0xc];
     *(int *)(iVar1 + 0x2c) = piVar2[0xd];
   }
   FUN_00437b1c((int)piVar2,(int *)piVar2[0x19],extraout_ECX);
-  FUN_00402f9c((int *)piVar2[4]);
+  System_TObject_Free((int *)piVar2[4]);
   TObject_Destroy(piVar2,extraout_DL & 0xfc);
   if ('\0' < (char)extraout_DL) {
-    FUN_004032ec(piVar2);
+    System__ClassDestroy(piVar2);
   }
   return;
 }
@@ -12375,7 +12409,7 @@ void FUN_00436c48(int param_1,int param_2,undefined4 *param_3)
   piVar4 = local_1c;
   i_val = FUN_00436bc8(param_1,param_2,(int)param_3);
   if (i_val == 0) {
-    FUN_00402c30(param_3,0x10,0);
+    System_FillChar(param_3,0x10,0);
   }
   else {
     iVar1 = FUN_00436618(i_val,'\x01');
@@ -12781,15 +12815,16 @@ int * FUN_004372dc(int *param_1,undefined4 param_2,undefined4 param_3,int param_
   LONG local_c;
   LONG local_8;
   
-  i_val = FUN_004317bc(*(int *)(*(int *)(param_4 + -8) + 0x14));
+  i_val = Controls_TWinControl_GetControlCount(*(int *)(*(int *)(param_4 + -8) + 0x14));
   i_val = i_val + -1;
   if (-1 < i_val) {
     do {
-      piVar1 = (int *)FUN_00431780(*(int *)(*(int *)(param_4 + -8) + 0x14),i_val);
+      piVar1 = (int *)Controls_TWinControl_GetControl(*(int *)(*(int *)(param_4 + -8) + 0x14),i_val)
+      ;
       if ((*(char *)((int)piVar1 + 0x47) != '\0') &&
-         ((uVar2 = FUN_00403114(piVar1,(int)&PTR_TWinControl_virtual_000_0042ac0c),
+         ((uVar2 = System__IsClass(piVar1,(int)&PTR_TWinControl_virtual_000_0042ac0c),
           (char)uVar2 == '\0' || ((char)piVar1[0x5a] != '\0')))) {
-        FUN_0040f7d0(*param_1 - piVar1[0xc],param_1[1] - piVar1[0xd],&local_c);
+        Classes_Point(*param_1 - piVar1[0xc],param_1[1] - piVar1[0xd],&local_c);
         LVar4 = local_c;
         LVar5 = local_8;
         (**(code **)(*piVar1 + 0x40))(piVar1,&local_1c);
@@ -12850,7 +12885,7 @@ void FUN_004373fc(int *param_1,undefined4 param_2,uint param_3,int param_4)
   uint local_8;
   
   local_8 = param_3;
-  FUN_00403c5c(param_1);
+  System__LStrClr(param_1);
   (**(code **)(**(int **)(param_4 + -4) + 4))(*(int **)(param_4 + -4),&local_8,4);
   if (0 < (int)local_8) {
     FUN_00404210(param_1,local_8);
@@ -12919,7 +12954,7 @@ void TDockTree_virtual_00c(int param_1,int *param_2)
       puVar5 = puVar1;
       uVar6 = extraout_EDX_00;
       if (local_10 != 0) {
-        FUN_00403178(*(int **)(local_c + 0x14),local_10,&local_14);
+        System__CallDynaInst(*(int **)(local_c + 0x14),local_10,&local_14);
         puVar5 = extraout_ECX_00;
         uVar6 = extraout_EDX_01;
         if (local_14 != (int *)0x0) {
@@ -12952,7 +12987,7 @@ LAB_00437521:
     if (local_10 != 0) {
       uVar3 = FUN_00436794((int)piVar2,local_10);
       if ((char)uVar3 == '\0') {
-        FUN_00402f9c(piVar2);
+        System_TObject_Free(piVar2);
         goto LAB_00437521;
       }
     }
@@ -13003,7 +13038,7 @@ void FUN_0043764c(int param_1,int param_2,undefined4 param_3,int param_4)
   UVar4 = 0;
   UVar3 = 1;
   iVar1 = *(int *)(*(int *)(param_4 + -8) + 0x18);
-  FUN_0040f7e8(param_1,param_2,iVar1 + param_1 + -2,&local_14.left,iVar1 + param_2 + -2);
+  Classes_Rect(param_1,param_2,iVar1 + param_1 + -2,&local_14.left,iVar1 + param_2 + -2);
   rect = &local_14;
   pHVar2 = (HDC)FUN_004194d8(*(int **)(param_4 + -4));
   DrawFrameControl(pHVar2,rect,UVar3,UVar4);
@@ -13013,16 +13048,16 @@ void FUN_0043764c(int param_1,int param_2,undefined4 param_3,int param_4)
 
 /* ==== 004376a4 FUN_004376a4 ==== */
 
-void FUN_004376a4(int x_val_2,int y_val,int x_val,int y_val_2,int param_5)
+void FUN_004376a4(int x_val,int y_val_2,int x_val_2,int y_val,int param_5)
 
 {
   TPen_SetColor(*(int **)(*(int *)(param_5 + -4) + 0x10),0x80000014);
-  FUN_00419154(*(int **)(param_5 + -4),x_val,y_val);
-  FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val);
-  FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val_2);
-  TPen_SetColor(*(int **)(*(int *)(param_5 + -4) + 0x10),0x80000010);
+  FUN_00419154(*(int **)(param_5 + -4),x_val_2,y_val_2);
   FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val_2);
-  FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val + -1);
+  FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val);
+  TPen_SetColor(*(int **)(*(int *)(param_5 + -4) + 0x10),0x80000010);
+  FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val);
+  FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val_2 + -1);
   return;
 }
 
@@ -13095,12 +13130,12 @@ void TDockTree_virtual_028(int *param_1,int param_2,undefined4 param_3)
   uStack_50 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_50;
   puStack_48 = &stack0xfffffffc;
-  iVar1 = FUN_004317bc(param_1[5]);
+  iVar1 = Controls_TWinControl_GetControlCount(param_1[5]);
   if (-1 < iVar1 + -1) {
     j = 0;
     i_val = iVar1;
     do {
-      iVar1 = FUN_00431780(param_1[5],j);
+      iVar1 = Controls_TWinControl_GetControl(param_1[5],j);
       if ((*(char *)(iVar1 + 0x47) != '\0') && (*(int *)(iVar1 + 0x90) == param_1[5])) {
         FUN_0042e13c(iVar1,&local_20);
         (**(code **)*param_1)(param_1,iVar1,&local_20);
@@ -13150,7 +13185,7 @@ void TDockTree_virtual_014(int param_1,undefined4 param_2,int param_3,LPPOINT po
     uVar2 = TForm_GetClientHeight(*(int **)(param_1 + 0x14));
     piVar4 = local_20;
     uVar3 = TForm_GetClientWidth(*(int **)(param_1 + 0x14));
-    FUN_0040f7e8(0,0,uVar3,piVar4,uVar2);
+    Classes_Rect(0,0,uVar3,piVar4,uVar2);
     piVar4 = local_20;
     ptVar6 = points;
     for (j = 4; j != 0; j = j + -1) {
@@ -13224,7 +13259,7 @@ void TDockTree_virtual_014(int param_1,undefined4 param_2,int param_3,LPPOINT po
   }
   cPoints = 2;
   hWndTo = (HWND)0x0;
-  hWndFrom = (HWND)FUN_004349e0(*(int **)(param_1 + 0x14));
+  hWndFrom = (HWND)Controls_TWinControl_GetHandle(*(int **)(param_1 + 0x14));
   MapWindowPoints(hWndFrom,hWndTo,points,cPoints);
   return;
 }
@@ -13245,7 +13280,7 @@ void FUN_00437ae8(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   if ((int *)param_1[2] != (int *)0x0) {
     FUN_00437ae8((int *)param_1[2],param_4,param_3,param_4);
   }
-  FUN_00402f9c(param_1);
+  System_TObject_Free(param_1);
   return;
 }
 
@@ -13273,7 +13308,7 @@ void FUN_00437b1c(int param_1,int *param_2,undefined4 param_3)
     if (param_2 == *(int **)(param_1 + 100)) {
       *(undefined4 *)(param_1 + 100) = 0;
     }
-    FUN_00402f9c(param_2);
+    System_TObject_Free(param_2);
   }
   return;
 }
@@ -13334,20 +13369,20 @@ void FUN_00437bb4(int param_1,int *param_2)
   *in_FS_OFFSET = &uStack_2c;
   puVar1 = &stack0xfffffffc;
   if (param_2 == (int *)0x0) {
-    FUN_00405808((undefined4 *)PTR_PTR_004ab76c,(int *)&local_8);
-    FUN_00405808((undefined4 *)PTR_PTR_004ab65c,(int *)&local_c);
-    FUN_00403ee4((int *)&local_8,local_c);
-    piVar2 = FUN_0040b5d8((int *)&DAT_00407624,'\x01',local_8);
-    FUN_004036f4(piVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab76c,(int *)&local_8);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab65c,(int *)&local_c);
+    System__LStrCat((int *)&local_8,local_c);
+    piVar2 = SysUtils_Exception_Create((int *)&DAT_00407624,'\x01',local_8);
+    System__RaiseExcept(piVar2);
     puVar1 = puStack_24;
   }
   puStack_24 = puVar1;
   if (param_2[1] == 0) {
-    FUN_00405808((undefined4 *)PTR_PTR_004ab76c,(int *)&local_10);
-    FUN_00405808((undefined4 *)PTR_PTR_004ab910,(int *)&local_14);
-    FUN_00403ee4((int *)&local_10,local_14);
-    piVar2 = FUN_0040b5d8((int *)&DAT_00407624,'\x01',local_10);
-    FUN_004036f4(piVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab76c,(int *)&local_10);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab910,(int *)&local_14);
+    System__LStrCat((int *)&local_10,local_14);
+    piVar2 = SysUtils_Exception_Create((int *)&DAT_00407624,'\x01',local_10);
+    System__RaiseExcept(piVar2);
   }
   iVar3 = FUN_00436508(param_2[5]);
   if (iVar3 == 1) {
@@ -13364,7 +13399,7 @@ void FUN_00437bb4(int param_1,int *param_2)
       if (param_2[5] == *(int *)(param_1 + 100)) {
         piVar2[8] = *(int *)(param_1 + 0x68);
         *(undefined4 *)(param_1 + 0x68) = *(undefined4 *)(*(int *)(param_1 + 100) + 0x20);
-        FUN_00402f9c(*(int **)(param_1 + 100));
+        System_TObject_Free(*(int **)(param_1 + 100));
         *(int **)(param_1 + 100) = piVar2;
         piVar2[3] = 0;
         piVar2[6] = 0;
@@ -13391,8 +13426,8 @@ void FUN_00437bb4(int param_1,int *param_2)
           *(int *)(*(int *)(iVar3 + 0xc) + 0x18) = iVar3;
         }
         FUN_00436c30(param_1,*(int *)(iVar3 + 0x14),extraout_ECX);
-        FUN_00402f9c((int *)param_2[5]);
-        FUN_00402f9c(piVar2);
+        System_TObject_Free((int *)param_2[5]);
+        System_TObject_Free(piVar2);
       }
     }
     else {
@@ -13410,7 +13445,7 @@ void FUN_00437bb4(int param_1,int *param_2)
         *(undefined1 *)(iVar3 + 0x10) = 0;
         *(int *)(iVar3 + 4) = piVar2[1];
         *(undefined4 *)(iVar3 + 8) = 0;
-        FUN_00402f9c(piVar2);
+        System_TObject_Free(piVar2);
         uVar4 = extraout_ECX_01;
       }
       FUN_00436c30(param_1,param_2[5],uVar4);
@@ -13437,11 +13472,11 @@ void FUN_00437bb4(int param_1,int *param_2)
     }
     FUN_00436c30(param_1,param_2[5],uVar4);
   }
-  FUN_00402f9c(param_2);
+  System_TObject_Free(param_2);
   *in_FS_OFFSET = uStack_2c;
   puStack_24 = &LAB_00437e11;
   puStack_28 = (undefined1 *)0x437e09;
-  FUN_00403c80((int *)&local_14,4);
+  System__LStrArrayClr((int *)&local_14,4);
   return;
 }
 
@@ -13481,7 +13516,7 @@ void TImageList_SetWidth(int *param_1,int param_2)
     }
     FUN_0043abf4(param_1);
     FUN_0043a3f8((int)param_1);
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   }
   return;
 }
@@ -13504,7 +13539,7 @@ void TImageList_SetHeight(int *param_1,int param_2)
     }
     FUN_0043abf4(param_1);
     FUN_0043a3f8((int)param_1);
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   }
   return;
 }
@@ -13522,7 +13557,7 @@ void FUN_0043a57c(int *param_1,HIMAGELIST himl_val)
   if (himl_val != (HIMAGELIST)0x0) {
     FUN_0043a4bc((int)param_1,himl_val);
     param_1[0xc] = (int)himl_val;
-    FUN_00403178(param_1,extraout_EDX,extraout_ECX);
+    System__CallDynaInst(param_1,extraout_EDX,extraout_ECX);
   }
   return;
 }
@@ -13603,7 +13638,7 @@ void FUN_0043a61c(int *param_1)
     uVar3 = extraout_EDX_00;
   }
   param_1[0xc] = 0;
-  FUN_00403178(param_1,uVar3,uVar2);
+  System__CallDynaInst(param_1,uVar3,uVar2);
   return;
 }
 
@@ -13629,15 +13664,15 @@ void FUN_0043a650(int param_1)
                             *(int *)(param_1 + 0x2c),*(int *)(param_1 + 0x2c));
   *(HIMAGELIST *)(param_1 + 0x30) = p_Var1;
   if (p_Var1 == (HIMAGELIST)0x0) {
-    FUN_00405808((undefined4 *)PTR_PTR_004ab8c4,(int *)&local_8);
-    piVar2 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_8);
-    FUN_004036f4(piVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab8c4,(int *)&local_8);
+    piVar2 = SysUtils_Exception_Create((int *)&DAT_0040ea0c,'\x01',local_8);
+    System__RaiseExcept(piVar2);
   }
   if (*(int *)(param_1 + 0x38) != 0x1fffffff) {
     TImageList_SetBkColor(hdc,(COLORREF)color);
   }
   *in_FS_OFFSET = hdc;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -13679,7 +13714,7 @@ void FUN_0043a6ec(int param_1,int *param_2,int *param_3)
   *in_FS_OFFSET = uStack_34;
   puStack_2c = &LAB_0043a785;
   puStack_30 = (undefined1 *)0x43a77d;
-  FUN_00402f9c(piVar2);
+  System_TObject_Free(piVar2);
   return;
 }
 
@@ -13720,7 +13755,7 @@ void FUN_0043a7b8(int param_1,int *param_2,int param_3)
     pHVar5 = (HBITMAP)FUN_0043a5c8(param_1,param_2,piVar1);
     ImageList_Add(*(HIMAGELIST *)(param_1 + 0x30),pHVar5,pHVar4);
     *in_FS_OFFSET = uVar6;
-    FUN_00402f9c(piVar2);
+    System_TObject_Free(piVar2);
     return;
   }
   pHVar5 = (HBITMAP)0x0;
@@ -13731,7 +13766,7 @@ void FUN_0043a7b8(int param_1,int *param_2,int param_3)
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_0043a8be;
   puStack_24 = (undefined1 *)0x43a8b6;
-  FUN_00402f9c(piVar1);
+  System_TObject_Free(piVar1);
   return;
 }
 
@@ -13887,31 +13922,31 @@ void FUN_0043a940(int *param_1,int i_val_2,int *param_3,int param_4)
       p_Var4 = (HIMAGELIST)FUN_0043a5b8((int)local_8);
       BVar5 = ImageList_Replace(p_Var4,i_val_2,hbmImage,hbmMask);
       if (BVar5 == 0) {
-        FUN_00405808((undefined4 *)PTR_PTR_004ab6b4,(int *)&local_18);
-        piVar2 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_18);
-        FUN_004036f4(piVar2);
+        System_LoadResString((undefined4 *)PTR_PTR_004ab6b4,(int *)&local_18);
+        piVar2 = SysUtils_Exception_Create((int *)&DAT_0040ea0c,'\x01',local_18);
+        System__RaiseExcept(piVar2);
       }
       *in_FS_OFFSET = uStack_54;
       puStack_4c = &LAB_0043aad2;
       puStack_50 = (undefined1 *)0x43aaca;
-      FUN_00402f9c(local_14);
+      System_TObject_Free(local_14);
       return;
     }
     puStack_34 = (undefined1 *)0x43ab1c;
-    FUN_00405808((undefined4 *)PTR_PTR_004ab6b4,(int *)&local_1c);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab6b4,(int *)&local_1c);
     puStack_34 = (undefined1 *)0x43ab2b;
-    piVar2 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_1c);
+    piVar2 = SysUtils_Exception_Create((int *)&DAT_0040ea0c,'\x01',local_1c);
     puStack_34 = (undefined1 *)0x43ab30;
-    FUN_004036f4(piVar2);
+    System__RaiseExcept(piVar2);
     uVar6 = extraout_ECX_02;
     uVar7 = extraout_EDX_00;
   }
   puStack_34 = (undefined1 *)0x43ab3c;
-  FUN_00403178(local_8,uVar7,uVar6);
+  System__CallDynaInst(local_8,uVar7,uVar6);
   *in_FS_OFFSET = uStack_30;
   puStack_28 = &LAB_0043ab5e;
   puStack_2c = (undefined1 *)0x43ab56;
-  FUN_00403c80((int *)&local_1c,2);
+  System__LStrArrayClr((int *)&local_1c,2);
   return;
 }
 
@@ -13944,9 +13979,9 @@ void FUN_0043ab68(int *param_1,int i_val)
   *in_FS_OFFSET = &uStack_1c;
   iVar2 = FUN_0043a91c((int)param_1);
   if (iVar2 <= i_val) {
-    FUN_00405808((undefined4 *)PTR_PTR_004ab718,(int *)&local_8);
-    piVar3 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_8);
-    FUN_004036f4(piVar3);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab718,(int *)&local_8);
+    piVar3 = SysUtils_Exception_Create((int *)&DAT_0040ea0c,'\x01',local_8);
+    System__RaiseExcept(piVar3);
   }
   bVar1 = FUN_0043a3e4((int)param_1);
   uVar4 = extraout_ECX;
@@ -13957,11 +13992,11 @@ void FUN_0043ab68(int *param_1,int i_val)
     uVar4 = extraout_ECX_00;
     uVar5 = extraout_EDX_00;
   }
-  FUN_00403178(param_1,uVar5,uVar4);
+  System__CallDynaInst(param_1,uVar5,uVar4);
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_0043abee;
   puStack_18 = (undefined1 *)0x43abe6;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -14004,7 +14039,7 @@ COLORREF __stdcall TImageList_SetBkColor(HDC hdc,COLORREF color)
     uVar3 = extraout_ECX;
     uVar4 = extraout_EDX;
   }
-  CVar2 = FUN_00403178(in_EAX,uVar4,uVar3);
+  CVar2 = System__CallDynaInst(in_EAX,uVar4,uVar3);
   return CVar2;
 }
 
@@ -14054,15 +14089,15 @@ void FUN_0043b1ac(int param_1,int *param_2)
       iVar1 = (**(code **)(*param_2 + 0x2c))();
       if (*(int *)(param_1 + 0x28) <= iVar1) goto LAB_0043b202;
     }
-    FUN_00405808((undefined4 *)PTR_PTR_004ab708,(int *)&local_8);
-    piVar2 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_8);
-    FUN_004036f4(piVar2);
+    System_LoadResString((undefined4 *)PTR_PTR_004ab708,(int *)&local_8);
+    piVar2 = SysUtils_Exception_Create((int *)&DAT_0040ea0c,'\x01',local_8);
+    System__RaiseExcept(piVar2);
   }
 LAB_0043b202:
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_0043b21f;
   puStack_18 = (undefined1 *)0x43b217;
-  FUN_00403c5c((int *)&local_8);
+  System__LStrClr((int *)&local_8);
   return;
 }
 
@@ -14074,7 +14109,7 @@ void TImageList_SetDrawingStyle(int *param_1,undefined4 param_2,undefined4 param
 {
   if ((char)param_2 != (char)param_1[0xd]) {
     *(char *)(param_1 + 0xd) = (char)param_2;
-    FUN_00403178(param_1,param_2,param_3);
+    System__CallDynaInst(param_1,param_2,param_3);
   }
   return;
 }
