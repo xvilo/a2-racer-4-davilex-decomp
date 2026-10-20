@@ -1,0 +1,28 @@
+inherited BaseFormTwoWay: TBaseFormTwoWay
+  ActiveControl = btnPrevious.WrapperbtnPrevious
+  Caption = 'BaseFormTwoWay'
+  Color = clPurple
+  PixelsPerInch = 96
+  TextHeight = 13
+  object btnPrevious: TGDIButton
+    Left = 581
+    Top = 552
+    Width = 108
+    Height = 39
+    Cancel = False
+    Default = False
+    ModalResult = 0
+    Definition = Data.gdfBtnPrevious
+    MouseCheckDelay = 60
+    TabOrder = 1
+    TabStop = True
+    Caption = 'btnPrevious'
+    OnClick = btnPreviousClick
+  end
+  inherited btnNext: TGDIButton
+    Definition = Data.gdfBtnNext
+  end
+  inherited btnClose: TGDIButton
+    TabOrder = 3
+  end
+end

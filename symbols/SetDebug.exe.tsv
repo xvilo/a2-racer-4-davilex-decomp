@@ -1,0 +1,1123 @@
+address	kind	name	cc	ret	params	dtype	mangled	evidence
+00401074	data	TObject.vmt						class table
+00401164	data	TInterfacedObject.vmt						class table
+004028ec	function	TStrings.virtual_00c			?			virtual method slot 3
+00402ca8	function	TObject.NewInstance			?			TObject virtual
+00402cbc	function	TObject.FreeInstance			?			TObject virtual
+00402d04	function	TObject.Destroy			?			TObject virtual
+00402f38	function	TObject.SafeCallException			?			TObject virtual
+00402f40	function	TObject.DefaultHandler			?			TObject virtual
+00402f44	function	TObject.AfterConstruction			?			TObject virtual
+00402f48	function	TObject.BeforeDestruction			?			TObject virtual
+00402f4c	function	TObject.Dispatch			?			TObject virtual
+00405330	function	TInterfacedObject.AfterConstruction			?			TObject virtual
+0040533c	function	TInterfacedObject.BeforeDestruction			?			TObject virtual
+0040534c	function	TInterfacedObject.NewInstance			?			TObject virtual
+00406e84	data	Exception.vmt						class table
+00406eec	data	EAbort.vmt						class table
+00406f40	data	EHeapException.vmt						class table
+00406f9c	data	EOutOfMemory.vmt						class table
+00406ff8	data	EInOutError.vmt						class table
+00407050	data	EExternal.vmt						class table
+004070a8	data	EExternalException.vmt						class table
+00407108	data	EIntError.vmt						class table
+00407160	data	EDivByZero.vmt						class table
+004071b8	data	ERangeError.vmt						class table
+00407210	data	EIntOverflow.vmt						class table
+0040726c	data	EMathError.vmt						class table
+004072c4	data	EInvalidOp.vmt						class table
+0040731c	data	EZeroDivide.vmt						class table
+00407374	data	EOverflow.vmt						class table
+004073cc	data	EUnderflow.vmt						class table
+00407424	data	EInvalidPointer.vmt						class table
+00407480	data	EInvalidCast.vmt						class table
+004074dc	data	EConvertError.vmt						class table
+00407538	data	EAccessViolation.vmt						class table
+00407598	data	EPrivilege.vmt						class table
+004075f0	data	EStackOverflow.vmt						class table
+0040764c	data	EControlC.vmt						class table
+004076a4	data	EVariantError.vmt						class table
+00407700	data	EAssertionFailed.vmt						class table
+00407760	data	EAbstractError.vmt						class table
+004077bc	data	EIntfCastError.vmt						class table
+00407818	data	EWin32Error.vmt						class table
+00407870	data	ESafecallException.vmt						class table
+00407900	data	TMultiReadExclusiveWriteSynchronizer.vmt						class table
+0040aac4	function	EHeapException.FreeInstance			?			TObject virtual
+0040bb8c	function	TMultiReadExclusiveWriteSynchronizer.Destroy			?			TObject virtual
+0040d468	data	EStreamError.vmt						class table
+0040d4c4	data	EFCreateError.vmt						class table
+0040d520	data	EFOpenError.vmt						class table
+0040d578	data	EFilerError.vmt						class table
+0040d5d0	data	EReadError.vmt						class table
+0040d628	data	EWriteError.vmt						class table
+0040d680	data	EClassNotFound.vmt						class table
+0040d6dc	data	EResNotFound.vmt						class table
+0040d738	data	EListError.vmt						class table
+0040d790	data	EBitsError.vmt						class table
+0040d7e8	data	EStringListError.vmt						class table
+0040d848	data	EComponentError.vmt						class table
+0040d8a4	data	EOutOfResources.vmt						class table
+0040d900	data	EInvalidOperation.vmt						class table
+0040d960	data	TList.vmt						class table
+0040d9c4	data	TThreadList.vmt						class table
+0040da1c	data	TBits.vmt						class table
+0040da70	data	TPersistent.vmt						class table
+0040db40	data	TStrings.vmt						class table
+0040dc60	data	TStringList.vmt						class table
+0040dd64	data	TStream.vmt						class table
+0040ddc8	data	THandleStream.vmt						class table
+0040de34	data	TFileStream.vmt						class table
+0040de9c	data	TCustomMemoryStream.vmt						class table
+0040df0c	data	TMemoryStream.vmt						class table
+0040df7c	data	TResourceStream.vmt						class table
+0040e0fc	data	TStreamAdapter.vmt						class table
+0040e184	data	TFiler.vmt						class table
+0040e1e8	data	TReader.vmt						class table
+0040e2c0	data	TComponent.vmt						class table
+0040e41c	data	TBasicActionLink.vmt						class table
+0040e49c	data	TBasicAction.vmt						class table
+0040e9f0	data	TIntConst.vmt						class table
+0040eea8	function	TList.Destroy			?			TObject virtual
+0040eefc	function	TList.virtual_008			?			virtual method slot 2
+0040ef78	function	TList.virtual_00c			?			virtual method slot 3
+0040f04c	function	TList.virtual_000			?			virtual method slot 0
+0040f230	function	TList.virtual_004			?			virtual method slot 1
+0040f288	function	TThreadList.Destroy			?			TObject virtual
+0040f3fc	function	TBits.Destroy			?			TObject virtual
+0040f598	function	TPersistent.Destroy			?			TObject virtual
+0040f5c4	function	TPersistent.virtual_008			?			virtual method slot 2
+0040f6a8	function	TPersistent.virtual_000			?			virtual method slot 0
+0040f6b0	function	TPersistent.virtual_004			?			virtual method slot 1
+0040f6b4	function	TPersistent.dynamic_fffe			?			message handler fffe
+0040f764	function	TPersistent.dynamic_ffff			?			message handler ffff
+0040f7dc	function	TStrings.Destroy			?			TObject virtual
+0040f80c	function	TStrings.virtual_034			?			virtual method slot 13
+0040f830	function	TStrings.virtual_038			?			virtual method slot 14
+0040f854	function	TStrings.virtual_03c			?			virtual method slot 15
+0040f90c	function	TStrings.virtual_008			?			virtual method slot 2
+0040f9ec	function	TStrings.virtual_004			?			virtual method slot 1
+0040fb88	function	TStrings.virtual_048			?			virtual method slot 18
+0040fc70	function	TStrings.virtual_010			?			virtual method slot 4
+0040fc78	function	TStrings.virtual_018			?			virtual method slot 6
+0040fc7c	function	TStrings.virtual_04c			?			virtual method slot 19
+0040fcd0	function	TStrings.virtual_01c			?			virtual method slot 7
+0040fdb8	function	TStrings.virtual_050			?			virtual method slot 20
+0040ff60	function	TStrings.virtual_058			?			virtual method slot 22
+0040ffb4	function	TStrings.virtual_05c			?			virtual method slot 23
+00410060	function	TStrings.virtual_060			?			virtual method slot 24
+00410110	function	TStrings.virtual_020			?			virtual method slot 8
+00410140	function	TStrings.virtual_024			?			virtual method slot 9
+004101f4	function	TStrings.virtual_064			?			virtual method slot 25
+0041024c	function	TStrings.virtual_068			?			virtual method slot 26
+004102a8	function	TStrings.virtual_028			?			virtual method slot 10
+004102e0	function	TStrings.virtual_06c			?			virtual method slot 27
+00410330	function	TStrings.virtual_02c			?			virtual method slot 11
+004103f0	function	TStrings.virtual_030			?			virtual method slot 12
+0041051c	function	TStringList.Destroy			?			TObject virtual
+00410578	function	TStringList.virtual_034			?			virtual method slot 13
+004105d0	function	TStringList.virtual_070			?			virtual method slot 28
+004105ec	function	TStringList.virtual_074			?			virtual method slot 29
+00410608	function	TStringList.virtual_040			?			virtual method slot 16
+00410640	function	TStringList.virtual_044			?			virtual method slot 17
+004106a4	function	TStringList.virtual_048			?			virtual method slot 18
+00410720	function	TStringList.virtual_078			?			virtual method slot 30
+00410788	function	TStringList.virtual_00c			?			virtual method slot 3
+004107bc	function	TStringList.virtual_010			?			virtual method slot 4
+004107c0	function	TStringList.virtual_014			?			virtual method slot 5
+004107c4	function	TStringList.virtual_018			?			virtual method slot 6
+00410820	function	TStringList.virtual_050			?			virtual method slot 20
+00410858	function	TStringList.virtual_054			?			virtual method slot 21
+00410908	function	TStringList.virtual_020			?			virtual method slot 8
+00410960	function	TStringList.virtual_024			?			virtual method slot 9
+00410a30	function	TStringList.virtual_028			?			virtual method slot 10
+00410a68	function	TStringList.virtual_030			?			virtual method slot 12
+00410a90	function	TStringList.virtual_07c			?			virtual method slot 31
+00410aa0	function	TStringList.virtual_080			?			virtual method slot 32
+00410b24	function	TStream.virtual_000			?			virtual method slot 0
+00410cac	function	THandleStream.virtual_004			?			virtual method slot 1
+00410cbc	function	THandleStream.virtual_008			?			virtual method slot 2
+00410ccc	function	THandleStream.virtual_00c			?			virtual method slot 3
+00410cd8	function	THandleStream.virtual_000			?			virtual method slot 0
+00410db0	function	TFileStream.Destroy			?			TObject virtual
+00410de0	function	TCustomMemoryStream.virtual_004			?			virtual method slot 1
+00410e18	function	TCustomMemoryStream.virtual_00c			?			virtual method slot 3
+00410e3c	function	TMemoryStream.Destroy			?			TObject virtual
+00410ea8	function	TMemoryStream.virtual_000			?			virtual method slot 0
+00410ed4	function	TMemoryStream.virtual_010			?			virtual method slot 4
+00410f58	function	TMemoryStream.virtual_008			?			virtual method slot 2
+004110dc	function	TResourceStream.Destroy			?			TObject virtual
+00411114	function	TResourceStream.virtual_008			?			virtual method slot 2
+00411174	function	TFiler.Destroy			?			TObject virtual
+0041119c	function	TFiler.virtual_000			?			virtual method slot 0
+004111a0	data	TPropFixup.vmt						class table
+00411730	function	TReader.Destroy			?			TObject virtual
+00411790	function	TReader.virtual_004			?			virtual method slot 1
+004117c4	function	TReader.virtual_008			?			virtual method slot 2
+004118b4	function	TReader.virtual_010			?			virtual method slot 4
+004118d4	function	TReader.virtual_018			?			virtual method slot 6
+00411adc	function	TReader.virtual_00c			?			virtual method slot 3
+004125f0	function	TReader.virtual_024			?			virtual method slot 9
+004136c8	function	TReader.virtual_014			?			virtual method slot 5
+00413780	function	TReader.virtual_020			?			virtual method slot 8
+00413798	function	TReader.virtual_01c			?			virtual method slot 7
+004139b8	function	TComponent.virtual_02c			?			virtual method slot 11
+00413a04	function	TComponent.Destroy			?			TObject virtual
+00413a8c	function	TComponent.BeforeDestruction			?			TObject virtual
+00413ce4	function	TComponent.virtual_010			?			virtual method slot 4
+00413d40	function	TComponent.virtual_004			?			virtual method slot 1
+00413dc8	function	TComponent.dynamic_fff2			?			message handler fff2
+00413dcc	function	TComponent.dynamic_fffd			?			message handler fffd
+00413dd4	function	TComponent.dynamic_fffc			?			message handler fffc
+00413dd8	function	TComponent.dynamic_fffb			?			message handler fffb
+00413ddc	function	TComponent.dynamic_fffe			?			message handler fffe
+00413df0	function	TComponent.dynamic_ffff			?			message handler ffff
+00413df4	function	TComponent.dynamic_fffa			?			message handler fffa
+00413df8	function	TComponent.dynamic_fff3			?			message handler fff3
+00413dfc	function	TComponent.dynamic_fff9			?			message handler fff9
+00413e00	function	TComponent.dynamic_fff8			?			message handler fff8
+00413e0c	function	TComponent.dynamic_fff7			?			message handler fff7
+00413e18	function	TComponent.virtual_00c			?			virtual method slot 3
+00413e24	function	TComponent.virtual_014			?			virtual method slot 5
+00413e2c	function	TComponent.virtual_024			?			virtual method slot 9
+00413e34	function	TComponent.virtual_020			?			virtual method slot 8
+00413eb4	function	TComponent.dynamic_fff6			?			message handler fff6
+00413ec8	function	TComponent.dynamic_fff5			?			message handler fff5
+00413f1c	function	TComponent.virtual_018			?			virtual method slot 6
+004140e4	function	TComponent.dynamic_fff4			?			message handler fff4
+0041410c	function	TComponent.dynamic_fff1			?			message handler fff1
+00414134	function	TComponent.SafeCallException			?			TObject virtual
+0041414c	function	TComponent.virtual_01c			?			virtual method slot 7
+00414154	function	TComponent.virtual_028			?			virtual method slot 10
+00414194	function	TBasicActionLink.virtual_014			?			virtual method slot 5
+004141d8	function	TBasicActionLink.virtual_000			?			virtual method slot 0
+004141dc	function	TBasicActionLink.Destroy			?			TObject virtual
+00414210	function	TBasicActionLink.virtual_004			?			virtual method slot 1
+00414228	function	TBasicActionLink.virtual_018			?			virtual method slot 6
+00414238	function	TBasicActionLink.virtual_00c			?			virtual method slot 3
+00414264	function	TBasicActionLink.virtual_008			?			virtual method slot 2
+00414268	function	TBasicActionLink.virtual_010			?			virtual method slot 4
+00414270	function	TBasicActionLink.virtual_01c			?			virtual method slot 7
+0041427c	function	TBasicAction.virtual_02c			?			virtual method slot 11
+004142c0	function	TBasicAction.Destroy			?			TObject virtual
+0041430c	function	TBasicAction.virtual_038			?			virtual method slot 14
+00414310	function	TBasicAction.virtual_040			?			virtual method slot 16
+00414314	function	TBasicAction.virtual_03c			?			virtual method slot 15
+00414318	function	TBasicAction.dynamic_fff0			?			message handler fff0
+00414334	function	TBasicAction.virtual_044			?			virtual method slot 17
+00414350	function	TBasicAction.virtual_034			?			virtual method slot 13
+004143a4	function	TBasicAction.virtual_030			?			virtual method slot 12
+0041444c	function	TStreamAdapter.Destroy			?			TObject virtual
+00414484	function	TStreamAdapter.virtual_000			?			virtual method slot 0
+004144ec	function	TStreamAdapter.virtual_004			?			virtual method slot 1
+00414554	function	TStreamAdapter.virtual_008			?			virtual method slot 2
+004145cc	function	TStreamAdapter.virtual_00c			?			virtual method slot 3
+00414630	function	TStreamAdapter.virtual_010			?			virtual method slot 4
+00414818	function	TStreamAdapter.virtual_014			?			virtual method slot 5
+00414824	function	TStreamAdapter.virtual_018			?			virtual method slot 6
+00414830	function	TStreamAdapter.virtual_01c			?			virtual method slot 7
+0041483c	function	TStreamAdapter.virtual_020			?			virtual method slot 8
+00414848	function	TStreamAdapter.virtual_024			?			virtual method slot 9
+004148c8	function	TStreamAdapter.virtual_028			?			virtual method slot 10
+00414a98	data	EInvalidGraphic.vmt						class table
+00414af4	data	EInvalidGraphicOperation.vmt						class table
+00414dac	data	TGraphicsObject.vmt						class table
+00414e80	data	TFont.vmt						class table
+00414ffc	data	TPen.vmt						class table
+004150fc	data	TBrush.vmt						class table
+004151c0	data	TCanvas.vmt						class table
+00415348	data	TGraphic.vmt						class table
+0041542c	data	TPicture.vmt						class table
+004154d4	data	TSharedImage.vmt						class table
+00415534	data	TMetafileImage.vmt						class table
+00415594	data	TMetafile.vmt						class table
+00415670	data	TBitmapImage.vmt						class table
+004156d0	data	TBitmap.vmt						class table
+004157b4	data	TIconImage.vmt						class table
+00415810	data	TIcon.vmt						class table
+004158f8	data	TResourceManager.vmt						class table
+004159a8	function	TResourceManager.Destroy			?			TObject virtual
+004160fc	function	TGraphicsObject.dynamic_fffd			?			message handler fffd
+0041640c	function	TFont.Destroy			?			TObject virtual
+00416434	function	TFont.dynamic_fffd			?			message handler fffd
+00416450	function	TFont.virtual_008			?			virtual method slot 2
+0041658c	function	TFont.SetColor			?			property accessor
+0041676c	function	TFont.GetHeight			?			property accessor
+00416774	function	TFont.SetHeight			?			property accessor
+0041679c	function	TFont.GetName			?			property accessor
+004167b4	function	TFont.SetName			?			property accessor
+00416810	function	TFont.GetSize			?			property accessor
+0041682c	function	TFont.SetSize			?			property accessor
+0041684c	function	TFont.GetStyle			?			property accessor
+00416858	function	TFont.SetStyle			?			property accessor
+00416884	function	TFont.GetPitch			?			property accessor
+0041688c	function	TFont.SetPitch			?			property accessor
+004168b4	function	TFont.GetCharset			?			property accessor
+004168bc	function	TFont.SetCharset			?			property accessor
+00416928	function	TPen.Destroy			?			TObject virtual
+00416950	function	TPen.virtual_008			?			virtual method slot 2
+00416a70	function	TPen.GetColor			?			property accessor
+00416a78	function	TPen.SetColor			?			property accessor
+00416b38	function	TPen.SetMode			?			property accessor
+00416b4c	function	TPen.GetStyle			?			property accessor
+00416b54	function	TPen.SetStyle			?			property accessor
+00416b7c	function	TPen.GetWidth			?			property accessor
+00416b84	function	TPen.SetWidth			?			property accessor
+00416bf0	function	TBrush.Destroy			?			TObject virtual
+00416c18	function	TBrush.virtual_008			?			virtual method slot 2
+00416d54	function	TBrush.GetColor			?			property accessor
+00416d5c	function	TBrush.SetColor			?			property accessor
+00416e70	function	TBrush.GetStyle			?			property accessor
+00416e78	function	TBrush.SetStyle			?			property accessor
+00416f70	function	TCanvas.Destroy			?			TObject virtual
+00417350	function	TCanvas.SetFont			?			property accessor
+00417360	function	TCanvas.SetPen			?			property accessor
+0041736c	function	TCanvas.SetBrush			?			property accessor
+004174ac	function	TCanvas.virtual_014			?			virtual method slot 5
+00417578	function	TCanvas.virtual_010			?			virtual method slot 4
+0041758c	function	TCanvas.virtual_00c			?			virtual method slot 3
+004189a8	function	TGraphic.virtual_00c			?			virtual method slot 3
+004189e0	function	TGraphic.virtual_010			?			virtual method slot 4
+00418a50	function	TGraphic.virtual_004			?			virtual method slot 1
+00418a9c	function	TGraphic.virtual_018			?			virtual method slot 6
+00418be0	function	TGraphic.virtual_024			?			virtual method slot 9
+00418be4	function	TGraphic.virtual_028			?			virtual method slot 10
+00418be8	function	TGraphic.virtual_048			?			virtual method slot 18
+00418c3c	function	TGraphic.dynamic_fffd			?			message handler fffd
+00418c64	function	TGraphic.virtual_030			?			virtual method slot 12
+00418c70	function	TGraphic.virtual_04c			?			virtual method slot 19
+00418cc8	function	TGraphic.virtual_038			?			virtual method slot 14
+00418ccc	function	TGraphic.virtual_03c			?			virtual method slot 15
+00418cdc	function	TGraphic.virtual_044			?			virtual method slot 17
+00418d14	data	TFileFormatsList.vmt						class table
+00418eb8	function	TFileFormatsList.Destroy			?			TObject virtual
+00419028	data	TClipboardFormats.vmt						class table
+00419108	function	TClipboardFormats.Destroy			?			TObject virtual
+0041921c	function	TPicture.Destroy			?			TObject virtual
+0041924c	function	TPicture.virtual_000			?			virtual method slot 0
+004193ac	function	TPicture.virtual_008			?			virtual method slot 2
+00419408	function	TPicture.dynamic_fffd			?			message handler fffd
+0041942c	function	TPicture.dynamic_fffc			?			message handler fffc
+00419644	function	TPicture.virtual_004			?			virtual method slot 1
+004196c0	function	TMetafileImage.Destroy			?			TObject virtual
+004196fc	function	TMetafileImage.virtual_000			?			virtual method slot 0
+00419700	function	TMetafile.virtual_00c			?			virtual method slot 3
+00419748	function	TMetafile.Destroy			?			TObject virtual
+00419778	function	TMetafile.virtual_008			?			virtual method slot 2
+0041980c	function	TMetafile.virtual_014			?			virtual method slot 5
+004198a0	function	TMetafile.virtual_01c			?			virtual method slot 7
+004198a8	function	TMetafile.virtual_020			?			virtual method slot 8
+0041990c	function	TMetafile.virtual_024			?			virtual method slot 9
+00419998	function	TMetafile.virtual_02c			?			virtual method slot 11
+004199fc	function	TMetafile.virtual_050			?			virtual method slot 20
+00419a78	function	TMetafile.virtual_030			?			virtual method slot 12
+00419d34	function	TMetafile.virtual_04c			?			virtual method slot 19
+00419dc0	function	TMetafile.virtual_054			?			virtual method slot 21
+00419ddc	function	TMetafile.virtual_034			?			virtual method slot 13
+00419ec8	function	TMetafile.virtual_03c			?			virtual method slot 15
+00419ecc	function	TMetafile.virtual_040			?			virtual method slot 16
+0041a024	function	TMetafile.virtual_044			?			virtual method slot 17
+0041a27c	function	TMetafile.virtual_058			?			virtual method slot 22
+0041a300	function	TMetafile.virtual_05c			?			virtual method slot 23
+0041a334	data	TBitmapCanvas.vmt						class table
+0041a534	function	TBitmapCanvas.Destroy			?			TObject virtual
+0041a600	function	TBitmapCanvas.virtual_014			?			virtual method slot 5
+0041a710	function	TBitmapImage.Destroy			?			TObject virtual
+0041a76c	function	TBitmapImage.virtual_000			?			virtual method slot 0
+0041b18c	function	TBitmap.virtual_00c			?			virtual method slot 3
+0041b1f4	function	TBitmap.Destroy			?			TObject virtual
+0041b230	function	TBitmap.virtual_008			?			virtual method slot 2
+0041b404	function	TBitmap.virtual_010			?			virtual method slot 4
+0041b42c	function	TBitmap.virtual_014			?			virtual method slot 5
+0041b6e0	function	TBitmap.virtual_01c			?			virtual method slot 7
+0041b738	function	TBitmap.virtual_060			?			virtual method slot 24
+0041b788	function	TBitmap.virtual_020			?			virtual method slot 8
+0041b798	function	TBitmap.virtual_064			?			virtual method slot 25
+0041b7c8	function	TBitmap.virtual_024			?			virtual method slot 9
+0041b824	function	TBitmap.virtual_02c			?			virtual method slot 11
+0041b9d8	function	TBitmap.virtual_058			?			virtual method slot 22
+0041ba5c	function	TBitmap.virtual_050			?			virtual method slot 20
+0041bb80	function	TBitmap.virtual_030			?			virtual method slot 12
+0041c1ec	function	TBitmap.virtual_068			?			virtual method slot 26
+0041c324	function	TBitmap.virtual_034			?			virtual method slot 13
+0041c3f8	function	TBitmap.virtual_038			?			virtual method slot 14
+0041c4cc	function	TBitmap.virtual_040			?			virtual method slot 16
+0041c520	function	TBitmap.virtual_044			?			virtual method slot 17
+0041c7c4	function	TBitmap.virtual_054			?			virtual method slot 21
+0041c7cc	function	TBitmap.virtual_05c			?			virtual method slot 23
+0041c86c	function	TIconImage.Destroy			?			TObject virtual
+0041c89c	function	TIconImage.virtual_000			?			virtual method slot 0
+0041c8b4	function	TIcon.virtual_00c			?			virtual method slot 3
+0041c908	function	TIcon.Destroy			?			TObject virtual
+0041c938	function	TIcon.virtual_008			?			virtual method slot 2
+0041c998	function	TIcon.virtual_014			?			virtual method slot 5
+0041c9d8	function	TIcon.virtual_01c			?			virtual method slot 7
+0041ca04	function	TIcon.virtual_020			?			virtual method slot 8
+0041ca18	function	TIcon.virtual_02c			?			virtual method slot 11
+0041cb58	function	TIcon.virtual_050			?			virtual method slot 20
+0041cc9c	function	TIcon.virtual_034			?			virtual method slot 13
+0041ccb4	function	TIcon.virtual_03c			?			virtual method slot 15
+0041ccb8	function	TIcon.virtual_040			?			virtual method slot 16
+0041ccd0	function	TIcon.virtual_054			?			virtual method slot 21
+0041ccfc	function	TIcon.virtual_058			?			virtual method slot 22
+0041cd10	function	TIcon.virtual_05c			?			virtual method slot 23
+0041ce14	data	TPatternManager.vmt						class table
+0041cea8	function	TPatternManager.Destroy			?			TObject virtual
+0041d320	data	TOrderedList.vmt						class table
+0041d388	data	TStack.vmt						class table
+0041d43c	function	TOrderedList.Destroy			?			TObject virtual
+0041d46c	function	TOrderedList.virtual_008			?			virtual method slot 2
+0041d480	function	TOrderedList.virtual_004			?			virtual method slot 1
+0041d4a0	function	TStack.virtual_000			?			virtual method slot 0
+0041e1b8	data	TCustomLabel.vmt						class table
+0041e2ec	data	TLabel.vmt						class table
+0041e930	data	TButtonActionLink.vmt						class table
+0041e9f4	data	TButtonControl.vmt						class table
+0041eb48	data	TButton.vmt						class table
+0041f1dc	function	TCustomLabel.virtual_02c			?			virtual method slot 11
+0041f248	function	TCustomLabel.virtual_088			?			virtual method slot 34
+0041f25c	function	TCustomLabel.dynamic_ffcc			?			message handler ffcc
+0041f3cc	function	TCustomLabel.virtual_084			?			virtual method slot 33
+0041f4d0	function	TCustomLabel.virtual_00c			?			virtual method slot 3
+0041f4e8	function	TCustomLabel.dynamic_ffcd			?			message handler ffcd
+0041f5b4	function	TLabel.SetAlignment			?			property accessor
+0041f5c8	function	TCustomLabel.virtual_08c			?			virtual method slot 35
+0041f5e4	function	TLabel.GetTransparent			?			property accessor
+0041f5f0	function	TLabel.SetFocusControl			?			property accessor
+0041f604	function	TLabel.SetShowAccelChar			?			property accessor
+0041f618	function	TLabel.SetTransparent			?			property accessor
+0041f658	function	TLabel.SetLayout			?			property accessor
+0041f66c	function	TLabel.SetWordWrap			?			property accessor
+0041f694	function	TCustomLabel.virtual_010			?			virtual method slot 4
+0041f6c4	function	TCustomLabel.CMTextChanged			?			message handler b012
+0041f6dc	function	TCustomLabel.CMFontChanged			?			message handler b00e
+0041f6f8	function	TCustomLabel.CMDialogChar			?			message handler b006
+0041f794	function	TButtonActionLink.virtual_000			?			virtual method slot 0
+0041f7b8	function	TButtonActionLink.virtual_024			?			virtual method slot 9
+0041f7f0	function	TButtonActionLink.virtual_044			?			virtual method slot 17
+0041f854	function	TButtonControl.virtual_02c			?			virtual method slot 11
+0041f8a8	function	TButtonControl.dynamic_fff0			?			message handler fff0
+0041f8f0	function	TButtonControl.dynamic_ffde			?			message handler ffde
+0041f8f8	function	TButtonControl.virtual_0b4			?			virtual method slot 45
+0041f8fc	function	TButtonControl.virtual_0b8			?			virtual method slot 46
+0041f900	function	TButtonControl.virtual_06c			?			virtual method slot 27
+0041f978	function	TButton.virtual_02c			?			virtual method slot 11
+0041f9dc	function	TButton.dynamic_ffec			?			message handler ffec
+0041fa00	function	TButton.dynamic_ffce			?			message handler ffce
+0041fa04	function	TButton.virtual_0bc			?			virtual method slot 47
+0041fa58	function	TButton.SetDefault			?			property accessor
+0041fa8c	function	TButton.virtual_090			?			virtual method slot 36
+0041fac8	function	TButton.virtual_098			?			virtual method slot 38
+0041fae0	function	TButton.CNCommand			?			message handler bd11
+0041faf4	function	TButton.CMDialogKey			?			message handler b005
+0041fb64	function	TButton.CMDialogChar			?			message handler b006
+0041fbe8	function	TButton.CMFocusChanged			?			message handler b007
+0041fc3c	function	TButton.WMEraseBkgnd			?			message handler 0014
+0041fd10	data	THintAction.vmt						class table
+0041fdf8	function	THintAction.virtual_02c			?			virtual method slot 11
+0041fecc	data	TDragObject.vmt						class table
+0041ff44	data	TBaseDragControlObject.vmt						class table
+0041ffd0	data	TDragControlObject.vmt						class table
+00420058	data	TDragDockObject.vmt						class table
+004200ec	data	TControlCanvas.vmt						class table
+0042018c	data	TControlActionLink.vmt						class table
+00420348	data	TSizeConstraints.vmt						class table
+00420ac8	data	TControl.vmt						class table
+00420e34	data	TWinControlActionLink.vmt						class table
+00420f5c	data	TWinControl.vmt						class table
+00421360	data	TGraphicControl.vmt						class table
+00421478	data	TCustomControl.vmt						class table
+004215c0	data	THintWindow.vmt						class table
+0042171c	data	TDockZone.vmt						class table
+00421868	data	TDockTree.vmt						class table
+004218ec	data	TMouse.vmt						class table
+00421d00	data	TSiteList.vmt						class table
+00421e20	function	TSiteList.virtual_008			?			virtual method slot 2
+00421eb8	function	TDragObject.virtual_00c			?			virtual method slot 3
+00421f10	function	TDragObject.virtual_000			?			virtual method slot 0
+00421f18	function	TDragObject.virtual_010			?			virtual method slot 4
+00422044	function	TDragObject.virtual_008			?			virtual method slot 2
+00422048	function	TDragObject.virtual_004			?			virtual method slot 1
+00422060	function	TDragObject.virtual_014			?			virtual method slot 5
+00422064	function	TDragObject.virtual_018			?			virtual method slot 6
+0042206c	function	TDragObject.virtual_01c			?			virtual method slot 7
+00422070	function	TBaseDragControlObject.virtual_024			?			virtual method slot 9
+00422094	function	TBaseDragControlObject.virtual_00c			?			virtual method slot 3
+004220c0	function	TBaseDragControlObject.virtual_020			?			virtual method slot 8
+004220e4	function	TBaseDragControlObject.virtual_000			?			virtual method slot 0
+00422118	function	TDragControlObject.virtual_004			?			virtual method slot 1
+00422130	function	TDragControlObject.virtual_008			?			virtual method slot 2
+0042213c	function	TDragControlObject.virtual_014			?			virtual method slot 5
+0042215c	function	TDragControlObject.virtual_01c			?			virtual method slot 7
+0042217c	function	TDragDockObject.virtual_024			?			virtual method slot 9
+004221e0	function	TDragDockObject.Destroy			?			TObject virtual
+00422210	function	TDragDockObject.virtual_00c			?			virtual method slot 3
+00422274	function	TDragDockObject.virtual_020			?			virtual method slot 8
+004222b8	function	TDragDockObject.virtual_028			?			virtual method slot 10
+00422338	function	TDragDockObject.virtual_02c			?			virtual method slot 11
+0042234c	function	TDragDockObject.virtual_030			?			virtual method slot 12
+00422360	function	TDragDockObject.virtual_004			?			virtual method slot 1
+0042236c	function	TDragDockObject.virtual_034			?			virtual method slot 13
+00423480	function	TControlCanvas.Destroy			?			TObject virtual
+004234ac	function	TControlCanvas.virtual_014			?			virtual method slot 5
+004235cc	function	TSizeConstraints.virtual_00c			?			virtual method slot 3
+00423608	function	TSizeConstraints.virtual_000			?			virtual method slot 0
+00423654	function	TSizeConstraints.SetMaxHeight			?			property accessor
+004236fc	function	TSizeConstraints.dynamic_fffd			?			message handler fffd
+00423710	function	TControlActionLink.virtual_000			?			virtual method slot 0
+0042372c	function	TControlActionLink.virtual_060			?			virtual method slot 24
+00423814	function	TControlActionLink.virtual_020			?			virtual method slot 8
+00423888	function	TControlActionLink.virtual_028			?			virtual method slot 10
+004238bc	function	TControlActionLink.virtual_030			?			virtual method slot 12
+004238f0	function	TControlActionLink.virtual_03c			?			virtual method slot 15
+00423920	function	TControlActionLink.virtual_008			?			virtual method slot 2
+00423948	function	TControlActionLink.virtual_040			?			virtual method slot 16
+00423968	function	TControlActionLink.virtual_048			?			virtual method slot 18
+00423988	function	TControlActionLink.virtual_050			?			virtual method slot 20
+004239ac	function	TControlActionLink.virtual_05c			?			virtual method slot 23
+004239cc	function	TControlActionLink.virtual_010			?			virtual method slot 4
+004239f8	function	TControl.virtual_02c			?			virtual method slot 11
+00423ac8	function	TControl.Destroy			?			TObject virtual
+00423b80	function	TControl.virtual_048			?			virtual method slot 18
+00423b84	function	TControl.virtual_04c			?			virtual method slot 19
+00423b88	function	TControl.dynamic_ffdc			?			message handler ffdc
+00423b8c	function	TControl.dynamic_fff2			?			message handler fff2
+00423b94	function	TControl.dynamic_fff3			?			message handler fff3
+00423b98	function	TControl.dynamic_fff9			?			message handler fff9
+00423bc0	function	TControl.dynamic_ffd6			?			message handler ffd6
+00423c3c	function	TButton.GetAction			?			property accessor
+00423c4c	function	TLabel.SetAnchors			?			property accessor
+00423c6c	function	TButton.SetAction			?			property accessor
+00423d00	function	TControl.virtual_058			?			virtual method slot 22
+00423d04	function	TControl.dynamic_ffd5			?			message handler ffd5
+00423d14	function	TControl.dynamic_ffd4			?			message handler ffd4
+00423d34	function	TControl.virtual_014			?			virtual method slot 5
+00423dc8	function	TControl.virtual_010			?			virtual method slot 4
+00423e0c	function	TLabel.SetAlign			?			property accessor
+00423ea0	function	TControl.virtual_07c			?			virtual method slot 31
+00424014	function	TControl.SetLeft			?			property accessor
+00424034	function	TControl.SetTop			?			property accessor
+00424058	function	TControl.SetWidth			?			property accessor
+00424078	function	TControl.SetHeight			?			property accessor
+00424098	function	TControl.dynamic_ffd1			?			message handler ffd1
+004241a4	function	TControl.dynamic_ffe6			?			message handler ffe6
+00424240	function	TControl.virtual_040			?			virtual method slot 16
+00424258	function	TForm.GetClientWidth			?			property accessor
+0042429c	function	TForm.GetClientHeight			?			property accessor
+004242dc	function	TControl.virtual_03c			?			virtual method slot 15
+00424460	function	TControl.dynamic_ffed			?			message handler ffed
+004245a4	function	TScrollBox.SetAutoSize			?			property accessor
+004245c4	function	TControl.virtual_018			?			virtual method slot 6
+004246b0	function	TControl.virtual_060			?			virtual method slot 24
+004246fc	function	TLabel.SetVisible			?			property accessor
+00424740	function	TControl.virtual_05c			?			virtual method slot 23
+0042479c	function	TLabel.SetPopupMenu			?			property accessor
+004247e4	function	TLabel.GetCaption			?			property accessor
+00424814	function	TLabel.SetCaption			?			property accessor
+00424878	function	TControl.virtual_068			?			virtual method slot 26
+004248d0	function	TLabel.SetFont			?			property accessor
+00424908	function	TLabel.SetParentFont			?			property accessor
+00424928	function	TLabel.SetShowHint			?			property accessor
+0042494c	function	TLabel.SetParentShowHint			?			property accessor
+00424970	function	TLabel.SetColor			?			property accessor
+00424994	function	TLabel.SetParentColor			?			property accessor
+004249b4	function	TControl.virtual_064			?			virtual method slot 25
+004249d4	function	TControl.SetCursor			?			property accessor
+00424ab8	function	TControl.dynamic_ffd3			?			message handler ffd3
+00424adc	function	TControl.virtual_044			?			virtual method slot 17
+00424c9c	function	TControl.virtual_074			?			virtual method slot 29
+00424cac	function	TControl.virtual_080			?			virtual method slot 32
+00424cc0	function	TControl.virtual_078			?			virtual method slot 30
+00424db8	function	TControl.dynamic_ffcf			?			message handler ffcf
+00424dd4	function	TControl.dynamic_ffce			?			message handler ffce
+00424e08	function	TControl.dynamic_ffee			?			message handler ffee
+00424ee4	function	TControl.dynamic_ffe4			?			message handler ffe4
+00424ef4	function	TControl.dynamic_ffe3			?			message handler ffe3
+00424f30	function	TControl.dynamic_ffd0			?			message handler ffd0
+00424f5c	function	TControl.dynamic_ffe1			?			message handler ffe1
+00424f7c	function	TControl.dynamic_ffe2			?			message handler ffe2
+00424fa8	function	TControl.dynamic_ffd7			?			message handler ffd7
+00425078	function	TControl.dynamic_ffe9			?			message handler ffe9
+0042508c	function	TControl.dynamic_ffe7			?			message handler ffe7
+004250b8	function	TControl.dynamic_ffe5			?			message handler ffe5
+004250d8	function	TControl.dynamic_ffea			?			message handler ffea
+00425208	function	TControl.dynamic_ffe0			?			message handler ffe0
+00425218	function	TControl.dynamic_ffdf			?			message handler ffdf
+004255ac	function	TControl.virtual_034			?			virtual method slot 13
+004255b0	function	TControl.virtual_030			?			virtual method slot 12
+0042567c	function	TControl.virtual_038			?			virtual method slot 14
+00425848	function	TControl.dynamic_ffd2			?			message handler ffd2
+0042584c	function	TControl.virtual_06c			?			virtual method slot 27
+00425964	function	TControl.DefaultHandler			?			TObject virtual
+00425a3c	function	TControl.virtual_004			?			virtual method slot 1
+00425a8c	function	TControl.dynamic_ffec			?			message handler ffec
+00425af8	function	TControl.dynamic_ffeb			?			message handler ffeb
+00425b18	function	TControl.dynamic_ffda			?			message handler ffda
+00425b94	function	TControl.WMLButtonDown			?			message handler 0201
+00425be0	function	TControl.WMNCLButtonDown			?			message handler 00a1
+00425bfc	function	TControl.WMLButtonDblClk			?			message handler 0203
+00425c50	function	TControl.dynamic_ffdb			?			message handler ffdb
+00425cf0	function	TControl.WMRButtonDown			?			message handler 0204
+00425d18	function	TControl.WMRButtonDblClk			?			message handler 0206
+00425d40	function	TControl.WMMButtonDown			?			message handler 0207
+00425d68	function	TControl.WMMButtonDblClk			?			message handler 0209
+00425d90	function	TControl.dynamic_ffd9			?			message handler ffd9
+00425dc0	function	TControl.WMMouseMove			?			message handler 0200
+00425dfc	function	TControl.dynamic_ffd8			?			message handler ffd8
+00425e70	function	TControl.WMLButtonUp			?			message handler 0202
+00425ee8	function	TControl.WMRButtonUp			?			message handler 0205
+00425f08	function	TControl.WMMButtonUp			?			message handler 0208
+00425f28	function	TControl.message_001f			?			message handler 001f
+00425f68	function	TControl.WMWindowPosChanged			?			message handler 0047
+00426018	function	TControl.CMVisibleChanged			?			message handler b00b
+00426040	function	TControl.CMEnabledChanged			?			message handler b00c
+00426048	function	TControl.CMFontChanged			?			message handler b00e
+00426050	function	TControl.CMColorChanged			?			message handler b00d
+00426058	function	TControl.CMParentColorChanged			?			message handler b009
+00426088	function	TControl.CMParentBiDiModeChanged			?			message handler b03d
+004260a8	function	TControl.CMBiDiModeChanged			?			message handler b03c
+004260c0	function	TControl.CMParentShowHintChanged			?			message handler b023
+004260e8	function	TControl.CMParentFontChanged			?			message handler b008
+00426118	function	TControl.CMSysFontChanged			?			message handler b035
+00426138	function	TControl.CMHitTest			?			message handler b00a
+00426140	function	TControl.CMMouseEnter			?			message handler b013
+00426158	function	TControl.CMMouseLeave			?			message handler b014
+00426170	function	TControl.CMDesignHitTest			?			message handler b01c
+0042628c	function	TControl.CMFloatChanged			?			message handler b03a
+004262ec	function	TControl.dynamic_fff0			?			message handler fff0
+00426404	function	TControl.dynamic_ffde			?			message handler ffde
+004264ac	function	TControl.virtual_00c			?			virtual method slot 3
+004264e4	function	TControl.virtual_000			?			virtual method slot 0
+004265c8	function	TControl.dynamic_ffdd			?			message handler ffdd
+00426678	function	TControl.virtual_050			?			virtual method slot 20
+004266a4	function	TControl.virtual_054			?			virtual method slot 21
+004266ac	function	TControl.dynamic_ffef			?			message handler ffef
+00426724	function	TControl.virtual_070			?			virtual method slot 28
+00426734	function	TControl.CMHintShow			?			message handler b030
+00426760	function	TControl.WMContextMenu			?			message handler 007b
+00426874	function	TControl.dynamic_ffe8			?			message handler ffe8
+004268a8	function	TWinControlActionLink.virtual_000			?			virtual method slot 0
+004268cc	function	TWinControlActionLink.virtual_02c			?			virtual method slot 11
+00426900	function	TWinControlActionLink.virtual_04c			?			virtual method slot 19
+00426920	function	TWinControl.virtual_02c			?			virtual method slot 11
+00426a3c	function	TWinControl.Destroy			?			TObject virtual
+00426be4	function	TWinControl.virtual_014			?			virtual method slot 5
+00426c5c	function	TWinControl.virtual_084			?			virtual method slot 33
+00427204	function	TWinControl.virtual_088			?			virtual method slot 34
+004273b4	function	TWinControl.dynamic_ffc7			?			message handler ffc7
+00427488	function	TWinControl.dynamic_ffba			?			message handler ffba
+00427978	function	TWinControl.virtual_090			?			virtual method slot 36
+00427aa4	function	TWinControl.virtual_098			?			virtual method slot 38
+00427c3c	function	TWinControl.virtual_094			?			virtual method slot 37
+00427c80	function	TWinControl.virtual_0a0			?			virtual method slot 40
+00427cd8	function	TWinControl.virtual_09c			?			virtual method slot 39
+00427d84	function	TWinControl.virtual_08c			?			virtual method slot 35
+00427e7c	function	TWinControl.CMRecreateWnd			?			message handler b033
+0042824c	function	TWinControl.virtual_06c			?			virtual method slot 27
+0042842c	function	TWinControl.DefaultHandler			?			TObject virtual
+0042868c	function	TWinControl.virtual_0a8			?			virtual method slot 42
+004288e4	function	TWinControl.WMPaint			?			message handler 000f
+00428a44	function	TWinControl.WMCommand			?			message handler 0111
+00428a64	function	TWinControl.WMNotify			?			message handler 004e
+00428a88	function	TWinControl.WMSysColorChange			?			message handler 0015
+00428aa4	function	TWinControl.WMWinIniChange			?			message handler 001a
+00428ab8	function	TWinControl.message_001d			?			message handler 001d
+00428ac8	function	TWinControl.WMTimeChange			?			message handler 001e
+00428ad8	function	TWinControl.WMHScroll			?			message handler 0114
+00428af8	function	TWinControl.WMVScroll			?			message handler 0115
+00428b18	function	TWinControl.WMCompareItem			?			message handler 0039
+00428b3c	function	TWinControl.WMDeleteItem			?			message handler 002d
+00428b60	function	TWinControl.WMDrawItem			?			message handler 002b
+00428b84	function	TWinControl.WMMeasureItem			?			message handler 002c
+00428ba8	function	TWinControl.WMEraseBkgnd			?			message handler 0014
+00428bf4	function	TWinControl.WMWindowPosChanged			?			message handler 0047
+00428cb4	function	TWinControl.WMWindowPosChanging			?			message handler 0046
+00428d04	function	TWinControl.WMSize			?			message handler 0005
+00428d38	function	TWinControl.WMMove			?			message handler 0003
+00428d4c	function	TWinControl.WMSetCursor			?			message handler 0020
+00428e4c	function	TWinControl.WMSetFocus			?			message handler 0007
+00428e60	function	TWinControl.WMKillFocus			?			message handler 0008
+00428e74	function	TWinControl.message_010d			?			message handler 010d
+00428e88	function	TWinControl.message_010e			?			message handler 010e
+00429020	function	TWinControl.dynamic_ffcc			?			message handler ffcc
+00429028	function	TWinControl.dynamic_ffc3			?			message handler ffc3
+0042902c	function	TWinControl.dynamic_ffc9			?			message handler ffc9
+0042904c	function	TWinControl.dynamic_ffc8			?			message handler ffc8
+0042906c	function	TWinControl.dynamic_ffbb			?			message handler ffbb
+004290bc	function	TWinControl.dynamic_ffca			?			message handler ffca
+004290f0	function	TWinControl.dynamic_ffcb			?			message handler ffcb
+00429130	function	TWinControl.dynamic_ffc2			?			message handler ffc2
+00429188	function	TWinControl.dynamic_ffbd			?			message handler ffbd
+004291e4	function	TWinControl.dynamic_ffc1			?			message handler ffc1
+0042927c	function	TWinControl.dynamic_ffcd			?			message handler ffcd
+004292e8	function	TScrollBox.SetDockSite			?			property accessor
+0042939c	function	TWinControl.CMDockClient			?			message handler b038
+0042948c	function	TWinControl.CMUndockClient			?			message handler b039
+004294b4	function	TWinControl.CMFloatChanged			?			message handler b03a
+00429538	function	TWinControl.dynamic_ffc0			?			message handler ffc0
+004295c8	function	TWinControl.WMKeyDown			?			message handler 0100
+004295e8	function	TWinControl.WMSysKeyDown			?			message handler 0104
+00429608	function	TWinControl.dynamic_ffbf			?			message handler ffbf
+00429698	function	TWinControl.WMKeyUp			?			message handler 0101
+004296b8	function	TWinControl.WMSysKeyUp			?			message handler 0105
+004296d8	function	TWinControl.dynamic_ffbe			?			message handler ffbe
+00429764	function	TWinControl.WMChar			?			message handler 0102
+00429784	function	TWinControl.CMMouseWheel			?			message handler b043
+004297e0	function	TWinControl.WMMouseWheel			?			message handler 020a
+00429838	function	TWinControl.dynamic_ffb7			?			message handler ffb7
+0042987c	function	TWinControl.dynamic_ffc6			?			message handler ffc6
+00429940	function	TWinControl.dynamic_ffc5			?			message handler ffc5
+0042998c	function	TWinControl.dynamic_ffc4			?			message handler ffc4
+00429a88	function	TWinControl.WMSysCommand			?			message handler 0112
+00429b30	function	TWinControl.message_002f			?			message handler 002f
+00429b50	function	TWinControl.WMParentNotify			?			message handler 0210
+00429b84	function	TWinControl.message_002e			?			message handler 002e
+00429ba4	function	TWinControl.WMDestroy			?			message handler 0002
+00429bd8	function	TWinControl.WMNCDestroy			?			message handler 0082
+00429bf4	function	TWinControl.WMNCHitTest			?			message handler 0084
+00429c18	function	TWinControl.dynamic_ffd6			?			message handler ffd6
+00429c7c	function	TWinControl.WMQueryNewPalette			?			message handler 030f
+00429ca0	function	TWinControl.WMPaletteChanged			?			message handler 0311
+00429cc0	function	TWinControl.CMShowHintChanged			?			message handler b022
+00429cd8	function	TWinControl.CMBiDiModeChanged			?			message handler b03c
+00429d10	function	TWinControl.CMEnter			?			message handler b01a
+00429d80	function	TWinControl.CMExit			?			message handler b01b
+00429d8c	function	TWinControl.CMDesignHitTest			?			message handler b01c
+00429dac	function	TWinControl.CMChanged			?			message handler b037
+00429dc0	function	TWinControl.CMChildKey			?			message handler b02e
+00429dd4	function	TWinControl.CMDialogKey			?			message handler b005
+00429ddc	function	TWinControl.CMDialogChar			?			message handler b006
+00429de4	function	TWinControl.CMFocusChanged			?			message handler b007
+00429dec	function	TWinControl.CMVisibleChanged			?			message handler b00b
+00429e1c	function	TWinControl.CMShowingChanged			?			message handler b019
+00429e44	function	TWinControl.CMEnabledChanged			?			message handler b00c
+00429e8c	function	TWinControl.CMColorChanged			?			message handler b00d
+00429eb4	function	TWinControl.CMFontChanged			?			message handler b00e
+00429ef0	function	TWinControl.CMCursorChanged			?			message handler b00f
+00429f30	function	TWinControl.CMBorderChanged			?			message handler b03b
+00429f60	function	TWinControl.CMCtl3DChanged			?			message handler b010
+00429fa0	function	TWinControl.CMParentCtl3DChanged			?			message handler b011
+00429fe0	function	TWinControl.CMSysColorChange			?			message handler b024
+00429fe8	function	TWinControl.CMWinIniChange			?			message handler b025
+00429ff0	function	TWinControl.CMFontChange			?			message handler b026
+00429ff8	function	TWinControl.CMTimeChange			?			message handler b027
+0042a000	function	TWinControl.CMDrag			?			message handler b02f
+0042a05c	function	TWinControl.CMControlListChange			?			message handler b02c
+0042a070	function	TWinControl.CMSysFontChanged			?			message handler b035
+0042a120	function	TWinControl.CNKeyDown			?			message handler bd00
+0042a1f8	function	TWinControl.CNKeyUp			?			message handler bd01
+0042a24c	function	TWinControl.CNChar			?			message handler bd02
+0042a298	function	TWinControl.CNSysKeyDown			?			message handler bd04
+0042a2f4	function	TWinControl.CNSysChar			?			message handler bd06
+0042a328	function	TWinControl.virtual_07c			?			virtual method slot 31
+0042a44c	function	TWinControl.dynamic_ffed			?			message handler ffed
+0042a584	function	TWinControl.virtual_0ac			?			virtual method slot 43
+0042a674	function	TWinControl.dynamic_ffd3			?			message handler ffd3
+0042a6d4	function	TWinControl.virtual_044			?			virtual method slot 17
+0042a728	function	TWinControl.virtual_074			?			virtual method slot 29
+0042a738	function	TWinControl.CMInvalidate			?			message handler b034
+0042a788	function	TWinControl.virtual_080			?			virtual method slot 32
+0042a7a4	function	TWinControl.virtual_078			?			virtual method slot 30
+0042a7f4	function	TWinControl.dynamic_ffbc			?			message handler ffbc
+0042a834	function	TWinControl.virtual_0b0			?			virtual method slot 44
+0042a86c	function	TWinControl.dynamic_ffb9			?			message handler ffb9
+0042a8c8	function	TWinControl.virtual_0a4			?			virtual method slot 41
+0042a95c	function	TWinControl.virtual_03c			?			virtual method slot 15
+0042a97c	function	TWinControl.virtual_040			?			virtual method slot 16
+0042a994	function	TWinControl.dynamic_ffef			?			message handler ffef
+0042a9d4	function	TForm.SetBorderWidth			?			property accessor
+0042a9f4	function	TScrollBox.SetCtl3D			?			property accessor
+0042aa24	function	TScrollBox.SetParentCtl3D			?			property accessor
+0042aa48	function	TButton.GetTabOrder			?			property accessor
+0042aac8	function	TButton.SetTabOrder			?			property accessor
+0042aae0	function	TButton.SetTabStop			?			property accessor
+0042ab40	function	TForm.SetUseDockManager			?			property accessor
+0042ac74	function	TWinControl.dynamic_ffb8			?			message handler ffb8
+0042ae04	function	TWinControl.dynamic_fffd			?			message handler fffd
+0042ae4c	function	TWinControl.dynamic_fffa			?			message handler fffa
+0042ae8c	function	TWinControl.virtual_030			?			virtual method slot 12
+0042b2f0	function	TWinControl.virtual_038			?			virtual method slot 14
+0042b32c	function	TWinControl.dynamic_fff0			?			message handler fff0
+0042b36c	function	TWinControl.dynamic_ffde			?			message handler ffde
+0042b394	function	TWinControl.virtual_000			?			virtual method slot 0
+0042b3c4	function	TWinControl.virtual_034			?			virtual method slot 13
+0042b588	function	TWinControl.WMNCCalcSize			?			message handler 0083
+0042b618	function	TWinControl.WMNCPaint			?			message handler 0085
+0042b8a0	function	TWinControl.WMContextMenu			?			message handler 007b
+0042b90c	function	TGraphicControl.virtual_02c			?			virtual method slot 11
+0042b968	function	TGraphicControl.Destroy			?			TObject virtual
+0042b9a8	function	TGraphicControl.WMPaint			?			message handler 000f
+0042ba50	function	TGraphicControl.virtual_084			?			virtual method slot 33
+0042ba54	function	THintWindow.virtual_02c			?			virtual method slot 11
+0042babc	function	THintWindow.virtual_090			?			virtual method slot 36
+0042baf8	function	THintWindow.WMNCHitTest			?			message handler 0084
+0042bb00	function	THintWindow.WMNCPaint			?			message handler 0085
+0042bb80	function	THintWindow.virtual_0b4			?			virtual method slot 45
+0042bc1c	function	THintWindow.virtual_0c4			?			virtual method slot 49
+0042bc88	function	THintWindow.CMTextChanged			?			message handler b012
+0042bd20	function	THintWindow.virtual_0b8			?			virtual method slot 46
+0042be3c	function	THintWindow.virtual_0bc			?			virtual method slot 47
+0042be68	function	THintWindow.virtual_0c0			?			virtual method slot 48
+0042c1d4	function	TCustomControl.virtual_02c			?			virtual method slot 11
+0042c230	function	TCustomControl.Destroy			?			TObject virtual
+0042c260	function	TCustomControl.WMPaint			?			message handler 000f
+0042c280	function	TCustomControl.virtual_0a8			?			virtual method slot 42
+0042c32c	function	TCustomControl.virtual_0b4			?			virtual method slot 45
+0042c7dc	function	TDockTree.virtual_024			?			virtual method slot 9
+0042c944	function	TDockTree.Destroy			?			TObject virtual
+0042c990	function	TDockTree.virtual_000			?			virtual method slot 0
+0042cb08	function	TDockTree.virtual_004			?			virtual method slot 1
+0042cb18	function	TDockTree.virtual_008			?			virtual method slot 2
+0042d290	function	TDockTree.virtual_00c			?			virtual method slot 3
+0042d578	function	TDockTree.virtual_010			?			virtual method slot 4
+0042d654	function	TDockTree.virtual_028			?			virtual method slot 10
+0042d7b8	function	TDockTree.virtual_014			?			virtual method slot 5
+0042d9c4	function	TDockTree.virtual_018			?			virtual method slot 6
+0042dc64	function	TDockTree.virtual_020			?			virtual method slot 8
+0042dea0	function	TDockTree.virtual_01c			?			virtual method slot 7
+0042e960	function	TMouse.Destroy			?			TObject virtual
+0042f004	data	TContainedAction.vmt						class table
+0042f128	data	TCustomActionList.vmt						class table
+0042f200	data	TCustomAction.vmt						class table
+0042f2f4	data	TActionLink.vmt						class table
+0042f3ac	function	TContainedAction.Destroy			?			TObject virtual
+0042f3fc	function	TContainedAction.dynamic_fff3			?			message handler fff3
+0042f40c	function	TContainedAction.dynamic_fff2			?			message handler fff2
+0042f41c	function	TContainedAction.virtual_014			?			virtual method slot 5
+0042f498	function	TContainedAction.SetCategory			?			property accessor
+0042f4ec	function	TContainedAction.dynamic_fff9			?			message handler fff9
+0042f518	function	TContainedAction.dynamic_fff0			?			message handler fff0
+0042f570	function	TContainedAction.virtual_044			?			virtual method slot 17
+0042f5c8	function	TCustomActionList.virtual_02c			?			virtual method slot 11
+0042f630	function	TCustomActionList.Destroy			?			TObject virtual
+0042f680	function	TCustomActionList.dynamic_fffd			?			message handler fffd
+0042f6c8	function	TCustomActionList.dynamic_fffa			?			message handler fffa
+0042f738	function	TCustomActionList.virtual_010			?			virtual method slot 4
+0042f7bc	function	TCustomActionList.virtual_030			?			virtual method slot 12
+0042f884	function	TCustomActionList.dynamic_fff4			?			message handler fff4
+0042f8a4	function	TCustomActionList.dynamic_fff1			?			message handler fff1
+0042f8c4	function	TActionLink.virtual_020			?			virtual method slot 8
+0042f8d8	function	TActionLink.virtual_024			?			virtual method slot 9
+0042f8ec	function	TActionLink.virtual_028			?			virtual method slot 10
+0042f900	function	TActionLink.virtual_02c			?			virtual method slot 11
+0042f914	function	TActionLink.virtual_030			?			virtual method slot 12
+0042f928	function	TActionLink.virtual_034			?			virtual method slot 13
+0042f93c	function	TActionLink.virtual_038			?			virtual method slot 14
+0042f950	function	TActionLink.virtual_03c			?			virtual method slot 15
+0042f964	function	TActionLink.virtual_040			?			virtual method slot 16
+0042f968	function	TActionLink.virtual_044			?			virtual method slot 17
+0042f96c	function	TActionLink.virtual_048			?			virtual method slot 18
+0042f970	function	TActionLink.virtual_04c			?			virtual method slot 19
+0042f974	function	TActionLink.virtual_050			?			virtual method slot 20
+0042f978	function	TActionLink.virtual_054			?			virtual method slot 21
+0042f97c	function	TActionLink.virtual_058			?			virtual method slot 22
+0042f980	function	TActionLink.virtual_05c			?			virtual method slot 23
+0042f984	function	TCustomAction.virtual_02c			?			virtual method slot 11
+0042f9cc	function	TCustomAction.Destroy			?			TObject virtual
+0042fa04	function	TCustomAction.virtual_000			?			virtual method slot 0
+0042fbf0	function	THintAction.SetHint			?			property accessor
+0042fd64	function	TCustomAction.virtual_018			?			virtual method slot 6
+0042fdb0	function	TCustomAction.dynamic_ffef			?			message handler ffef
+0042fdd0	function	TCustomAction.dynamic_fff0			?			message handler fff0
+0042fe2c	data	TChangeLink.vmt						class table
+0042fea8	data	TCustomImageList.vmt						class table
+0042ffb8	function	TCustomImageList.virtual_02c			?			virtual method slot 11
+00430004	function	TCustomImageList.Destroy			?			TObject virtual
+00430070	function	TCustomImageList.virtual_034			?			virtual method slot 13
+00430580	function	TCustomImageList.virtual_030			?			virtual method slot 12
+0043095c	function	TCustomImageList.virtual_008			?			virtual method slot 2
+00430a1c	function	TCustomImageList.virtual_000			?			virtual method slot 0
+00430b60	function	TCustomImageList.virtual_038			?			virtual method slot 14
+00430b70	function	TCustomImageList.dynamic_fff0			?			message handler fff0
+00430da4	function	TCustomImageList.virtual_004			?			virtual method slot 1
+00431238	function	TChangeLink.Destroy			?			TObject virtual
+0043126c	function	TChangeLink.dynamic_ffff			?			message handler ffff
+004312bc	data	EMenuError.vmt						class table
+00431520	data	TMenuActionLink.vmt						class table
+004315dc	data	TMenuItem.vmt						class table
+004319d8	data	TMenu.vmt						class table
+00431acc	data	TMainMenu.vmt						class table
+00431da4	data	TPopupMenu.vmt						class table
+00432048	data	TPopupList.vmt						class table
+004320b4	data	TMenuItemStack.vmt						class table
+0043270c	function	TMenuActionLink.virtual_000			?			virtual method slot 0
+00432728	function	TMenuActionLink.virtual_020			?			virtual method slot 8
+00432760	function	TMenuActionLink.virtual_024			?			virtual method slot 9
+00432790	function	TMenuActionLink.virtual_028			?			virtual method slot 10
+004327c0	function	TMenuActionLink.virtual_02c			?			virtual method slot 11
+004327f0	function	TMenuActionLink.virtual_030			?			virtual method slot 12
+00432824	function	TMenuActionLink.virtual_034			?			virtual method slot 13
+00432854	function	TMenuActionLink.virtual_038			?			virtual method slot 14
+00432888	function	TMenuActionLink.virtual_03c			?			virtual method slot 15
+004328b8	function	TMenuActionLink.virtual_008			?			virtual method slot 2
+004328e0	function	TMenuActionLink.virtual_040			?			virtual method slot 16
+00432900	function	TMenuActionLink.virtual_044			?			virtual method slot 17
+00432920	function	TMenuActionLink.virtual_048			?			virtual method slot 18
+00432940	function	TMenuActionLink.virtual_04c			?			virtual method slot 19
+0043295c	function	TMenuActionLink.virtual_050			?			virtual method slot 20
+00432980	function	TMenuActionLink.virtual_054			?			virtual method slot 21
+004329a0	function	TMenuActionLink.virtual_058			?			virtual method slot 22
+004329c0	function	TMenuActionLink.virtual_05c			?			virtual method slot 23
+004329e0	function	TMenuActionLink.virtual_010			?			virtual method slot 4
+00432a0c	function	TMenuItem.virtual_02c			?			virtual method slot 11
+00432a88	function	TMenuItem.Destroy			?			TObject virtual
+00432ec8	function	TMenuItem.virtual_00c			?			virtual method slot 3
+00433034	function	TMenuItem.virtual_004			?			virtual method slot 1
+0043328c	function	TMenuItem.virtual_034			?			virtual method slot 13
+004343f8	function	TMenuItem.virtual_030			?			virtual method slot 12
+0043478c	function	TMenuItem.dynamic_fff2			?			message handler fff2
+00434790	function	TMenuItem.SetBreak			?			property accessor
+004347a0	function	TMenuItem.SetCaption			?			property accessor
+00434810	function	TMenuItem.SetChecked			?			property accessor
+00434864	function	TMenuItem.SetEnabled			?			property accessor
+004348dc	function	TMenuItem.SetGroupIndex			?			property accessor
+00434920	function	TMenuItem.GetAction			?			property accessor
+00434930	function	TMenuItem.dynamic_ffef			?			message handler ffef
+0043496c	function	TMenuItem.SetShortCut			?			property accessor
+00434980	function	TMenuItem.SetVisible			?			property accessor
+00434990	function	TMenuItem.SetImageIndex			?			property accessor
+00434a00	function	TMenuItem.dynamic_fffd			?			message handler fffd
+00434a38	function	TMenuItem.dynamic_fffa			?			message handler fffa
+00434a58	function	TMenuItem.SetDefault			?			property accessor
+00434ab4	function	TMenuItem.virtual_03c			?			virtual method slot 15
+00434be4	function	TMenuItem.virtual_040			?			virtual method slot 16
+00434cb0	function	TMenuItem.virtual_038			?			virtual method slot 14
+00434d44	function	TMenuItem.GetBitmap			?			property accessor
+00434d6c	function	TMenuItem.SetAction			?			property accessor
+00434ddc	function	TMenuItem.SetBitmap			?			property accessor
+00434e3c	function	TMenuItem.dynamic_fff3			?			message handler fff3
+00434e50	function	TMenuItem.dynamic_fff9			?			message handler fff9
+00434eb4	function	TMenuItem.SetRadioItem			?			property accessor
+00434ee0	function	TMenuItem.dynamic_fff0			?			message handler fff0
+00435110	function	TMenuItem.virtual_000			?			virtual method slot 0
+00435188	function	TMenuItem.virtual_010			?			virtual method slot 4
+004351bc	function	TMenuItem.SetSubMenuImages			?			property accessor
+004358f0	function	TMenuItem.SetAutoHotkeys			?			property accessor
+00435a60	function	TMenuItem.SetAutoLineReduction			?			property accessor
+00435ac8	function	TMenu.virtual_02c			?			virtual method slot 11
+00435b60	function	TMenu.Destroy			?			TObject virtual
+00435b98	function	TMenu.dynamic_fffd			?			message handler fffd
+00435bb4	function	TMenu.virtual_034			?			virtual method slot 13
+00435bc0	function	TMenu.dynamic_fffa			?			message handler fffa
+00435f54	function	TMenu.dynamic_fff0			?			message handler fff0
+004361f8	function	TMainMenu.SetOwnerDraw			?			property accessor
+004362bc	function	TMenu.virtual_030			?			virtual method slot 12
+004362d4	function	TMenu.virtual_00c			?			virtual method slot 3
+004362ec	function	TMenu.virtual_038			?			virtual method slot 14
+00436334	function	TMainMenu.SetImages			?			property accessor
+00436370	function	TMenu.virtual_010			?			virtual method slot 4
+00436718	function	TMainMenu.SetBiDiMode			?			property accessor
+0043672c	function	TMainMenu.SetParentBiDiMode			?			property accessor
+00436790	function	TMainMenu.GetAutoHotkeys			?			property accessor
+004367a0	function	TMainMenu.SetAutoHotkeys			?			property accessor
+004367b0	function	TMainMenu.GetAutoLineReduction			?			property accessor
+004367c0	function	TMainMenu.SetAutoLineReduction			?			property accessor
+004367d0	function	TMainMenu.SetAutoMerge			?			property accessor
+004367f0	function	TMainMenu.virtual_038			?			virtual method slot 14
+004368ac	function	TMainMenu.virtual_034			?			virtual method slot 13
+00436908	function	TPopupList.virtual_010			?			virtual method slot 4
+00436e88	function	TPopupMenu.virtual_02c			?			virtual method slot 11
+00436efc	function	TPopupMenu.Destroy			?			TObject virtual
+00436f30	function	TPopupMenu.virtual_03c			?			virtual method slot 15
+00436f44	function	TPopupMenu.GetHelpContext			?			property accessor
+00436f4c	function	TPopupMenu.SetHelpContext			?			property accessor
+00436fe8	function	TPopupMenu.virtual_040			?			virtual method slot 16
+004374f0	data	TControlScrollBar.vmt						class table
+00437784	data	TScrollingWinControl.vmt						class table
+004379cc	data	TScrollBox.vmt						class table
+00438508	data	TCustomForm.vmt						class table
+004387ec	data	TForm.vmt						class table
+00439484	data	TCustomDockForm.vmt						class table
+00439648	data	TMonitor.vmt						class table
+004396a0	data	TScreen.vmt						class table
+00439778	data	TApplication.vmt						class table
+00439fec	function	TControlScrollBar.virtual_008			?			virtual method slot 2
+0043a6cc	function	TControlScrollBar.SetButtonSize			?			property accessor
+0043a710	function	TControlScrollBar.SetColor			?			property accessor
+0043a72c	function	TControlScrollBar.SetParentColor			?			property accessor
+0043a744	function	TControlScrollBar.SetPosition			?			property accessor
+0043a808	function	TControlScrollBar.SetSize			?			property accessor
+0043a84c	function	TControlScrollBar.SetStyle			?			property accessor
+0043a864	function	TControlScrollBar.SetThumbSize			?			property accessor
+0043a894	function	TControlScrollBar.SetRange			?			property accessor
+0043a8b4	function	TControlScrollBar.SetVisible			?			property accessor
+0043aae0	function	TScrollingWinControl.virtual_02c			?			virtual method slot 11
+0043ab48	function	TScrollingWinControl.Destroy			?			TObject virtual
+0043ab84	function	TScrollingWinControl.virtual_090			?			virtual method slot 36
+0043ab94	function	TScrollingWinControl.virtual_098			?			virtual method slot 38
+0043abc0	function	TScrollingWinControl.virtual_088			?			virtual method slot 34
+0043abe0	function	TScrollingWinControl.virtual_0b4			?			virtual method slot 45
+0043ac00	function	TScrollingWinControl.dynamic_ffc7			?			message handler ffc7
+0043ad3c	function	TScrollBox.SetAutoScroll			?			property accessor
+0043ad78	function	TScrollingWinControl.SetHorzScrollBar			?			property accessor
+0043ad88	function	TScrollingWinControl.SetVertScrollBar			?			property accessor
+0043ae90	function	TScrollingWinControl.virtual_0b8			?			virtual method slot 46
+0043b0a0	function	TScrollingWinControl.dynamic_ffed			?			message handler ffed
+0043b0c4	function	TScrollingWinControl.virtual_0bc			?			virtual method slot 47
+0043b0c8	function	TScrollingWinControl.WMSize			?			message handler 0005
+0043b1a4	function	TScrollingWinControl.WMHScroll			?			message handler 0114
+0043b1c8	function	TScrollingWinControl.WMVScroll			?			message handler 0115
+0043b1ec	function	TScrollingWinControl.virtual_084			?			virtual method slot 33
+0043b260	function	TScrollingWinControl.CMBiDiModeChanged			?			message handler b03c
+0043b2f0	function	TScrollBox.virtual_02c			?			virtual method slot 11
+0043b350	function	TScrollBox.virtual_090			?			virtual method slot 36
+0043b3a0	function	TScrollBox.SetBorderStyle			?			property accessor
+0043b3b4	function	TScrollBox.WMNCHitTest			?			message handler 0084
+0043b3bc	function	TScrollBox.CMCtl3DChanged			?			message handler b010
+0043b3e8	function	TCustomForm.virtual_02c			?			virtual method slot 11
+0043b574	function	TCustomForm.AfterConstruction			?			TObject virtual
+0043b5ac	function	TCustomForm.virtual_0cc			?			virtual method slot 51
+0043b70c	function	TCustomForm.BeforeDestruction			?			TObject virtual
+0043b774	function	TCustomForm.Destroy			?			TObject virtual
+0043b858	function	TCustomForm.virtual_0c0			?			virtual method slot 48
+0043b8cc	function	TCustomForm.virtual_0c4			?			virtual method slot 49
+0043b92c	function	TCustomForm.virtual_00c			?			virtual method slot 3
+0043b968	function	TCustomForm.virtual_010			?			virtual method slot 4
+0043ba74	function	TCustomForm.virtual_014			?			virtual method slot 5
+0043bc84	function	TCustomForm.virtual_004			?			virtual method slot 1
+0043bdc8	function	TCustomForm.dynamic_ffee			?			message handler ffee
+0043bdcc	function	TCustomForm.dynamic_ffed			?			message handler ffed
+0043bf14	function	TCustomForm.dynamic_ffb3			?			message handler ffb3
+0043bf34	function	TCustomForm.dynamic_ffb2			?			message handler ffb2
+0043bf54	function	TCustomForm.dynamic_ffb1			?			message handler ffb1
+0043bf74	function	TCustomForm.virtual_040			?			virtual method slot 16
+0043bffc	function	TCustomForm.dynamic_fffd			?			message handler fffd
+0043c068	function	TCustomForm.virtual_050			?			virtual method slot 20
+0043c094	function	TCustomForm.dynamic_fffa			?			message handler fffa
+0043c128	function	TCustomForm.virtual_064			?			virtual method slot 25
+0043c150	function	TForm.SetClientWidth			?			property accessor
+0043c180	function	TForm.SetClientHeight			?			property accessor
+0043c1b0	function	TForm.SetVisible			?			property accessor
+0043c1f4	function	TCustomForm.dynamic_ffd2			?			message handler ffd2
+0043c258	function	TCustomForm.virtual_0dc			?			virtual method slot 55
+0043c25c	function	TCustomForm.virtual_060			?			virtual method slot 24
+0043c294	function	TCustomForm.virtual_020			?			virtual method slot 8
+0043c2d4	function	TCustomForm.virtual_06c			?			virtual method slot 27
+0043c7e8	function	TCustomForm.virtual_088			?			virtual method slot 34
+0043c824	function	TCustomForm.CMBiDiModeChanged			?			message handler b03c
+0043c8bc	function	TCustomForm.CMParentBiDiModeChanged			?			message handler b03d
+0043c944	function	TForm.SetBorderIcons			?			property accessor
+0043c970	function	TForm.SetBorderStyle			?			property accessor
+0043c9a8	function	TCustomForm.dynamic_ffd1			?			message handler ffd1
+0043c9f0	function	TCustomForm.dynamic_ffe6			?			message handler ffe6
+0043cb7c	function	TForm.SetIcon			?			property accessor
+0043cbb8	function	TForm.SetFormStyle			?			property accessor
+0043ccb4	function	TForm.SetObjectMenuItem			?			property accessor
+0043ccd8	function	TForm.SetWindowMenu			?			property accessor
+0043cd00	function	TForm.SetMenu			?			property accessor
+0043cec4	function	TForm.GetPixelsPerInch			?			property accessor
+0043ced8	function	TForm.SetPixelsPerInch			?			property accessor
+0043cf0c	function	TForm.SetPosition			?			property accessor
+0043cf28	function	TForm.GetScaled			?			property accessor
+0043cf34	function	TForm.SetScaled			?			property accessor
+0043cf64	function	TCustomForm.CMColorChanged			?			message handler b00d
+0043cfa0	function	TCustomForm.CMCtl3DChanged			?			message handler b010
+0043cfe8	function	TCustomForm.CMFontChanged			?			message handler b00e
+0043d008	function	TCustomForm.CMMenuChanged			?			message handler b015
+0043d024	function	TForm.SetWindowState			?			property accessor
+0043d3b0	function	TCustomForm.virtual_090			?			virtual method slot 36
+0043d5c4	function	TCustomForm.virtual_098			?			virtual method slot 38
+0043d704	function	TCustomForm.virtual_094			?			virtual method slot 37
+0043d804	function	TCustomForm.virtual_09c			?			virtual method slot 39
+0043d848	function	TCustomForm.DefaultHandler			?			TObject virtual
+0043d8ac	function	TForm.SetActiveControl			?			property accessor
+0043d9d0	function	TCustomForm.virtual_0d4			?			virtual method slot 53
+0043dc60	function	TCustomForm.dynamic_ffb5			?			message handler ffb5
+0043de5c	function	TCustomForm.dynamic_ffb6			?			message handler ffb6
+0043de8c	function	TCustomForm.dynamic_ffb4			?			message handler ffb4
+0043debc	function	TCustomForm.dynamic_ffb0			?			message handler ffb0
+0043def8	function	TCustomForm.virtual_0a8			?			virtual method slot 42
+0043dfb0	function	TCustomForm.dynamic_ffd6			?			message handler ffd6
+0043e05c	function	TCustomForm.WMPaint			?			message handler 000f
+0043e0dc	function	TCustomForm.WMIconEraseBkgnd			?			message handler 0027
+0043e13c	function	TCustomForm.WMEraseBkgnd			?			message handler 0014
+0043e174	function	TCustomForm.WMQueryDragIcon			?			message handler 0037
+0043e284	function	TCustomForm.WMNCCreate			?			message handler 0081
+0043e2b8	function	TCustomForm.WMNCLButtonDown			?			message handler 00a1
+0043e348	function	TCustomForm.WMDestroy			?			message handler 0002
+0043e3a8	function	TCustomForm.WMCommand			?			message handler 0111
+0043e3dc	function	TCustomForm.WMInitMenuPopup			?			message handler 0117
+0043e3f4	function	TCustomForm.WMMenuChar			?			message handler 0120
+0043e42c	function	TCustomForm.WMMenuSelect			?			message handler 011f
+0043e4d4	function	TCustomForm.WMActivate			?			message handler 0006
+0043e4f4	function	TCustomForm.virtual_0bc			?			virtual method slot 47
+0043e52c	function	TCustomForm.WMClose			?			message handler 0010
+0043e534	function	TCustomForm.WMQueryEndSession			?			message handler 0011
+0043e560	function	TCustomForm.CMAppSysCommand			?			message handler b017
+0043e5b8	function	TCustomForm.WMSysCommand			?			message handler 0112
+0043e644	function	TCustomForm.WMShowWindow			?			message handler 0018
+0043e6dc	function	TCustomForm.WMMDIActivate			?			message handler 0222
+0043e734	function	TCustomForm.WMNextDlgCtl			?			message handler 0028
+0043e760	function	TCustomForm.WMEnterMenuLoop			?			message handler 0211
+0043e7bc	function	TCustomForm.WMHelp			?			message handler 0053
+0043e8c0	function	TCustomForm.WMGetMinMaxInfo			?			message handler 0024
+0043e934	function	TCustomForm.WMWindowPosChanging			?			message handler 0046
+0043e9cc	function	TCustomForm.CMActivate			?			message handler b000
+0043e9ec	function	TCustomForm.CMDeactivate			?			message handler b001
+0043ea0c	function	TCustomForm.CMDialogKey			?			message handler b005
+0043eaa8	function	TCustomForm.CMShowingChanged			?			message handler b019
+0043f024	function	TCustomForm.CMIconChanged			?			message handler b01d
+0043f044	function	TCustomForm.CMRelease			?			message handler b021
+0043f04c	function	TCustomForm.CMTextChanged			?			message handler b012
+0043f09c	function	TCustomForm.CMUIActivate			?			message handler b029
+0043f0a4	function	TCustomForm.CMParentFontChanged			?			message handler b008
+0043f1b4	function	TCustomForm.virtual_0d0			?			virtual method slot 52
+0043f2e0	function	TCustomForm.virtual_0b0			?			virtual method slot 44
+0043f378	function	TCustomForm.virtual_0d8			?			virtual method slot 54
+0043f688	function	TCustomForm.virtual_0c8			?			virtual method slot 50
+0043f6f0	function	TCustomForm.dynamic_ffd5			?			message handler ffd5
+0043f70c	function	TCustomForm.WMWinIniChange			?			message handler 001a
+0043f7dc	function	TCustomForm.CMActionExecute			?			message handler b040
+0043f8dc	function	TCustomForm.CMActionUpdate			?			message handler b03f
+0043f984	function	TCustomForm.dynamic_ffaf			?			message handler ffaf
+0043fa00	function	TCustomForm.virtual_028			?			virtual method slot 10
+0043fa74	function	TCustomForm.dynamic_ffb7			?			message handler ffb7
+0043faac	function	TCustomDockForm.virtual_02c			?			virtual method slot 11
+0043fb14	function	TCustomDockForm.dynamic_ffcc			?			message handler ffcc
+0043fbfc	function	TCustomDockForm.dynamic_ffc3			?			message handler ffc3
+0043fc1c	function	TCustomDockForm.virtual_00c			?			virtual method slot 3
+0043fc68	function	TCustomDockForm.dynamic_ffc1			?			message handler ffc1
+0043fc94	function	TCustomDockForm.WMNCHitTest			?			message handler 0084
+0043fcbc	function	TCustomDockForm.WMNCLButtonDown			?			message handler 00a1
+0043fd54	function	TCustomDockForm.CMControlListChange			?			message handler b02c
+0043fdac	function	TCustomDockForm.CMDockNotification			?			message handler b042
+0043fe90	function	TCustomDockForm.CMUndockClient			?			message handler b039
+0043fea8	function	TCustomDockForm.CMVisibleChanged			?			message handler b00b
+0043ff9c	function	TScreen.virtual_02c			?			virtual method slot 11
+004400c4	function	TScreen.Destroy			?			TObject virtual
+00440f28	function	TApplication.virtual_02c			?			virtual method slot 11
+004410c0	function	TApplication.Destroy			?			TObject virtual
+004434e4	data	TImage.vmt						class table
+00443a38	function	TImage.virtual_02c			?			virtual method slot 11
+00443acc	function	TImage.Destroy			?			TObject virtual
+00443afc	function	TImage.dynamic_ffdc			?			message handler ffdc
+00443bb8	function	TImage.virtual_084			?			virtual method slot 33
+00443d10	function	TImage.dynamic_ffcd			?			message handler ffcd
+00443d7c	function	TImage.SetCenter			?			property accessor
+00443d94	function	TImage.SetPicture			?			property accessor
+00443da4	function	TImage.SetStretch			?			property accessor
+00443dbc	function	TImage.SetTransparent			?			property accessor
+00443eec	function	TImage.virtual_034			?			virtual method slot 13
+00444020	data	TMessageForm.vmt						class table
+00444af0	data	TCustomIniFile.vmt						class table
+00444bb0	data	TIniFile.vmt						class table
+00444c94	function	TCustomIniFile.virtual_008			?			virtual method slot 2
+00444d58	function	TCustomIniFile.virtual_00c			?			virtual method slot 3
+00444db4	function	TCustomIniFile.virtual_010			?			virtual method slot 4
+00444de0	function	TCustomIniFile.virtual_018			?			virtual method slot 6
+00444e98	function	TCustomIniFile.virtual_01c			?			virtual method slot 7
+00444f50	function	TCustomIniFile.virtual_020			?			virtual method slot 8
+00445008	function	TCustomIniFile.virtual_024			?			virtual method slot 9
+004450c0	function	TCustomIniFile.virtual_028			?			virtual method slot 10
+00445120	function	TCustomIniFile.virtual_02c			?			virtual method slot 11
+00445180	function	TCustomIniFile.virtual_030			?			virtual method slot 12
+004451e4	function	TCustomIniFile.virtual_034			?			virtual method slot 13
+0044525c	function	TCustomIniFile.virtual_014			?			virtual method slot 5
+00445278	function	TIniFile.virtual_000			?			virtual method slot 0
+004452d8	function	TIniFile.virtual_004			?			virtual method slot 1
+00445344	function	TIniFile.virtual_03c			?			virtual method slot 15
+00445444	function	TIniFile.virtual_038			?			virtual method slot 14
+0044554c	function	TIniFile.virtual_040			?			virtual method slot 16
+00445670	function	TIniFile.virtual_044			?			virtual method slot 17
+004456c4	function	TIniFile.virtual_048			?			virtual method slot 18
+004456f4	function	TIniFile.virtual_04c			?			virtual method slot 19

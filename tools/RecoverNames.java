@@ -8,7 +8,9 @@
 //   trace("init_radar()\n"); init_radar();          names the function called next (when that
 //                                                   is its only call site);
 //   "***** Entry init_game *****"                   names the function it is in;
-//   "Unknown error in CRaceOverlay::Init %s (%d)"   names the function it is in.
+//   "Unknown error in CRaceOverlay::Init %s (%d)"   names the function it is in;
+//   a named stub (an incrementally linked export: JMP xvga_init_fileio) names the function
+//   it jumps to.
 // Only functions that still have Ghidra's default name are renamed, and a name claimed by two
 // different functions is given to neither.
 //
@@ -97,6 +99,13 @@ public class RecoverNames extends GhidraScript {
 				if (mm.find()) {
 					claim(f.getEntryPoint(), mm.group(1).replace("::", "_"), "message names " + mm.group(1));
 				}
+			}
+		}
+		for (Function f : currentProgram.getFunctionManager().getFunctions(true)) {
+			Function t = f.isThunk() ? f.getThunkedFunction(false) : null;
+			if (t != null && !t.isExternal() && f.getSymbol().getSource() != SourceType.DEFAULT &&
+				t.getSymbol().getSource() == SourceType.DEFAULT) {
+				claim(t.getEntryPoint(), f.getName(), "named stub jumps here");
 			}
 		}
 		apply(new File(out, "recovered.tsv"));

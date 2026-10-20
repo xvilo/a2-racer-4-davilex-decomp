@@ -1,0 +1,925 @@
+address	type	value
+004010e0	string	System
+004010ee	string	IUnknown
+0040110c	string	System
+00402c24	string	SOFTWARE\\Borland\\Delphi\\RTL
+00402c40	string	FPUMaskValue
+00403957	string	Portions Copyright (c) 1983,99 Borland
+00404f0c	string	kernel32.dll
+00404f1c	string	GetLongPathNameA
+004050ec	string	Software\\Borland\\Locales
+00405108	string	Software\\Borland\\Delphi\\Locales
+00406ad0	string	Magellan MSWHEEL
+00406ae4	string	MouseZ
+00406aec	string	MSWHEEL_ROLLMSG
+00406afc	string	MSH_WHEELSUPPORT_MSG
+00406b14	string	MSH_SCROLL_LINES_MSG
+00406ee2	string	\tException8o@
+00407205	string	ERangeError\\r@
+0040974c	string	AM/PM
+0040b958	string	m/d/yy
+0040b968	string	mmmm d, yyyy
+0040b9b0	string	 AMPM
+0040b9c0	string	AMPM 
+0040b9dc	string	:mm:ss
+0040bb00	string	kernel32.dll
+0040bb10	string	GetDiskFreeSpaceExA
+0040cde4	string	False
+0040d402	string	TNotifyEvent
+0040db00	string	Classes
+0040db37	string	Classes
+0040dc31	string	Classes
+0040dd58	string	Classes
+0040e2b7	string	Classes
+0040e565	string	Classes
+0040fa30	string	Strings
+00411374	string	Owner
+004124fc	string	False
+00412ea0	string	%s_%d
+00414e0d	string	TGraphicsObject NA
+00414e3c	string	Graphics
+00414e73	string	Graphics
+004152d6	string	TProgressEvent
+004152ef	string	TObject
+004152fe	string	TProgressStage
+00415421	string	Graphics
+004154b6	string	TPicturexTA
+004154c9	string	Graphics
+00415666	string	Graphics
+004157a8	string	Graphics
+004158ca	string	TIcon\\XA
+004158da	string	Graphics
+00415d7c	string	clBlack
+00415d8c	string	clMaroon
+00415da0	string	clGreen
+00415db0	string	clOlive
+00415dd0	string	clPurple
+00415de4	string	clTeal
+00415df4	string	clGray
+00415e04	string	clSilver
+00415e18	string	clRed
+00415e28	string	clLime
+00415e38	string	clYellow
+00415e4c	string	clBlue
+00415e5c	string	clFuchsia
+00415e80	string	clWhite
+00415e90	string	clScrollBar
+00415ea4	string	clBackground
+00415ebc	string	clActiveCaption
+00415ed4	string	clInactiveCaption
+00415ef0	string	clMenu
+00415f00	string	clWindow
+00415f14	string	clWindowFrame
+00415f2c	string	clMenuText
+00415f40	string	clWindowText
+00415f58	string	clCaptionText
+00415f70	string	clActiveBorder
+00415f88	string	clInactiveBorder
+00415fa4	string	clAppWorkSpace
+00415fbc	string	clHighlight
+00415fd0	string	clHighlightText
+00415fe8	string	clBtnFace
+00415ffc	string	clBtnShadow
+00416010	string	clGrayText
+00416024	string	clBtnText
+00416038	string	clInactiveCaptionText
+00416058	string	clBtnHighlight
+00416070	string	cl3DDkShadow
+00416088	string	cl3DLight
+0041609c	string	clInfoText
+004160b0	string	clInfoBk
+004160c4	string	clNone
+00416138	string	ANSI_CHARSET
+00416150	string	DEFAULT_CHARSET
+00416168	string	SYMBOL_CHARSET
+00416180	string	MAC_CHARSET
+00416194	string	SHIFTJIS_CHARSET
+004161b0	string	HANGEUL_CHARSET
+004161c8	string	JOHAB_CHARSET
+004161e0	string	GB2312_CHARSET
+004161f8	string	CHINESEBIG5_CHARSET
+00416214	string	GREEK_CHARSET
+0041622c	string	TURKISH_CHARSET
+00416244	string	HEBREW_CHARSET
+0041625c	string	ARABIC_CHARSET
+00416274	string	BALTIC_CHARSET
+0041628c	string	RUSSIAN_CHARSET
+004162a4	string	THAI_CHARSET
+004162bc	string	EASTEUROPE_CHARSET
+004162d8	string	OEM_CHARSET
+00416740	string	Default
+0041a3c6	string	Graphics
+0041d6b0	string	GetMonitorInfoA
+0041d734	string	GetSystemMetrics
+0041d7c8	string	MonitorFromRect
+0041d85c	string	MonitorFromWindow
+0041d8f4	string	MonitorFromPoint
+0041d9c8	string	GetMonitorInfoA
+0041d9d8	string	DISPLAY
+0041daa0	string	GetMonitorInfoW
+0041dab0	string	DISPLAY
+0041db78	string	GetMonitorInfo
+0041db88	string	DISPLAY
+0041dcac	string	EnumDisplayMonitors
+0041dd20	string	USER32.DLL
+0041e020	string	comctl32.dll
+0041e030	string	InitializeFlatSB
+0041e044	string	UninitializeFlatSB
+0041e058	string	FlatSB_GetScrollProp
+0041e070	string	FlatSB_SetScrollProp
+0041e088	string	FlatSB_EnableScrollBar
+0041e0a0	string	FlatSB_ShowScrollBar
+0041e0b8	string	FlatSB_GetScrollRange
+0041e0d0	string	FlatSB_GetScrollInfo
+0041e0e8	string	FlatSB_GetScrollPos
+0041e0fc	string	FlatSB_SetScrollPos
+0041e110	string	FlatSB_SetScrollInfo
+0041e128	string	FlatSB_SetScrollRange
+0041e2e1	string	StdCtrls
+0041e450	string	Anchors
+0041e568	string	DragMode
+0041e5f3	string	ParentBiDiMode
+0041e61c	string	ParentColor
+0041e641	string	\nParentFont
+0041e68f	string	\tPopupMenu
+0041e6b3	string	\rShowAccelChar
+0041e725	string	Layout
+0041e746	string	Visible
+0041eb3b	string	StdCtrls
+0041ed08	string	BiDiMode
+0041ed6e	string	Constraints
+0041edfe	string	DragMode
+0041ee62	string	ModalResult
+0041ee88	string	ParentBiDiMode
+0041eeb0	string	\nParentFont
+0041eefe	string	\tPopupMenu
+0041ef46	string	TabOrder
+0041ef69	string	TabStop
+0041fac0	string	BUTTON
+0041fcec	string	Delphi Picture
+0041fcfc	string	Delphi Component
+0042017f	string	Controls
+00420482	string	TMouseEvent
+00420498	string	TObject
+004204a8	string	TMouseButton
+004204bc	string	TShiftState
+004204cb	string	Integer
+004204e6	string	TMouseMoveEvent
+00420500	string	TObject
+0042050f	string	TShiftState
+0042051e	string	Integer
+00420535	string	\tTKeyEvent
+00420576	string	TKeyPressEvent
+004205a6	string	TDragOverEvent
+004205cf	string	TObject
+004205da	string	Integer
+004205e5	string	Integer
+00420616	string	TDragDropEvent
+0042063f	string	TObject
+0042064a	string	Integer
+00420662	string	TStartDragEvent
+004206a1	string	\rTEndDragEvent
+004206ca	string	TObject
+004206d5	string	Integer
+004206ee	string	TDockDropEvent
+00420717	string	TDragDockObject
+0042072a	string	Integer
+00420742	string	TDockOverEvent
+0042076b	string	TDragDockObject
+0042077e	string	Integer
+00420789	string	Integer
+004207ba	string	TUnDockEvent
+00420816	string	TStartDockEvent
+0042085a	string	TGetSiteInfoEvent
+004208d2	string	TCanResizeEvent
+00420921	string	Boolean,\tB
+0042092e	string	TConstrainedResizeEvent
+004209aa	string	TMouseWheelEvent
+004209c5	string	TObject
+004209d4	string	TShiftState
+00420a1e	string	TMouseWheelUpDownEvent
+00420a3f	string	TObject
+00420a82	string	TContextPopupEvent
+00420f50	string	Controls
+0042146c	string	Controls
+004215b3	string	Controls
+00421710	string	Controls
+00421a58	string	crDefault
+00421a6c	string	crArrow
+00421a7c	string	crCross
+00421a8c	string	crIBeam
+00421a9c	string	crSizeNESW
+00421ab0	string	crSizeNS
+00421ac4	string	crSizeNWSE
+00421ad8	string	crSizeWE
+00421aec	string	crUpArrow
+00421b00	string	crHourGlass
+00421b14	string	crDrag
+00421b24	string	crNoDrop
+00421b38	string	crHSplit
+00421b4c	string	crVSplit
+00421b60	string	crMultiDrag
+00421b74	string	crSQLWait
+00421b98	string	crAppStart
+00421bac	string	crHelp
+00421bbc	string	crHandPoint
+00421bd0	string	crSizeAll
+00421be4	string	crSize
+0042380c	string	%s (%s)
+00425a80	string	IsControl
+0042ec0c	string	USER32
+0042ec14	string	WINNLSEnableIME
+0042ec24	string	IMM32.DLL
+0042ec30	string	ImmGetContext
+0042ec40	string	ImmReleaseContext
+0042ec54	string	ImmGetConversionStatus
+0042ec6c	string	ImmSetConversionStatus
+0042ec84	string	ImmSetOpenStatus
+0042ec98	string	ImmSetCompositionWindow
+0042ecb0	string	ImmSetCompositionFontA
+0042ecc8	string	ImmGetCompositionStringA
+0042ece4	string	ImmIsIME
+0042ecf0	string	ImmNotifyIME
+0042ef6c	string	Delphi%.8X
+0042ef78	string	ControlOfs%.8X%.8X
+0042f1f6	string	ActnList
+0042f2ea	string	ActnList
+0042ff6d	string	ImgList
+00430df4	string	Bitmap
+00431352	string	TMenuChangeEvent
+00431376	string	Source\tTMenuItem
+0043139e	string	TMenuDrawItemEvent
+004313db	string	TRect
+004313fa	string	TAdvancedMenuDrawItemEvent
+0043143f	string	TRect
+00431462	string	TMenuMeasureItemEvent
+004317ac	string	Caption
+004317ef	string	\rSubMenuImages
+00431818	string	Default
+004318c5	string	\nImageIndex
+0043190f	string	ShortCut
+00431b9c	string	AutoHotkeys
+00431bc2	string	AutoLineReduction
+00431c35	string	Images
+00431c55	string	\tOwnerDraw
+00431e5b	string	Menus\r
+00431e7c	string	\tAlignment
+00431ec7	string	AutoLineReduction
+00431f80	string	\rMenuAnimation
+00431fa8	string	\tOwnerDraw
+00432124	string	1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ
+00433068	string	ShortCutText
+00437562	string	TControlScrollBar<uC
+00437609	string	Margin
+00437673	string	Range
+004376f2	string	\tThumbSize
+00437717	string	Tracking
+00437912	string	\rHorzScrollBar\\uC
+0043793a	string	\rVertScrollBarLyC
+00437b51	string	Anchors
+00437b72	string	\nAutoScroll
+00437c04	string	Constraints
+00437c95	string	DragMode
+00437cda	string	Color
+00437d39	string	ParentBiDiMode
+00437d62	string	ParentColor
+00437d88	string	ParentCtl3D
+00437dad	string	\nParentFont
+00437dfb	string	\tPopupMenu
+00437e43	string	TabOrder
+00437e66	string	TabStop
+00437ed0	string	OnClick(\tB
+00437ef2	string	OnConstrainedResize|\nB
+00438466	string	TCloseEvent
+0043849e	string	TCloseQueryEvent
+004384da	string	TShortCutEvent
+004389c1	string	Anchors
+004389e2	string	\nAutoScroll
+00438a2b	string	BiDiMode
+00438a4e	string	BorderIconsHyC
+00438b4f	string	Constraints
+00438bbe	string	DefaultMonitor
+00438c2d	string	DragMode
+00438c50	string	Enabled
+00438cfb	string	HelpFile\\uC
+00438dd2	string	ObjectMenuItem
+00438e70	string	Position
+00438e92	string	\nPrintScale
+00438eb8	string	Scaled
+00438ed9	string	ShowHint\\uC
+00438efb	string	\rVertScrollBar
+00439040	string	OnCloseQuery(\tB
+00439067	string	OnConstrainedResize|\nB
+0043975d	string	\tTHintInfo@
+00439c7c	string	TPUtilWindow
+0043bcf4	string	PixelsPerInch
+0043bd0c	string	TextHeight
+0043bd20	string	IgnoreFontProperty
+0043d6f8	string	MDICLIENT
+00440584	string	System\\CurrentControlSet\\Control\\Keyboard Layouts\\%.8x
+004405bc	string	layout text
+00440f18	string	TApplication
+004410b4	string	MAINICON
+00441cb4	string	vcltest3.dll
+00441cc4	string	RegisterAutomation
+0044362c	string	Anchors
+0044364e	string	AutoSize
+00443700	string	DragMode
+00443723	string	Enabled
+00443745	string	IncrementalDisplay
+004437bc	string	\tPopupMenu
+004437e1	string	ShowHint
+00443804	string	Stretch
+00443826	string	Transparent
+00444162	string	TMessageForml@D
+00444179	string	Dialogs
+00444240	string	Cancel
+00444250	string	Abort
+00444260	string	Retry
+00444270	string	Ignore
+0044428c	string	NoToAll
+0044429c	string	YesToAll
+00444810	string	Image
+00444820	string	Message
+00444988	string	commdlg_help
+00444998	string	commdlg_FindReplace
+004449ac	string	WndProcPtr%.8X%.8X
+00445ab4	string	debug.ini
+00445ac8	string	D:\\Tools\\SetDebug\\source\\SetDebug.dpr
+00445af8	string	Cannot find "debug.ini"
+00445b18	string	debug
+00445b28	string	general
+00445b54	string	messages
+00445b68	string	isoff
+00446028	string	Runtime error     at 00000000
+00446048	string	Error
+0044621c	string	d
+0044635f	string	\rMS Sans Serif
+004486d0	TerminatedCString	kernel32.dll
+004486e0	TerminatedCString	GetCurrentThreadId
+004486f6	TerminatedCString	DeleteCriticalSection
+0044870e	TerminatedCString	LeaveCriticalSection
+00448726	TerminatedCString	EnterCriticalSection
+0044873e	TerminatedCString	InitializeCriticalSection
+0044875a	TerminatedCString	VirtualFree
+00448768	TerminatedCString	VirtualAlloc
+00448778	TerminatedCString	LocalFree
+00448784	TerminatedCString	LocalAlloc
+00448792	TerminatedCString	InterlockedDecrement
+004487aa	TerminatedCString	InterlockedIncrement
+004487c2	TerminatedCString	VirtualQuery
+004487d2	TerminatedCString	WideCharToMultiByte
+004487e8	TerminatedCString	MultiByteToWideChar
+004487fe	TerminatedCString	lstrlenA
+0044880a	TerminatedCString	lstrcpynA
+00448816	TerminatedCString	lstrcpyA
+00448822	TerminatedCString	LoadLibraryExA
+00448834	TerminatedCString	GetThreadLocale
+00448846	TerminatedCString	GetStartupInfoA
+00448858	TerminatedCString	GetProcAddress
+0044886a	TerminatedCString	GetModuleHandleA
+0044887e	TerminatedCString	GetModuleFileNameA
+00448894	TerminatedCString	GetLocaleInfoA
+004488a6	TerminatedCString	GetLastError
+004488b6	TerminatedCString	GetCommandLineA
+004488c8	TerminatedCString	FreeLibrary
+004488d6	TerminatedCString	FindFirstFileA
+004488e8	TerminatedCString	FindClose
+004488f4	TerminatedCString	ExitProcess
+00448902	TerminatedCString	WriteFile
+0044890e	TerminatedCString	UnhandledExceptionFilter
+0044892a	TerminatedCString	SetFilePointer
+0044893c	TerminatedCString	SetEndOfFile
+0044894c	TerminatedCString	RtlUnwind
+00448958	TerminatedCString	ReadFile
+00448964	TerminatedCString	RaiseException
+00448976	TerminatedCString	GetStdHandle
+00448986	TerminatedCString	GetFileSize
+00448994	TerminatedCString	GetFileType
+004489a2	TerminatedCString	CreateFileA
+004489b0	TerminatedCString	CloseHandle
+004489bc	TerminatedCString	user32.dll
+004489ca	TerminatedCString	GetKeyboardType
+004489dc	TerminatedCString	LoadStringA
+004489ea	TerminatedCString	MessageBoxA
+004489f8	TerminatedCString	CharNextA
+00448a02	TerminatedCString	advapi32.dll
+00448a12	TerminatedCString	RegQueryValueExA
+00448a26	TerminatedCString	RegOpenKeyExA
+00448a36	TerminatedCString	RegCloseKey
+00448a42	TerminatedCString	oleaut32.dll
+00448a52	TerminatedCString	VariantChangeTypeEx
+00448a68	TerminatedCString	VariantCopyInd
+00448a7a	TerminatedCString	VariantClear
+00448a8a	TerminatedCString	SysStringLen
+00448a9a	TerminatedCString	SysFreeString
+00448aaa	TerminatedCString	SysReAllocStringLen
+00448ac0	TerminatedCString	SysAllocStringLen
+00448ad2	TerminatedCString	kernel32.dll
+00448ae2	TerminatedCString	TlsSetValue
+00448af0	TerminatedCString	TlsGetValue
+00448afe	TerminatedCString	LocalAlloc
+00448b0c	TerminatedCString	GetModuleHandleA
+00448b20	TerminatedCString	GetModuleFileNameA
+00448b34	TerminatedCString	advapi32.dll
+00448b44	TerminatedCString	RegQueryValueExA
+00448b58	TerminatedCString	RegOpenKeyExA
+00448b68	TerminatedCString	RegCloseKey
+00448b74	TerminatedCString	kernel32.dll
+00448b84	TerminatedCString	lstrcpyA
+00448b90	TerminatedCString	WritePrivateProfileStringA
+00448bae	TerminatedCString	WriteFile
+00448bba	TerminatedCString	WaitForSingleObject
+00448bd0	TerminatedCString	VirtualQuery
+00448be0	TerminatedCString	VirtualAlloc
+00448bf0	TerminatedCString	Sleep
+00448bf8	TerminatedCString	SizeofResource
+00448c0a	TerminatedCString	SetThreadLocale
+00448c1c	TerminatedCString	SetFilePointer
+00448c2e	TerminatedCString	SetFileAttributesA
+00448c44	TerminatedCString	SetEvent
+00448c50	TerminatedCString	SetErrorMode
+00448c60	TerminatedCString	SetEndOfFile
+00448c70	TerminatedCString	ReadFile
+00448c7c	TerminatedCString	MulDiv
+00448c86	TerminatedCString	LockResource
+00448c96	TerminatedCString	LoadResource
+00448ca6	TerminatedCString	LoadLibraryA
+00448cb6	TerminatedCString	LeaveCriticalSection
+00448cce	TerminatedCString	InitializeCriticalSection
+00448cea	TerminatedCString	GlobalUnlock
+00448cfa	TerminatedCString	GlobalReAlloc
+00448d0a	TerminatedCString	GlobalHandle
+00448d1a	TerminatedCString	GlobalLock
+00448d28	TerminatedCString	GlobalFree
+00448d36	TerminatedCString	GlobalDeleteAtom
+00448d4a	TerminatedCString	GlobalAlloc
+00448d58	TerminatedCString	GlobalAddAtomA
+00448d6a	TerminatedCString	GetVersionExA
+00448d7a	TerminatedCString	GetVersion
+00448d88	TerminatedCString	GetTickCount
+00448d98	TerminatedCString	GetThreadLocale
+00448daa	TerminatedCString	GetSystemInfo
+00448dba	TerminatedCString	GetProcAddress
+00448dcc	TerminatedCString	GetPrivateProfileStringA
+00448de8	TerminatedCString	GetModuleHandleA
+00448dfc	TerminatedCString	GetModuleFileNameA
+00448e12	TerminatedCString	GetLocaleInfoA
+00448e24	TerminatedCString	GetLocalTime
+00448e34	TerminatedCString	GetLastError
+00448e44	TerminatedCString	GetFileAttributesA
+00448e5a	TerminatedCString	GetDiskFreeSpaceA
+00448e6e	TerminatedCString	GetDateFormatA
+00448e80	TerminatedCString	GetCurrentThreadId
+00448e96	TerminatedCString	GetCurrentProcessId
+00448eac	TerminatedCString	GetCPInfo
+00448eb8	TerminatedCString	FreeResource
+00448ec8	TerminatedCString	FreeLibrary
+00448ed6	TerminatedCString	FormatMessageA
+00448ee8	TerminatedCString	FindResourceA
+00448ef8	TerminatedCString	FindFirstFileA
+00448f0a	TerminatedCString	FindClose
+00448f16	TerminatedCString	FileTimeToLocalFileTime
+00448f30	TerminatedCString	FileTimeToDosDateTime
+00448f48	TerminatedCString	EnumCalendarInfoA
+00448f5c	TerminatedCString	EnterCriticalSection
+00448f74	TerminatedCString	DeleteCriticalSection
+00448f8c	TerminatedCString	CreateThread
+00448f9c	TerminatedCString	CreateFileA
+00448faa	TerminatedCString	CreateEventA
+00448fba	TerminatedCString	CompareStringA
+00448fcc	TerminatedCString	CloseHandle
+00448fd8	TerminatedCString	gdi32.dll
+00448fe4	TerminatedCString	UnrealizeObject
+00448ff6	TerminatedCString	StretchBlt
+00449004	TerminatedCString	SetWindowOrgEx
+00449016	TerminatedCString	SetWinMetaFileBits
+0044902c	TerminatedCString	SetViewportOrgEx
+00449040	TerminatedCString	SetTextColor
+00449050	TerminatedCString	SetStretchBltMode
+00449064	TerminatedCString	SetROP2
+0044906e	TerminatedCString	SetPixel
+0044907a	TerminatedCString	SetEnhMetaFileBits
+00449090	TerminatedCString	SetDIBColorTable
+004490a4	TerminatedCString	SetBrushOrgEx
+004490b4	TerminatedCString	SetBkMode
+004490c0	TerminatedCString	SetBkColor
+004490ce	TerminatedCString	SelectPalette
+004490de	TerminatedCString	SelectObject
+004490ee	TerminatedCString	SaveDC
+004490f8	TerminatedCString	RestoreDC
+00449104	TerminatedCString	Rectangle
+00449110	TerminatedCString	RectVisible
+0044911e	TerminatedCString	RealizePalette
+00449130	TerminatedCString	PlayEnhMetaFile
+00449142	TerminatedCString	PatBlt
+0044914c	TerminatedCString	MoveToEx
+00449158	TerminatedCString	MaskBlt
+00449162	TerminatedCString	LineTo
+0044916c	TerminatedCString	IntersectClipRect
+00449180	TerminatedCString	GetWindowOrgEx
+00449192	TerminatedCString	GetWinMetaFileBits
+004491a8	TerminatedCString	GetTextMetricsA
+004491ba	TerminatedCString	GetTextExtentPointA
+004491d0	TerminatedCString	GetTextExtentPoint32A
+004491e8	TerminatedCString	GetSystemPaletteEntries
+00449202	TerminatedCString	GetStockObject
+00449214	TerminatedCString	GetPixel
+00449220	TerminatedCString	GetPaletteEntries
+00449234	TerminatedCString	GetObjectA
+00449242	TerminatedCString	GetEnhMetaFilePaletteEntries
+00449262	TerminatedCString	GetEnhMetaFileHeader
+0044927a	TerminatedCString	GetEnhMetaFileBits
+00449290	TerminatedCString	GetDeviceCaps
+004492a0	TerminatedCString	GetDIBits
+004492ac	TerminatedCString	GetDIBColorTable
+004492c0	TerminatedCString	GetDCOrgEx
+004492ce	TerminatedCString	GetCurrentPositionEx
+004492e6	TerminatedCString	GetClipBox
+004492f4	TerminatedCString	GetBrushOrgEx
+00449304	TerminatedCString	GetBitmapBits
+00449314	TerminatedCString	ExcludeClipRect
+00449326	TerminatedCString	DeleteObject
+00449336	TerminatedCString	DeleteEnhMetaFile
+0044934a	TerminatedCString	DeleteDC
+00449356	TerminatedCString	CreateSolidBrush
+0044936a	TerminatedCString	CreatePenIndirect
+0044937e	TerminatedCString	CreatePalette
+0044938e	TerminatedCString	CreateHalftonePalette
+004493a6	TerminatedCString	CreateFontIndirectA
+004493bc	TerminatedCString	CreateDIBitmap
+004493ce	TerminatedCString	CreateDIBSection
+004493e2	TerminatedCString	CreateCompatibleDC
+004493f8	TerminatedCString	CreateCompatibleBitmap
+00449412	TerminatedCString	CreateBrushIndirect
+00449428	TerminatedCString	CreateBitmap
+00449438	TerminatedCString	CopyEnhMetaFileA
+0044944c	TerminatedCString	BitBlt
+00449454	TerminatedCString	user32.dll
+00449462	TerminatedCString	WindowFromPoint
+00449474	TerminatedCString	WinHelpA
+00449480	TerminatedCString	WaitMessage
+0044948e	TerminatedCString	UpdateWindow
+0044949e	TerminatedCString	UnregisterClassA
+004494b2	TerminatedCString	UnhookWindowsHookEx
+004494c8	TerminatedCString	TranslateMessage
+004494dc	TerminatedCString	TranslateMDISysAccel
+004494f4	TerminatedCString	TrackPopupMenu
+00449506	TerminatedCString	SystemParametersInfoA
+0044951e	TerminatedCString	ShowWindow
+0044952c	TerminatedCString	ShowScrollBar
+0044953c	TerminatedCString	ShowOwnedPopups
+0044954e	TerminatedCString	ShowCursor
+0044955c	TerminatedCString	SetWindowsHookExA
+00449570	TerminatedCString	SetWindowPos
+00449580	TerminatedCString	SetWindowPlacement
+00449596	TerminatedCString	SetWindowLongA
+004495a8	TerminatedCString	SetTimer
+004495b4	TerminatedCString	SetScrollRange
+004495c6	TerminatedCString	SetScrollPos
+004495d6	TerminatedCString	SetScrollInfo
+004495e6	TerminatedCString	SetRect
+004495f0	TerminatedCString	SetPropA
+004495fc	TerminatedCString	SetMenuItemInfoA
+00449610	TerminatedCString	SetMenu
+0044961a	TerminatedCString	SetForegroundWindow
+00449630	TerminatedCString	SetFocus
+0044963c	TerminatedCString	SetCursor
+00449648	TerminatedCString	SetClassLongA
+00449658	TerminatedCString	SetCapture
+00449666	TerminatedCString	SetActiveWindow
+00449678	TerminatedCString	SendMessageA
+00449688	TerminatedCString	ScrollWindow
+00449698	TerminatedCString	ScreenToClient
+004496aa	TerminatedCString	RemovePropA
+004496b8	TerminatedCString	RemoveMenu
+004496c6	TerminatedCString	ReleaseDC
+004496d2	TerminatedCString	ReleaseCapture
+004496e4	TerminatedCString	RegisterWindowMessageA
+004496fe	TerminatedCString	RegisterClipboardFormatA
+0044971a	TerminatedCString	RegisterClassA
+0044972c	TerminatedCString	PtInRect
+00449738	TerminatedCString	PostQuitMessage
+0044974a	TerminatedCString	PostMessageA
+0044975a	TerminatedCString	PeekMessageA
+0044976a	TerminatedCString	OffsetRect
+00449778	TerminatedCString	OemToCharA
+00449786	TerminatedCString	MessageBoxA
+00449794	TerminatedCString	MapWindowPoints
+004497a6	TerminatedCString	MapVirtualKeyA
+004497b8	TerminatedCString	LoadStringA
+004497c6	TerminatedCString	LoadKeyboardLayoutA
+004497dc	TerminatedCString	LoadIconA
+004497e8	TerminatedCString	LoadCursorA
+004497f6	TerminatedCString	LoadBitmapA
+00449804	TerminatedCString	KillTimer
+00449810	TerminatedCString	IsZoomed
+0044981c	TerminatedCString	IsWindowVisible
+0044982e	TerminatedCString	IsWindowEnabled
+00449840	TerminatedCString	IsWindow
+0044984c	TerminatedCString	IsRectEmpty
+0044985a	TerminatedCString	IsIconic
+00449866	TerminatedCString	IsDialogMessageA
+0044987a	TerminatedCString	IsChild
+00449884	TerminatedCString	InvalidateRect
+00449896	TerminatedCString	IntersectRect
+004498a6	TerminatedCString	InsertMenuItemA
+004498b8	TerminatedCString	InsertMenuA
+004498c6	TerminatedCString	InflateRect
+004498d4	TerminatedCString	GetWindowThreadProcessId
+004498f0	TerminatedCString	GetWindowTextA
+00449902	TerminatedCString	GetWindowRect
+00449912	TerminatedCString	GetWindowPlacement
+00449928	TerminatedCString	GetWindowLongA
+0044993a	TerminatedCString	GetWindowDC
+00449948	TerminatedCString	GetTopWindow
+00449958	TerminatedCString	GetSystemMetrics
+0044996c	TerminatedCString	GetSystemMenu
+0044997c	TerminatedCString	GetSysColor
+0044998a	TerminatedCString	GetSubMenu
+00449998	TerminatedCString	GetScrollRange
+004499aa	TerminatedCString	GetScrollPos
+004499ba	TerminatedCString	GetScrollInfo
+004499ca	TerminatedCString	GetPropA
+004499d6	TerminatedCString	GetParent
+004499e2	TerminatedCString	GetWindow
+004499ee	TerminatedCString	GetMenuStringA
+00449a00	TerminatedCString	GetMenuState
+00449a10	TerminatedCString	GetMenuItemInfoA
+00449a24	TerminatedCString	GetMenuItemID
+00449a34	TerminatedCString	GetMenuItemCount
+00449a48	TerminatedCString	GetMenu
+00449a52	TerminatedCString	GetLastActivePopup
+00449a68	TerminatedCString	GetKeyboardState
+00449a7c	TerminatedCString	GetKeyboardLayoutList
+00449a94	TerminatedCString	GetKeyboardLayout
+00449aa8	TerminatedCString	GetKeyState
+00449ab6	TerminatedCString	GetKeyNameTextA
+00449ac8	TerminatedCString	GetIconInfo
+00449ad6	TerminatedCString	GetForegroundWindow
+00449aec	TerminatedCString	GetFocus
+00449af8	TerminatedCString	GetDesktopWindow
+00449b0c	TerminatedCString	GetDCEx
+00449b16	TerminatedCString	GetDC
+00449b1e	TerminatedCString	GetCursorPos
+00449b2e	TerminatedCString	GetCursor
+00449b3a	TerminatedCString	GetClipboardData
+00449b4e	TerminatedCString	GetClientRect
+00449b5e	TerminatedCString	GetClassInfoA
+00449b6e	TerminatedCString	GetCapture
+00449b7c	TerminatedCString	GetActiveWindow
+00449b8e	TerminatedCString	FrameRect
+00449b9a	TerminatedCString	FindWindowA
+00449ba8	TerminatedCString	FillRect
+00449bb4	TerminatedCString	EqualRect
+00449bc0	TerminatedCString	EnumWindows
+00449bce	TerminatedCString	EnumThreadWindows
+00449be2	TerminatedCString	EndPaint
+00449bee	TerminatedCString	EnableWindow
+00449bfe	TerminatedCString	EnableScrollBar
+00449c10	TerminatedCString	EnableMenuItem
+00449c22	TerminatedCString	DrawTextA
+00449c2e	TerminatedCString	DrawMenuBar
+00449c3c	TerminatedCString	DrawIconEx
+00449c4a	TerminatedCString	DrawIcon
+00449c56	TerminatedCString	DrawFrameControl
+00449c6a	TerminatedCString	DrawEdge
+00449c76	TerminatedCString	DispatchMessageA
+00449c8a	TerminatedCString	DestroyWindow
+00449c9a	TerminatedCString	DestroyMenu
+00449ca8	TerminatedCString	DestroyIcon
+00449cb6	TerminatedCString	DestroyCursor
+00449cc6	TerminatedCString	DeleteMenu
+00449cd4	TerminatedCString	DefWindowProcA
+00449ce6	TerminatedCString	DefMDIChildProcA
+00449cfa	TerminatedCString	DefFrameProcA
+00449d0a	TerminatedCString	CreateWindowExA
+00449d1c	TerminatedCString	CreatePopupMenu
+00449d2e	TerminatedCString	CreateMenu
+00449d3c	TerminatedCString	CreateIcon
+00449d4a	TerminatedCString	ClientToScreen
+00449d5c	TerminatedCString	CheckMenuItem
+00449d6c	TerminatedCString	CallWindowProcA
+00449d7e	TerminatedCString	CallNextHookEx
+00449d90	TerminatedCString	BeginPaint
+00449d9e	TerminatedCString	CharLowerBuffA
+00449db0	TerminatedCString	CharLowerA
+00449dbe	TerminatedCString	AdjustWindowRectEx
+00449dd4	TerminatedCString	ActivateKeyboardLayout
+00449dec	TerminatedCString	ole32.dll
+00449df8	TerminatedCString	IsEqualGUID
+00449e04	TerminatedCString	comctl32.dll
+00449e14	TerminatedCString	ImageList_SetIconSize
+00449e2c	TerminatedCString	ImageList_GetIconSize
+00449e44	TerminatedCString	ImageList_Write
+00449e56	TerminatedCString	ImageList_Read
+00449e68	TerminatedCString	ImageList_GetDragImage
+00449e82	TerminatedCString	ImageList_DragShowNolock
+00449e9e	TerminatedCString	ImageList_SetDragCursorImage
+00449ebe	TerminatedCString	ImageList_DragMove
+00449ed4	TerminatedCString	ImageList_DragLeave
+00449eea	TerminatedCString	ImageList_DragEnter
+00449f00	TerminatedCString	ImageList_EndDrag
+00449f14	TerminatedCString	ImageList_BeginDrag
+00449f2a	TerminatedCString	ImageList_Remove
+00449f3e	TerminatedCString	ImageList_DrawEx
+00449f52	TerminatedCString	ImageList_Draw
+00449f64	TerminatedCString	ImageList_GetBkColor
+00449f7c	TerminatedCString	ImageList_SetBkColor
+00449f94	TerminatedCString	ImageList_ReplaceIcon
+00449fac	TerminatedCString	ImageList_Add
+00449fbc	TerminatedCString	ImageList_GetImageCount
+00449fd6	TerminatedCString	ImageList_Destroy
+00449fea	TerminatedCString	ImageList_Create
+00451e44	PascalUnicode	Menu '%s' is already being used by another form
+00451ea4	PascalUnicode	Docked control must have a name
+00451ee4	PascalUnicode	Error removing control from dock tree
+00451f30	PascalUnicode	 - Dock zone not found
+00451f5e	PascalUnicode	 - Dock zone has no control
+00451f96	PascalUnicode	List does not allow duplicates ($0%x)
+00451fe2	PascalUnicode	
+00451fe4	PascalUnicode	
+00451fe6	PascalUnicode	
+00451fe8	PascalUnicode	
+00451fea	PascalUnicode	
+00451fec	PascalUnicode	
+00451fee	PascalUnicode	
+00451ff0	PascalUnicode	
+00451ff2	PascalUnicode	
+00451ff4	PascalUnicode	
+00452004	PascalUnicode	PgUp
+0045200e	PascalUnicode	PgDn
+00452018	PascalUnicode	End
+00452020	PascalUnicode	Home
+0045202a	PascalUnicode	Left
+00452034	PascalUnicode	Up
+0045203a	PascalUnicode	Right
+00452046	PascalUnicode	Down
+00452050	PascalUnicode	Ins
+00452058	PascalUnicode	Del
+00452060	PascalUnicode	Shift+
+0045206e	PascalUnicode	Ctrl+
+0045207a	PascalUnicode	Alt+
+00452084	PascalUnicode	Clipboard does not support Icons
+004520c6	PascalUnicode	Unable to write to %s
+004520f2	PascalUnicode	Bits index out of range
+00452144	PascalUnicode	&Yes
+0045214e	PascalUnicode	&No
+00452156	PascalUnicode	OK
+0045215c	PascalUnicode	Cancel
+0045216a	PascalUnicode	&Help
+00452176	PascalUnicode	&Abort
+00452184	PascalUnicode	&Retry
+00452192	PascalUnicode	&Ignore
+004521a2	PascalUnicode	&All
+004521ac	PascalUnicode	N&o to All
+004521c2	PascalUnicode	Yes to &All
+004521da	PascalUnicode	BkSp
+004521e4	PascalUnicode	Tab
+004521ec	PascalUnicode	Esc
+004521f4	PascalUnicode	Enter
+00452200	PascalUnicode	Space
+0045222c	PascalUnicode	Cannot make a visible window modal
+00452272	PascalUnicode	Menu index out of range
+004522a2	PascalUnicode	Menu inserted twice
+004522ca	PascalUnicode	Sub-menu is not in menu
+004522fa	PascalUnicode	GroupIndex cannot be less than a previous menu item's GroupIndex
+0045237c	PascalUnicode	Cannot create form. No MDI forms are currently active
+004523e8	PascalUnicode	A control cannot have itself as its parent
+0045243e	PascalUnicode	Cannot drag a form
+00452464	PascalUnicode	Metafiles
+00452478	PascalUnicode	Enhanced Metafiles
+0045249e	PascalUnicode	Icons
+004524aa	PascalUnicode	Bitmaps
+004524ba	PascalUnicode	Warning
+004524ca	PascalUnicode	Error
+004524d6	PascalUnicode	Information
+004524ee	PascalUnicode	Confirm
+00452520	PascalUnicode	Metafile is not valid
+0045254c	PascalUnicode	Cannot change the size of an icon
+00452590	PascalUnicode	Unsupported clipboard format
+004525ca	PascalUnicode	Out of system resources
+004525fa	PascalUnicode	Canvas does not allow drawing
+00452636	PascalUnicode	Invalid image size
+0045265c	PascalUnicode	Invalid ImageList
+00452680	PascalUnicode	Invalid ImageList Index
+004526b0	PascalUnicode	Failed to read ImageList data from stream
+00452704	PascalUnicode	Failed to write ImageList data to stream
+00452756	PascalUnicode	Error creating window device context
+004527a0	PascalUnicode	Error creating window class
+004527d8	PascalUnicode	Cannot focus a disabled or invisible window
+00452830	PascalUnicode	Control '%s' has no parent window
+00452874	PascalUnicode	Cannot hide an MDI Child Form
+004528b0	PascalUnicode	Cannot change Visible in OnShow or OnHide
+00452924	PascalUnicode	List index out of bounds (%d)
+00452960	PascalUnicode	List capacity out of bounds (%d)
+004529a2	PascalUnicode	List count out of bounds (%d)
+004529de	PascalUnicode	Operation not allowed on sorted string list
+00452a36	PascalUnicode	String list does not allow duplicates
+00452a82	PascalUnicode	A component named %s already exists
+00452aca	PascalUnicode	''%s'' is not a valid component name
+00452b14	PascalUnicode	A class named %s already exists
+00452b54	PascalUnicode	Invalid property value
+00452b82	PascalUnicode	Invalid property path
+00452bae	PascalUnicode	Property does not exist
+00452bde	PascalUnicode	Property is read-only
+00452c0a	PascalUnicode	Error reading %s%s%s: %s
+00452c3c	PascalUnicode	Ancestor for '%s' not found
+00452c74	PascalUnicode	Bitmap image is not valid
+00452ca8	PascalUnicode	Icon image is not valid
+00452cf8	PascalUnicode	Monday
+00452d06	PascalUnicode	Tuesday
+00452d16	PascalUnicode	Wednesday
+00452d2a	PascalUnicode	Thursday
+00452d3c	PascalUnicode	Friday
+00452d4a	PascalUnicode	Saturday
+00452d5c	PascalUnicode	Cannot assign a %s to a %s
+00452d92	PascalUnicode	Cannot create file %s
+00452dbe	PascalUnicode	Cannot open file %s
+00452de6	PascalUnicode	Stream read error
+00452e0a	PascalUnicode	Stream write error
+00452e30	PascalUnicode	Out of memory while expanding memory stream
+00452e88	PascalUnicode	Can't write to a read-only resource stream
+00452ede	PascalUnicode	Class %s not found
+00452f04	PascalUnicode	Invalid stream format
+00452f30	PascalUnicode	Resource %s not found
+00452f7c	PascalUnicode	May
+00452f84	PascalUnicode	June
+00452f8e	PascalUnicode	July
+00452f98	PascalUnicode	August
+00452fa6	PascalUnicode	September
+00452fba	PascalUnicode	October
+00452fca	PascalUnicode	November
+00452fdc	PascalUnicode	December
+00452fee	PascalUnicode	Sun
+00452ff6	PascalUnicode	Mon
+00452ffe	PascalUnicode	Tue
+00453006	PascalUnicode	Wed
+0045300e	PascalUnicode	Thu
+00453016	PascalUnicode	Fri
+0045301e	PascalUnicode	Sat
+00453026	PascalUnicode	Sunday
+00453054	PascalUnicode	Jan
+0045305c	PascalUnicode	Feb
+00453064	PascalUnicode	Mar
+0045306c	PascalUnicode	Apr
+00453074	PascalUnicode	May
+0045307c	PascalUnicode	Jun
+00453084	PascalUnicode	Jul
+0045308c	PascalUnicode	Aug
+00453094	PascalUnicode	Sep
+0045309c	PascalUnicode	Oct
+004530a4	PascalUnicode	Nov
+004530ac	PascalUnicode	Dec
+004530b4	PascalUnicode	January
+004530c4	PascalUnicode	February
+004530d6	PascalUnicode	March
+004530e2	PascalUnicode	April
+00453110	PascalUnicode	Invalid variant operation
+00453144	PascalUnicode	Variant method calls not supported
+0045318a	PascalUnicode	Read
+00453194	PascalUnicode	Write
+004531a0	PascalUnicode	Error creating variant array
+004531da	PascalUnicode	Variant is not an array
+0045320a	PascalUnicode	Variant array index out of bounds
+0045324e	PascalUnicode	External exception %x
+0045327a	PascalUnicode	Assertion failed
+0045329c	PascalUnicode	Interface not supported
+004532cc	PascalUnicode	Exception in safecall method
+00453306	PascalUnicode	%s (%s, line %d)
+00453328	PascalUnicode	Abstract Error
+00453346	PascalUnicode	Access violation at address %p in module '%s'. %s of address %p
+004533c6	PascalUnicode	Win32 Error.  Code: %d.\n%s
+004533fc	PascalUnicode	A Win32 API function failed
+00453454	PascalUnicode	Integer overflow
+00453476	PascalUnicode	Invalid floating point operation
+004534b8	PascalUnicode	Floating point division by zero
+004534f8	PascalUnicode	Floating point overflow
+00453528	PascalUnicode	Floating point underflow
+0045355a	PascalUnicode	Invalid pointer operation
+0045358e	PascalUnicode	Invalid class typecast
+004535bc	PascalUnicode	Access violation at address %p. %s of address %p
+0045361e	PascalUnicode	Stack overflow
+0045363c	PascalUnicode	Control-C hit
+00453658	PascalUnicode	Privileged instruction
+00453686	PascalUnicode	Exception %s in module %s at %p.\n%s%s
+004536d2	PascalUnicode	Application Error
+004536f6	PascalUnicode	Format '%s' invalid or incompatible with argument
+0045375a	PascalUnicode	No argument for format '%s'
+00453792	PascalUnicode	Invalid variant type conversion
+004537f4	PascalUnicode	'%s' is not a valid integer value
+00453838	PascalUnicode	'%s' is not a valid floating point value
+0045388a	PascalUnicode	'%s' is not a valid date
+004538bc	PascalUnicode	'%s' is not a valid time
+004538ee	PascalUnicode	'%s' is not a valid date and time
+00453932	PascalUnicode	Out of memory
+0045394e	PascalUnicode	I/O error %d
+00453968	PascalUnicode	File not found
+00453986	PascalUnicode	Invalid filename
+004539a8	PascalUnicode	Too many open files
+004539d0	PascalUnicode	File access denied
+004539f6	PascalUnicode	Read beyond end of file
+00453a26	PascalUnicode	Disk full
+00453a3a	PascalUnicode	Invalid numeric input
+00453a66	PascalUnicode	Division by zero
+00453a88	PascalUnicode	Range check error

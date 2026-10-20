@@ -1,0 +1,38 @@
+# Hand-assigned names for A2Racer4.exe (the launcher, C:\Work\Motor\main.cpp). Columns as in
+# tools/merge_names.py; empty cc/ret/params keep recovered values, params "-" means none.
+address	kind	name	cc	ret	params	dtype	mangled
+# --- main.cpp ------------------------------------------------------------------------
+00401000	function	read_ini_int	__cdecl	int	char*:section|char*:key
+00401020	function	set_ini_file	__cdecl	void	char*:name
+004010c0	function	read_exit_code	__cdecl	int	-
+00401130	function	run_program	__cdecl	int	char*:program|char*:argument
+00401250	function	WinMain	__stdcall	int	HINSTANCE:instance|HINSTANCE:previous|char*:command_line|int:show
+00401440	function	WndProc	__stdcall	LRESULT	HWND:window|UINT:message|WPARAM:wparam|LPARAM:lparam
+00407e10	data	ini_path		char[280]
+00407ab0	data	main_window		HWND
+00407ab4	data	instance		HINSTANCE
+# --- C runtime (Visual C++ 6) ---------------------------------------------------------
+0040173e	function	WinMainCRTStartup
+004014e0	function	sprintf	__cdecl	int	char*:buffer|char*:format|...
+00401532	function	_cinit
+0040155f	function	exit	__cdecl	void	int:code
+00401570	function	_exit	__cdecl	void	int:code
+00401581	function	doexit	__cdecl	void	int:code|int:quick|int:retcaller
+0040161a	function	_initterm
+00401859	function	fast_error_exit
+0040187d	function	_flsbuf
+00401992	function	_output
+00402b68	function	_FF_MSGBANNER
+00402ba1	function	_NMSG_WRITE
+0040295b	function	_heap_init
+00403657	function	free	__cdecl	void	void*:block
+00403690	function	strcpy	__cdecl	char*	char*:dest|char*:source
+004036a0	function	strcat	__cdecl	char*	char*:dest|char*:source
+00404e68	function	_fclose_lk
+00405036	function	_getcwd	__cdecl	char*	char*:buffer|int:size
+00405049	function	_getdcwd
+00405151	function	_spawnv	__cdecl	int	int:mode|char*:path|char**:argv
+00405168	function	_spawnve
+00405346	function	_mbschr
+004053b9	function	_mbsrchr
+00407f44	data	errno		int

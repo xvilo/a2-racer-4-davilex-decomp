@@ -1,0 +1,1400 @@
+address	type	value
+1001b4f0	string	Saturday
+1001b4fc	string	Friday
+1001b504	string	Thursday
+1001b510	string	Wednesday
+1001b51c	string	Tuesday
+1001b524	string	Monday
+1001b52c	string	Sunday
+1001b554	string	new_p == 0
+1001b560	string	setnewh.cpp
+1001b6bf	string	x Complete Object Locator'
+1001b6dc	string	 Class Hierarchy Descriptor'
+1001b6fc	string	 Base Class Array'
+1001b710	string	 Base Class Descriptor at (
+1001b72c	string	 Type Descriptor'
+1001b740	string	`placement delete[] closure'
+1001b760	string	`placement delete closure'
+1001b77c	string	`omni callsig'
+1001b78c	string	 delete[]
+1001b7a0	string	`local vftable constructor closure'
+1001b7c4	string	`local vftable'
+1001b7e0	string	`udt returning'
+1001b7f0	string	`copy constructor closure'
+1001b80c	string	`eh vector vbase constructor iterator'
+1001b834	string	`eh vector destructor iterator'
+1001b854	string	`eh vector constructor iterator'
+1001b878	string	`virtual displacement map
+1001b894	string	`vector vbase constructor iterator'
+1001b8b8	string	`vector destructor iterator'
+1001b8d8	string	`vector constructor iterator'
+1001b8f8	string	`scalar deleting destructor'
+1001b918	string	`default constructor closure'
+1001b938	string	`vector deleting destructor'
+1001b958	string	`vbase destructor'
+1001b96c	string	`string'
+1001b978	string	`local static guard'
+1001b9a4	string	`vbtable'
+1001b9b0	string	`vftable'
+1001ba20	string	operator
+1001ba40	string	 delete
+1001ba50	string	__restrict
+1001ba64	string	__com3call
+1001ba70	string	__fastcall
+1001ba7c	string	__thiscall
+1001ba88	string	__stdcall
+1001ba94	string	__pascal
+1001baa0	string	__cdecl
+1001baa8	string	__based(
+1001bac0	string	`anonymous namespace'
+1001bae0	string	`template-parameter
+1001bb08	string	public: 
+1001bb14	string	protected: 
+1001bb20	string	private: 
+1001bb2c	string	virtual 
+1001bb38	string	static 
+1001bb40	string	`template static data member destructor helper'
+1001bb70	string	`template static data member constructor helper'
+1001bba4	string	`local static destructor helper'
+1001bbcc	string	`adjustor{
+1001bbd8	string	`vtordisp{
+1001bbf8	string	volatile
+1001bc18	string	 volatile
+1001bc24	string	const
+1001bc2c	string	signed 
+1001bc34	string	UNKNOWN
+1001bc44	string	__int128
+1001bc50	string	__int64
+1001bc58	string	__int32
+1001bc60	string	__int16
+1001bc78	string	unsigned 
+1001bc84	string	double
+1001bc8c	string	long 
+1001bc94	string	float
+1001bca8	string	short
+1001bcb8	string	`unknown ecsu'
+1001bcc8	string	union 
+1001bcd0	string	struct 
+1001bcd8	string	class 
+1001bce0	string	enum 
+1001bcf0	string	short 
+1001bcf8	string	char 
+1001bd00	string	const 
+1001bd08	string	volatile 
+1001be33	string	xruntime error 
+1001be48	string	TLOSS error\r\n
+1001be58	string	SING error\r\n
+1001be68	string	DOMAIN error\r\n
+1001be78	string	R6028\r\n- unable to initialize heap\r\n
+1001bea0	string	R6027\r\n- not enough space for lowio initialization\r\n
+1001bed8	string	R6026\r\n- not enough space for stdio initialization\r\n
+1001bf10	string	R6025\r\n- pure virtual function call\r\n
+1001bf38	string	R6024\r\n- not enough space for _onexit/atexit table\r\n
+1001bf70	string	R6019\r\n- unable to open console device\r\n
+1001bf9c	string	R6018\r\n- unexpected heap error\r\n
+1001bfc0	string	R6017\r\n- unexpected multithread lock error\r\n
+1001bff0	string	R6016\r\n- not eno
+1001c024	string	_store_winword
+1001c1e9	string	format
+1001c221	string	count
+1001c25d	string	repeat
+1001c270	string	\tspecifier
+1001c320	string	\nstrftime.c
+1001d00c	string	;E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\getqloc.objJ
+1001d0c3	string	pchLanguage
+1001d0de	string	\npchCountry
+1001d0fa	string	\niLcidState
+1001d117	string	iPrimaryLen
+1001d133	string	bAbbrevLanguage
+1001d153	string	bAbbrevCountry
+1001d173	string	lcidLanguage
+1001d18f	string	lcidCountry
+1001d1b5	string	WCHAR
+1001d209	string	LPINT
+1001d219	string	ACL_INFORMATION_CLASS
+1001d26d	string	wint_t
+1001d27d	string	PLONG
+1001d28d	string	PUCHAR
+1001d2ad	string	PDWORD
+1001d2cd	string	GET_FILEEX_INFO_LEVELS
+1001d2ed	string	LPLONG
+1001d30d	string	LANGID
+1001d31d	string	COLORREF
+1001d330	string	\rMENUTEMPLATEA
+1001d349	string	EXCEPTION_DISPOSITION
+1001d368	string	\rMENUTEMPLATEW
+1001d380	string	\tDWORDLONG
+1001d395	string	CALTYPE&
+1001d3a5	string	SECURITY_IMPERSONATION_LEVEL
+1001d3cd	string	CALID
+1001d3f1	string	PULONG
+1001d401	string	PSECURITY_INFORMATION
+1001d440	string	\tULONGLONG
+1001d454	string	\rPACCESS_TOKEN
+1001d46d	string	PFLOAT
+1001d498	string	\rLCSGAMUTMATCH
+1001d4b1	string	wctype_t
+1001d4e5	string	PSECURITY_DESCRIPTOR
+1001d515	string	HANDLE
+1001d525	string	LONGLONG
+1001d549	string	UCHAR
+1001d559	string	HLOCAL
+1001d569	string	SHORT
+1001d5a9	string	DWORD
+1001d5b9	string	PUINT
+1001d5d9	string	UINT_PTR
+1001d5ec	string	\rPSID_NAME_USE
+1001d605	string	SECURITY_INFORMATION
+1001d65d	string	QUERYHANDLER
+1001d675	string	PSECURITY_DESCRIPTOR_CONTROL
+1001d6ac	string	\tLCSCSTYPE
+1001d6e1	string	HFILE
+1001d6f1	string	REGSAM
+1001d721	string	ULONG
+1001d731	string	SECURITY_CONTEXT_TRACKING_MODE
+1001d769	string	USHORT
+1001d779	string	FLOAT
+1001d799	string	WIN_TRUST_SUBJECT
+1001d7d5	string	LATENCY_TIME
+1001d80d	string	LPARAM
+1001d81d	string	WPARAM
+1001d83c	string	\nTOKEN_TYPE
+1001d870	string	\nKSPIN_LOCK
+1001d885	string	LCTYPE
+1001d8ad	string	va_list>
+1001d8dc	string	__get_qualified_locale
+1001d929	string	lpOutStr
+1001d940	string	\tiCodePage
+1001d977	string	\rTranslateName
+1001d9bd	string	ppchName
+1001da24	string	GetLcidFromLangCountry
+1001da68	string	LangCountryEnumProc
+1001da89	string	lpLcidString
+1001daec	string	GetLcidFromLanguage
+1001db49	string	lpLcidString
+1001dbac	string	GetLcidFromCountry
+1001dbec	string	CountryEnumProc
+1001dc09	string	lpLcidString
+1001dc6c	string	GetLcidFromDefault
+1001dcac	string	ProcessCodePage
+1001dcc8	string	\rlpCodePageStr
+1001dce4	string	\nchCodePage
+1001dd1c	string	TestDefaultCountry
+1001dd61	string	langid
+1001dd94	string	TestDefaultLanguage
+1001ddc9	string	bTestPrimary
+1001de30	string	IsThisWindowsNT
+1001de4c	string	\rosVersionInfo
+1001de88	string	crtGetLocaleInfoA
+1001debd	string	lctype
+1001ded1	string	lpdata
+1001df18	string	\tpchResult
+1001df64	string	LcidFromHexString
+1001dfdf	string	\rGetPrimaryLen
+1001ec0c	string	<E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\nlsdata3.obj
+1001ecb1	string	WCHAR
+1001ed05	string	LPINT
+1001ed15	string	ACL_INFORMATION_CLASS
+1001ed69	string	wint_t
+1001ed79	string	PLONG
+1001ed89	string	PUCHAR
+1001eda9	string	PDWORD
+1001edc9	string	GET_FILEEX_INFO_LEVELS
+1001ede9	string	LPLONG
+1001ee09	string	LANGID
+1001ee19	string	COLORREF
+1001ee2c	string	\rMENUTEMPLATEA
+1001ee45	string	EXCEPTION_DISPOSITION
+1001ee64	string	\rMENUTEMPLATEW
+1001ee7c	string	\tDWORDLONG
+1001ee91	string	CALTYPE&
+1001eea1	string	SECURITY_IMPERSONATION_LEVEL
+1001eec9	string	CALID
+1001eeed	string	PULONG
+1001eefd	string	PSECURITY_INFORMATION
+1001ef3c	string	\tULONGLONG
+1001ef50	string	\rPACCESS_TOKEN
+1001ef69	string	PFLOAT
+1001ef94	string	\rLCSGAMUTMATCH
+1001efad	string	wctype_t
+1001efe1	string	PSECURITY_DESCRIPTOR
+1001f011	string	HANDLE
+1001f021	string	LONGLONG
+1001f045	string	UCHAR
+1001f055	string	HLOCAL
+1001f065	string	SHORT
+1001f0a5	string	DWORD
+1001f0b5	string	PUINT
+1001f0d5	string	UINT_PTR
+1001f0e8	string	\rPSID_NAME_USE
+1001f101	string	SECURITY_INFORMATION
+1001f159	string	QUERYHANDLER
+1001f171	string	PSECURITY_DESCRIPTOR_CONTROL
+1001f1a8	string	\tLCSCSTYPE
+1001f1dd	string	HFILE
+1001f1ed	string	REGSAM
+1001f21d	string	ULONG
+1001f22d	string	SECURITY_CONTEXT_TRACKING_MODE
+1001f265	string	USHORT
+1001f275	string	FLOAT
+1001f295	string	WIN_TRUST_SUBJECT
+1001f2d1	string	LATENCY_TIME
+1001f309	string	LPARAM
+1001f319	string	WPARAM
+1001f338	string	\nTOKEN_TYPE
+1001f36c	string	\nKSPIN_LOCK
+1001f381	string	LCTYPE
+1001f80d	string	build\\intel\\xmt_obj\\strpbrk.obj6
+1001f834	string	/Microsoft (R) Macro Assembler Version 6.13.7299.
+1001f8a1	string	string
+1001f8f0	string	dstnext
+1001f904	string	dstdone
+1001f935	string	.\\Intel\\STRSPN.ASM
+1001fc0d	string	build\\intel\\xmt_obj\\strncmp.obj6
+1001fc34	string	/Microsoft (R) Macro Assembler Version 6.13.7299.
+1001fca1	string	first
+1001fcc9	string	count
+1001fd00	string	lastbig
+1001fd14	string	toend
+1001fd45	string	intel\\strncmp.asm
+1002000d	string	build\\intel\\xmt_obj\\strcspn.obj6
+10020034	string	/Microsoft (R) Macro Assembler Version 6.13.7299.
+100200a1	string	string
+100200f0	string	dstnext
+10020104	string	dstdone
+10020135	string	.\\Intel\\STRSPN.ASM
+1002040d	string	build\\intel\\xmt_obj\\strcmp.obj
+10020434	string	/Microsoft (R) Macro Assembler Version 6.13.7299.
+100204c8	string	donene
+100204db	string	\tdopartial
+100204f4	string	doword
+10020525	string	intel\\strcmp.asm
+1002080c	string	<E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\initcoll.obj
+100208b1	string	WCHAR
+10020905	string	LPINT
+10020915	string	ACL_INFORMATION_CLASS
+10020969	string	wint_t
+10020979	string	PLONG
+10020989	string	PUCHAR
+100209a9	string	PDWORD
+100209c9	string	GET_FILEEX_INFO_LEVELS
+100209e9	string	LPLONG
+10020a09	string	LANGID
+10020a19	string	COLORREF
+10020a2c	string	\rMENUTEMPLATEA
+10020a45	string	EXCEPTION_DISPOSITION
+10020a64	string	\rMENUTEMPLATEW
+10020a7c	string	\tDWORDLONG
+10020a91	string	CALTYPE&
+10020aa1	string	SECURITY_IMPERSONATION_LEVEL
+10020ac9	string	CALID
+10020aed	string	PULONG
+10020afd	string	PSECURITY_INFORMATION
+10020b3c	string	\tULONGLONG
+10020b50	string	\rPACCESS_TOKEN
+10020b69	string	PFLOAT
+10020b94	string	\rLCSGAMUTMATCH
+10020bad	string	wctype_t
+10020be1	string	PSECURITY_DESCRIPTOR
+10020c11	string	HANDLE
+10020c21	string	LONGLONG
+10020c45	string	UCHAR
+10020c55	string	HLOCAL
+10020c65	string	SHORT
+10020ca5	string	DWORD
+10020cb5	string	PUINT
+10020cd5	string	UINT_PTR
+10020ce8	string	\rPSID_NAME_USE
+10020d01	string	SECURITY_INFORMATION
+10020d59	string	QUERYHANDLER
+10020d71	string	PSECURITY_DESCRIPTOR_CONTROL
+10020da8	string	\tLCSCSTYPE
+10020ddd	string	HFILE
+10020ded	string	REGSAM
+10020e1d	string	ULONG
+10020e2d	string	SECURITY_CONTEXT_TRACKING_MODE
+10020e65	string	USHORT
+10020e75	string	FLOAT
+10020e95	string	WIN_TRUST_SUBJECT
+10020ed1	string	LATENCY_TIME
+10020f09	string	LPARAM
+10020f19	string	WPARAM
+10020f38	string	\nTOKEN_TYPE
+10020f6c	string	\nKSPIN_LOCK
+10020f81	string	LCTYPE
+10020fa9	string	va_list6
+10020fd8	string	__init_collate
+10021010	string	\ninitcoll.c
+1002140c	string	<E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\initctyp.obj
+100214b1	string	WCHAR
+10021505	string	LPINT
+10021515	string	ACL_INFORMATION_CLASS
+10021569	string	wint_t
+10021579	string	PLONG
+10021589	string	PUCHAR
+100215a9	string	PDWORD
+100215c9	string	GET_FILEEX_INFO_LEVELS
+100215e9	string	LPLONG
+10021609	string	LANGID
+10021619	string	COLORREF
+1002162c	string	\rMENUTEMPLATEA
+10021645	string	EXCEPTION_DISPOSITION
+10021664	string	\rMENUTEMPLATEW
+1002167c	string	\tDWORDLONG
+10021691	string	CALTYPE&
+100216a1	string	SECURITY_IMPERSONATION_LEVEL
+100216c9	string	CALID
+100216d9	string	_HFILE
+100216fd	string	PULONG
+1002170d	string	PSECURITY_INFORMATION
+1002174c	string	\tULONGLONG
+10021760	string	\rPACCESS_TOKEN
+10021779	string	PFLOAT
+100217a4	string	\rLCSGAMUTMATCH
+100217bd	string	wctype_t
+100217f1	string	PSECURITY_DESCRIPTOR
+10021821	string	HANDLE
+10021831	string	LONGLONG
+10021855	string	UCHAR
+10021865	string	HLOCAL
+10021875	string	SHORT
+100218b5	string	DWORD
+100218c5	string	PUINT
+100218e5	string	UINT_PTR
+100218f8	string	\rPSID_NAME_USE
+10021911	string	SECURITY_INFORMATION
+10021969	string	QUERYHANDLER
+10021981	string	PSECURITY_DESCRIPTOR_CONTROL
+100219b8	string	\tLCSCSTYPE
+100219ed	string	HFILE
+100219fd	string	REGSAM
+10021a2d	string	ULONG
+10021a3d	string	SECURITY_CONTEXT_TRACKING_MODE
+10021a75	string	USHORT
+10021a85	string	FLOAT
+10021aa5	string	WIN_TRUST_SUBJECT
+10021ae1	string	LATENCY_TIME
+10021b19	string	LPARAM
+10021b29	string	WPARAM
+10021b48	string	\nTOKEN_TYPE
+10021b7c	string	\nKSPIN_LOCK
+10021b91	string	LCTYPE
+10021bb9	string	va_list2
+10021bff	string	\rerror_cleanup
+10021c1c	string	\tnewctype1
+10021cd5	string	lpCPInfo
+10021d08	string	\ninitctyp.c
+1002240c	string	;E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\initmon.objJ
+100224a3	string	__lconv_intl
+100224c9	string	WCHAR
+1002251d	string	LPINT
+1002252d	string	ACL_INFORMATION_CLASS
+10022581	string	wint_t
+10022591	string	PLONG
+100225a1	string	PUCHAR
+100225c1	string	PDWORD
+100225e1	string	GET_FILEEX_INFO_LEVELS
+10022601	string	LPLONG
+10022621	string	LANGID
+10022631	string	COLORREF
+10022644	string	\rMENUTEMPLATEA
+1002265d	string	EXCEPTION_DISPOSITION
+1002267c	string	\rMENUTEMPLATEW
+10022694	string	\tDWORDLONG
+100226a9	string	CALTYPE&
+100226b9	string	SECURITY_IMPERSONATION_LEVEL
+100226e1	string	CALID
+100226f1	string	_HFILE
+10022715	string	PULONG
+10022725	string	PSECURITY_INFORMATION
+10022764	string	\tULONGLONG
+10022778	string	\rPACCESS_TOKEN
+10022791	string	PFLOAT
+100227bc	string	\rLCSGAMUTMATCH
+100227d5	string	wctype_t
+10022809	string	PSECURITY_DESCRIPTOR
+10022839	string	HANDLE
+10022849	string	LONGLONG
+1002286d	string	UCHAR
+1002287d	string	HLOCAL
+1002288d	string	SHORT
+100228cd	string	DWORD
+100228dd	string	PUINT
+100228fd	string	UINT_PTR
+10022910	string	\rPSID_NAME_USE
+10022929	string	SECURITY_INFORMATION
+10022981	string	QUERYHANDLER
+10022999	string	PSECURITY_DESCRIPTOR_CONTROL
+100229d0	string	\tLCSCSTYPE
+10022a05	string	HFILE
+10022a15	string	REGSAM
+10022a45	string	ULONG
+10022a55	string	SECURITY_CONTEXT_TRACKING_MODE
+10022a8d	string	USHORT
+10022a9d	string	FLOAT
+10022abd	string	WIN_TRUST_SUBJECT
+10022af9	string	LATENCY_TIME
+10022b31	string	LPARAM
+10022b41	string	WPARAM
+10022b60	string	\nTOKEN_TYPE
+10022b94	string	\nKSPIN_LOCK
+10022ba9	string	LCTYPE
+10022bd1	string	va_list6
+10022c00	string	__init_monetary
+10022c4b	string	\r_get_lc_lconv
+10022cd5	string	grouping
+10022d38	string	_free_lc_lconv
+10022d98	string	\tinitmon.c
+1002340c	string	;E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\initnum.objJ
+100234ad	string	WCHAR
+10023501	string	LPINT
+10023511	string	ACL_INFORMATION_CLASS
+10023565	string	wint_t
+10023575	string	PLONG
+10023585	string	PUCHAR
+100235a5	string	PDWORD
+100235c5	string	GET_FILEEX_INFO_LEVELS
+100235e5	string	LPLONG
+10023605	string	LANGID
+10023615	string	COLORREF
+10023628	string	\rMENUTEMPLATEA
+10023641	string	EXCEPTION_DISPOSITION
+10023660	string	\rMENUTEMPLATEW
+10023678	string	\tDWORDLONG
+1002368d	string	CALTYPE&
+1002369d	string	SECURITY_IMPERSONATION_LEVEL
+100236c5	string	CALID
+100236d5	string	_HFILE
+100236f9	string	PULONG
+10023709	string	PSECURITY_INFORMATION
+10023748	string	\tULONGLONG
+1002375c	string	\rPACCESS_TOKEN
+10023775	string	PFLOAT
+100237a0	string	\rLCSGAMUTMATCH
+100237b9	string	wctype_t
+100237ed	string	PSECURITY_DESCRIPTOR
+1002381d	string	HANDLE
+1002382d	string	LONGLONG
+10023851	string	UCHAR
+10023861	string	HLOCAL
+10023871	string	SHORT
+100238b1	string	DWORD
+100238c1	string	PUINT
+100238e1	string	UINT_PTR
+100238f4	string	\rPSID_NAME_USE
+1002390d	string	SECURITY_INFORMATION
+10023965	string	QUERYHANDLER
+1002397d	string	PSECURITY_DESCRIPTOR_CONTROL
+100239b4	string	\tLCSCSTYPE
+100239e9	string	HFILE
+100239f9	string	REGSAM
+10023a29	string	ULONG
+10023a39	string	SECURITY_CONTEXT_TRACKING_MODE
+10023a71	string	USHORT
+10023a81	string	FLOAT
+10023aa1	string	WIN_TRUST_SUBJECT
+10023add	string	LATENCY_TIME
+10023b15	string	LPARAM
+10023b25	string	WPARAM
+10023b44	string	\nTOKEN_TYPE
+10023b78	string	\nKSPIN_LOCK
+10023b8d	string	LCTYPE
+10023bb5	string	va_list6
+10023be4	string	__init_numeric
+10023c03	string	dec_pnt
+10023c1b	string	grping
+10023ca5	string	grouping
+10023d10	string	\tinitnum.c
+1002440c	string	<E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\inittime.obj
+100244b1	string	WCHAR
+10024505	string	LPINT
+10024515	string	ACL_INFORMATION_CLASS
+10024569	string	wint_t
+10024579	string	PLONG
+10024589	string	PUCHAR
+100245a9	string	PDWORD
+100245c9	string	GET_FILEEX_INFO_LEVELS
+100245e9	string	LPLONG
+10024609	string	LANGID
+10024619	string	COLORREF
+1002462c	string	\rMENUTEMPLATEA
+10024645	string	EXCEPTION_DISPOSITION
+10024664	string	\rMENUTEMPLATEW
+1002467c	string	\tDWORDLONG
+10024691	string	CALTYPE&
+100246a1	string	SECURITY_IMPERSONATION_LEVEL
+100246c9	string	CALID
+100246d9	string	_HFILE
+100246fd	string	PULONG
+1002470d	string	PSECURITY_INFORMATION
+1002474c	string	\tULONGLONG
+10024760	string	\rPACCESS_TOKEN
+10024779	string	PFLOAT
+100247a4	string	\rLCSGAMUTMATCH
+100247bd	string	wctype_t
+100247f1	string	PSECURITY_DESCRIPTOR
+10024821	string	HANDLE
+10024831	string	LONGLONG
+10024855	string	UCHAR
+10024865	string	HLOCAL
+10024875	string	SHORT
+100248b5	string	DWORD
+100248c5	string	PUINT
+100248e5	string	UINT_PTR
+100248f8	string	\rPSID_NAME_USE
+10024911	string	SECURITY_INFORMATION
+10024969	string	QUERYHANDLER
+10024981	string	PSECURITY_DESCRIPTOR_CONTROL
+100249b8	string	\tLCSCSTYPE
+100249ed	string	HFILE
+100249fd	string	REGSAM
+10024a2d	string	ULONG
+10024a3d	string	SECURITY_CONTEXT_TRACKING_MODE
+10024a75	string	USHORT
+10024a85	string	FLOAT
+10024aa5	string	WIN_TRUST_SUBJECT
+10024ae1	string	LATENCY_TIME
+10024b19	string	LPARAM
+10024b29	string	WPARAM
+10024b48	string	\nTOKEN_TYPE
+10024b7c	string	\nKSPIN_LOCK
+10024b91	string	LCTYPE
+10024bb9	string	va_list2
+10024be8	string	__init_time
+10024c85	string	langid
+10024cb7	string	\r_free_lc_time
+10024d1c	string	\ninittime.c
+1002540c	string	<E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\setlocal.obj
+100254a7	string	_clocalestr
+100254cd	string	WCHAR
+10025521	string	LPINT
+10025531	string	ACL_INFORMATION_CLASS
+10025585	string	wint_t
+10025595	string	PLONG
+100255a5	string	PUCHAR
+100255c5	string	PDWORD
+100255e5	string	GET_FILEEX_INFO_LEVELS
+10025605	string	LPLONG
+10025625	string	LANGID
+10025635	string	COLORREF
+10025648	string	\rMENUTEMPLATEA
+10025661	string	EXCEPTION_DISPOSITION
+10025680	string	\rMENUTEMPLATEW
+10025698	string	\tDWORDLONG
+100256ad	string	CALTYPE&
+100256bd	string	SECURITY_IMPERSONATION_LEVEL
+100256e5	string	CALID
+100256f5	string	_HFILE
+10025719	string	PULONG
+10025729	string	PSECURITY_INFORMATION
+10025768	string	\tULONGLONG
+1002577c	string	\rPACCESS_TOKEN
+10025795	string	PFLOAT
+100257c0	string	\rLCSGAMUTMATCH
+100257d9	string	wctype_t
+1002580d	string	PSECURITY_DESCRIPTOR
+1002583d	string	HANDLE
+1002584d	string	LONGLONG
+10025871	string	UCHAR
+10025881	string	HLOCAL
+10025891	string	SHORT
+100258d1	string	DWORD
+100258e1	string	PUINT
+10025901	string	UINT_PTR
+10025914	string	\rPSID_NAME_USE
+1002592d	string	SECURITY_INFORMATION
+10025985	string	QUERYHANDLER
+1002599d	string	PSECURITY_DESCRIPTOR_CONTROL
+100259d4	string	\tLCSCSTYPE
+10025a09	string	HFILE
+10025a19	string	REGSAM
+10025a49	string	ULONG
+10025a59	string	SECURITY_CONTEXT_TRACKING_MODE
+10025a91	string	USHORT
+10025aa1	string	FLOAT
+10025ac1	string	WIN_TRUST_SUBJECT
+10025afd	string	LATENCY_TIME
+10025b35	string	LPARAM
+10025b45	string	WPARAM
+10025b64	string	\nTOKEN_TYPE
+10025b98	string	\nKSPIN_LOCK
+10025bad	string	LCTYPE
+10025bd5	string	va_list2
+10025c03	string	\tsetlocale
+10025c1c	string	\t_category
+10025c49	string	retval
+10025c91	string	lctemp
+10025cc8	string	\nfLocaleSet
+10025d50	string	_setlocale_set_cat
+10025d71	string	category
+10025d89	string	locale
+10025d9d	string	idtemp
+10025db1	string	cptemp
+10025dc5	string	lctemp
+10025df1	string	oldid
+10025e04	string	\toldlocale
+10025e2c	string	\toldhandle
+10025e64	string	_setlocale_get_all
+10025ec7	string	\r_expandlocale
+10025ef9	string	output
+10025f2d	string	category
+10025f47	string	cachecp
+10025f5f	string	cacheid
+10025f77	string	cacheout
+10025f8f	string	cachein
+10025fbd	string	names
+10026041	string	outstr
+10026075	string	substr
+100260c1	string	names
+100260d5	string	locale
+10026151	string	locale
+10026165	string	names
+100261dc	string	\nsetlocal.c
+10026c0c	string	:E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\crt0fp.obj
+10026cad	string	WCHAR
+10026d01	string	LPINT
+10026d11	string	ACL_INFORMATION_CLASS
+10026d65	string	wint_t
+10026d75	string	PLONG
+10026d85	string	PUCHAR
+10026da5	string	PDWORD
+10026dc5	string	GET_FILEEX_INFO_LEVELS
+10026de5	string	LPLONG
+10026e05	string	LANGID
+10026e15	string	COLORREF
+10026e28	string	\rMENUTEMPLATEA
+10026e41	string	EXCEPTION_DISPOSITION
+10026e60	string	\rMENUTEMPLATEW
+10026e78	string	\tDWORDLONG
+10026e8d	string	CALTYPE&
+10026e9d	string	SECURITY_IMPERSONATION_LEVEL
+10026ec5	string	CALID
+10026ee9	string	PULONG
+10026ef9	string	PSECURITY_INFORMATION
+10026f38	string	\tULONGLONG
+10026f4c	string	\rPACCESS_TOKEN
+10026f65	string	PFLOAT
+10026f90	string	\rLCSGAMUTMATCH
+10026fa9	string	wctype_t
+10026fdd	string	PSECURITY_DESCRIPTOR
+1002700d	string	HANDLE
+1002701d	string	LONGLONG
+10027051	string	UCHAR
+10027061	string	HLOCAL
+10027071	string	SHORT
+100270b1	string	DWORD
+100270c1	string	PUINT
+100270e1	string	UINT_PTR
+100270f4	string	\rPSID_NAME_USE
+1002710d	string	SECURITY_INFORMATION
+10027165	string	QUERYHANDLER
+1002717d	string	PSECURITY_DESCRIPTOR_CONTROL
+100271b4	string	\tLCSCSTYPE
+100271e9	string	HFILE
+100271f9	string	REGSAM
+10027229	string	ULONG
+10027239	string	SECURITY_CONTEXT_TRACKING_MODE
+10027271	string	USHORT
+10027281	string	FLOAT
+100272a1	string	WIN_TRUST_SUBJECT
+100272dd	string	LATENCY_TIME
+10027315	string	LPARAM
+10027325	string	WPARAM
+10027344	string	\nTOKEN_TYPE
+10027378	string	\nKSPIN_LOCK
+1002738d	string	LCTYPE
+100273b5	string	va_list.
+100273e4	string	_fptrap
+1002780c	string	;E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\setmode.objJ
+100278ad	string	WCHAR
+10027901	string	LPINT
+10027911	string	ACL_INFORMATION_CLASS
+10027965	string	wint_t
+10027975	string	PLONG
+10027985	string	PUCHAR
+100279a5	string	PDWORD
+100279c5	string	GET_FILEEX_INFO_LEVELS
+100279e5	string	LPLONG
+10027a05	string	LANGID
+10027a15	string	COLORREF
+10027a28	string	\rMENUTEMPLATEA
+10027a41	string	EXCEPTION_DISPOSITION
+10027a60	string	\rMENUTEMPLATEW
+10027a78	string	\tDWORDLONG
+10027a8d	string	CALTYPE&
+10027a9d	string	SECURITY_IMPERSONATION_LEVEL
+10027ac5	string	CALID
+10027ae9	string	PULONG
+10027af9	string	PSECURITY_INFORMATION
+10027b38	string	\tULONGLONG
+10027b4c	string	\rPACCESS_TOKEN
+10027b65	string	PFLOAT
+10027b90	string	\rLCSGAMUTMATCH
+10027ba9	string	wctype_t
+10027bdd	string	PSECURITY_DESCRIPTOR
+10027c0d	string	HANDLE
+10027c1d	string	_fsize_t
+10027c41	string	LONGLONG
+10027c65	string	UCHAR
+10027c75	string	HLOCAL
+10027c95	string	SHORT
+10027cd5	string	DWORD
+10027ce5	string	PUINT
+10027d05	string	UINT_PTR
+10027d18	string	\rPSID_NAME_USE
+10027d31	string	SECURITY_INFORMATION
+10027d89	string	QUERYHANDLER
+10027da1	string	PSECURITY_DESCRIPTOR_CONTROL
+10027dd8	string	\tLCSCSTYPE
+10027e0d	string	HFILE
+10027e1d	string	REGSAM
+10027e4d	string	ULONG
+10027e5d	string	SECURITY_CONTEXT_TRACKING_MODE
+10027e95	string	USHORT
+10027ea5	string	FLOAT
+10027ec5	string	WIN_TRUST_SUBJECT
+10027f01	string	LATENCY_TIME
+10027f39	string	LPARAM
+10027f49	string	WPARAM
+10027f68	string	\nTOKEN_TYPE
+10027f9c	string	\nKSPIN_LOCK
+10027fb1	string	LCTYPE
+10027fd9	string	va_list.
+10028041	string	retval
+10028074	string	_setmode_lk
+100280ec	string	\tsetmode.c
+1002840c	string	:E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\wctomb.obj
+100284ad	string	WCHAR
+10028501	string	LPINT
+10028511	string	ACL_INFORMATION_CLASS
+10028565	string	wint_t
+10028575	string	PLONG
+10028585	string	PUCHAR
+100285a5	string	PDWORD
+100285c5	string	GET_FILEEX_INFO_LEVELS
+100285e5	string	LPLONG
+10028605	string	LANGID
+10028615	string	COLORREF
+10028628	string	\rMENUTEMPLATEA
+10028641	string	EXCEPTION_DISPOSITION
+10028660	string	\rMENUTEMPLATEW
+10028678	string	\tDWORDLONG
+1002868d	string	CALTYPE&
+1002869d	string	SECURITY_IMPERSONATION_LEVEL
+100286c5	string	CALID
+100286e9	string	PULONG
+100286f9	string	PSECURITY_INFORMATION
+10028738	string	\tULONGLONG
+1002874c	string	\rPACCESS_TOKEN
+10028765	string	PFLOAT
+10028790	string	\rLCSGAMUTMATCH
+100287a9	string	wctype_t
+100287dd	string	PSECURITY_DESCRIPTOR
+1002880d	string	HANDLE
+1002881d	string	LONGLONG
+10028841	string	UCHAR
+10028851	string	HLOCAL
+10028861	string	SHORT
+100288a1	string	DWORD
+100288b1	string	PUINT
+100288d1	string	UINT_PTR
+100288e4	string	\rPSID_NAME_USE
+100288fd	string	SECURITY_INFORMATION
+10028955	string	QUERYHANDLER
+1002896d	string	PSECURITY_DESCRIPTOR_CONTROL
+100289a4	string	\tLCSCSTYPE
+100289d9	string	HFILE
+100289e9	string	REGSAM
+10028a19	string	ULONG
+10028a29	string	SECURITY_CONTEXT_TRACKING_MODE
+10028a61	string	USHORT
+10028a71	string	FLOAT
+10028a91	string	WIN_TRUST_SUBJECT
+10028acd	string	LATENCY_TIME
+10028b05	string	LPARAM
+10028b15	string	WPARAM
+10028b34	string	\nTOKEN_TYPE
+10028b68	string	\nKSPIN_LOCK
+10028b7d	string	LCTYPE
+10028ba5	string	va_list.
+10028bf9	string	wchar
+10028c0d	string	retval
+10028c85	string	wchar
+10028d05	string	wctomb.c
+1002900c	string	<E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\cmiscdat.obj
+100290b1	string	WCHAR
+10029105	string	LPINT
+10029115	string	ACL_INFORMATION_CLASS
+10029169	string	wint_t
+10029179	string	PLONG
+10029189	string	PUCHAR
+100291a9	string	PDWORD
+100291c9	string	GET_FILEEX_INFO_LEVELS
+100291e9	string	LPLONG
+10029209	string	LANGID
+10029219	string	COLORREF
+1002922c	string	\rMENUTEMPLATEA
+10029245	string	EXCEPTION_DISPOSITION
+10029264	string	\rMENUTEMPLATEW
+1002927c	string	\tDWORDLONG
+10029291	string	CALTYPE&
+100292a1	string	SECURITY_IMPERSONATION_LEVEL
+100292c9	string	CALID
+100292ed	string	PULONG
+100292fd	string	PSECURITY_INFORMATION
+1002933c	string	\tULONGLONG
+10029350	string	\rPACCESS_TOKEN
+10029369	string	PFLOAT
+10029394	string	\rLCSGAMUTMATCH
+100293ad	string	wctype_t
+100293e1	string	PSECURITY_DESCRIPTOR
+10029411	string	HANDLE
+10029421	string	LONGLONG
+10029455	string	UCHAR
+10029465	string	HLOCAL
+10029475	string	SHORT
+100294b5	string	DWORD
+100294c5	string	PUINT
+100294e5	string	UINT_PTR
+100294f8	string	\rPSID_NAME_USE
+10029511	string	SECURITY_INFORMATION
+10029569	string	QUERYHANDLER
+10029581	string	PSECURITY_DESCRIPTOR_CONTROL
+100295b8	string	\tLCSCSTYPE
+100295ed	string	HFILE
+100295fd	string	REGSAM
+1002962d	string	ULONG
+1002963d	string	SECURITY_CONTEXT_TRACKING_MODE
+10029675	string	USHORT
+10029685	string	FLOAT
+100296a5	string	WIN_TRUST_SUBJECT
+100296e1	string	LATENCY_TIME
+10029719	string	LPARAM
+10029729	string	WPARAM
+10029748	string	\nTOKEN_TYPE
+1002977c	string	\nKSPIN_LOCK
+10029791	string	LCTYPE
+10029c0c	string	:E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\isatty.obj
+10029cad	string	WCHAR
+10029d01	string	LPINT
+10029d11	string	ACL_INFORMATION_CLASS
+10029d65	string	wint_t
+10029d75	string	PLONG
+10029d85	string	PUCHAR
+10029da5	string	PDWORD
+10029dc5	string	GET_FILEEX_INFO_LEVELS
+10029de5	string	LPLONG
+10029e05	string	LANGID
+10029e15	string	COLORREF
+10029e28	string	\rMENUTEMPLATEA
+10029e41	string	EXCEPTION_DISPOSITION
+10029e60	string	\rMENUTEMPLATEW
+10029e78	string	\tDWORDLONG
+10029e8d	string	CALTYPE&
+10029e9d	string	SECURITY_IMPERSONATION_LEVEL
+10029ec5	string	CALID
+10029ee9	string	PULONG
+10029ef9	string	PSECURITY_INFORMATION
+10029f38	string	\tULONGLONG
+10029f4c	string	\rPACCESS_TOKEN
+10029f65	string	PFLOAT
+10029f90	string	\rLCSGAMUTMATCH
+10029fa9	string	wctype_t
+10029fdd	string	PSECURITY_DESCRIPTOR
+1002a00d	string	HANDLE
+1002a01d	string	_fsize_t
+1002a031	string	LONGLONG
+1002a065	string	UCHAR
+1002a075	string	HLOCAL
+1002a085	string	SHORT
+1002a0c5	string	DWORD
+1002a0d5	string	PUINT
+1002a0f5	string	UINT_PTR
+1002a108	string	\rPSID_NAME_USE
+1002a121	string	SECURITY_INFORMATION
+1002a179	string	QUERYHANDLER
+1002a191	string	PSECURITY_DESCRIPTOR_CONTROL
+1002a1c8	string	\tLCSCSTYPE
+1002a1fd	string	HFILE
+1002a20d	string	REGSAM
+1002a23d	string	ULONG
+1002a24d	string	SECURITY_CONTEXT_TRACKING_MODE
+1002a285	string	USHORT
+1002a295	string	FLOAT
+1002a2b5	string	WIN_TRUST_SUBJECT
+1002a2f1	string	LATENCY_TIME
+1002a329	string	LPARAM
+1002a339	string	WPARAM
+1002a358	string	\nTOKEN_TYPE
+1002a38c	string	\nKSPIN_LOCK
+1002a3a1	string	LCTYPE
+1002a3c9	string	va_list.
+1002a3f8	string	_isatty
+1002a439	string	isatty.c
+1002a80c	string	9E:\\8267\\vc98\\crtbld\\crt\\src\\build\\intel\\xmt_obj\\a_map.obj
+1002a8ad	string	WCHAR
+1002a901	string	LPINT
+1002a911	string	ACL_INFORMATION_CLASS
+1002a965	string	wint_t
+1002a975	string	PLONG
+1002a985	string	PUCHAR
+1002a9a5	string	PDWORD
+1002a9c5	string	GET_FILEEX_INFO_LEVELS
+1002a9e5	string	LPLONG
+1002aa05	string	LANGID
+1002aa15	string	COLORREF
+1002aa28	string	\rMENUTEMPLATEA
+1002aa41	string	EXCEPTION_DISPOSITION
+1002aa60	string	\rMENUTEMPLATEW
+1002aa78	string	\tDWORDLONG
+1002aa8d	string	CALTYPE&
+1002aa9d	string	SECURITY_IMPERSONATION_LEVEL
+1002aac5	string	CALID
+1002aad5	string	_HFILE
+1002aaf9	string	PULONG
+1002ab09	string	PSECURITY_INFORMATION
+1002ab48	string	\tULONGLONG
+1002ab5c	string	\rPACCESS_TOKEN
+1002ab75	string	PFLOAT
+1002aba0	string	\rLCSGAMUTMATCH
+1002abb9	string	wctype_t
+1002abed	string	PSECURITY_DESCRIPTOR
+1002ac1d	string	HANDLE
+1002ac2d	string	LONGLONG
+1002ac61	string	UCHAR
+1002ac71	string	HLOCAL
+1002ac81	string	SHORT
+1002acc1	string	DWORD
+1002acd1	string	PUINT
+1002acf1	string	UINT_PTR
+1002ad04	string	\rPSID_NAME_USE
+1002ad1d	string	SECURITY_INFORMATION
+1002ad75	string	QUERYHANDLER
+1002ad8d	string	PSECURITY_DESCRIPTOR_CONTROL
+1002adc4	string	\tLCSCSTYPE
+1002adf9	string	HFILE
+1002ae09	string	REGSAM
+1002ae39	string	ULONG
+1002ae49	string	SECURITY_CONTEXT_TRACKING_MODE
+1002ae81	string	USHORT
+1002ae91	string	FLOAT
+1002aeb1	string	WIN_TRUST_SUBJECT
+1002aeed	string	LATENCY_TIME
+1002af25	string	LPARAM
+1002af35	string	WPARAM
+1002af54	string	\nTOKEN_TYPE
+1002af88	string	\nKSPIN_LOCK
+1002af9d	string	LCTYPE
+1002afc5	string	va_list:
+1002c01c	string	Tekst in box
+1002c02c	string	Title
+1002c034	string	rb
+1002c038	string	fclose.c
+1002c044	string	stream != NULL
+1002c054	string	str != NULL
+1002c060	string	*mode != _T('\\0')
+1002c074	string	mode != NULL
+1002c084	string	*file != _T('\\0')
+1002c098	string	fopen.c
+1002c0a0	string	file != NULL
+1002c0b0	string	i386\\chkesp.c
+1002c0c4	string	The value of ESP was not properly saved across a function call.  This is usually a result of calling a function declared with one calling convention with a function pointer declared with a different calling convention. 
+1002c1a0	string	fseek.c
+1002c1a8	string	osfinfo.c
+1002c1b4	string	_file.c
+1002c1bc	string	Assertion Failed
+1002c1d0	string	Error
+1002c1d8	string	Warning
+1002c1e0	string	%s(%d) : %s
+1002c1ec	string	\n
+1002c1f0	string	\r
+1002c1f4	string	Assertion failed!
+1002c208	string	Assertion failed: 
+1002c21c	string	_CrtDbgReport: String too long or IO Error
+1002c248	string	Second Chance Assertion Failed: File %s, Line %d\n
+1002c27c	string	wsprintfA
+1002c288	string	user32.dll
+1002c294	string	Microsoft Visual C++ Debug Library
+1002c2b8	string	Debug %s!\n\nProgram: %s%s%s%s%s%s%s%s%s%s%s\n\n(Press Retry to debug the application)
+1002c30c	string	\nModule: 
+1002c318	string	\nFile: 
+1002c320	string	\nLine: 
+1002c328	string	\n\n
+1002c32c	string	Expression: 
+1002c33c	string	\n\nFor information on how your program can cause an assertion\nfailure, see the Visual C++ documentation on asserts.
+1002c3b0	string	...
+1002c3b4	string	<program name unknown>
+1002c3cc	string	dbgrpt.c
+1002c3d8	string	szUserMessage != NULL
+1002c3f0	string	Client
+1002c3f8	string	Ignore
+1002c404	string	Normal
+1002c414	string	Error: memory allocation: bad memory block type.\n
+1002c448	string	Invalid allocation size: %u bytes.\n
+1002c46c	string	%s
+1002c470	string	Client hook allocation failure.\n
+1002c494	string	Client hook allocation failure at file %hs line %d.\n
+1002c4cc	string	dbgheap.c
+1002c4d8	string	_CrtCheckMemory()
+1002c4ec	string	_pFirstBlock == pOldBlock
+1002c508	string	_pLastBlock == pOldBlock
+1002c524	string	fRealloc || (!fRealloc && pNewBlock == pOldBlock)
+1002c558	string	_BLOCK_TYPE(pOldBlock->nBlockUse)==_BLOCK_TYPE(nBlockUse)
+1002c594	string	pOldBlock->nLine == IGNORE_LINE && pOldBlock->lRequest == IGNORE_REQ
+1002c5dc	string	_CrtIsValidHeapPointer(pUserData)
+1002c600	string	Allocation too large or negative: %u bytes.\n
+1002c630	string	Client hook re-allocation failure.\n
+1002c654	string	Client hook re-allocation failure at file %hs line %d.\n
+1002c68c	string	_pFirstBlock == pHead
+1002c6a4	string	_pLastBlock == pHead
+1002c6bc	string	pHead->nBlockUse == nBlockUse
+1002c6dc	string	pHead->nLine == IGNORE_LINE && pHead->lRequest == IGNORE_REQ
+1002c71c	string	DAMAGE: after %hs block (#%d) at 0x%08X.\n
+1002c748	string	DAMAGE: before %hs block (#%d) at 0x%08X.\n
+1002c774	string	_BLOCK_TYPE_IS_VALID(pHead->nBlockUse)
+1002c79c	string	Client hook free failure.\n
+1002c7b8	string	memory check error at 0x%08X = 0x%02X, should be 0x%02X.\n
+1002c7f4	string	%hs located at 0x%08X is %u bytes long.\n
+1002c820	string	%hs allocated at file %hs(%d).\n
+1002c840	string	DAMAGE: on top of Free block at 0x%08X.\n
+1002c86c	string	DAMAGED
+1002c874	string	_heapchk fails with unknown return value!\n
+1002c8a0	string	_heapchk fails with _HEAPBADPTR.\n
+1002c8c4	string	_heapchk fails with _HEAPBADEND.\n
+1002c8e8	string	_heapchk fails with _HEAPBADNODE.\n
+1002c90c	string	_heapchk fails with _HEAPBADBEGIN.\n
+1002c930	string	Bad memory block found at 0x%08X.\n
+1002c954	string	_CrtMemCheckPoint: NULL state pointer.\n
+1002c97c	string	_CrtMemDifference: NULL state pointer.\n
+1002c9a4	string	Object dump complete.\n
+1002c9bc	string	crt block at 0x%08X, subtype %x, %u bytes long.\n
+1002c9f0	string	normal block at 0x%08X, %u bytes long.\n
+1002ca18	string	client block at 0x%08X, subtype %x, %u bytes long.\n
+1002ca4c	string	{%ld} 
+1002ca54	string	%hs(%d) : 
+1002ca60	string	#File Error#(%d) : 
+1002ca74	string	Dumping objects ->\n
+1002ca88	string	 Data: <%s> %s\n
+1002ca98	string	%.2X 
+1002caa0	string	Detected memory leaks!\n
+1002cab8	string	Total allocations: %ld bytes.\n
+1002cad8	string	Largest number used: %ld bytes.\n
+1002cafc	string	%ld bytes in %ld %hs Blocks.\n
+1002cb1c	string	_freebuf.c
+1002cb28	string	_filbuf.c
+1002cb34	string	_open.c
+1002cb3c	string	filename != NULL
+1002cb50	string	stream.c
+1002cb5c	string	ftell.c
+1002cb64	string	ioinit.c
+1002cb70	string	mlock.c
+1002cb78	string	tidtable.c
+1002cb84	string	stdenvp.c
+1002cb90	string	stdargv.c
+1002cb9c	string	a_env.c
+1002cba4	string	runtime error 
+1002cbb8	string	TLOSS error\r\n
+1002cbc8	string	SING error\r\n
+1002cbd8	string	DOMAIN error\r\n
+1002cbe8	string	R6028\r\n- unable to initialize heap\r\n
+1002cc10	string	R6027\r\n- not enough space for lowio initialization\r\n
+1002cc48	string	R6026\r\n- not enough space for stdio initialization\r\n
+1002cc80	string	R6025\r\n- pure virtual function call\r\n
+1002cca8	string	R6024\r\n- not enough space for _onexit/atexit table\r\n
+1002cce0	string	R6019\r\n- unable to open console device\r\n
+1002cd0c	string	R6018\r\n- unexpected heap error\r\n
+1002cd30	string	R6017\r\n- unexpected multithread lock error\r\n
+1002cd60	string	R6016\r\n- not enough space for thread data\r\n
+1002cd8c	string	\r\nabnormal program termination\r\n
+1002cdb0	string	R6009\r\n- not enough space for environment\r\n
+1002cddc	string	R6008\r\n- not enough space for arguments\r\n
+1002ce08	string	R6002\r\n- floating point not loaded\r\n
+1002ce30	string	Microsoft Visual C++ Runtime Library
+1002ce58	string	Runtime Error!\n\nProgram: 
+1002ce74	string	format != NULL
+1002ce84	string	sprintf.c
+1002ce90	string	string != NULL
+1002cea0	string	vsprintf.c
+1002ceac	string	winsig.c
+1002ceb8	string	GetLastActivePopup
+1002cecc	string	GetActiveWindow
+1002cedc	string	MessageBoxA
+1002cee8	string	_getbuf.c
+1002cf20	string	tream->_base >= 0)
+1002cf34	string	_flsbuf.c
+1002cf9c	string	(
+1002cf9e	string	n
+1002cfa0	unicode	ull)
+1002cfae	string	ull)
+1002cfb4	string	output.c
+1002cfc0	string	ch != _T('\\0')
+1002cfe4	string	chsize.c
+1002cff0	string	size >= 0
+1002d018	string	LC_TIME
+1002d020	string	LC_NUMERIC
+1002d02c	string	LC_MONETARY
+1002d038	string	LC_CTYPE
+1002d044	string	LC_COLLATE
+1002d050	string	LC_ALL
+1002d058	string	;
+1002d05c	string	=;
+1002d060	string	setlocal.c
+1002d06c	string	=
+1002d070	string	_.,
+1002d074	string	.
+1002d078	string	_
+1002d07c	string	inittime.c
+1002d088	string	initnum.c
+1002d094	string	initmon.c
+1002d0a0	string	initctyp.c
+1002d0ac	string	Paraguay
+1002d0c0	string	Chile
+1002d0c8	string	Ecuador
+1002d0d0	string	Argentina
+1002d0e4	string	Colombia
+1002d0f0	string	Venezuela
+1002d0fc	string	Dominican Republic
+1002d110	string	South Africa
+1002d120	string	Panama
+1002d128	string	Luxembourg
+1002d134	string	Costa Rica
+1002d140	string	Switzerland
+1002d14c	string	Guatemala
+1002d158	string	Canada
+1002d160	string	Spanish - Modern Sort
+1002d178	string	Australia
+1002d184	string	English
+1002d18c	string	Austria
+1002d194	string	German
+1002d19c	string	Belgium
+1002d1a4	string	Mexico
+1002d1ac	string	Spanish
+1002d1b4	string	Basque
+1002d1bc	string	Sweden
+1002d1c4	string	Swedish
+1002d1cc	string	Iceland
+1002d1d4	string	Icelandic
+1002d1e0	string	France
+1002d1e8	string	French
+1002d1f0	string	Finland
+1002d1f8	string	Finnish
+1002d200	string	Spain
+1002d208	string	Spanish - Traditional Sort
+1002d224	string	united-states
+1002d234	string	united-kingdom
+1002d244	string	trinidad & tobago
+1002d258	string	south-korea
+1002d264	string	south-africa
+1002d274	string	south korea
+1002d280	string	south africa
+1002d298	string	puerto-rico
+1002d2a4	string	pr-china
+1002d2b0	string	pr china
+1002d2c0	string	new-zealand
+1002d2cc	string	hong-kong
+1002d2d8	string	holland
+1002d2e0	string	great britain
+1002d2f0	string	england
+1002d300	string	china
+1002d308	string	britain
+1002d310	string	america
+1002d324	string	swiss
+1002d32c	string	swedish-finland
+1002d33c	string	spanish-venezuela
+1002d350	string	spanish-uruguay
+1002d360	string	spanish-puerto rico
+1002d374	string	spanish-peru
+1002d384	string	spanish-paraguay
+1002d398	string	spanish-panama
+1002d3a8	string	spanish-nicaragua
+1002d3bc	string	spanish-modern
+1002d3cc	string	spanish-mexican
+1002d3dc	string	spanish-honduras
+1002d3f0	string	spanish-guatemala
+1002d404	string	spanish-el salvador
+1002d418	string	spanish-ecuador
+1002d428	string	spanish-dominican republic
+1002d444	string	spanish-costa rica
+1002d458	string	spanish-colombia
+1002d46c	string	spanish-chile
+1002d47c	string	spanish-bolivia
+1002d48c	string	spanish-argentina
+1002d4a0	string	portuguese-brazilian
+1002d4b8	string	norwegian-nynorsk
+1002d4cc	string	norwegian-bokmal
+1002d4e0	string	norwegian
+1002d4ec	string	italian-swiss
+1002d4fc	string	irish-english
+1002d50c	string	german-swiss
+1002d51c	string	german-luxembourg
+1002d530	string	german-lichtenstein
+1002d544	string	german-austrian
+1002d554	string	french-swiss
+1002d564	string	french-luxembourg
+1002d578	string	french-canadian
+1002d588	string	french-belgian
+1002d598	string	english-usa
+1002d5a4	string	english-us
+1002d5b0	string	english-uk
+1002d5bc	string	english-trinidad y tobago
+1002d5d8	string	english-south africa
+1002d5f0	string	english-nz
+1002d5fc	string	english-jamaica
+1002d60c	string	english-ire
+1002d618	string	english-caribbean
+1002d62c	string	english-can
+1002d638	string	english-belize
+1002d648	string	english-aus
+1002d654	string	english-american
+1002d668	string	dutch-belgian
+1002d678	string	chinese-traditional
+1002d68c	string	chinese-singapore
+1002d6a0	string	chinese-simplified
+1002d6b4	string	chinese-hongkong
+1002d6c8	string	chinese
+1002d6d8	string	canadian
+1002d6e4	string	belgian
+1002d6ec	string	australian
+1002d6f8	string	american-english
+1002d70c	string	american english
+1002d720	string	american
+1002d72c	string	OCP
+1002d730	string	ACP
+1002d734	string	H:mm:ss
+1002d73c	string	dddd, MMMM dd, yyyy
+1002d750	string	M/d/yy
+1002d758	string	PM
+1002d75c	string	AM
+1002d760	string	December
+1002d76c	string	November
+1002d778	string	October
+1002d780	string	September
+1002d78c	string	August
+1002d7a4	string	April
+1002d7ac	string	March
+1002d7b4	string	February
+1002d7c0	string	January
+1002d7f8	string	Saturday
+1002d804	string	Friday
+1002d80c	string	Thursday
+1002d818	string	Wednesday
+1002d824	string	Tuesday
+1002d82c	string	Monday
+1002d834	string	Sunday
+1002d858	string	a/p
+1002d85c	string	am/pm
+1002d864	string	inithelp.c
+1002d888	string	SunMonTueWedThuFriSat
+1002d8a0	string	JanFebMarAprMayJunJulAugSepOctNovDec
+1002d8c8	string	tzset.c
+1002d8d0	string	TZ
+1002d8f4	string	wtombenv.c
+1002d900	string	a_cmp.c
+1002d908	string	cchCount1==0 && cchCount2==1 || cchCount1==1 && cchCount2==0
+1002d960	string	setenv.c
+1002e02a	TerminatedCString	Rsc.dll
+1002e032	TerminatedCString	xvga_exit_fileio
+1002e043	TerminatedCString	xvga_file_exist
+1002e053	TerminatedCString	xvga_fileio_set_check_sequence
+1002e072	TerminatedCString	xvga_get_filehandle
+1002e086	TerminatedCString	xvga_init_fileio
+1002e097	TerminatedCString	xvga_rc_filelength
+1002e0aa	TerminatedCString	xvga_rc_filename
+1002e0bb	TerminatedCString	xvga_rc_filepos
+1002e0cb	TerminatedCString	xvga_rc_num_files
+1002e0dd	TerminatedCString	xvga_src_fclose
+1002e0ed	TerminatedCString	xvga_src_filelength
+1002e101	TerminatedCString	xvga_src_fopen
+1002e110	TerminatedCString	xvga_src_fseek
+10030012	string	 
+100303d8	string	C
+100303dc	string	C
+10030460	string	C
+10030534	string	040a
+10030540	string	ESP
+10030548	string	ESP
+1003054c	string	850
+10030554	string	1252
+10030d60	string	.
+100333d6	TerminatedCString	LocalAlloc
+100333e4	TerminatedCString	LocalFree
+100333ee	TerminatedCString	KERNEL32.dll
+100333fe	TerminatedCString	MessageBoxA
+1003340a	TerminatedCString	USER32.dll
+10033418	TerminatedCString	LeaveCriticalSection
+10033430	TerminatedCString	EnterCriticalSection
+10033448	TerminatedCString	InitializeCriticalSection
+10033464	TerminatedCString	SetStdHandle
+10033474	TerminatedCString	GetLastError
+10033484	TerminatedCString	GetFileType
+10033492	TerminatedCString	GetCommandLineA
+100334a4	TerminatedCString	GetVersion
+100334b2	TerminatedCString	DebugBreak
+100334c0	TerminatedCString	GetStdHandle
+100334d0	TerminatedCString	WriteFile
+100334dc	TerminatedCString	InterlockedDecrement
+100334f4	TerminatedCString	OutputDebugStringA
+1003350a	TerminatedCString	GetProcAddress
+1003351c	TerminatedCString	LoadLibraryA
+1003352c	TerminatedCString	InterlockedIncrement
+10033544	TerminatedCString	GetModuleFileNameA
+1003355a	TerminatedCString	IsBadWritePtr
+1003356a	TerminatedCString	IsBadReadPtr
+1003357a	TerminatedCString	HeapValidate
+1003358a	TerminatedCString	CloseHandle
+10033598	TerminatedCString	ReadFile
+100335a4	TerminatedCString	SetFilePointer
+100335b6	TerminatedCString	SetHandleCount
+100335c8	TerminatedCString	GetStartupInfoA
+100335da	TerminatedCString	DeleteCriticalSection
+100335f2	TerminatedCString	ExitProcess
+10033600	TerminatedCString	FatalAppExitA
+10033610	TerminatedCString	TerminateProcess
+10033624	TerminatedCString	GetCurrentProcess
+10033638	TerminatedCString	GetCurrentThreadId
+1003364e	TerminatedCString	TlsSetValue
+1003365c	TerminatedCString	TlsAlloc
+10033668	TerminatedCString	TlsFree
+10033672	TerminatedCString	SetLastError
+10033682	TerminatedCString	TlsGetValue
+10033690	TerminatedCString	GetCurrentThread
+100336a4	TerminatedCString	FreeEnvironmentStringsA
+100336be	TerminatedCString	FreeEnvironmentStringsW
+100336d8	TerminatedCString	WideCharToMultiByte
+100336ee	TerminatedCString	GetEnvironmentStrings
+10033706	TerminatedCString	GetEnvironmentStringsW
+10033720	TerminatedCString	HeapDestroy
+1003372e	TerminatedCString	HeapCreate
+1003373c	TerminatedCString	HeapFree
+10033748	TerminatedCString	VirtualFree
+10033756	TerminatedCString	SetConsoleCtrlHandler
+1003376e	TerminatedCString	HeapAlloc
+1003377a	TerminatedCString	HeapReAlloc
+10033788	TerminatedCString	VirtualAlloc
+10033798	TerminatedCString	FlushFileBuffers
+100337ac	TerminatedCString	CreateFileA
+100337ba	TerminatedCString	UnhandledExceptionFilter
+100337d6	TerminatedCString	GetCPInfo
+100337e2	TerminatedCString	GetACP
+100337ec	TerminatedCString	GetOEMCP
+100337f8	TerminatedCString	MultiByteToWideChar
+1003380e	TerminatedCString	GetStringTypeA
+10033820	TerminatedCString	GetStringTypeW
+10033832	TerminatedCString	SetEndOfFile
+10033842	TerminatedCString	LCMapStringA
+10033852	TerminatedCString	LCMapStringW
+10033862	TerminatedCString	RtlUnwind
+1003386e	TerminatedCString	Sleep
+10033876	TerminatedCString	IsValidLocale
+10033886	TerminatedCString	IsValidCodePage
+10033898	TerminatedCString	GetLocaleInfoA
+100338aa	TerminatedCString	EnumSystemLocalesA
+100338c0	TerminatedCString	GetUserDefaultLCID
+100338d6	TerminatedCString	GetVersionExA
+100338e6	TerminatedCString	GetTimeZoneInformation
+10033900	TerminatedCString	GetLocaleInfoW
+10033912	TerminatedCString	CompareStringA
+10033924	TerminatedCString	CompareStringW
+10033936	TerminatedCString	SetEnvironmentVariableA
+ffdff1ac	uchar[36]	
+ffdffc00	wchar16[261]	

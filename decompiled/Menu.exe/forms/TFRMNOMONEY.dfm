@@ -1,0 +1,25 @@
+inherited frmNoMoney: TfrmNoMoney
+  Left = 290
+  Top = 203
+  ActiveControl = btnOk1.WrapperbtnOk1
+  Caption = 'frmNoMoney'
+  ClientHeight = 266
+  ClientWidth = 390
+  OldCreateOrder = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited btnHelp: TGDIButton
+    Left = 181
+    Visible = False
+  end
+  inherited btnClose: TGDIButton
+    Visible = False
+  end
+  inherited btnOk1: TGDIButton
+    Left = 360
+    Top = 217
+    Width = 100
+    Height = 50
+    Definition = Data.gdfBtnOkSingleDlg
+  end
+end

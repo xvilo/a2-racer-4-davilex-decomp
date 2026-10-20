@@ -7,8 +7,10 @@
 //        re-applies the symbols (analysis can drop signatures), then defines short strings
 //        and floating-point constants
 //
-// A last argument "delphi" (both runs) adds Delphi's register calling convention and, after
-// analysis, gives it to every function whose convention nothing else settled.
+// A last argument "delphi" (both runs): after analysis, every function whose convention
+// nothing else settled gets Delphi's "register" convention (__register in Ghidra's Delphi
+// compiler spec, which the PE loader picks for Delphi programs: EAX, EDX, ECX, then the
+// stack, popped by the callee).
 //
 // names.tsv: address, kind (function/data/label/local), name, cc, ret, params, dtype,
 // mangled; see tools/merge_names.py.
@@ -40,30 +42,6 @@ public class ApplyNames extends GhidraScript {
 
 	static final String SIG_TAG = "SIGNATURE";
 	static final String REGISTER = "__register";
-	/**
-	 * Delphi's default "register" convention: the first three arguments in EAX, EDX, ECX,
-	 * the rest on the stack (pushed left to right, which a prototype cannot express; such
-	 * functions show their stack arguments in reverse), popped by the callee. EBX, ESI, EDI
-	 * and EBP survive a call.
-	 */
-	static final String REGISTER_XML =
-		"<prototype name=\"__register\" extrapop=\"unknown\" stackshift=\"4\">\n" +
-		"  <input>\n" +
-		"    <pentry minsize=\"1\" maxsize=\"4\"><register name=\"EAX\"/></pentry>\n" +
-		"    <pentry minsize=\"1\" maxsize=\"4\"><register name=\"EDX\"/></pentry>\n" +
-		"    <pentry minsize=\"1\" maxsize=\"4\"><register name=\"ECX\"/></pentry>\n" +
-		"    <pentry minsize=\"1\" maxsize=\"500\" align=\"4\"><addr offset=\"4\" space=\"stack\"/></pentry>\n" +
-		"  </input>\n" +
-		"  <output>\n" +
-		"    <pentry minsize=\"4\" maxsize=\"10\" metatype=\"float\"><register name=\"ST0\"/></pentry>\n" +
-		"    <pentry minsize=\"1\" maxsize=\"4\"><register name=\"EAX\"/></pentry>\n" +
-		"    <pentry minsize=\"5\" maxsize=\"8\"><addr space=\"join\" piece1=\"EDX\" piece2=\"EAX\"/></pentry>\n" +
-		"  </output>\n" +
-		"  <unaffected>\n" +
-		"    <register name=\"ESP\"/><register name=\"EBP\"/><register name=\"ESI\"/>\n" +
-		"    <register name=\"EDI\"/><register name=\"EBX\"/>\n" +
-		"  </unaffected>\n" +
-		"</prototype>\n";
 
 	private DataTypeManager winArchive;
 
@@ -76,10 +54,6 @@ public class ApplyNames extends GhidraScript {
 			args = java.util.Arrays.copyOf(args, args.length - 1);
 		}
 		if (mode.equals("pre")) {
-			if (delphi) {
-				new ghidra.program.database.SpecExtension(currentProgram)
-					.addReplaceCompilerSpecExtension(REGISTER_XML, monitor);
-			}
 			if (args.length > 3) {
 				parseHeader(new File(args[3]));
 			}
@@ -579,6 +553,10 @@ public class ApplyNames extends GhidraScript {
 	// ---- post: Delphi's convention ------------------------------------------------------
 
 	private void registerConvention() throws Exception {
+		if (currentProgram.getCompilerSpec().getCallingConvention(REGISTER) == null) {
+			printerr("ApplyNames: the compiler spec has no " + REGISTER + " (not the Delphi spec?)");
+			return;
+		}
 		int n = 0;
 		for (Function f : currentProgram.getFunctionManager().getFunctions(true)) {
 			if (f.isExternal() || f.isThunk() || f.getTags().stream().anyMatch(t -> t.getName().equals(SIG_TAG)) ||

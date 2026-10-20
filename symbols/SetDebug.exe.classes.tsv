@@ -1,0 +1,140 @@
+vmt	class	parent	unit	instance_size
+004010c0	TObject			4
+004011b0	TInterfacedObject	TObject		12
+00406ed0	Exception	TObject		12
+00406f38	EAbort	Exception		12
+00406f8c	EHeapException	Exception		16
+00406fe8	EOutOfMemory	EHeapException		16
+00407044	EInOutError	Exception		16
+0040709c	EExternal	Exception		16
+004070f4	EExternalException	EExternal		16
+00407154	EIntError	EExternal		16
+004071ac	EDivByZero	EIntError		16
+00407204	ERangeError	EIntError		16
+0040725c	EIntOverflow	EIntError		16
+004072b8	EMathError	EExternal		16
+00407310	EInvalidOp	EMathError		16
+00407368	EZeroDivide	EMathError		16
+004073c0	EOverflow	EMathError		16
+00407418	EUnderflow	EMathError		16
+00407470	EInvalidPointer	EHeapException		16
+004074cc	EInvalidCast	Exception		12
+00407528	EConvertError	Exception		12
+00407584	EAccessViolation	EExternal		16
+004075e4	EPrivilege	EExternal		16
+0040763c	EStackOverflow	EExternal		16
+00407698	EControlC	EExternal		16
+004076f0	EVariantError	Exception		12
+0040774c	EAssertionFailed	Exception		12
+004077ac	EAbstractError	Exception		12
+00407808	EIntfCastError	Exception		12
+00407864	EWin32Error	Exception		16
+004078bc	ESafecallException	Exception		12
+0040794c	TMultiReadExclusiveWriteSynchronizer	TObject		56
+0040d4b4	EStreamError	Exception		12
+0040d510	EFCreateError	EStreamError		12
+0040d56c	EFOpenError	EStreamError		12
+0040d5c4	EFilerError	EStreamError		12
+0040d61c	EReadError	EFilerError		12
+0040d674	EWriteError	EFilerError		12
+0040d6cc	EClassNotFound	EFilerError		12
+0040d728	EResNotFound	Exception		12
+0040d784	EListError	Exception		12
+0040d7dc	EBitsError	Exception		12
+0040d834	EStringListError	Exception		12
+0040d894	EComponentError	Exception		12
+0040d8f0	EOutOfResources	EOutOfMemory		16
+0040d94c	EInvalidOperation	Exception		12
+0040d9ac	TList	TObject		16
+0040da10	TThreadList	TObject		36
+0040da68	TBits	TObject		12
+0040dabc	TPersistent	TObject	Classes	4
+0040db8c	TStrings	TPersistent	Classes	12
+0040dcac	TStringList	TStrings	Classes	48
+0040ddb0	TStream	TObject		4
+0040de14	THandleStream	TStream		8
+0040de80	TFileStream	THandleStream		8
+0040dee8	TCustomMemoryStream	TStream		16
+0040df58	TMemoryStream	TCustomMemoryStream		20
+0040dfc8	TResourceStream	TCustomMemoryStream		24
+0040e148	TStreamAdapter	TInterfacedObject		24
+0040e1d0	TFiler	TObject		40
+0040e234	TReader	TFiler		120
+0040e30c	TComponent	TPersistent	Classes	36
+0040e468	TBasicActionLink	TObject		20
+0040e4e8	TBasicAction	TComponent	Classes	68
+0040ea3c	TIntConst	TObject		16
+004111ec	TPropFixup	TObject		24
+00414ae4	EInvalidGraphic	Exception		12
+00414b40	EInvalidGraphicOperation	Exception		12
+00414df8	TGraphicsObject	TPersistent	Graphics	24
+00414ecc	TFont	TGraphicsObject	Graphics	36
+00415048	TPen	TGraphicsObject	Graphics	28
+00415148	TBrush	TGraphicsObject	Graphics	24
+0041520c	TCanvas	TPersistent	Graphics	88
+00415394	TGraphic	TPersistent	Graphics	28
+00415478	TPicture	TPersistent	Graphics	32
+00415520	TSharedImage	TObject		8
+00415580	TMetafileImage	TSharedImage		36
+004155e0	TMetafile	TGraphic	Graphics	40
+004156bc	TBitmapImage	TSharedImage		116
+0041571c	TBitmap	TGraphic	Graphics	52
+00415800	TIconImage	TSharedImage		24
+0041585c	TIcon	TGraphic	Graphics	44
+00415944	TResourceManager	TObject		36
+00418d60	TFileFormatsList	TList		16
+00419074	TClipboardFormats	TObject		12
+0041a380	TBitmapCanvas	TCanvas	Graphics	100
+0041ce60	TPatternManager	TObject		32
+0041d36c	TOrderedList	TObject		8
+0041d3d4	TStack	TOrderedList		8
+0041e204	TCustomLabel	TGraphicControl	StdCtrls	308
+0041e338	TLabel	TCustomLabel	StdCtrls	312
+0041e97c	TButtonActionLink	TWinControlActionLink		44
+0041ea40	TButtonControl	TWinControl	StdCtrls	500
+0041eb94	TButton	TButtonControl	StdCtrls	512
+0041fd5c	THintAction	TCustomAction	StdActns	128
+0041ff18	TDragObject	TObject		52
+0041ff90	TBaseDragControlObject	TDragObject		60
+0042001c	TDragControlObject	TBaseDragControlObject		64
+004200a4	TDragDockObject	TBaseDragControlObject		112
+00420138	TControlCanvas	TCanvas	Controls	100
+004201d8	TControlActionLink	TActionLink		28
+00420394	TSizeConstraints	TPersistent	Controls	32
+00420b14	TControl	TComponent	Controls	288
+00420e80	TWinControlActionLink	TControlActionLink		36
+00420fa8	TWinControl	TControl	Controls	492
+004213ac	TGraphicControl	TControl	Controls	292
+004214c4	TCustomControl	TWinControl	Controls	500
+0042160c	THintWindow	TCustomControl	Controls	508
+00421768	TDockZone	TObject		36
+004218b4	TDockTree	TInterfacedObject		120
+00421938	TMouse	TObject		40
+00421d4c	TSiteList	TList		16
+0042f050	TContainedAction	TBasicAction	ActnList	80
+0042f174	TCustomActionList	TComponent	ActnList	72
+0042f24c	TCustomAction	TContainedAction	ActnList	128
+0042f340	TActionLink	TBasicActionLink		24
+0042fe78	TChangeLink	TObject		16
+0042fef4	TCustomImageList	TComponent	ImgList	96
+00431308	EMenuError	Exception		12
+0043156c	TMenuActionLink	TActionLink		28
+00431628	TMenuItem	TComponent	Menus	160
+00431a24	TMenu	TComponent	Menus	72
+00431b18	TMainMenu	TMenu	Menus	80
+00431df0	TPopupMenu	TMenu	Menus	104
+00432094	TPopupList	TList		20
+00432100	TMenuItemStack	TStack		8
+0043753c	TControlScrollBar	TPersistent	Forms	72
+004377d0	TScrollingWinControl	TWinControl	Forms	516
+00437a18	TScrollBox	TScrollingWinControl	Forms	524
+00438554	TCustomForm	TScrollingWinControl	Forms	720
+00438838	TForm	TCustomForm	Forms	720
+004394d0	TCustomDockForm	TCustomForm	Forms	720
+00439694	TMonitor	TObject		12
+004396ec	TScreen	TComponent	Forms	152
+004397c4	TApplication	TComponent	Forms	272
+00443530	TImage	TGraphicControl	ExtCtrls	320
+0044406c	TMessageForm	TForm	Dialogs	720
+00444b3c	TCustomIniFile	TObject		8
+00444bfc	TIniFile	TCustomIniFile		8

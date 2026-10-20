@@ -1,0 +1,328 @@
+vmt	class	parent	unit	instance_size
+0040114c	TObject			4
+0040126c	TInterfacedObject	TObject		12
+00407624	Exception	TObject		12
+0040768c	EAbort	Exception		12
+004076e0	EHeapException	Exception		16
+0040773c	EOutOfMemory	EHeapException		16
+00407798	EInOutError	Exception		16
+004077f0	EExternal	Exception		16
+00407848	EExternalException	EExternal		16
+004078a8	EIntError	EExternal		16
+00407900	EDivByZero	EIntError		16
+00407958	ERangeError	EIntError		16
+004079b0	EIntOverflow	EIntError		16
+00407a0c	EMathError	EExternal		16
+00407a64	EInvalidOp	EMathError		16
+00407abc	EZeroDivide	EMathError		16
+00407b14	EOverflow	EMathError		16
+00407b6c	EUnderflow	EMathError		16
+00407bc4	EInvalidPointer	EHeapException		16
+00407c20	EInvalidCast	Exception		12
+00407c7c	EConvertError	Exception		12
+00407cd8	EAccessViolation	EExternal		16
+00407d38	EPrivilege	EExternal		16
+00407d90	EStackOverflow	EExternal		16
+00407dec	EControlC	EExternal		16
+00407e44	EVariantError	Exception		12
+00407ea0	EAssertionFailed	Exception		12
+00407f00	EAbstractError	Exception		12
+00407f5c	EIntfCastError	Exception		12
+00407fb8	EWin32Error	Exception		16
+00408010	ESafecallException	Exception		12
+004080a0	TMultiReadExclusiveWriteSynchronizer	TObject		56
+0040e574	EStreamError	Exception		12
+0040e5d0	EFCreateError	EStreamError		12
+0040e62c	EFOpenError	EStreamError		12
+0040e684	EFilerError	EStreamError		12
+0040e6dc	EReadError	EFilerError		12
+0040e734	EWriteError	EFilerError		12
+0040e78c	EClassNotFound	EFilerError		12
+0040e7e8	EResNotFound	Exception		12
+0040e844	EListError	Exception		12
+0040e89c	EBitsError	Exception		12
+0040e8f4	EStringListError	Exception		12
+0040e954	EComponentError	Exception		12
+0040e9b0	EOutOfResources	EOutOfMemory		16
+0040ea0c	EInvalidOperation	Exception		12
+0040ea6c	TList	TObject		16
+0040ead0	TThreadList	TObject		36
+0040eb28	TBits	TObject		12
+0040eb7c	TPersistent	TObject	Classes	4
+0040ec18	TCollectionItem	TPersistent	Classes	12
+0040eccc	TCollection	TPersistent	Classes	24
+0040edc8	TStrings	TPersistent	Classes	12
+0040eee8	TStringList	TStrings	Classes	48
+0040efec	TStream	TObject		4
+0040f050	THandleStream	TStream		8
+0040f0bc	TFileStream	THandleStream		8
+0040f124	TCustomMemoryStream	TStream		16
+0040f194	TMemoryStream	TCustomMemoryStream		20
+0040f204	TResourceStream	TCustomMemoryStream		24
+0040f384	TStreamAdapter	TInterfacedObject		24
+0040f40c	TFiler	TObject		40
+0040f470	TReader	TFiler		120
+0040f548	TComponent	TPersistent	Classes	36
+0040f6a4	TBasicActionLink	TObject		20
+0040f724	TBasicAction	TComponent	Classes	68
+0040fc78	TIntConst	TObject		16
+00412da0	TPropFixup	TObject		24
+00416698	EInvalidGraphic	Exception		12
+004166f4	EInvalidGraphicOperation	Exception		12
+004169ac	TGraphicsObject	TPersistent	Graphics	24
+00416a80	TFont	TGraphicsObject	Graphics	36
+00416bfc	TPen	TGraphicsObject	Graphics	28
+00416cfc	TBrush	TGraphicsObject	Graphics	24
+00416dc0	TCanvas	TPersistent	Graphics	88
+00416f48	TGraphic	TPersistent	Graphics	28
+0041702c	TPicture	TPersistent	Graphics	32
+004170d4	TMetafileCanvas	TCanvas	Graphics	92
+00417174	TSharedImage	TObject		8
+004171d4	TMetafileImage	TSharedImage		36
+00417234	TMetafile	TGraphic	Graphics	40
+00417310	TBitmapImage	TSharedImage		116
+004173a4	TBitmap	TGraphic	Graphics	52
+00417488	TIconImage	TSharedImage		24
+004174e4	TIcon	TGraphic	Graphics	44
+004175cc	TResourceManager	TObject		36
+0041ae08	TFileFormatsList	TList		16
+0041b168	TClipboardFormats	TObject		12
+0041cba4	TBitmapCanvas	TCanvas	Graphics	100
+0041f898	TPatternManager	TObject		32
+0041fda4	TObjectList	TList		20
+0041fe0c	TComponentList	TObjectList		24
+0041fe78	TOrderedList	TObject		8
+0041fee0	TStack	TOrderedList		8
+0041ffdc	TComponentListNexus	TComponent	Contnrs	48
+004210dc	TCustomGroupBox	TCustomControl	StdCtrls	504
+00421238	TGroupBox	TCustomGroupBox	StdCtrls	504
+00421968	TCustomLabel	TGraphicControl	StdCtrls	308
+00421a9c	TLabel	TCustomLabel	StdCtrls	312
+00422124	TCustomEdit	TWinControl	StdCtrls	520
+004222c4	TEdit	TCustomEdit	StdCtrls	520
+00422b5c	TCustomMemo	TCustomEdit	StdCtrls	532
+00422cd0	TMemo	TCustomMemo	StdCtrls	536
+00423684	TCustomComboBox	TWinControl	StdCtrls	592
+00423858	TComboBox	TCustomComboBox	StdCtrls	592
+0042402c	TButtonActionLink	TWinControlActionLink		44
+004240f0	TButtonControl	TWinControl	StdCtrls	500
+00424244	TButton	TButtonControl	StdCtrls	512
+00424918	TCustomCheckBox	TButtonControl	StdCtrls	508
+00424aa8	TCheckBox	TCustomCheckBox	StdCtrls	512
+004251c4	TRadioButton	TButtonControl	StdCtrls	508
+004258f0	TMemoStrings	TStrings	StdCtrls	16
+004259e4	TComboBoxStrings	TStrings	StdCtrls	16
+0042925c	TClipboard	TPersistent	Clipbrd	16
+004298dc	THintAction	TCustomAction	StdActns	128
+00429a98	TDragObject	TObject		52
+00429b10	TBaseDragControlObject	TDragObject		60
+00429b9c	TDragControlObject	TBaseDragControlObject		64
+00429c24	TDragDockObject	TBaseDragControlObject		112
+00429cb8	TControlCanvas	TCanvas	Controls	100
+00429d58	TControlActionLink	TActionLink		28
+00429f14	TSizeConstraints	TPersistent	Controls	32
+0042a694	TControl	TComponent	Controls	288
+0042aa00	TWinControlActionLink	TControlActionLink		36
+0042ac0c	TWinControl	TControl	Controls	492
+0042b010	TGraphicControl	TControl	Controls	292
+0042b128	TCustomControl	TWinControl	Controls	500
+0042b270	THintWindow	TCustomControl	Controls	508
+0042b3cc	TDragImageList	TCustomImageList	Controls	116
+0042b490	TImageList	TDragImageList	Controls	120
+0042b6a8	TDockZone	TObject		36
+0042b7f4	TDockTree	TInterfacedObject		120
+0042b878	TMouse	TObject		40
+0042bc8c	TSiteList	TList		16
+00439204	TContainedAction	TBasicAction	ActnList	80
+00439364	TCustomActionList	TComponent	ActnList	72
+0043943c	TCustomAction	TContainedAction	ActnList	128
+00439530	TActionLink	TBasicActionLink		24
+0043a068	TChangeLink	TObject		16
+0043a15c	TCustomImageList	TComponent	ImgList	96
+0043b9e8	EMenuError	Exception		12
+0043bc4c	TMenuActionLink	TActionLink		28
+0043bd08	TMenuItem	TComponent	Menus	160
+0043c104	TMenu	TComponent	Menus	72
+0043c1f8	TMainMenu	TMenu	Menus	80
+0043c4d0	TPopupMenu	TMenu	Menus	104
+0043c774	TPopupList	TList		20
+0043c7e0	TMenuItemStack	TStack		8
+00441cd8	TControlScrollBar	TPersistent	Forms	72
+00441f6c	TScrollingWinControl	TWinControl	Forms	516
+004421b4	TScrollBox	TScrollingWinControl	Forms	524
+00442cf0	TCustomForm	TScrollingWinControl	Forms	720
+00442fd4	TForm	TCustomForm	Forms	720
+00443c6c	TCustomDockForm	TCustomForm	Forms	720
+00443e30	TDataModule	TComponent	Forms	76
+00443f60	TMonitor	TObject		12
+00443fb8	TScreen	TComponent	Forms	152
+00444174	TApplication	TComponent	Forms	272
+0044e5dc	TImage	TGraphicControl	ExtCtrls	320
+0044ebc8	TBevel	TGraphicControl	ExtCtrls	300
+0044eddc	TTimer	TComponent	ExtCtrls	60
+0044eef0	TCustomPanel	TCustomControl	ExtCtrls	520
+0044f058	TPanel	TCustomPanel	ExtCtrls	520
+00450ef0	TMessageForm	TForm	Dialogs	720
+004519c0	TObjectList	TDaviObject		12
+00451ca0	ETpsStringResourceError	Exception		12
+00451d04	TStStringResource	TObject		16
+00452a8c	TFinalizationList	TDaviObject		16
+00452afc	TFinalizationInfo	TDaviObject		16
+00453b48	TDaviObject	TObject		4
+00453ba0	EDavilex	Exception		32
+00453f9c	TDaviWave	TComponent	DaviWave	60
+00454a44	TDIBSharedImage	TSharedImage		1156
+00454aa4	TDIB	TGraphic	DIB	1220
+00454d88	TPaletteItem	TCollectionItem	DIB	1052
+00454e24	TPaletteManager	TObject		8
+00456bf8	TGlobalMemoryStream	TMemoryStream		24
+00457464	TDaviAVILoader	TDaviAnimationLoader	DaviAVILoader	172
+00457c1c	TCustomIniFile	TObject		8
+00457cdc	TIniFile	TCustomIniFile		8
+00458968	TTarga	TDIB	Targa	1228
+00459524	TDaviDADLoader	TDaviAnimationLoader	DaviDADLoader	32
+0045a0f8	TDaviLoopProperties	TPersistent	DaviAnimationLoader	20
+0045a1ac	TDaviAnimationProperties	TPersistent	DaviAnimationLoader	24
+0045a26c	TDaviAnimationLoader	TPersistent	DaviAnimationLoader	12
+0045a33c	TDaviAnimationLoaderFactory	TDaviObject		8
+0045a3a8	TDaviAnimationLoaderItem	TCollectionItem	DaviAnimationLoader	24
+0045adf4	TDaviTimer	TComponent	DaviTimer	64
+0045af10	TDaviSharedTimer	TDaviObject		12
+0045b71c	TDaviAnimation	TGraphic	DaviAnimation	112
+0045b838	TGlobalMemoryStream	TMemoryStream		24
+0045ca28	TDaviLinkedGraphic	TPersistent	DaviLinkedGraphic	32
+0045d61c	TDaviGraphicDef	TComponent	DaviGraphicDefinition	112
+0045e160	TDataStream	TFileStream		8
+0045e1c8	TDataObject	TObject		8
+0045e240	TDataList	TDataObject		16
+0045e2b4	TIntegerList	TDataObject		12
+0045e328	TBooleanList	TDataObject		12
+0045f448	TDebug	TObject		24
+0046004c	TSafeIniFile	TIniFile		8
+004600f8	TIniObject	TDataObject		8
+00460678	TGameCharacter	TDataObject		48
+0046196c	TTrack	TDataObject		104
+004620fc	TTuneUp	TDataObject		68
+004623ec	TRace	TDataObject		28
+00462b50	TTourRace	TRace		28
+00462c38	TRankResults	TObject		12
+00462d6c	TResourceManager	TObject		4
+00463794	TCustomGDIGraphic	TGraphicControl	GDIGraphic	324
+004638d0	TGDIGraphic	TCustomGDIGraphic	GDIGraphic	328
+0046414c	TCustomApplicationEvents	TComponent	AppEvnts	144
+00464218	TApplicationEvents	TCustomApplicationEvents	AppEvnts	144
+004644b4	TMultiCaster	TComponent	AppEvnts	44
+00464ff0	TWinControlWrapper	TGraphicControl	WinControlWrapper	368
+00465d00	TGDIHint	TGraphicControl	GDIHintWindow	312
+00465e10	TGDIHintWindow	THintWindow	GDIHintWindow	520
+00466c0c	TCaptionRect	TPersistent	GDIButton	32
+00466df8	TGDICustomButtonDefinition	TComponent	GDIButton	112
+00466ed8	TGDIButtonDefinition	TGDICustomButtonDefinition	GDIButton	112
+004672c0	TCustomGDIButton	TWinControlWrapper	GDIButton	404
+0046745c	TGDIButton	TCustomGDIButton	GDIButton	408
+00468ee4	TDaviGraphicHintWindow	THintWindow	DaviGraphicHint	520
+0046937c	TDaviGraphicButton	TButton	DaviGraphicButton	572
+00469ecc	TDaviSliderNeedle	TDaviGraphicButton	DaviGraphicSlider	588
+0046a048	TDaviGraphicSlider	TCustomControl	DaviGraphicSlider	560
+0046b178	TDaviForm	TForm	DaviForm	720
+0046b30c	TGDIForm	TDaviForm	GDIForm	740
+0046bfdc	EOleError	Exception		12
+0046c034	EOleSysError	EOleError		16
+0046c090	EOleException	EOleSysError		24
+0046cff4	TCustomAdapter	TInterfacedObject		28
+0046d0e0	TAdapterNotifier	TInterfacedObject		20
+0046d1fc	TFontAdapter	TCustomAdapter		40
+0046d31c	TPictureAdapter	TCustomAdapter		40
+0046d380	TOleGraphic	TGraphic	AxCtrls	36
+0046e828	TEventDispatch	TObject		12
+0046edf8	TOleControl	TWinControl	OleCtrls	596
+004722b8	TAgent	TOleControl	AgentObjects_TLB	812
+00472a1c	TDaviColors	TPersistent	DaviColors	36
+004734c0	TDaviSpeedButton	TGraphicControl	DaviButtons	356
+00473a88	TDaviButton	TButton	DaviButtons	540
+004741ec	TGlyphList	TImageList	DaviButtons	128
+004742a8	TGlyphCache	TObject		8
+00474300	TButtonGlyph	TObject		48
+00476a38	TDaviCustomLinkLabel	TCustomLabel	DaviLinkLabel	336
+00476b74	TDaviLinkLabel	TDaviCustomLinkLabel	DaviLinkLabel	336
+004776e8	TBalloonForm	TForm	FormBalloon	752
+0047daa8	TDaviAgent	TObject		24
+0047e670	TDaviEmbeddedFont	TComponent	DaviEmbeddedFont	60
+0047ed2c	TData	TDataModule	MenuData	224
+00481bc8	TSoundManager	TObject		36
+00481c3c	TDaviSoundBuffer	TObject		12
+004830c8	TCustomTabControl	TWinControl	ComCtrls	576
+00483258	TTabSheet	TWinControl	ComCtrls	528
+00483810	TPageControl	TCustomTabControl	ComCtrls	592
+004840c0	TConversion	TObject		4
+004841d4	TTabStrings	TStrings	ComCtrls	16
+004875b8	TfrmDisplaySettings	TForm	FormDisplaySettings	868
+00488d68	TfrmCoolDialog	TGDIForm	FormCoolDialog	760
+004895d8	TBitmapManager	TObject		12
+0048a1c8	TOtherRacer	TDataObject		16
+0048a238	TGameIni	TDataObject		32
+0048aa08	TSaveGame	TDataObject		32
+0048c744	TSaveGameHeader	TDataObject		64
+0048cc74	TRaceState	TDataObject		16
+0048cce4	TQRState	TRaceState		20
+0048cd54	TTourState	TRaceState		20
+0048d848	TCharResult	TDataObject		28
+0048ddb4	TStatic	TDataObject		68
+0048e778	TGameValues	TObject		12
+0048e948	TQuickRace	TRace		44
+0048ec8c	THighScore	TObject		12
+0048ecf8	TMenuIni	TIniObject		28
+0048f5e0	TSingletonForm	TCaptionForm	SingletonForm	720
+0048f750	TSingletonInfo	TObject		12
+0048f9a8	TCustomGDICheckBox	TCustomGDIButton	GDICheckBox	412
+0048fb10	TGDICheckBox	TCustomGDICheckBox	GDICheckBox	416
+0049005c	TCustomGDIRadioButton	TCustomGDICheckBox	GDIRadioButton	416
+004901c8	TGDIRadioButton	TCustomGDIRadioButton	GDIRadioButton	416
+00490738	TBaseFormOneWay	TGameMenuScreen	FormOneWay	756
+00491248	TBaseFormTwoWay	TBaseFormOneWay	FormTwoWay	764
+00491520	TStatusIndicator	TObject		12
+00491580	TMultiIndicator	TStatusIndicator		20
+0049198c	TGameKey	TObject		12
+004919f4	TfrmKeySettings	TfrmCoolDialog	FormKeySettings	828
+00492768	TfrmSliderSettings	TfrmCoolDialog	FormSliderSettings	776
+004929c4	TfrmWheelSettings	TfrmSliderSettings	FormWheelSettings	776
+00492bb8	TfrmJoyStickSettings	TfrmSliderSettings	FormJoyStickSettings	776
+00492db4	TStoredGame	TDataObject		16
+004930d0	TfrmPlayer	TfrmCoolDialog	FormPlayer	816
+004948a8	TfrmDoubleKeys	TfrmCoolDialog	FormDoubleKeys	768
+00494ba4	TfrmNewPlayer	TfrmCoolDialog	FormNewPlayer	768
+00494de0	TfrmHighScoreDlg	TfrmCoolDialog	FormHighScoreDlg	764
+0049504c	TfrmOptions	TfrmCoolDialog	FormOptions	916
+00496c14	TfrmDeletePlayer	TfrmCoolDialog	FormDeletePlayer	772
+00496f28	TfrmNoMoney	TfrmCoolDialog	FormNoMoney	760
+00497108	TfrmCDRequest	TfrmCoolDialog	FormCDRequest	764
+00497320	TfrmInternetDlg	TfrmCoolDialog	FormInternetDlg	772
+004975f0	TfrmStartInfo	TfrmCoolDialog	FormStartInfo	772
+0049796c	TfrmStartInfoKeyBoard	TfrmStartInfo	FormStartInfoKeyBoard	808
+00498aa4	TfrmGarage	TBaseFormTwoWay	FormGarage	848
+0049999c	TfrmTrack	TBaseFormTwoWay	FormTrack	840
+0049a810	TfrmCharacter	TBaseFormTwoWay	FormCharacter	836
+0049b288	TfrmCurrentChar	TBaseFormTwoWay	FormCurrentChar	800
+0049b7d4	TfrmUnlock	TfrmCoolDialog	FormUnlock	760
+0049ba10	TfrmQuickRace	TBaseFormTwoWay	FormQuickRace	860
+0049cca0	TfrmDifficulty	TBaseFormTwoWay	FormDifficulty	800
+0049d4bc	TfrmMainScreen	TBaseFormOneWay	FormMainScreen	832
+0049de64	TfrmCloseDlg	TfrmCoolDialog	FormCloseDlg	780
+0049e19c	TGameMenuScreen	TSingletonForm	BaseForm	752
+0049f320	TfrmLoseNormal	TBaseFormOneWay	FormLoseNormal	780
+0049f7c4	TfrmTrackIntro	TGameMenuScreen	FormTrackIntro	756
+0049fc84	TfrmQualify	TBaseFormOneWay	FormQualify	780
+004a0058	TfrmWinNormal	TBaseFormOneWay	FormWinNormal	776
+004a0478	TfrmResults	TBaseFormOneWay	FormResults	780
+004a0c34	TfrmWinChase	TBaseFormOneWay	FormWinChase	768
+004a0f0c	TfrmLoseChase	TBaseFormOneWay	FormLoseChase	768
+004a138c	EMCIDeviceError	Exception		12
+004a13e8	TMediaPlayer	TCustomControl	MPlayer	776
+004a3cf8	TfrmWinFinal	TBaseFormOneWay	FormWinFinal	788
+004a46b8	TfrmIntro	TForm	FormIntro	728
+004a4bb4	TfrmMain	TForm	MainForm	732
+004a6010	TSettings	TDataObject		64
+004a6080	TControls	TDataObject		48
+004a720c	TCaptionForm	TForm	CaptionFrm	720
+004a7568	TfrmException2	TForm	FormException2	768
+004a8174	TDaviExceptionLogger	TObject		4

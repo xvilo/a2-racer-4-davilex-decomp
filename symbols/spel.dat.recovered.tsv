@@ -1,0 +1,36 @@
+address	kind	name	cc	ret	params	dtype	mangled	evidence
+0043c0a0	function	init_game_actions			?			traced before its call in FUN_0044c200
+0043ce10	function	init_ascii_fonts			?			traced before its call in FUN_0044c200
+00440130	function	init_finish_flag			?			traced before its call in FUN_0044c200
+004422f0	function	init_radar			?			traced before its call in FUN_0044c200
+00444f50	function	init_skidmarks			?			traced before its call in FUN_0044c200
+004460a0	function	init_sparks			?			traced before its call in FUN_0044c200
+00446e80	function	init_clouds			?			entry message
+00447330	function	skelet2d_set_resolution			?			error report names its function
+00447380	function	skelet2d_set_program_name			?			error report names its function
+004473d0	function	skelet2d_set_image_filename			?			error report names its function
+00447490	function	skelet2d_set_mouse_type			?			error report names its function
+00447500	function	skelet2d_set_sound			?			error report names its function
+00447550	function	skelet2d_set_sound_buffers			?			error report names its function
+00447600	function	skelet2d_set_palette_filename			?			error report names its function
+00447660	function	skelet2d_set_show_palette			?			error report names its function
+004476d0	function	skelet2d_set_debug			?			error report names its function
+00447740	function	skelet2d_set_windowed			?			error report names its function
+004477b0	function	skelet2d_set_renderfocus			?			error report names its function
+00447a00	function	skelet2d_init_2d_lib			?			error report names its function
+0044aa20	function	load_player_info			?			entry message
+0044b1c0	function	write_player_info			?			entry message
+0044bf10	function	init_etappe_timer			?			traced before its call in FUN_0044c200
+0044c030	function	init_color_key_bufferscreen			?			traced before its call in FUN_0044c200
+0044c080	function	init_game_info			?			traced before its call in FUN_0044c200
+0044c200	function	init_game			?			entry message
+004506e0	function	InitSndFxEngine			?			traced before its call in FUN_0044c200
+00453440	function	init_track_object_types			?			traced before its call in FUN_0044c200
+00457820	function	init_all_triggers			?			traced before its call in FUN_0044c200
+004625b0	function	init_particle_emitters			?			traced before its call in FUN_0044c200
+00464420	function	init_3d_paths			?			traced before its call in FUN_0044c200
+00488201	function	CRaceOverlay_Init			?			message names CRaceOverlay::Init
+004882bc	function	CRaceOverlay_Exit			?			message names CRaceOverlay::Exit
+00499f50	function	CRegVarArray_Parse			?			message names CRegVarArray::Parse
+0049b0c0	function	CRegVarArray_GetValue			?			message names CRegVarArray::GetValue
+00511610	function	IVP_SurfaceBuilder_Pointsoup_convert_pointsoup_to_template_polygon			?			message names IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_template_polygon

@@ -1,0 +1,14 @@
+address	kind	name	cc	ret	params	dtype	mangled	evidence
+10001090	function	xvga_init_fileio			?			named stub jumps here
+100013f0	function	xvga_fileio_set_check_sequence			?			named stub jumps here
+10001470	function	xvga_src_fseek			?			named stub jumps here
+100016a0	function	xvga_src_filelength			?			named stub jumps here
+100017c0	function	xvga_src_fopen			?			named stub jumps here
+10001940	function	xvga_src_fclose			?			named stub jumps here
+10001a30	function	xvga_file_exist			?			named stub jumps here
+10001b50	function	xvga_exit_fileio			?			named stub jumps here
+10001c00	function	xvga_rc_num_files			?			named stub jumps here
+10001c30	function	xvga_rc_filename			?			named stub jumps here
+10001c90	function	xvga_rc_filepos			?			named stub jumps here
+10001cd0	function	xvga_rc_filelength			?			named stub jumps here
+10001d10	function	xvga_get_filehandle			?			named stub jumps here
