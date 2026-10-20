@@ -2,13 +2,12 @@
 
 /* ==== 004ee040 FUN_004ee040 ==== */
 
-int FUN_004ee040(void)
+int __thiscall FUN_004ee040(void *this)
 
 {
   int iVar1;
-  undefined4 uVar2;
+  undefined1 *puVar2;
   undefined4 uVar3;
-  int in_ECX;
   undefined1 local_58 [16];
   undefined1 local_48 [16];
   undefined1 local_38 [16];
@@ -16,27 +15,28 @@ int FUN_004ee040(void)
   void *local_c;
   undefined1 *puStack_8;
   undefined4 local_4;
+  int this_val;
   
   local_4 = 0xffffffff;
   puStack_8 = &LAB_00572828;
   local_c = ExceptionList;
-  iVar1 = *(int *)(in_ECX + 0x38);
+  iVar1 = *(int *)((int)this + 0x38);
   if ((-1 < iVar1) && (iVar1 < 5)) {
+    this_val = *(int *)((int)this + iVar1 * 8 + 4);
     ExceptionList = &local_c;
-    FUN_004a5620(*(undefined4 *)(*(int *)(in_ECX + 4 + iVar1 * 8) + 8),1,&stack0x00000004);
-    *(int *)(in_ECX + 0x38) = *(int *)(in_ECX + 0x38) + 1;
+    FUN_004a5620(this_val,*(undefined4 *)(this_val + 8),1,&stack0x00000004);
+    *(int *)((int)this + 0x38) = *(int *)((int)this + 0x38) + 1;
     ExceptionList = local_c;
     return iVar1;
   }
   ExceptionList = &local_c;
-  uVar2 = FUN_0049df90(local_58,s_Illegal_index_m_NrCmdCombination_005b8650,iVar1,5);
+  iVar1 = FUN_0049df90(local_58,s_Illegal_index_m_NrCmdCombination_005b8650);
   local_4 = 0;
-  uVar3 = FUN_0049df90(local_48,s_Input_exception_in___s___d__005b77e4,
-                       s_D__Work_InputLib_prog_CBindedAct_005b8628,0x2f);
+  puVar2 = (undefined1 *)FUN_0049df90(local_48,s_Input_exception_in___s___d__005b77e4);
   local_4._0_1_ = 1;
-  uVar2 = FUN_0047c9a0(local_38,uVar3,uVar2);
+  uVar3 = FUN_0047c9a0(local_38,puVar2,iVar1);
   local_4 = CONCAT31(local_4._1_3_,2);
-  FUN_004edac0(uVar2);
+  FUN_004edac0(local_28,uVar3);
                     /* WARNING: Subroutine does not return */
   __CxxThrowException_8(local_28,&DAT_005872d0);
 }
@@ -44,10 +44,10 @@ int FUN_004ee040(void)
 
 /* ==== 004ee100 FUN_004ee100 ==== */
 
-void FUN_004ee100(void)
+void * __thiscall FUN_004ee100(void *this)
 
 {
-  return;
+  return this;
 }
 
 
@@ -56,8 +56,9 @@ void FUN_004ee100(void)
 int FUN_004ee110(int param_1)
 
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
+  int iVar1;
+  undefined1 *puVar2;
+  undefined4 uVar3;
   int in_ECX;
   undefined1 local_58 [16];
   undefined1 local_48 [16];
@@ -74,15 +75,13 @@ int FUN_004ee110(int param_1)
     return in_ECX + param_1 * 8;
   }
   ExceptionList = &local_c;
-  uVar1 = FUN_0049df90(local_58,s_Input_group_does_not_exist__a_Co_005b86a4,param_1,
-                       *(undefined4 *)(in_ECX + 0x38));
+  iVar1 = FUN_0049df90(local_58,s_Input_group_does_not_exist__a_Co_005b86a4);
   local_4 = 0;
-  uVar2 = FUN_0049df90(local_48,s_Input_exception_in___s___d__005b77e4,
-                       s_D__Work_InputLib_prog_CBindedAct_005b8628,0x50);
+  puVar2 = (undefined1 *)FUN_0049df90(local_48,s_Input_exception_in___s___d__005b77e4);
   local_4._0_1_ = 1;
-  uVar1 = FUN_0047c9a0(local_38,uVar2,uVar1);
+  uVar3 = FUN_0047c9a0(local_38,puVar2,iVar1);
   local_4 = CONCAT31(local_4._1_3_,2);
-  FUN_004edac0(uVar1);
+  FUN_004edac0(local_28,uVar3);
                     /* WARNING: Subroutine does not return */
   __CxxThrowException_8(local_28,&DAT_005872d0);
 }
@@ -130,10 +129,9 @@ void FUN_004ee290(void)
 
 /* ==== 004ee2b0 FUN_004ee2b0 ==== */
 
-void FUN_004ee2b0(void)
+void * __thiscall FUN_004ee2b0(void *this)
 
 {
-  undefined4 *in_ECX;
   void *local_c;
   undefined1 *puStack_8;
   undefined4 local_4;
@@ -144,33 +142,32 @@ void FUN_004ee2b0(void)
   ExceptionList = &local_c;
   FUN_004f1a90();
   local_4 = 0;
-  *in_ECX = &PTR_FUN_00578250;
-  FUN_004ee510();
-  FUN_004ee370();
+  *(undefined ***)this = &PTR_FUN_00578250;
+  FUN_004ee510(this);
+  FUN_004ee370(this);
   ExceptionList = local_c;
-  return;
+  return this;
 }
 
 
 /* ==== 004ee300 FUN_004ee300 ==== */
 
-void FUN_004ee300(byte param_1)
+void * __thiscall FUN_004ee300(void *this,byte param_2)
 
 {
   FUN_004ee320();
-  if ((param_1 & 1) != 0) {
-    FUN_0054b339();
+  if ((param_2 & 1) != 0) {
+    FUN_0054b339(this);
   }
-  return;
+  return this;
 }
 
 
 /* ==== 004ee320 FUN_004ee320 ==== */
 
-void FUN_004ee320(void)
+void __thiscall FUN_004ee320(void *this)
 
 {
-  undefined4 *in_ECX;
   void *local_c;
   undefined1 *puStack_8;
   undefined4 local_4;
@@ -178,11 +175,11 @@ void FUN_004ee320(void)
   puStack_8 = &LAB_00572898;
   local_c = ExceptionList;
   ExceptionList = &local_c;
-  *in_ECX = &PTR_FUN_00578250;
+  *(undefined ***)this = &PTR_FUN_00578250;
   local_4 = 0;
   FUN_0051ed40();
   local_4 = 0xffffffff;
-  FUN_004f1b00();
+  FUN_004f1b00(this);
   ExceptionList = local_c;
   return;
 }

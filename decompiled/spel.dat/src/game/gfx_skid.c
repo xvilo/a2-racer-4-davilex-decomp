@@ -323,7 +323,7 @@ void FUN_00444c40(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   FUN_00444b40(param_1,local_40,local_80);
   iVar1 = FUN_004447a0(param_1);
   *(undefined4 *)(&DAT_006ce140 + iVar1 * 0x1910) = 2;
-  FUN_004a6800();
+  FUN_004a6800(&DAT_007128b0);
   __ftol_result = __ftol();
   iVar1 = FUN_004447a0(param_1);
   *(undefined4 *)(&DAT_006cfa48 + iVar1 * 0x1910) = __ftol_result;
@@ -432,7 +432,7 @@ void init_skidmarks(void)
 
 {
   FUN_00444f30();
-  DAT_006ed680 = FUN_004b7400(s_S_SFX_PCX_0059d6fc);
+  DAT_006ed680 = FUN_004b7400(&DAT_00712130,s_S_SFX_PCX_0059d6fc);
   return;
 }
 

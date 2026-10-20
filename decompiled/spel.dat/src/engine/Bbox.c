@@ -27,23 +27,22 @@ FUN_004af5a0(int param_1,int param_2,int *param_3,int *param_4,undefined4 *param
 
 /* ==== 004af760 FUN_004af760 ==== */
 
-void FUN_004af760(void)
+void * __thiscall FUN_004af760(void *this)
 
 {
-  undefined4 *in_ECX;
   int i;
   undefined4 *puVar1;
   
-  puVar1 = in_ECX;
+  puVar1 = this;
   for (i = 0x18; i != 0; i = i + -1) {
     *puVar1 = 0;
     puVar1 = puVar1 + 1;
   }
-  in_ECX[0x18] = 0;
-  in_ECX[0x19] = 0;
-  in_ECX[0x1a] = 0;
-  in_ECX[0x1b] = 0;
-  return;
+  *(undefined4 *)((int)this + 0x60) = 0;
+  *(undefined4 *)((int)this + 100) = 0;
+  *(undefined4 *)((int)this + 0x68) = 0;
+  *(undefined4 *)((int)this + 0x6c) = 0;
+  return this;
 }
 
 
@@ -86,12 +85,10 @@ void FUN_004af7a0(undefined4 *param_1)
 
 /* ==== 004af7c0 FUN_004af7c0 ==== */
 
-void FUN_004af7c0(undefined4 param_1)
+void __thiscall FUN_004af7c0(void *this,undefined4 param_2)
 
 {
-  int in_ECX;
-  
-  *(undefined4 *)(in_ECX + 0x6c) = param_1;
+  *(undefined4 *)((int)this + 0x6c) = param_2;
   return;
 }
 
@@ -110,7 +107,7 @@ void FUN_004af880(int param_1)
   int iVar7;
   
   iVar7 = param_1 * 0xf0;
-  iVar4 = FUN_004a8c50();
+  iVar4 = FUN_004a8c50(iVar7 + DAT_00715e50);
   if (*(int *)(iVar7 + 0x5c + DAT_00715e50) != 0) {
     if (199 < DAT_00719b48) {
       FUN_004c4150(s__s__d____Max_nb_of_bboxs_reached_005b0770,
@@ -205,8 +202,10 @@ void FUN_004afbd0(int param_1,undefined4 *param_2)
   undefined4 uVar2;
   int iVar3;
   int iVar4;
+  int iVar5;
   
-  iVar3 = FUN_004a8c50();
+  iVar5 = param_1 * 0xf0;
+  iVar3 = FUN_004a8c50(iVar5 + DAT_00715e50);
   iVar3 = iVar3 * 0xac;
   puVar1 = (undefined4 *)(iVar3 + 0x10 + DAT_0073b5c8);
   *param_2 = *puVar1;
@@ -224,13 +223,13 @@ void FUN_004afbd0(int param_1,undefined4 *param_2)
   param_2[9] = *puVar1;
   param_2[10] = puVar1[1];
   param_2[0xb] = puVar1[2];
-  iVar4 = DAT_0073b0d0 + *(int *)(param_1 * 0xf0 + 0x24 + DAT_00715e50) * 0xa9;
+  iVar4 = DAT_0073b0d0 + *(int *)(iVar5 + 0x24 + DAT_00715e50) * 0xa9;
   param_2[0xc] = *(undefined4 *)(iVar4 + 0x50);
   param_2[0xd] = *(undefined4 *)(iVar4 + 0x54);
   param_2[0xe] = *(undefined4 *)(iVar4 + 0x58);
   param_2[0x11] =
-       (int)ROUND(ROUND(*(float *)(DAT_0073b0d0 +
-                                   *(int *)(param_1 * 0xf0 + 0x24 + DAT_00715e50) * 0xa9 + 0x78)));
+       (int)ROUND(ROUND(*(float *)(DAT_0073b0d0 + *(int *)(iVar5 + 0x24 + DAT_00715e50) * 0xa9 +
+                                  0x78)));
   uVar2 = *(undefined4 *)(iVar3 + 0x74 + DAT_0073b5c8);
   param_2[0x12] = 1;
   param_2[0xf] = uVar2;

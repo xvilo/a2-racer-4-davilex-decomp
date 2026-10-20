@@ -61,14 +61,15 @@ void thunk_FUN_0043f8a0(void)
 {
   char cVar1;
   undefined4 uVar2;
-  uint uVar3;
+  undefined4 uVar3;
   uint uVar4;
-  char *pcVar5;
+  uint uVar5;
   char *pcVar6;
-  float10 fVar7;
-  undefined1 *puVar8;
+  char *pcVar7;
+  float10 fVar8;
   undefined1 *puVar9;
-  undefined4 uVar10;
+  undefined1 *puVar10;
+  undefined4 uVar11;
   undefined1 auStack_2c [4];
   char *pcStack_28;
   undefined4 uStack_24;
@@ -91,53 +92,53 @@ void thunk_FUN_0043f8a0(void)
     FUN_0043e120(uVar2);
   }
   if (DAT_006fb950 != 0) {
-    uVar3 = 0xffffffff;
-    pcVar5 = s_keyboard0_0059c0c0;
+    uVar4 = 0xffffffff;
+    pcVar6 = s_keyboard0_0059c0c0;
     do {
-      if (uVar3 == 0) break;
-      uVar3 = uVar3 - 1;
-      cVar1 = *pcVar5;
-      pcVar5 = pcVar5 + 1;
+      if (uVar4 == 0) break;
+      uVar4 = uVar4 - 1;
+      cVar1 = *pcVar6;
+      pcVar6 = pcVar6 + 1;
     } while (cVar1 != '\0');
-    uVar3 = ~uVar3 - 1;
+    uVar4 = ~uVar4 - 1;
     pcStack_28 = (char *)0x0;
     uStack_24 = 0;
     uStack_20 = 0;
-    cVar1 = FUN_00402a00(uVar3,1);
+    cVar1 = FUN_00402a00(auStack_2c,uVar4,1);
     if (cVar1 != '\0') {
-      pcVar5 = s_keyboard0_0059c0c0;
-      pcVar6 = pcStack_28;
-      for (uVar4 = uVar3 >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
-        *(undefined4 *)pcVar6 = *(undefined4 *)pcVar5;
-        pcVar5 = pcVar5 + 4;
+      pcVar6 = s_keyboard0_0059c0c0;
+      pcVar7 = pcStack_28;
+      for (uVar5 = uVar4 >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+        *(undefined4 *)pcVar7 = *(undefined4 *)pcVar6;
         pcVar6 = pcVar6 + 4;
+        pcVar7 = pcVar7 + 4;
       }
-      for (uVar4 = uVar3 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
-        *pcVar6 = *pcVar5;
-        pcVar5 = pcVar5 + 1;
+      for (uVar5 = uVar4 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+        *pcVar7 = *pcVar6;
         pcVar6 = pcVar6 + 1;
+        pcVar7 = pcVar7 + 1;
       }
-      FUN_004029e0(uVar3);
+      FUN_004029e0(auStack_2c,uVar4);
     }
-    uVar3 = 0xffffffff;
+    uVar4 = 0xffffffff;
     uStack_4 = 0;
-    pcVar5 = &DAT_0059c0cc;
+    pcVar6 = &DAT_0059c0cc;
     do {
-      if (uVar3 == 0) break;
-      uVar3 = uVar3 - 1;
-      cVar1 = *pcVar5;
-      pcVar5 = pcVar5 + 1;
+      if (uVar4 == 0) break;
+      uVar4 = uVar4 - 1;
+      cVar1 = *pcVar6;
+      pcVar6 = pcVar6 + 1;
     } while (cVar1 != '\0');
     iStack_18 = 0;
     uStack_14 = 0;
     uStack_10 = 0;
-    FUN_00402940(&DAT_0059c0cc,~uVar3 - 1);
-    puVar9 = auStack_2c;
-    uVar10 = 0;
-    puVar8 = auStack_1c;
+    FUN_00402940(auStack_1c,&DAT_0059c0cc,~uVar4 - 1);
+    puVar10 = auStack_2c;
+    uVar11 = 0;
+    puVar9 = auStack_1c;
     uStack_4 = CONCAT31(uStack_4._1_3_,1);
-    FUN_004ea0c0(puVar8,puVar9,0);
-    fVar7 = (float10)FUN_004eb4d0(puVar8,puVar9,uVar10);
+    uVar3 = FUN_004ea0c0(puVar9,puVar10,0);
+    fVar8 = (float10)FUN_004eb4d0(uVar3,puVar9,puVar10,uVar11);
     if (iStack_18 != 0) {
       cVar1 = *(char *)(iStack_18 + -1);
       if ((cVar1 == '\0') || (cVar1 == -1)) {
@@ -163,7 +164,7 @@ void thunk_FUN_0043f8a0(void)
     pcStack_28 = (char *)0x0;
     uStack_24 = 0;
     uStack_20 = 0;
-    if ((float)fVar7 != 0.0) {
+    if ((float)fVar8 != 0.0) {
       FUN_0043fc90(uVar2);
     }
   }
@@ -263,7 +264,7 @@ void FUN_00440b60(int param_1,int param_2,undefined4 param_3,int param_4,int par
     return;
   }
   iVar1 = *(int *)(*(int *)(*(int *)(DAT_00740a18 + 0x68) + 0x30c) + 8);
-  iVar3 = FUN_004ca9f0(auStack_190);
+  iVar3 = FUN_004ca9f0(*(int *)(DAT_00740a18 + 0x68),auStack_190);
   FUN_004ca3d0(param_1,param_5 - iVar3 / 2,(iVar2 + param_6) - iVar1 / 2,auStack_190);
   return;
 }

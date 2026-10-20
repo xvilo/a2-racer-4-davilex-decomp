@@ -174,9 +174,9 @@ void FUN_0043d970(int param_1)
   fVar5 = *pfVar1;
   fVar6 = *(float *)(&DAT_006c430c + iVar8);
   fVar7 = *(float *)(&DAT_006c4310 + iVar8);
-  fVar11 = (float10)FUN_004a6800();
+  fVar11 = (float10)FUN_004a6800(&DAT_007128b0);
   fVar11 = fVar11 * (float10)10.0;
-  fVar12 = (float10)FUN_004a6800();
+  fVar12 = (float10)FUN_004a6800(&DAT_007128b0);
   fVar12 = fVar12 * (float10)20.0;
   if ((float10)0.99 < fVar12) {
     fVar12 = (float10)0.99;
@@ -258,12 +258,12 @@ void FUN_0043daa0(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
     puVar3 = puVar3 + 1;
   }
   (&DAT_006c4330)[param_1 * 0x4b] = 1;
-  FUN_004a6800();
+  FUN_004a6800(&DAT_007128b0);
   __ftol_result = __ftol();
   (&DAT_006c4320)[param_1 * 0x4b] = __ftol_result;
   i = FUN_00558625();
   (&DAT_006c4324)[param_1 * 0x4b] = i % 3;
-  fVar4 = (float10)FUN_004a6800();
+  fVar4 = (float10)FUN_004a6800(&DAT_007128b0);
   *(undefined4 *)(&DAT_006c4308 + iVar1) = param_5;
   *(float *)(&DAT_006c430c + iVar1) = (float)(fVar4 * (float10)15.0);
   *(undefined4 *)(&DAT_006c4310 + iVar1) = param_7;
@@ -334,7 +334,7 @@ void FUN_0043dd40(void)
   undefined4 *puVar4;
   
   FUN_0043dba0();
-  DAT_006c4200 = FUN_004b7400(s_L1RACER3_PCX_0059be40);
+  DAT_006c4200 = FUN_004b7400(&DAT_00712130,s_L1RACER3_PCX_0059be40);
   puVar1 = &DAT_006c4330;
   do {
     puVar2 = puVar1 + 0x4b;
@@ -362,7 +362,7 @@ void FUN_0043dd90(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
   float10 fVar2;
   
   if (DAT_006fb904 != 0) {
-    fVar2 = (float10)FUN_004a6800();
+    fVar2 = (float10)FUN_004a6800(&DAT_007128b0);
     if ((float10)12.0 < (float10)1.0 / fVar2) {
       iVar1 = FUN_0043da80();
       if (iVar1 != -1) {
@@ -376,47 +376,46 @@ void FUN_0043dd90(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
 
 /* ==== 0043de00 FUN_0043de00 ==== */
 
-void FUN_0043de00(void)
+void __thiscall FUN_0043de00(void *this)
 
 {
-  int iVar1;
-  undefined4 *puVar2;
+  undefined4 *puVar1;
   int i;
-  undefined4 uVar3;
+  undefined4 uVar2;
+  int j;
+  int *piVar3;
   int *piVar4;
   int *piVar5;
-  int *piVar6;
-  float10 fVar7;
-  int j;
+  float10 fVar6;
   
   if (DAT_006fb904 != 0) {
-    fVar7 = (float10)FUN_004a6800();
+    fVar6 = (float10)FUN_004a6800(&DAT_007128b0,this);
     i = DAT_006c4200;
-    if ((float10)1.0 / fVar7 < (float10)10.0) {
-      puVar2 = &DAT_006c4330;
+    if ((float10)1.0 / fVar6 < (float10)10.0) {
+      puVar1 = &DAT_006c4330;
       do {
-        *puVar2 = 0;
-        puVar2 = puVar2 + 0x4b;
-      } while ((int)puVar2 < 0x6c9538);
+        *puVar1 = 0;
+        puVar1 = puVar1 + 0x4b;
+      } while ((int)puVar1 < 0x6c9538);
       return;
     }
-    iVar1 = *(int *)(DAT_0073b210 + DAT_005b1ba8 * 4);
-    *(int *)(iVar1 + 0x60) = DAT_006c4200;
-    uVar3 = *(undefined4 *)(DAT_0073b1b0 + i * 0x48);
-    *(undefined4 *)(iVar1 + 0x58) = 1;
-    *(undefined4 *)(iVar1 + 0x48) = uVar3;
-    if (*(int *)(iVar1 + 0x5c) == 1) {
-      *(undefined4 *)(iVar1 + 0x58) = 0;
-      (**(code **)(**(int **)(iVar1 + 0x54) + 0xc))(*(int **)(iVar1 + 0x54),iVar1);
+    j = *(int *)(DAT_0073b210 + DAT_005b1ba8 * 4);
+    *(int *)(j + 0x60) = DAT_006c4200;
+    uVar2 = *(undefined4 *)(DAT_0073b1b0 + i * 0x48);
+    *(undefined4 *)(j + 0x58) = 1;
+    *(undefined4 *)(j + 0x48) = uVar2;
+    if (*(int *)(j + 0x5c) == 1) {
+      *(undefined4 *)(j + 0x58) = 0;
+      (**(code **)(**(int **)(j + 0x54) + 0xc))(*(int **)(j + 0x54),j);
     }
     if (DAT_0073b4ec != DAT_006c4200) {
       DAT_0073b4ec = DAT_006c4200;
       i = (**(code **)(*DAT_0073b4b4 + 0x5c))
                     (DAT_0073b4b4,1,*(undefined4 *)(DAT_0073b1b0 + DAT_006c4200 * 0x48));
       if (i != 0) {
-        uVar3 = FUN_004bb290(i);
+        uVar2 = FUN_004bb290(i);
         FUN_004c4150(s__s__d_____TEXTURE__error_setting_0059be94,
-                     s_______Libs_Win3DLib_Include_d3de_00591314,0x122,uVar3);
+                     s_______Libs_Win3DLib_Include_d3de_00591314,0x122,uVar2);
       }
     }
     if ((DAT_006fb8d0 != 0) && (DAT_006fb940 != 0)) {
@@ -425,49 +424,49 @@ void FUN_0043de00(void)
       (**(code **)(*DAT_0073b4b4 + 0x5c))(DAT_0073b4b4,0x14,6);
     }
     i = 0;
-    piVar4 = &DAT_006c4330;
+    piVar3 = &DAT_006c4330;
     do {
-      if (*piVar4 != 0) {
+      if (*piVar3 != 0) {
         FUN_0043d950(i);
       }
-      piVar4 = piVar4 + 0x4b;
+      piVar3 = piVar3 + 0x4b;
       i = i + 1;
-    } while ((int)piVar4 < 0x6c9538);
+    } while ((int)piVar3 < 0x6c9538);
     FUN_00558d5b(&DAT_006c4208,0x46,300,&LAB_0043dc90);
-    j = 0;
-    piVar4 = &DAT_006c4324;
+    i = 0;
+    piVar3 = &DAT_006c4324;
     do {
-      if (piVar4[3] != 0) {
-        piVar5 = piVar4 + -0x47;
-        piVar6 = &DAT_0073b474;
-        for (i = 0x10; i != 0; i = i + -1) {
-          *piVar6 = *piVar5;
+      if (piVar3[3] != 0) {
+        piVar4 = piVar3 + -0x47;
+        piVar5 = &DAT_0073b474;
+        for (j = 0x10; j != 0; j = j + -1) {
+          *piVar5 = *piVar4;
+          piVar4 = piVar4 + 1;
           piVar5 = piVar5 + 1;
-          piVar6 = piVar6 + 1;
         }
-        i = (**(code **)(*DAT_0073b4b4 + 0x68))(DAT_0073b4b4,1,&DAT_0073b474);
-        if (i != 0) {
-          uVar3 = FUN_004bb290(i);
+        j = (**(code **)(*DAT_0073b4b4 + 0x68))(DAT_0073b4b4,1,&DAT_0073b474);
+        if (j != 0) {
+          uVar2 = FUN_004bb290(j);
           FUN_004c4150(s__s__d_____FOG__error_setting_tra_005912e0,
-                       s_______Libs_Win3DLib_Include_d3de_00591314,0x14,uVar3);
+                       s_______Libs_Win3DLib_Include_d3de_00591314,0x14,uVar2);
         }
-        i = (**(code **)(*DAT_0073b4b4 + 0x74))(DAT_0073b4b4,6,2,piVar4 + -0x37,6,1);
-        if (i != 0) {
+        j = (**(code **)(*DAT_0073b4b4 + 0x74))(DAT_0073b4b4,6,2,piVar3 + -0x37,6,1);
+        if (j != 0) {
           FUN_004c4150(s__s___d__DramPrimitive_error_0059be74,
                        s_C__Work_A2IV_Game_prog_gfx_bwlk__0059be50,0x26a);
         }
-        i = *piVar4;
-        *piVar4 = i + 1;
-        if (piVar4[-1] <= i + 1) {
-          piVar4[3] = 0;
+        j = *piVar3;
+        *piVar3 = j + 1;
+        if (piVar3[-1] <= j + 1) {
+          piVar3[3] = 0;
         }
-        if (piVar4[3] != 0) {
-          FUN_0043d970(j);
+        if (piVar3[3] != 0) {
+          FUN_0043d970(i);
         }
       }
-      piVar4 = piVar4 + 0x4b;
-      j = j + 1;
-    } while ((int)piVar4 < 0x6c952c);
+      piVar3 = piVar3 + 0x4b;
+      i = i + 1;
+    } while ((int)piVar3 < 0x6c952c);
     if ((DAT_006fb8d0 != 0) && (DAT_006fb940 != 0)) {
       (**(code **)(*DAT_0073b4b4 + 0x5c))(DAT_0073b4b4,0x1b,0);
     }
@@ -518,10 +517,10 @@ void FUN_0043e0f0(void)
 
 /* ==== 0043e110 FUN_0043e110 ==== */
 
-void FUN_0043e110(void)
+void * __thiscall FUN_0043e110(void *this)
 
 {
-  return;
+  return this;
 }
 
 

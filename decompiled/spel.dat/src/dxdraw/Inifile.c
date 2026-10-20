@@ -2,16 +2,15 @@
 
 /* ==== 004c3b40 FUN_004c3b40 ==== */
 
-void FUN_004c3b40(void)
+void __thiscall FUN_004c3b40(void *this)
 
 {
   int *piVar1;
-  int in_ECX;
   
-  piVar1 = *(int **)(in_ECX + 0x58);
+  piVar1 = *(int **)((int)this + 0x58);
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
-    *(undefined4 *)(in_ECX + 0x58) = 0;
+    *(undefined4 *)((int)this + 0x58) = 0;
   }
   return;
 }
@@ -19,7 +18,7 @@ void FUN_004c3b40(void)
 
 /* ==== 004c3b60 FUN_004c3b60 ==== */
 
-void FUN_004c3b60(char *param_1)
+void __thiscall FUN_004c3b60(undefined4 param_1,char *param_2)
 
 {
   char cVar1;
@@ -31,7 +30,7 @@ void FUN_004c3b60(char *param_1)
   char *pcVar4;
   
   i = -1;
-  pcVar2 = param_1;
+  pcVar2 = param_2;
   do {
     if (i == 0) break;
     i = i + -1;
@@ -40,7 +39,7 @@ void FUN_004c3b60(char *param_1)
   } while (cVar1 != '\0');
   if (i != -2) {
     j = 0xffffffff;
-    pcVar2 = param_1;
+    pcVar2 = param_2;
     do {
       if (j == 0) break;
       j = j - 1;
@@ -98,12 +97,12 @@ LAB_004c3b98:
   }
   j = 0xffffffff;
   do {
-    pcVar2 = param_1;
+    pcVar2 = param_2;
     if (j == 0) break;
     j = j - 1;
-    pcVar2 = param_1 + 1;
-    cVar1 = *param_1;
-    param_1 = pcVar2;
+    pcVar2 = param_2 + 1;
+    cVar1 = *param_2;
+    param_2 = pcVar2;
   } while (cVar1 != '\0');
   j = ~j;
   i = -1;

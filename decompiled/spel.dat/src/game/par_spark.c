@@ -2,17 +2,16 @@
 
 /* ==== 0045fd50 FUN_0045fd50 ==== */
 
-void FUN_0045fd50(void)
+void __thiscall FUN_0045fd50(void *this)
 
 {
-  int i;
+  int this_val;
   undefined4 uVar1;
-  int iVar2;
-  int in_ECX;
+  int i;
+  undefined4 *puVar2;
   undefined4 *puVar3;
-  undefined4 *puVar4;
   undefined4 local_5c [17];
-  int local_18;
+  void *local_18;
   undefined1 *local_14;
   void *local_10;
   undefined1 *puStack_c;
@@ -21,46 +20,47 @@ void FUN_0045fd50(void)
   puStack_c = &LAB_0056aa93;
   local_10 = ExceptionList;
   local_14 = &stack0xffffff98;
+  local_18 = this;
   local_8 = 0;
   ExceptionList = &local_10;
-  local_18 = in_ECX;
   if (DAT_006fb8d0 != 0) {
-    i = *(int *)(in_ECX + 0x9c);
-    iVar2 = *(int *)(DAT_0073b210 + DAT_005b1ba8 * 4);
+    this_val = *(int *)((int)this + 0x9c);
+    i = *(int *)(DAT_0073b210 + DAT_005b1ba8 * 4);
     ExceptionList = &local_10;
-    *(int *)(iVar2 + 0x60) = i;
-    uVar1 = *(undefined4 *)(DAT_0073b1b0 + i * 0x48);
-    *(undefined4 *)(iVar2 + 0x58) = 1;
-    *(undefined4 *)(iVar2 + 0x48) = uVar1;
-    if (*(int *)(iVar2 + 0x5c) == 1) {
-      *(undefined4 *)(iVar2 + 0x58) = 0;
-      (**(code **)(**(int **)(iVar2 + 0x54) + 0xc))(*(int **)(iVar2 + 0x54),iVar2);
+    *(int *)(i + 0x60) = this_val;
+    uVar1 = *(undefined4 *)(DAT_0073b1b0 + this_val * 0x48);
+    *(undefined4 *)(i + 0x58) = 1;
+    *(undefined4 *)(i + 0x48) = uVar1;
+    if (*(int *)(i + 0x5c) == 1) {
+      *(undefined4 *)(i + 0x58) = 0;
+      (**(code **)(**(int **)(i + 0x54) + 0xc))(*(int **)(i + 0x54),i);
     }
-    i = *(int *)(in_ECX + 0x9c);
-    if ((DAT_0073b4ec != i) &&
-       (DAT_0073b4ec = i,
-       i = (**(code **)(*DAT_0073b4b4 + 0x5c))
-                     (DAT_0073b4b4,1,*(undefined4 *)(DAT_0073b1b0 + i * 0x48)), i != 0)) {
-      uVar1 = FUN_004bb290(i);
+    this_val = *(int *)((int)this + 0x9c);
+    if ((DAT_0073b4ec != this_val) &&
+       (DAT_0073b4ec = this_val,
+       this_val = (**(code **)(*DAT_0073b4b4 + 0x5c))
+                            (DAT_0073b4b4,1,*(undefined4 *)(DAT_0073b1b0 + this_val * 0x48)),
+       this_val != 0)) {
+      uVar1 = FUN_004bb290(this_val);
       FUN_004c4150(s__s__d_____TEXTURE__error_setting_0059be94,
                    s_______Libs_Win3DLib_Include_d3de_00591314,0x122,uVar1);
     }
   }
-  i = *(int *)(in_ECX + 0xac);
-  while (i != 0) {
-    puVar3 = (undefined4 *)(in_ECX + 0x10);
-    puVar4 = local_5c;
-    for (i = 0x10; i != 0; i = i + -1) {
-      *puVar4 = *puVar3;
-      puVar3 = puVar3 + 1;
-      puVar4 = puVar4 + 1;
-    }
+  this_val = *(int *)((int)this + 0xac);
+  while (this_val != 0) {
+    puVar2 = (undefined4 *)((int)this + 0x10);
     puVar3 = local_5c;
-    puVar4 = &DAT_0073b474;
     for (i = 0x10; i != 0; i = i + -1) {
-      *puVar4 = *puVar3;
+      *puVar3 = *puVar2;
+      puVar2 = puVar2 + 1;
       puVar3 = puVar3 + 1;
-      puVar4 = puVar4 + 1;
+    }
+    puVar2 = local_5c;
+    puVar3 = &DAT_0073b474;
+    for (i = 0x10; i != 0; i = i + -1) {
+      *puVar3 = *puVar2;
+      puVar2 = puVar2 + 1;
+      puVar3 = puVar3 + 1;
     }
     i = (**(code **)(*DAT_0073b4b4 + 0x68))(DAT_0073b4b4,1,&DAT_0073b474);
     if (i != 0) {
@@ -68,13 +68,13 @@ void FUN_0045fd50(void)
       FUN_004c4150(s__s__d_____FOG__error_setting_tra_005912e0,
                    s_______Libs_Win3DLib_Include_d3de_00591314,0x14,uVar1);
     }
-    FUN_00460060();
-    iVar2 = FUN_0045e0d0();
-    i = 0;
-    in_ECX = local_18;
-    if (iVar2 != 0) {
-      i = FUN_0045e0d0();
-      in_ECX = local_18;
+    FUN_00460060(this_val);
+    i = FUN_0045e0d0(this_val);
+    this_val = 0;
+    this = local_18;
+    if (i != 0) {
+      this_val = FUN_0045e0d0(i);
+      this = local_18;
     }
   }
   ExceptionList = local_10;
@@ -84,55 +84,49 @@ void FUN_0045fd50(void)
 
 /* ==== 0045ff20 FUN_0045ff20 ==== */
 
-void FUN_0045ff20(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+void * __thiscall
+FUN_0045ff20(void *this,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5)
 
 {
-  undefined4 *in_ECX;
-  
-  FUN_0045ded0(param_1,param_2,param_3,param_4);
-  *in_ECX = &PTR_LAB_00576910;
-  in_ECX[0x10] = 0x3f800000;
-  in_ECX[0x11] = 0x3f800000;
-  in_ECX[0x12] = 0x3f800000;
-  in_ECX[0x13] = 0x3f800000;
-  in_ECX[0x1c] = 0xc1200000;
-  return;
+  FUN_0045ded0(this,param_2,param_3,param_4,param_5);
+  *(undefined ***)this = &PTR_LAB_00576910;
+  *(undefined4 *)((int)this + 0x40) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x44) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x48) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x4c) = 0x3f800000;
+  *(undefined4 *)((int)this + 0x70) = 0xc1200000;
+  return this;
 }
 
 
 /* ==== 00460050 FUN_00460050 ==== */
 
-void FUN_00460050(undefined4 param_1)
+void __thiscall FUN_00460050(void *this,undefined4 param_2)
 
 {
-  undefined4 *in_ECX;
-  
-  (**(code **)*in_ECX)(param_1);
+  (*(code *)**(undefined4 **)this)(param_2);
   return;
 }
 
 
 /* ==== 00460060 FUN_00460060 ==== */
 
-void FUN_00460060(void)
+void __thiscall FUN_00460060(void *this)
 
 {
-  int *in_ECX;
-  
                     /* WARNING: Could not recover jumptable at 0x00460062. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (**(code **)(*in_ECX + 4))();
+  (**(code **)(*(int *)this + 4))();
   return;
 }
 
 
 /* ==== 00460070 FUN_00460070 ==== */
 
-void FUN_00460070(void)
+void __thiscall FUN_00460070(void *this)
 
 {
   int iVar1;
-  int in_ECX;
   undefined4 local_98;
   undefined4 local_94;
   undefined4 local_90;
@@ -181,9 +175,9 @@ void FUN_00460070(void)
   local_60 = 0x3f7d0000;
   local_5c = 0x3f7d0000;
   if (iVar1 != 0) {
-    local_58 = *(undefined4 *)(in_ECX + 0xc);
-    local_54 = *(undefined4 *)(in_ECX + 0x10);
-    local_50 = *(undefined4 *)(in_ECX + 0x14);
+    local_58 = *(undefined4 *)((int)this + 0xc);
+    local_54 = *(undefined4 *)((int)this + 0x10);
+    local_50 = *(undefined4 *)((int)this + 0x14);
     local_48 = __ftol();
     local_48 = local_48 << 0x18;
     local_30 = local_90;
@@ -207,12 +201,10 @@ void FUN_00460070(void)
 
 /* ==== 00460220 FUN_00460220 ==== */
 
-float10 FUN_00460220(void)
+float10 __thiscall FUN_00460220(void *this)
 
 {
-  int in_ECX;
-  
-  return (float10)*(float *)(in_ECX + 0x70);
+  return (float10)*(float *)((int)this + 0x70);
 }
 
 
@@ -258,28 +250,27 @@ void FUN_004602c0(void)
 
 /* ==== 004602e0 FUN_004602e0 ==== */
 
-float10 FUN_004602e0(float param_1,float param_2)
+float10 __thiscall FUN_004602e0(void *this,float param_2,float param_3)
 
 {
   int iVar1;
   
-  iVar1 = FUN_00558625();
-  return ((float10)param_2 - (float10)param_1) * (float10)iVar1 * (float10)3.051851e-05 +
-         (float10)param_1;
+  iVar1 = FUN_00558625(this);
+  return ((float10)param_3 - (float10)param_2) * (float10)iVar1 * (float10)3.051851e-05 +
+         (float10)param_2;
 }
 
 
 /* ==== 00460310 FUN_00460310 ==== */
 
-bool FUN_00460310(int param_1)
+bool FUN_00460310(int this_val)
 
 {
   int i;
   
   i = 0;
-  while (param_1 != 0) {
+  for (; this_val != 0; this_val = FUN_0045e8b0(this_val)) {
     i = i + 1;
-    param_1 = FUN_0045e8b0();
   }
   return i < 100;
 }

@@ -5,12 +5,16 @@
 void FUN_004aa9d0(char *param_1)
 
 {
-  char *pcVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
   FILE *file;
-  undefined4 *puVar4;
+  undefined4 *puVar1;
   int j;
+  undefined4 *puVar2;
+  undefined4 uVar3;
+  undefined4 uVar4;
+  FILE *pFVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  FILE *pFVar8;
   int i;
   undefined4 uStack_40;
   undefined4 uStack_3c;
@@ -29,14 +33,13 @@ void FUN_004aa9d0(char *param_1)
   undefined4 uStack_8;
   undefined4 uStack_4;
   
-  pcVar1 = param_1;
   file = (FILE *)FUN_004c62c0(param_1);
   if (file == (FILE *)0x0) {
     FUN_004c4150(s__s__d____File_open_failed_for_fi_005b00b4,
-                 s_C__Work_A2IV_Engine_prog_rd_drma_005b00dc,0x49,pcVar1);
+                 s_C__Work_A2IV_Engine_prog_rd_drma_005b00dc,0x49,param_1);
   }
-  FUN_00558b35(&param_1,4,1,file);
-  FUN_004ab200((uint)param_1);
+  FUN_00558b35();
+  FUN_004ab200(&DAT_00715eb8,(uint)param_1);
   i = 0;
   if ((int)param_1 < 1) {
 LAB_004aac01:
@@ -44,17 +47,29 @@ LAB_004aac01:
     return;
   }
 LAB_004aaa34:
-  FUN_00558b35(&uStack_2c,4,1,file);
-  FUN_00558b35(&uStack_30,4,1,file);
-  FUN_00558b35(&uStack_18,4,1,file);
-  FUN_00558b35(&uStack_14,4,1,file);
-  FUN_00558b35(&uStack_10,4,1,file);
-  FUN_00558b35(&uStack_34,4,1,file);
-  FUN_00558b35(&uStack_40,4,1,file);
-  FUN_00558b35(&uStack_3c,4,1,file);
-  FUN_00558b35(&uStack_38,4,1,file);
-  uVar3 = uStack_2c;
-  uVar2 = uStack_30;
+  uVar7 = 1;
+  puVar1 = &uStack_2c;
+  uVar6 = 4;
+  pFVar8 = file;
+  FUN_00558b35();
+  uVar4 = 1;
+  puVar2 = &uStack_30;
+  uVar3 = 4;
+  pFVar5 = file;
+  FUN_00558b35();
+  FUN_00558b35(&uStack_18,&uStack_18,4,1,file,puVar2,uVar3,uVar4,pFVar5,puVar1,uVar6,uVar7,pFVar8);
+  FUN_00558b35();
+  puVar1 = &uStack_10;
+  uVar4 = 1;
+  uVar3 = 4;
+  pFVar5 = file;
+  FUN_00558b35();
+  FUN_00558b35(&uStack_34,&uStack_34,4,1,file,puVar1,uVar3,uVar4,pFVar5);
+  FUN_00558b35();
+  FUN_00558b35();
+  FUN_00558b35(&uStack_38,&uStack_38,4,1,file);
+  uVar4 = uStack_2c;
+  uVar3 = uStack_30;
   uStack_28 = uStack_3c;
   uStack_24 = uStack_40;
   uStack_c = uStack_18;
@@ -88,17 +103,17 @@ LAB_004aac10:
   *(undefined1 *)(DAT_00715ec8 + j) = 1;
   DAT_00715ec0 = j;
 LAB_004aab94:
-  FUN_004c3fa0(s_Loaded_type__d_and_trigger___d_o_005b0084,uVar3,uVar2,j);
-  puVar4 = (undefined4 *)(j * 0x50 + DAT_00715eb8);
-  *puVar4 = uVar3;
-  puVar4[1] = uVar2;
-  puVar4[2] = uStack_c;
-  puVar4[3] = uStack_8;
-  puVar4[4] = uStack_4;
-  puVar4[6] = uStack_28;
-  puVar4[7] = uStack_24;
-  puVar4[8] = uStack_20;
-  puVar4[5] = uStack_1c;
+  FUN_004c3fa0(s_Loaded_type__d_and_trigger___d_o_005b0084,uVar4,uVar3,j);
+  puVar1 = (undefined4 *)(j * 0x50 + DAT_00715eb8);
+  *puVar1 = uVar4;
+  puVar1[1] = uVar3;
+  puVar1[2] = uStack_c;
+  puVar1[3] = uStack_8;
+  puVar1[4] = uStack_4;
+  puVar1[6] = uStack_28;
+  puVar1[7] = uStack_24;
+  puVar1[8] = uStack_20;
+  puVar1[5] = uStack_1c;
   i = i + 1;
   if ((int)param_1 <= i) goto LAB_004aac01;
   goto LAB_004aaa34;
@@ -216,30 +231,26 @@ int FUN_004aac20(int param_1,int param_2)
 
 /* ==== 004ab0d0 FUN_004ab0d0 ==== */
 
-undefined4 FUN_004ab0d0(int param_1)
+undefined4 __thiscall FUN_004ab0d0(void *this,int param_2)
 
 {
-  int in_ECX;
-  
-  if ((param_1 < 0) || (10 < param_1)) {
+  if ((param_2 < 0) || (10 < param_2)) {
     FUN_004c4150(s__s__d____obstacle___d__waypoint_o_005b0268,
-                 s_C__Work_A2IV_Engine_prog_rd_drma_005b00dc,0xef,param_1,10);
+                 s_C__Work_A2IV_Engine_prog_rd_drma_005b00dc,0xef,param_2,10);
   }
-  return *(undefined4 *)(in_ECX + 0x28 + param_1 * 4);
+  return *(undefined4 *)((int)this + param_2 * 4 + 0x28);
 }
 
 
 /* ==== 004ab110 FUN_004ab110 ==== */
 
-void FUN_004ab110(undefined4 param_1)
+void __thiscall FUN_004ab110(void *this,undefined4 param_2)
 
 {
-  int in_ECX;
-  
-  if (*(int *)(in_ECX + 0x24) != 10) {
-    FUN_004c3fa0(s_adding_object___d_to_list__005b029c,param_1);
-    *(undefined4 *)(in_ECX + 0x28 + *(int *)(in_ECX + 0x24) * 4) = param_1;
-    *(int *)(in_ECX + 0x24) = *(int *)(in_ECX + 0x24) + 1;
+  if (*(int *)((int)this + 0x24) != 10) {
+    FUN_004c3fa0(s_adding_object___d_to_list__005b029c,param_2);
+    *(undefined4 *)((int)this + *(int *)((int)this + 0x24) * 4 + 0x28) = param_2;
+    *(int *)((int)this + 0x24) = *(int *)((int)this + 0x24) + 1;
   }
   return;
 }
@@ -247,24 +258,23 @@ void FUN_004ab110(undefined4 param_1)
 
 /* ==== 004ab140 FUN_004ab140 ==== */
 
-void FUN_004ab140(int param_1)
+void __thiscall FUN_004ab140(void *this,int param_2)
 
 {
-  int in_ECX;
   undefined4 *puVar1;
   int i;
   int iVar2;
   int *piVar3;
   
-  FUN_004c3fa0(s_clear_object___d_from_list__005b0310,param_1);
-  if (*(int *)(in_ECX + 0x24) != 0) {
+  FUN_004c3fa0(s_clear_object___d_from_list__005b0310,param_2);
+  if (*(int *)((int)this + 0x24) != 0) {
     FUN_004c3fa0(s_search_for_object_005b02fc);
     i = 0;
-    piVar3 = (int *)(in_ECX + 0x28);
+    piVar3 = (int *)((int)this + 0x28);
     do {
       FUN_004c3fa0(s__d__005b02f8,*piVar3);
       iVar2 = i;
-      if (*piVar3 == param_1) break;
+      if (*piVar3 == param_2) break;
       i = i + 1;
       piVar3 = piVar3 + 1;
       iVar2 = -1;
@@ -273,7 +283,7 @@ void FUN_004ab140(int param_1)
     if (iVar2 != -1) {
       FUN_004c3fa0(s_found_object_in_list__index__d__005b02d4,iVar2);
       if (iVar2 < 9) {
-        puVar1 = (undefined4 *)(in_ECX + 0x28 + iVar2 * 4);
+        puVar1 = (undefined4 *)((int)this + iVar2 * 4 + 0x28);
         i = 9 - iVar2;
         iVar2 = iVar2 + i;
         do {
@@ -283,8 +293,8 @@ void FUN_004ab140(int param_1)
         } while (i != 0);
       }
       FUN_004c3fa0(s_clearing_last_in_list__d__005b02b8,iVar2);
-      *(undefined4 *)(in_ECX + 0x28 + iVar2 * 4) = 0xffffffff;
-      *(int *)(in_ECX + 0x24) = *(int *)(in_ECX + 0x24) + -1;
+      *(undefined4 *)((int)this + iVar2 * 4 + 0x28) = 0xffffffff;
+      *(int *)((int)this + 0x24) = *(int *)((int)this + 0x24) + -1;
     }
   }
   return;
@@ -293,14 +303,13 @@ void FUN_004ab140(int param_1)
 
 /* ==== 004ab200 FUN_004ab200 ==== */
 
-void FUN_004ab200(uint size)
+void __thiscall FUN_004ab200(void *this,uint size)
 
 {
   uint *operator_new_result;
   void *operator_new_result_2;
   int iVar1;
   int iVar2;
-  int *in_ECX;
   uint *puVar3;
   void *pvStack_c;
   undefined1 *puStack_8;
@@ -310,28 +319,28 @@ void FUN_004ab200(uint size)
   puStack_8 = &LAB_0056f47b;
   pvStack_c = ExceptionList;
   ExceptionList = &pvStack_c;
-  if (in_ECX[3] != 0) {
+  if (*(int *)((int)this + 0xc) != 0) {
     ExceptionList = &pvStack_c;
-    if (in_ECX[3] == 1) {
+    if (*(int *)((int)this + 0xc) == 1) {
       ExceptionList = &pvStack_c;
-      FUN_004c3fa0(s_T_ARRAY___deleting___16_16s___16_005af6ac,(int)in_ECX + 0x2d,in_ECX + 5,
-                   in_ECX[1]);
-      iVar1 = *in_ECX;
+      FUN_004c3fa0(s_T_ARRAY___deleting___16_16s___16_005af6ac,(int)this + 0x2d,(int)this + 0x14,
+                   *(undefined4 *)((int)this + 4));
+      iVar1 = *(int *)this;
       if (iVar1 != 0) {
         FUN_005586c5(iVar1,0x50,*(undefined4 *)(iVar1 + -4),FUN_0051ed40);
         FUN_0054b339(iVar1 + -4);
       }
     }
-    if (in_ECX[3] != 0) {
-      FUN_0054b339(in_ECX[4]);
-      in_ECX[3] = 0;
+    if (*(int *)((int)this + 0xc) != 0) {
+      FUN_0054b339(*(undefined4 *)((int)this + 0x10));
+      *(undefined4 *)((int)this + 0xc) = 0;
     }
     FUN_004c3fa0(s___done_deleting_T_ARRAY_005af690);
   }
   if ((int)size < 0) {
     FUN_004c4150(s__s__d____T_ARRAY_construction__i_005b0024,
-                 s_______Libs_win3dlib_Include_arra_005afbcc,0x107,(int)in_ECX + 0x2d,in_ECX + 5,
-                 size);
+                 s_______Libs_win3dlib_Include_arra_005afbcc,0x107,(int)this + 0x2d,(int)this + 0x14
+                 ,size);
   }
   operator_new_result = operator_new(size * 0x50 + 4);
   uStack_4 = 0;
@@ -344,18 +353,19 @@ void FUN_004ab200(uint size)
     FUN_00558643(puVar3,0x50,size,&LAB_004ab090,FUN_0051ed40);
   }
   uStack_4 = 0xffffffff;
-  *in_ECX = (int)puVar3;
-  in_ECX[1] = size;
-  in_ECX[2] = 0;
+  *(uint **)this = puVar3;
+  *(uint *)((int)this + 4) = size;
+  *(undefined4 *)((int)this + 8) = 0;
   operator_new_result_2 = operator_new(size);
-  in_ECX[4] = (int)operator_new_result_2;
-  FUN_004c3fa0(s_T_ARRAY___alloc___16_16s___16_16_005af664,(int)in_ECX + 0x2d,in_ECX + 5,in_ECX[1]);
-  in_ECX[3] = 1;
+  *(void **)((int)this + 0x10) = operator_new_result_2;
+  FUN_004c3fa0(s_T_ARRAY___alloc___16_16s___16_16_005af664,(int)this + 0x2d,(int)this + 0x14,
+               *(undefined4 *)((int)this + 4));
+  *(undefined4 *)((int)this + 0xc) = 1;
   iVar1 = 0;
   if (0 < (int)size) {
     do {
       iVar2 = iVar1 + 1;
-      *(undefined1 *)(iVar1 + in_ECX[4]) = 0;
+      *(undefined1 *)(iVar1 + *(int *)((int)this + 0x10)) = 0;
       iVar1 = iVar2;
     } while (iVar2 < (int)size);
   }

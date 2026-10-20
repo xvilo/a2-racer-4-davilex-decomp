@@ -221,7 +221,7 @@ void FUN_0043d230(int param_1,undefined4 param_2)
   *(undefined4 *)(DAT_0073b0d0 + DAT_006c40c0 + 0x80 + DAT_006c40c0 * 0xa8) = 0x41200000;
   *(undefined4 *)(iVar1 + 4) = 0x40800000;
   *(undefined4 *)(iVar1 + 8) = 0x41200000;
-  FUN_004b5770();
+  FUN_004b5770(DAT_0073b0d0 + DAT_006c40c0 * 0xa9);
   iVar1 = DAT_0073b5c8 + 0x58 + param_1 * 0xac;
   _DAT_006c40b0 = *(undefined4 *)(DAT_0073b5c8 + 0x58 + param_1 * 0xac);
   _DAT_006c40b4 = *(undefined4 *)(iVar1 + 4);
@@ -241,9 +241,9 @@ void FUN_0043d3c0(void)
   undefined1 *puVar4;
   
   if (DAT_006fb8d0 != 0) {
-    iVar1 = FUN_004b75a0((char *)&PTR_s__00594b3c_0x17_0059bd50);
+    iVar1 = FUN_004b75a0(&DAT_00712130,(char *)&PTR_s__00594b3c_0x17_0059bd50);
     uVar3 = *(undefined4 *)(**(int **)(DAT_0073b168 + iVar1 * 9 + 4) * 0x10 + DAT_0073b120);
-    iVar1 = FUN_004b75a0((char *)&PTR_s__00594b3c_0x17_0059bd54);
+    iVar1 = FUN_004b75a0(&DAT_00712130,(char *)&PTR_s__00594b3c_0x17_0059bd54);
     FUN_0043d230(uVar3,*(undefined4 *)
                         (**(int **)(DAT_0073b168 + iVar1 * 9 + 4) * 0x10 + 4 + DAT_0073b120));
     if (DAT_006fb8e0 != 0) {
@@ -259,15 +259,15 @@ void FUN_0043d3c0(void)
                            s_______Libs_Win3DLib_Include_d3de_00591314,0x23f,uVar3);
             }
           }
-          iVar1 = FUN_00448c90(s_Game_Settings_0059bd58);
+          iVar1 = FUN_00448c90(&DAT_006fa558,s_Game_Settings_0059bd58);
           puVar4 = *(undefined1 **)(iVar1 + 4);
           if (puVar4 == (undefined1 *)0x0) {
             puVar4 = &DAT_0057629c;
           }
-          FUN_004c3b60(puVar4);
-          iVar1 = FUN_004c3cd0(s_options_0059bd70,s_FILTER_0059bd68);
+          FUN_004c3b60();
+          iVar1 = FUN_004c3cd0(s_options_0059bd70,s_FILTER_0059bd68,puVar4);
           if (iVar1 == 2) {
-            FUN_004bc200(1);
+            FUN_004bc200(&DAT_0073b258,1);
           }
         }
         FUN_00457040();
@@ -314,7 +314,7 @@ void FUN_0043d4f0(void)
     i = DAT_0073b0d0 + DAT_006c40c0 * 0xa9;
     FUN_004b4360(i + 0x10,*(undefined4 *)(i + 0x80),*(undefined4 *)(i + 0x84),
                  *(undefined4 *)(i + 0x88));
-    FUN_004b5b10();
+    FUN_004b5b10(DAT_0073b0d0 + DAT_006c40c0 * 0xa9);
   }
   return;
 }

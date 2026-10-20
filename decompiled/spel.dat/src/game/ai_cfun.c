@@ -67,10 +67,11 @@ undefined4 FUN_00404eb0(int param_1)
     FUN_004c4150(s___s___d_Illegal_index___d__in_FS_0058f724,
                  s_C__Work_A2IV_Game_prog_ai_cfun_c_0058f700,0x43b,param_1);
   }
-  if (2.5 < *(float *)(&DAT_005cea58 + param_1 * 0x294)) {
-    FUN_00402e40(0);
-    FUN_00402ea0(0x42c80000);
-    *(undefined4 *)(&DAT_005cea54 + param_1 * 0x294) = 0xc0a00000;
+  param_1 = param_1 * 0x294;
+  if (2.5 < *(float *)(&DAT_005cea58 + param_1)) {
+    FUN_00402e40(&DAT_005cea7c + param_1,0);
+    FUN_00402ea0(&DAT_005cea7c + param_1,0x42c80000);
+    *(undefined4 *)(&DAT_005cea54 + param_1) = 0xc0a00000;
     return 1;
   }
   return 0;

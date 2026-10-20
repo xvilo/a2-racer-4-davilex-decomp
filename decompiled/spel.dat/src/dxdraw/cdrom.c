@@ -15,7 +15,7 @@ void FUN_004ced80(undefined4 param_1,undefined4 param_2,int param_3,int param_4)
       return;
     }
     if (((param_3 == 0x8000) || (param_3 == 0x8004)) && (*(int *)(param_4 + 4) == 2)) {
-      cVar1 = FUN_00559576(DAT_00740dec);
+      cVar1 = FUN_00559576(DAT_00740dec,DAT_00740dec);
       if ((*(uint *)(param_4 + 0xc) & 1 << (cVar1 + 0xbfU & 0x1f)) != 0) {
         (*DAT_0074b31c)(param_3 != 0x8000);
         pcVar2 = s_inserted_005b6dcc;

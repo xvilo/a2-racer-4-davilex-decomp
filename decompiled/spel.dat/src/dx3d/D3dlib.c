@@ -43,6 +43,7 @@ undefined4 FUN_004c04b0(undefined4 param_1,uint size,uint size_2,undefined4 para
 
 {
   int iVar1;
+  void *this;
   undefined4 uVar2;
   
   FUN_004c3fa0(s_init_3d_library__version__d_005b29ac,s_May_31_2000_005b29cc);
@@ -78,7 +79,7 @@ undefined4 FUN_004c04b0(undefined4 param_1,uint size,uint size_2,undefined4 para
   FUN_004c3fa0(s_init_materials_005b28f4);
   FUN_004bab70(size_2);
   FUN_004c3fa0(s_init_viewport_005b28e4);
-  FUN_004c09b0(10);
+  FUN_004c09b0(this,10);
   FUN_004c3fa0(s_add_a_viewport_005b28d4);
   uVar2 = FUN_004c0c30();
   FUN_004c0d30(uVar2);
@@ -171,29 +172,29 @@ void FUN_004c0610(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
 undefined4 FUN_004c0780(void)
 
 {
-  int iVar1;
+  int *piVar1;
   int iVar2;
   undefined4 uVar3;
   
   iVar2 = DAT_0073b78c;
-  iVar1 = DAT_0073b784;
+  piVar1 = DAT_0073b784;
   uVar3 = 1;
   if ((DAT_0073b77c != 0) && (DAT_0073b4fd != 0)) {
     uVar3 = 3;
   }
-  if (*(int *)(DAT_0073b784 + 0xc) == 0) {
+  if (DAT_0073b784[3] == 0) {
     FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_D__Work_DX3D_D3dlib_cpp_005b2884,0xc0
-                 ,DAT_0073b784 + 0x14,*(undefined4 *)(DAT_0073b784 + 4),DAT_0073b784 + 0x2d);
+                 ,DAT_0073b784 + 5,DAT_0073b784[1],(int)DAT_0073b784 + 0x2d);
   }
-  if ((iVar2 < 0) || (*(int *)(iVar1 + 4) <= iVar2)) {
+  if ((iVar2 < 0) || (piVar1[1] <= iVar2)) {
     FUN_004c4150(s__s__d____out_of_boundaries__s__d_005b0fc8,s_D__Work_DX3D_D3dlib_cpp_005b2884,0xc0
-                 ,iVar1 + 0x14,iVar2,*(undefined4 *)(iVar1 + 4));
+                 ,piVar1 + 5,iVar2,piVar1[1]);
   }
-  if (*(char *)(*(int *)(iVar1 + 0x10) + iVar2) == '\0') {
+  if (*(char *)(piVar1[4] + iVar2) == '\0') {
     FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s_D__Work_DX3D_D3dlib_cpp_005b2884,0xc0
-                 ,iVar1 + 0x14,iVar2);
+                 ,piVar1 + 5,iVar2);
   }
-  FUN_004c0f50(uVar3);
+  FUN_004c0f50(*(undefined4 *)(*piVar1 + iVar2 * 4),uVar3);
   return 0;
 }
 
@@ -203,29 +204,29 @@ undefined4 FUN_004c0780(void)
 undefined4 FUN_004c0840(uint param_1)
 
 {
-  int iVar1;
+  int *piVar1;
   int iVar2;
   uint uVar3;
   
   iVar2 = DAT_0073b78c;
-  iVar1 = DAT_0073b784;
+  piVar1 = DAT_0073b784;
   uVar3 = 0;
   if ((DAT_0073b77c != 0) && (DAT_0073b4fd != 0)) {
     uVar3 = param_1 | 2;
   }
-  if (*(int *)(DAT_0073b784 + 0xc) == 0) {
+  if (DAT_0073b784[3] == 0) {
     FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_D__Work_DX3D_D3dlib_cpp_005b2884,0xcf
-                 ,DAT_0073b784 + 0x14,*(undefined4 *)(DAT_0073b784 + 4),DAT_0073b784 + 0x2d);
+                 ,DAT_0073b784 + 5,DAT_0073b784[1],(int)DAT_0073b784 + 0x2d);
   }
-  if ((iVar2 < 0) || (*(int *)(iVar1 + 4) <= iVar2)) {
+  if ((iVar2 < 0) || (piVar1[1] <= iVar2)) {
     FUN_004c4150(s__s__d____out_of_boundaries__s__d_005b0fc8,s_D__Work_DX3D_D3dlib_cpp_005b2884,0xcf
-                 ,iVar1 + 0x14,iVar2,*(undefined4 *)(iVar1 + 4));
+                 ,piVar1 + 5,iVar2,piVar1[1]);
   }
-  if (*(char *)(*(int *)(iVar1 + 0x10) + iVar2) == '\0') {
+  if (*(char *)(piVar1[4] + iVar2) == '\0') {
     FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s_D__Work_DX3D_D3dlib_cpp_005b2884,0xcf
-                 ,iVar1 + 0x14,iVar2);
+                 ,piVar1 + 5,iVar2);
   }
-  FUN_004c0f50(uVar3);
+  FUN_004c0f50(*(undefined4 *)(*piVar1 + iVar2 * 4),uVar3);
   return 0;
 }
 
@@ -283,7 +284,7 @@ void FUN_004c0950(void)
 
 /* ==== 004c09b0 FUN_004c09b0 ==== */
 
-void FUN_004c09b0(uint size)
+void __thiscall FUN_004c09b0(void *this,uint size)
 
 {
   char *_Dest;

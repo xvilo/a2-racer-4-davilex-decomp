@@ -37,7 +37,7 @@ unsigned TextureManager::get(const std::string &name)
 		(rcs.read(base + ".pcx", bytes) && decode_pcx(bytes, img));
 	if (ok && img.width > 0 && img.height > 0) {
 		bool any = false;
-		const uint32_t key = rgba(255, 0, 255);
+		const uint32_t key = rgba(255, 0, 127);
 		for (uint32_t &p : img.pixels) {
 			if ((p | rgba(0, 0, 0, 255)) == key) {
 				p = rgba(0, 0, 0, 0);

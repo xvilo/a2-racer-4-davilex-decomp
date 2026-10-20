@@ -2,13 +2,12 @@
 
 /* ==== 00402730 FUN_00402730 ==== */
 
-char * FUN_00402730(void)
+char * __thiscall FUN_00402730(void *this)
 
 {
   int iVar1;
-  int *in_ECX;
   
-  iVar1 = *in_ECX;
+  iVar1 = *(int *)this;
   if (iVar1 == 0) {
     return s_UNKNOWN_0058e5dc;
   }
@@ -116,14 +115,13 @@ void FUN_004028d0(void)
 
 /* ==== 004028f0 FUN_004028f0 ==== */
 
-void FUN_004028f0(char param_1)
+void __thiscall FUN_004028f0(void *this,char param_2)
 
 {
   char cVar1;
   int iVar2;
-  int in_ECX;
   
-  if ((param_1 != '\0') && (iVar2 = *(int *)(in_ECX + 4), iVar2 != 0)) {
+  if ((param_2 != '\0') && (iVar2 = *(int *)((int)this + 4), iVar2 != 0)) {
     cVar1 = *(char *)(iVar2 + -1);
     if ((cVar1 == '\0') || (cVar1 == -1)) {
       FUN_0054b339((char *)(iVar2 + -1));
@@ -132,93 +130,90 @@ void FUN_004028f0(char param_1)
       *(char *)(iVar2 + -1) = cVar1 + -1;
     }
   }
-  *(undefined4 *)(in_ECX + 4) = 0;
-  *(undefined4 *)(in_ECX + 8) = 0;
-  *(undefined4 *)(in_ECX + 0xc) = 0;
+  *(undefined4 *)((int)this + 4) = 0;
+  *(undefined4 *)((int)this + 8) = 0;
+  *(undefined4 *)((int)this + 0xc) = 0;
   return;
 }
 
 
 /* ==== 00402940 FUN_00402940 ==== */
 
-void FUN_00402940(undefined4 *param_1,uint param_2)
+void * __thiscall FUN_00402940(void *this,undefined4 *param_2,uint param_3)
 
 {
   char cVar1;
   int iVar2;
-  int in_ECX;
   uint i;
   undefined4 *puVar3;
   
-  if (0xfffffffd < param_2) {
+  if (0xfffffffd < param_3) {
     FUN_0054b1b4();
   }
-  iVar2 = *(int *)(in_ECX + 4);
+  iVar2 = *(int *)((int)this + 4);
   if (((iVar2 == 0) || (cVar1 = *(char *)(iVar2 + -1), cVar1 == '\0')) || (cVar1 == -1)) {
-    if (param_2 == 0) {
-      FUN_004028f0(1);
-      return;
+    if (param_3 == 0) {
+      FUN_004028f0(this,1);
+      return this;
     }
-    if ((*(uint *)(in_ECX + 0xc) < 0x20) && (param_2 <= *(uint *)(in_ECX + 0xc))) goto LAB_004029b0;
-    FUN_004028f0(1);
+    if ((*(uint *)((int)this + 0xc) < 0x20) && (param_3 <= *(uint *)((int)this + 0xc)))
+    goto LAB_004029b0;
+    FUN_004028f0(this,1);
   }
-  else if (param_2 == 0) {
+  else if (param_3 == 0) {
     *(char *)(iVar2 + -1) = cVar1 + -1;
-    *(undefined4 *)(in_ECX + 4) = 0;
-    *(undefined4 *)(in_ECX + 8) = 0;
-    *(undefined4 *)(in_ECX + 0xc) = 0;
-    return;
+    *(undefined4 *)((int)this + 4) = 0;
+    *(undefined4 *)((int)this + 8) = 0;
+    *(undefined4 *)((int)this + 0xc) = 0;
+    return this;
   }
-  FUN_00402b20(param_2);
+  FUN_00402b20(this,param_3);
 LAB_004029b0:
-  puVar3 = *(undefined4 **)(in_ECX + 4);
-  for (i = param_2 >> 2; i != 0; i = i - 1) {
-    *puVar3 = *param_1;
-    param_1 = param_1 + 1;
+  puVar3 = *(undefined4 **)((int)this + 4);
+  for (i = param_3 >> 2; i != 0; i = i - 1) {
+    *puVar3 = *param_2;
+    param_2 = param_2 + 1;
     puVar3 = puVar3 + 1;
   }
-  for (i = param_2 & 3; i != 0; i = i - 1) {
-    *(undefined1 *)puVar3 = *(undefined1 *)param_1;
-    param_1 = (undefined4 *)((int)param_1 + 1);
+  for (i = param_3 & 3; i != 0; i = i - 1) {
+    *(undefined1 *)puVar3 = *(undefined1 *)param_2;
+    param_2 = (undefined4 *)((int)param_2 + 1);
     puVar3 = (undefined4 *)((int)puVar3 + 1);
   }
-  *(uint *)(in_ECX + 8) = param_2;
-  *(undefined1 *)(param_2 + *(int *)(in_ECX + 4)) = 0;
-  return;
+  *(uint *)((int)this + 8) = param_3;
+  *(undefined1 *)(param_3 + *(int *)((int)this + 4)) = 0;
+  return this;
 }
 
 
 /* ==== 004029e0 FUN_004029e0 ==== */
 
-void FUN_004029e0(int param_1)
+void __thiscall FUN_004029e0(void *this,int param_2)
 
 {
-  int in_ECX;
-  
-  *(int *)(in_ECX + 8) = param_1;
-  *(undefined1 *)(*(int *)(in_ECX + 4) + param_1) = 0;
+  *(int *)((int)this + 8) = param_2;
+  *(undefined1 *)(*(int *)((int)this + 4) + param_2) = 0;
   return;
 }
 
 
 /* ==== 00402a00 FUN_00402a00 ==== */
 
-undefined4 FUN_00402a00(uint param_1,char param_2)
+undefined4 __thiscall FUN_00402a00(void *this,uint param_2,char param_3)
 
 {
   char cVar1;
   undefined1 *puVar2;
-  int in_ECX;
   
-  if (0xfffffffd < param_1) {
+  if (0xfffffffd < param_2) {
     FUN_0054b1b4();
   }
-  puVar2 = *(undefined1 **)(in_ECX + 4);
+  puVar2 = *(undefined1 **)((int)this + 4);
   if (((puVar2 == (undefined1 *)0x0) || (cVar1 = puVar2[-1], cVar1 == '\0')) || (cVar1 == -1)) {
-    if (param_1 == 0) {
-      if (param_2 == '\0') {
+    if (param_2 == 0) {
+      if (param_3 == '\0') {
         if (puVar2 != (undefined1 *)0x0) {
-          *(undefined4 *)(in_ECX + 8) = 0;
+          *(undefined4 *)((int)this + 8) = 0;
           *puVar2 = 0;
         }
         return 0;
@@ -227,59 +222,59 @@ undefined4 FUN_00402a00(uint param_1,char param_2)
         cVar1 = puVar2[-1];
         if ((cVar1 != '\0') && (cVar1 != -1)) {
           puVar2[-1] = cVar1 + -1;
-          *(undefined4 *)(in_ECX + 4) = 0;
-          *(undefined4 *)(in_ECX + 8) = 0;
-          *(undefined4 *)(in_ECX + 0xc) = 0;
+          *(undefined4 *)((int)this + 4) = 0;
+          *(undefined4 *)((int)this + 8) = 0;
+          *(undefined4 *)((int)this + 0xc) = 0;
           return 0;
         }
         FUN_0054b339(puVar2 + -1);
       }
-      *(undefined4 *)(in_ECX + 4) = 0;
-      *(undefined4 *)(in_ECX + 8) = 0;
-      *(undefined4 *)(in_ECX + 0xc) = 0;
+      *(undefined4 *)((int)this + 4) = 0;
+      *(undefined4 *)((int)this + 8) = 0;
+      *(undefined4 *)((int)this + 0xc) = 0;
       return 0;
     }
-    if (param_2 != '\0') {
-      if ((*(uint *)(in_ECX + 0xc) < 0x20) && (param_1 <= *(uint *)(in_ECX + 0xc))) {
+    if (param_3 != '\0') {
+      if ((*(uint *)((int)this + 0xc) < 0x20) && (param_2 <= *(uint *)((int)this + 0xc))) {
         return 1;
       }
       if (puVar2 != (undefined1 *)0x0) {
         cVar1 = puVar2[-1];
         if ((cVar1 != '\0') && (cVar1 != -1)) {
           puVar2[-1] = cVar1 + -1;
-          *(undefined4 *)(in_ECX + 4) = 0;
-          *(undefined4 *)(in_ECX + 8) = 0;
-          *(undefined4 *)(in_ECX + 0xc) = 0;
-          FUN_00402b20(param_1);
+          *(undefined4 *)((int)this + 4) = 0;
+          *(undefined4 *)((int)this + 8) = 0;
+          *(undefined4 *)((int)this + 0xc) = 0;
+          FUN_00402b20(this,param_2);
           return 1;
         }
         FUN_0054b339(puVar2 + -1);
       }
-      *(undefined4 *)(in_ECX + 4) = 0;
-      *(undefined4 *)(in_ECX + 8) = 0;
-      *(undefined4 *)(in_ECX + 0xc) = 0;
-      FUN_00402b20(param_1);
+      *(undefined4 *)((int)this + 4) = 0;
+      *(undefined4 *)((int)this + 8) = 0;
+      *(undefined4 *)((int)this + 0xc) = 0;
+      FUN_00402b20(this,param_2);
       return 1;
     }
-    if (param_1 <= *(uint *)(in_ECX + 0xc)) {
+    if (param_2 <= *(uint *)((int)this + 0xc)) {
       return 1;
     }
   }
-  else if (param_1 == 0) {
+  else if (param_2 == 0) {
     puVar2[-1] = cVar1 + -1;
-    *(undefined4 *)(in_ECX + 4) = 0;
-    *(undefined4 *)(in_ECX + 8) = 0;
-    *(undefined4 *)(in_ECX + 0xc) = 0;
+    *(undefined4 *)((int)this + 4) = 0;
+    *(undefined4 *)((int)this + 8) = 0;
+    *(undefined4 *)((int)this + 0xc) = 0;
     return 0;
   }
-  FUN_00402b20(param_1);
+  FUN_00402b20(this,param_2);
   return 1;
 }
 
 
 /* ==== 00402b20 FUN_00402b20 ==== */
 
-void FUN_00402b20(uint param_1)
+void __thiscall FUN_00402b20(undefined4 param_1,uint param_2)
 
 {
   uint size;
@@ -289,9 +284,9 @@ void FUN_00402b20(uint param_1)
   
   puStack_c = &LAB_00569510;
   pvStack_10 = ExceptionList;
-  size = param_1 | 0x1f;
-  if (0xfffffffd < (param_1 | 0x1f)) {
-    size = param_1;
+  size = param_2 | 0x1f;
+  if (0xfffffffd < (param_2 | 0x1f)) {
+    size = param_2;
   }
   size = size + 2;
   local_8 = 0;
@@ -368,18 +363,17 @@ void FUN_00402ba0(void)
 
 /* ==== 00402c30 FUN_00402c30 ==== */
 
-void FUN_00402c30(void)
+void __thiscall FUN_00402c30(void *this)
 
 {
   char cVar1;
   int iVar2;
-  int in_ECX;
   uint i;
   uint j;
   char *pcVar3;
   char *pcVar4;
   
-  pcVar3 = *(char **)(in_ECX + 4);
+  pcVar3 = *(char **)((int)this + 4);
   if (pcVar3 == (char *)0x0) {
     return;
   }
@@ -392,9 +386,9 @@ void FUN_00402c30(void)
   }
   pcVar3[-1] = cVar1 + -1;
   i = 0xffffffff;
-  *(undefined4 *)(in_ECX + 4) = 0;
-  *(undefined4 *)(in_ECX + 8) = 0;
-  *(undefined4 *)(in_ECX + 0xc) = 0;
+  *(undefined4 *)((int)this + 4) = 0;
+  *(undefined4 *)((int)this + 8) = 0;
+  *(undefined4 *)((int)this + 0xc) = 0;
   pcVar4 = pcVar3;
   do {
     if (i == 0) break;
@@ -406,23 +400,23 @@ void FUN_00402c30(void)
   if (0xfffffffd < i) {
     FUN_0054b1b4();
   }
-  iVar2 = *(int *)(in_ECX + 4);
+  iVar2 = *(int *)((int)this + 4);
   if (((iVar2 == 0) || (cVar1 = *(char *)(iVar2 + -1), cVar1 == '\0')) || (cVar1 == -1)) {
     if (i == 0) {
-      FUN_004028f0(1);
+      FUN_004028f0(this,1);
       return;
     }
-    if ((*(uint *)(in_ECX + 0xc) < 0x20) && (i <= *(uint *)(in_ECX + 0xc))) goto LAB_00402cd7;
-    FUN_004028f0(1);
+    if ((*(uint *)((int)this + 0xc) < 0x20) && (i <= *(uint *)((int)this + 0xc))) goto LAB_00402cd7;
+    FUN_004028f0(this,1);
   }
   else if (i == 0) {
     *(char *)(iVar2 + -1) = cVar1 + -1;
-    FUN_004028f0(0);
+    FUN_004028f0(this,0);
     return;
   }
-  FUN_00402b20(i);
+  FUN_00402b20(this,i);
 LAB_00402cd7:
-  pcVar4 = *(char **)(in_ECX + 4);
+  pcVar4 = *(char **)((int)this + 4);
   for (j = i >> 2; j != 0; j = j - 1) {
     *(undefined4 *)pcVar4 = *(undefined4 *)pcVar3;
     pcVar3 = pcVar3 + 4;
@@ -433,8 +427,8 @@ LAB_00402cd7:
     pcVar3 = pcVar3 + 1;
     pcVar4 = pcVar4 + 1;
   }
-  *(uint *)(in_ECX + 8) = i;
-  *(undefined1 *)(i + *(int *)(in_ECX + 4)) = 0;
+  *(uint *)((int)this + 8) = i;
+  *(undefined1 *)(i + *(int *)((int)this + 4)) = 0;
   return;
 }
 
@@ -456,41 +450,37 @@ void FUN_00402d00(undefined4 param_1,undefined4 param_2,int param_3,code *param_
 
 /* ==== 00402d30 FUN_00402d30 ==== */
 
-void FUN_00402d30(void)
+void __thiscall FUN_00402d30(void *this)
 
 {
-  undefined4 *in_ECX;
-  
-  *in_ECX = 0;
-  in_ECX[1] = 0;
-  in_ECX[2] = 0;
-  in_ECX[3] = 0;
-  in_ECX[7] = 0;
-  in_ECX[5] = 0;
-  *(undefined1 *)(in_ECX + 6) = 0;
-  in_ECX[8] = 0xffffffff;
-  in_ECX[9] = 0;
-  in_ECX[4] = 5;
-  in_ECX[10] = 0xffffffff;
-  in_ECX[0xc] = 0;
+  *(undefined4 *)this = 0;
+  *(undefined4 *)((int)this + 4) = 0;
+  *(undefined4 *)((int)this + 8) = 0;
+  *(undefined4 *)((int)this + 0xc) = 0;
+  *(undefined4 *)((int)this + 0x1c) = 0;
+  *(undefined4 *)((int)this + 0x14) = 0;
+  *(undefined1 *)((int)this + 0x18) = 0;
+  *(undefined4 *)((int)this + 0x20) = 0xffffffff;
+  *(undefined4 *)((int)this + 0x24) = 0;
+  *(undefined4 *)((int)this + 0x10) = 5;
+  *(undefined4 *)((int)this + 0x28) = 0xffffffff;
+  *(undefined4 *)((int)this + 0x30) = 0;
   return;
 }
 
 
 /* ==== 00402de0 FUN_00402de0 ==== */
 
-void FUN_00402de0(float param_1)
+void __thiscall FUN_00402de0(void *this,float param_2)
 
 {
-  float *in_ECX;
-  
-  *in_ECX = param_1;
-  if (param_1 < -100.0) {
-    *in_ECX = -100.0;
+  *(float *)this = param_2;
+  if (param_2 < -100.0) {
+    *(undefined4 *)this = 0xc2c80000;
     return;
   }
-  if (100.0 < param_1) {
-    *in_ECX = 100.0;
+  if (100.0 < param_2) {
+    *(undefined4 *)this = 0x42c80000;
   }
   return;
 }
@@ -498,33 +488,30 @@ void FUN_00402de0(float param_1)
 
 /* ==== 00402e20 FUN_00402e20 ==== */
 
-void FUN_00402e20(float param_1)
+void __thiscall FUN_00402e20(void *this,float param_2)
 
 {
   float fVar1;
-  float *in_ECX;
   
-  fVar1 = *in_ECX;
-  *in_ECX = param_1 + fVar1;
-  FUN_00402de0(param_1 + fVar1);
+  fVar1 = *(float *)this;
+  *(float *)this = param_2 + fVar1;
+  FUN_00402de0(this,param_2 + fVar1);
   return;
 }
 
 
 /* ==== 00402e40 FUN_00402e40 ==== */
 
-void FUN_00402e40(float param_1)
+void __thiscall FUN_00402e40(void *this,float param_2)
 
 {
-  int in_ECX;
-  
-  *(float *)(in_ECX + 4) = param_1;
-  if (100.0 < param_1) {
-    *(undefined4 *)(in_ECX + 4) = 0x42c80000;
+  *(float *)((int)this + 4) = param_2;
+  if (100.0 < param_2) {
+    *(undefined4 *)((int)this + 4) = 0x42c80000;
     return;
   }
-  if (param_1 < 0.0) {
-    *(undefined4 *)(in_ECX + 4) = 0;
+  if (param_2 < 0.0) {
+    *(undefined4 *)((int)this + 4) = 0;
   }
   return;
 }
@@ -532,36 +519,32 @@ void FUN_00402e40(float param_1)
 
 /* ==== 00402e80 FUN_00402e80 ==== */
 
-void FUN_00402e80(float param_1)
+void __thiscall FUN_00402e80(void *this,float param_2)
 
 {
-  int in_ECX;
-  
-  param_1 = param_1 + *(float *)(in_ECX + 4);
-  *(float *)(in_ECX + 4) = param_1;
-  FUN_00402e40(param_1);
+  param_2 = param_2 + *(float *)((int)this + 4);
+  *(float *)((int)this + 4) = param_2;
+  FUN_00402e40(this,param_2);
   return;
 }
 
 
 /* ==== 00402ea0 FUN_00402ea0 ==== */
 
-void FUN_00402ea0(float param_1)
+void __thiscall FUN_00402ea0(void *this,float param_2)
 
 {
-  int in_ECX;
-  
-  if (0.0 < (float)*(int *)(in_ECX + 0x2c)) {
-    *(undefined4 *)(in_ECX + 8) = 0;
+  if (0.0 < (float)*(int *)((int)this + 0x2c)) {
+    *(undefined4 *)((int)this + 8) = 0;
     return;
   }
-  *(float *)(in_ECX + 8) = param_1;
-  if (100.0 < param_1) {
-    *(undefined4 *)(in_ECX + 8) = 0x42c80000;
+  *(float *)((int)this + 8) = param_2;
+  if (100.0 < param_2) {
+    *(undefined4 *)((int)this + 8) = 0x42c80000;
     return;
   }
-  if (param_1 < 0.0) {
-    *(undefined4 *)(in_ECX + 8) = 0;
+  if (param_2 < 0.0) {
+    *(undefined4 *)((int)this + 8) = 0;
   }
   return;
 }
@@ -569,34 +552,31 @@ void FUN_00402ea0(float param_1)
 
 /* ==== 00402f00 FUN_00402f00 ==== */
 
-void FUN_00402f00(float param_1)
+void __thiscall FUN_00402f00(void *this,float param_2)
 
 {
-  int in_ECX;
-  
-  if (0.0 < (float)*(int *)(in_ECX + 0x2c)) {
-    *(undefined4 *)(in_ECX + 8) = 0;
+  if (0.0 < (float)*(int *)((int)this + 0x2c)) {
+    *(undefined4 *)((int)this + 8) = 0;
     return;
   }
-  param_1 = param_1 + *(float *)(in_ECX + 8);
-  *(float *)(in_ECX + 8) = param_1;
-  FUN_00402ea0(param_1);
+  param_2 = param_2 + *(float *)((int)this + 8);
+  *(float *)((int)this + 8) = param_2;
+  FUN_00402ea0(this,param_2);
   return;
 }
 
 
 /* ==== 00402f70 FUN_00402f70 ==== */
 
-void FUN_00402f70(void)
+void __thiscall FUN_00402f70(void *this)
 
 {
   undefined4 __ftol_result;
-  int in_ECX;
   
-  if ((float)*(int *)(in_ECX + 0x2c) == 0.0) {
+  if ((float)*(int *)((int)this + 0x2c) == 0.0) {
     __ftol_result = __ftol();
-    *(undefined4 *)(in_ECX + 0x2c) = __ftol_result;
-    FUN_00402ea0(0);
+    *(undefined4 *)((int)this + 0x2c) = __ftol_result;
+    FUN_00402ea0(this,0);
   }
   return;
 }
@@ -604,30 +584,26 @@ void FUN_00402f70(void)
 
 /* ==== 00403040 FUN_00403040 ==== */
 
-void FUN_00403040(undefined1 param_1)
+void __thiscall FUN_00403040(void *this,undefined1 param_2)
 
 {
-  int in_ECX;
-  
-  *(undefined1 *)(in_ECX + 0x18) = param_1;
+  *(undefined1 *)((int)this + 0x18) = param_2;
   return;
 }
 
 
 /* ==== 00403050 FUN_00403050 ==== */
 
-void FUN_00403050(int param_1)
+void __thiscall FUN_00403050(void *this,int param_2)
 
 {
-  int in_ECX;
-  
-  *(int *)(in_ECX + 0x14) = param_1;
-  if (10 < param_1) {
-    *(undefined4 *)(in_ECX + 0x14) = 10;
+  *(int *)((int)this + 0x14) = param_2;
+  if (10 < param_2) {
+    *(undefined4 *)((int)this + 0x14) = 10;
     return;
   }
-  if (param_1 < 0) {
-    *(undefined4 *)(in_ECX + 0x14) = 0;
+  if (param_2 < 0) {
+    *(undefined4 *)((int)this + 0x14) = 0;
   }
   return;
 }
@@ -635,18 +611,16 @@ void FUN_00403050(int param_1)
 
 /* ==== 00403080 FUN_00403080 ==== */
 
-void FUN_00403080(int param_1)
+void __thiscall FUN_00403080(void *this,int param_2)
 
 {
-  int in_ECX;
-  
-  *(int *)(in_ECX + 0x1c) = param_1;
-  if (10000 < param_1) {
-    *(undefined4 *)(in_ECX + 0x1c) = 10000;
+  *(int *)((int)this + 0x1c) = param_2;
+  if (10000 < param_2) {
+    *(undefined4 *)((int)this + 0x1c) = 10000;
     return;
   }
-  if (param_1 < 0) {
-    *(undefined4 *)(in_ECX + 0x1c) = 0;
+  if (param_2 < 0) {
+    *(undefined4 *)((int)this + 0x1c) = 0;
   }
   return;
 }
@@ -654,43 +628,38 @@ void FUN_00403080(int param_1)
 
 /* ==== 00403100 FUN_00403100 ==== */
 
-void FUN_00403100(undefined1 param_1)
+void __thiscall FUN_00403100(void *this,undefined1 param_2)
 
 {
-  int in_ECX;
-  
-  *(undefined1 *)(in_ECX + 0x19) = param_1;
+  *(undefined1 *)((int)this + 0x19) = param_2;
   return;
 }
 
 
 /* ==== 00403140 FUN_00403140 ==== */
 
-void FUN_00403140(int param_1)
+void __thiscall FUN_00403140(void *this,int param_2)
 
 {
-  int in_ECX;
-  
-  FUN_004a6980(-1 < param_1,s___s___d_Illegal_dynamics_type_gi_0058ea60,
-               s_C__Work_A2IV_Game_prog_ai_carc_c_0058ea3c,0x298,param_1);
-  *(int *)(in_ECX + 0x28) = param_1;
+  FUN_004a6980(-1 < param_2,s___s___d_Illegal_dynamics_type_gi_0058ea60,
+               s_C__Work_A2IV_Game_prog_ai_carc_c_0058ea3c,0x298,param_2);
+  *(int *)((int)this + 0x28) = param_2;
   return;
 }
 
 
 /* ==== 00403170 FUN_00403170 ==== */
 
-void FUN_00403170(int param_1)
+void __thiscall FUN_00403170(void *this,int param_2)
 
 {
   int *piVar1;
-  int in_ECX;
   int j;
   int i;
   float10 fVar2;
   
   i = 0;
-  piVar1 = (int *)(param_1 + 0x34);
+  piVar1 = (int *)(param_2 + 0x34);
   j = 4;
   do {
     if (*(char *)(*piVar1 + 0x25) == '\x01') {
@@ -700,25 +669,24 @@ void FUN_00403170(int param_1)
     j = j + -1;
   } while (j != 0);
   if (0 < i) {
-    *(undefined4 *)(in_ECX + 0x30) = 0;
+    *(undefined4 *)((int)this + 0x30) = 0;
     return;
   }
-  fVar2 = (float10)FUN_004a6800();
-  *(float *)(in_ECX + 0x30) = (float)(fVar2 + (float10)*(float *)(in_ECX + 0x30));
+  fVar2 = (float10)FUN_004a6800(&DAT_007128b0);
+  *(float *)((int)this + 0x30) = (float)(fVar2 + (float10)*(float *)((int)this + 0x30));
   return;
 }
 
 
 /* ==== 004031c0 FUN_004031c0 ==== */
 
-short FUN_004031c0(void)
+short __thiscall FUN_004031c0(void *this)
 
 {
   float fVar1;
   byte bVar2;
-  int in_ECX;
   
-  fVar1 = *(float *)(in_ECX + 0x30);
+  fVar1 = *(float *)((int)this + 0x30);
   bVar2 = fVar1 < 0.5 | (byte)((ushort)((ushort)NAN(fVar1) << 10) >> 8) |
           (byte)((ushort)((ushort)(fVar1 == 0.5) << 0xe) >> 8);
   if (fVar1 >= 0.5 && (fVar1 == 0.5) == 0) {
@@ -730,12 +698,10 @@ short FUN_004031c0(void)
 
 /* ==== 004031e0 FUN_004031e0 ==== */
 
-float10 FUN_004031e0(void)
+float10 __thiscall FUN_004031e0(void *this)
 
 {
-  int in_ECX;
-  
-  return (float10)*(float *)(in_ECX + 0x30);
+  return (float10)*(float *)((int)this + 0x30);
 }
 
 
@@ -892,16 +858,18 @@ void FUN_004037a0(int param_1,undefined4 param_2,int param_3)
 
 {
   float10 fVar1;
+  undefined *this_val;
   
+  this_val = &DAT_005cea7c + param_1 * 0x294;
   if (*(float *)((&DAT_005ce9e8)[param_1 * 0xa5] * 0xf0 + 0xc4 + DAT_00715e50) < (float)param_3) {
-    fVar1 = (float10)FUN_004a6800();
-    FUN_00402f00((float)(fVar1 * (float10)100.0));
-    FUN_00402e40(0);
+    fVar1 = (float10)FUN_004a6800(&DAT_007128b0);
+    FUN_00402f00(this_val,(float)(fVar1 * (float10)100.0));
+    FUN_00402e40(this_val,0);
     return;
   }
-  fVar1 = (float10)FUN_004a6800();
-  FUN_00402e80((float)(fVar1 * (float10)200.0));
-  FUN_00402ea0(0);
+  fVar1 = (float10)FUN_004a6800(&DAT_007128b0);
+  FUN_00402e80(this_val,(float)(fVar1 * (float10)200.0));
+  FUN_00402ea0(this_val,0);
   return;
 }
 
@@ -939,7 +907,7 @@ LAB_0040387b:
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void FUN_004038a0(int param_1)
+void __thiscall FUN_004038a0(undefined4 param_1,int param_2)
 
 {
   undefined4 *puVar1;
@@ -949,30 +917,30 @@ void FUN_004038a0(int param_1)
   undefined4 uVar5;
   int iVar6;
   
-  iVar2 = param_1;
-  if ((param_1 < 0) || (0x12 < param_1)) {
+  iVar2 = param_2;
+  if ((param_2 < 0) || (0x12 < param_2)) {
     FUN_004c4150(s___s___d_Illegal_index___d__in_FS_0058eb18,
-                 s_C__Work_A2IV_Game_prog_ai_carc_c_0058eaf4,0x4d3,param_1);
+                 s_C__Work_A2IV_Game_prog_ai_carc_c_0058eaf4,0x4d3,param_2);
   }
-  iVar6 = param_1 * 0x294;
-  uVar5 = (&DAT_005ce9e8)[param_1 * 0xa5];
+  iVar6 = param_2 * 0x294;
+  uVar5 = (&DAT_005ce9e8)[param_2 * 0xa5];
   iVar3 = FUN_004188c0(uVar5);
   puVar1 = (undefined4 *)(iVar3 * 0x50 + 8 + DAT_00715eb8);
   uVar4 = FUN_004031f0(uVar5,*puVar1,puVar1[1],puVar1[2]);
-  param_1 = (uVar4 ^ (int)uVar4 >> 0x1f) - ((int)uVar4 >> 0x1f);
-  if (500 < param_1) {
-    param_1 = 500;
+  param_2 = (uVar4 ^ (int)uVar4 >> 0x1f) - ((int)uVar4 >> 0x1f);
+  if (500 < param_2) {
+    param_2 = 500;
   }
-  FUN_00403440(iVar2,(float)param_1);
+  FUN_00403440(iVar2,(float)param_2);
   if (*(int *)(&DAT_005cea08 + iVar6) == 2) {
     FUN_00403830((&DAT_005973c8)[iVar2 * 0x16] + 1);
   }
   FUN_00403490(iVar2);
   uVar5 = __ftol();
   FUN_004037a0(iVar2,0,uVar5);
-  FUN_00403100(0);
-  if ((*(int *)(&DAT_005cea08 + iVar6) == 1) && (param_1 < 0x32)) {
-    FUN_00403100(1);
+  FUN_00403100(&DAT_005cea7c + iVar6,0);
+  if ((*(int *)(&DAT_005cea08 + iVar6) == 1) && (param_2 < 0x32)) {
+    FUN_00403100(&DAT_005cea7c + iVar6,1);
   }
   return;
 }
@@ -986,7 +954,9 @@ void FUN_00403a70(float param_1,undefined4 param_2,undefined4 param_3,undefined4
 
 {
   int iVar1;
+  int iVar2;
   
+  iVar1 = (int)param_1;
   if (((int)param_1 < 0) || (0x12 < (int)param_1)) {
     FUN_004c4150(s__s__d_Illegal_entry__d_in_FSM_ta_0058eb80,
                  s_C__Work_A2IV_Game_prog_ai_carc_c_0058eb5c,0x54c,param_1);
@@ -994,11 +964,11 @@ void FUN_00403a70(float param_1,undefined4 param_2,undefined4 param_3,undefined4
   else {
     param_1 = (float)(&DAT_005ce9e8)[(int)param_1 * 0xa5];
   }
-  iVar1 = FUN_004031f0(param_1,param_2,param_3,param_4);
-  if (_DAT_005d1b8c <= ABS((float)iVar1)) {
-    if ((float)iVar1 <= _DAT_005d1b90) {
-      if (-_DAT_005d1b90 <= (float)iVar1) {
-        param_1 = (float)iVar1 / _DAT_005d1b94;
+  iVar2 = FUN_004031f0(param_1,param_2,param_3,param_4);
+  if (_DAT_005d1b8c <= ABS((float)iVar2)) {
+    if ((float)iVar2 <= _DAT_005d1b90) {
+      if (-_DAT_005d1b90 <= (float)iVar2) {
+        param_1 = (float)iVar2 / _DAT_005d1b94;
       }
       else {
         param_1 = -100.0;
@@ -1011,7 +981,7 @@ void FUN_00403a70(float param_1,undefined4 param_2,undefined4 param_3,undefined4
   else {
     param_1 = 0.0;
   }
-  FUN_00402de0(param_1);
+  FUN_00402de0(&DAT_005cea7c + iVar1 * 0x294,param_1);
   return;
 }
 
@@ -1026,7 +996,7 @@ void FUN_00403c70(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
     FUN_004c4150(s___s___d_Illegal_index___d__in_FS_0058ec10,
                  s_C__Work_A2IV_Game_prog_ai_carc_c_0058ebec,0x5e9,param_1);
   }
-  FUN_004038a0(param_1,param_2);
+  FUN_004038a0();
   FUN_00403a70(param_1,param_3,param_4,param_5);
   return;
 }
@@ -1050,15 +1020,15 @@ void FUN_00403cd0(int param_1)
   iVar1 = (&DAT_005ce9e8)[param_1 * 0xa5];
   if (0.0 < *(float *)(&DAT_005cea5c + iVar3)) {
     iVar2 = iVar1 * 0xf0 + DAT_00715e50;
-    fVar4 = (float10)FUN_004a6800();
+    fVar4 = (float10)FUN_004a6800(&DAT_007128b0);
     *(float *)(iVar2 + 0xbc) =
          (float)((float10)*(float *)(iVar2 + 0xbc) -
                 fVar4 * (float10)*(float *)(iVar2 + 0xbc) * (float10)0.25);
     iVar2 = iVar1 * 0xf0 + DAT_00715e50;
-    fVar4 = (float10)FUN_004a6800();
+    fVar4 = (float10)FUN_004a6800(&DAT_007128b0);
     fVar4 = fVar4 * (float10)*(float *)(iVar2 + 0xcc);
     *(float *)(iVar2 + 0xcc) = (float)((float10)*(float *)(iVar2 + 0xcc) - (fVar4 + fVar4));
-    fVar4 = (float10)FUN_004a6800();
+    fVar4 = (float10)FUN_004a6800(&DAT_007128b0);
     *(float *)(&DAT_005cea5c + iVar3) = (float)((float10)*(float *)(&DAT_005cea5c + iVar3) - fVar4);
   }
   else {

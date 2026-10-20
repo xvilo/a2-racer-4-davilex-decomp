@@ -1,5 +1,6 @@
 #include "race/race_view.h"
 
+#include <array>
 #include <cmath>
 #include <cstdio>
 
@@ -141,6 +142,22 @@ int race_view(const std::string &data_dir, const NamedArchive &rcs, int stage, i
 	const auto &chunks = track.road.chunks;
 	if (chunks.size() < 2)
 		return 1;
+	/* The camera follows the middle of each chunk's road surface (list 0). */
+	std::vector<std::array<float, 3>> centre(chunks.size());
+	for (size_t i = 0; i < chunks.size(); i++) {
+		float sum[3] = {};
+		int n = 0;
+		for (const RoadQuad &q : chunks[i].lists[0]) {
+			for (const RoadVertex &v : q.v) {
+				sum[0] += v.x;
+				sum[1] += v.y;
+				sum[2] += v.z;
+				n++;
+			}
+		}
+		for (int k = 0; k < 3; k++)
+			centre[i][k] = n ? sum[k] / n : chunks[i].pos[k];
+	}
 	float pos = 0; /* chunks travelled */
 	uint32_t last = sys_ticks();
 	SysInput in;
@@ -154,7 +171,7 @@ int race_view(const std::string &data_dir, const NamedArchive &rcs, int stage, i
 		size_t n = chunks.size();
 		size_t c = (size_t)pos % n;
 		float f = pos - floorf(pos);
-		const float *a = chunks[c].pos, *b = chunks[(c + 1) % n].pos, *ahead = chunks[(c + 4) % n].pos;
+		const float *a = centre[c].data(), *b = centre[(c + 1) % n].data(), *ahead = centre[(c + 4) % n].data();
 		float eye[3] = { a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f + 30, a[2] + (b[2] - a[2]) * f };
 		float target[3] = { ahead[0], ahead[1] + 20, ahead[2] };
 

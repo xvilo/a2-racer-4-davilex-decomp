@@ -2,14 +2,13 @@
 
 /* ==== 004b3850 FUN_004b3850 ==== */
 
-void FUN_004b3850(uint size)
+void __thiscall FUN_004b3850(void *this,uint size)
 
 {
   uint *operator_new_result;
   void *operator_new_result_2;
   int iVar1;
   int iVar2;
-  int *in_ECX;
   uint *puVar3;
   void *pvStack_c;
   undefined1 *puStack_8;
@@ -19,28 +18,28 @@ void FUN_004b3850(uint size)
   puStack_8 = &LAB_0056f5bb;
   pvStack_c = ExceptionList;
   ExceptionList = &pvStack_c;
-  if (in_ECX[3] != 0) {
+  if (*(int *)((int)this + 0xc) != 0) {
     ExceptionList = &pvStack_c;
-    if (in_ECX[3] == 1) {
+    if (*(int *)((int)this + 0xc) == 1) {
       ExceptionList = &pvStack_c;
-      FUN_004c3fa0(s_T_ARRAY___deleting___16_16s___16_005af6ac,(int)in_ECX + 0x2d,in_ECX + 5,
-                   in_ECX[1]);
-      iVar1 = *in_ECX;
+      FUN_004c3fa0(s_T_ARRAY___deleting___16_16s___16_005af6ac,(int)this + 0x2d,(int)this + 0x14,
+                   *(undefined4 *)((int)this + 4));
+      iVar1 = *(int *)this;
       if (iVar1 != 0) {
         FUN_005586c5(iVar1,0x60,*(undefined4 *)(iVar1 + -4),FUN_0051ed40);
         FUN_0054b339(iVar1 + -4);
       }
     }
-    if (in_ECX[3] != 0) {
-      FUN_0054b339(in_ECX[4]);
-      in_ECX[3] = 0;
+    if (*(int *)((int)this + 0xc) != 0) {
+      FUN_0054b339(*(undefined4 *)((int)this + 0x10));
+      *(undefined4 *)((int)this + 0xc) = 0;
     }
     FUN_004c3fa0(s___done_deleting_T_ARRAY_005af690);
   }
   if ((int)size < 0) {
     FUN_004c4150(s__s__d____T_ARRAY_construction__i_005b0024,
-                 s_______Libs_win3dlib_Include_arra_005afbcc,0x107,(int)in_ECX + 0x2d,in_ECX + 5,
-                 size);
+                 s_______Libs_win3dlib_Include_arra_005afbcc,0x107,(int)this + 0x2d,(int)this + 0x14
+                 ,size);
   }
   operator_new_result = operator_new(size * 0x60 + 4);
   uStack_4 = 0;
@@ -53,18 +52,19 @@ void FUN_004b3850(uint size)
     FUN_00558643(puVar3,0x60,size,&LAB_004b3830,FUN_0051ed40);
   }
   uStack_4 = 0xffffffff;
-  *in_ECX = (int)puVar3;
-  in_ECX[1] = size;
-  in_ECX[2] = 0;
+  *(uint **)this = puVar3;
+  *(uint *)((int)this + 4) = size;
+  *(undefined4 *)((int)this + 8) = 0;
   operator_new_result_2 = operator_new(size);
-  in_ECX[4] = (int)operator_new_result_2;
-  FUN_004c3fa0(s_T_ARRAY___alloc___16_16s___16_16_005af664,(int)in_ECX + 0x2d,in_ECX + 5,in_ECX[1]);
-  in_ECX[3] = 1;
+  *(void **)((int)this + 0x10) = operator_new_result_2;
+  FUN_004c3fa0(s_T_ARRAY___alloc___16_16s___16_16_005af664,(int)this + 0x2d,(int)this + 0x14,
+               *(undefined4 *)((int)this + 4));
+  *(undefined4 *)((int)this + 0xc) = 1;
   iVar1 = 0;
   if (0 < (int)size) {
     do {
       iVar2 = iVar1 + 1;
-      *(undefined1 *)(iVar1 + in_ECX[4]) = 0;
+      *(undefined1 *)(iVar1 + *(int *)((int)this + 0x10)) = 0;
       iVar1 = iVar2;
     } while (iVar2 < (int)size);
   }
@@ -169,8 +169,8 @@ void FUN_004b3a60(float *param_1,float *param_2,float *param_3,float *param_4,fl
     FUN_004c4150(s__s__d____Divide_by_zero__at__fro_005b0e5c,s_D__Work_DX3D_D3dutils_cpp_005b0e80,
                  0x4e);
   }
-  pfVar4 = (float *)FUN_004066c0(*param_3 - *param_2,param_3[1] - param_2[1],param_3[2] - param_2[2]
-                                );
+  pfVar4 = (float *)FUN_004066c0(&local_e4,*param_3 - *param_2,param_3[1] - param_2[1],
+                                 param_3[2] - param_2[2]);
   fStack_d8 = *pfVar4;
   fStack_d4 = pfVar4[1];
   fStack_d0 = pfVar4[2];

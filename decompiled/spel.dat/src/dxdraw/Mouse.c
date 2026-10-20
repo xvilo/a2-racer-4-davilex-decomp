@@ -497,7 +497,7 @@ void FUN_004cec30(undefined4 param_1)
 
 /* ==== 004cece0 FUN_004cece0 ==== */
 
-undefined4 FUN_004cece0(void)
+undefined4 __thiscall FUN_004cece0(void)
 
 {
   undefined4 uVar1;

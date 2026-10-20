@@ -1,6 +1,6 @@
 /* Textures from the race's archive (rcs), as OpenGL textures. Every texture is there as an
  * 8-bit PCX and as a 24-bit TGA; the original loads the TGA in its 16-bit (3D card) modes,
- * and so does the port. Magenta (255, 0, 255) is the transparent colour. */
+ * and so does the port. Pink (255, 0, 127) is the transparent colour. */
 #pragma once
 
 #include <cstdint>

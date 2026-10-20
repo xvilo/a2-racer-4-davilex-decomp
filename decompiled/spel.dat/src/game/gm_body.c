@@ -588,9 +588,10 @@ void FUN_00447be0(void)
   char cVar1;
   int iVar2;
   undefined4 uVar3;
-  undefined1 *puVar4;
+  undefined4 uVar4;
+  undefined1 *puVar5;
   int i;
-  char *pcVar5;
+  char *pcVar6;
   char local_308 [256];
   undefined1 local_208 [260];
   undefined1 local_104 [260];
@@ -600,24 +601,24 @@ void FUN_00447be0(void)
   FUN_004cd3b0(s__DATA_0059e874,s_rcs_img_0059e86c);
   FUN_004c3fa0(s_init_fileio_0059e87c);
   uVar3 = FUN_004cd4a0(local_208,&DAT_0059db6d);
-  uVar3 = FUN_004cd4a0(local_104,&DAT_0059db5d,uVar3);
-  FUN_004c5e90(uVar3);
-  iVar2 = FUN_00448c90(s_Game_Settings_0059e88c);
-  puVar4 = *(undefined1 **)(iVar2 + 4);
-  if (puVar4 == (undefined1 *)0x0) {
-    puVar4 = &DAT_0057629c;
+  uVar4 = FUN_004cd4a0(local_104,&DAT_0059db5d);
+  FUN_004c5e90(uVar4,uVar3);
+  iVar2 = FUN_00448c90(&DAT_006fa558,s_Game_Settings_0059e88c);
+  puVar5 = *(undefined1 **)(iVar2 + 4);
+  if (puVar5 == (undefined1 *)0x0) {
+    puVar5 = &DAT_0057629c;
   }
-  FUN_004c3b60(puVar4);
-  iVar2 = FUN_004c3cd0(s_CDCHECK_0059e8a4,s_SIZE_0059e89c);
+  FUN_004c3b60();
+  iVar2 = FUN_004c3cd0(s_CDCHECK_0059e8a4,s_SIZE_0059e89c,puVar5);
   FUN_004c3d10(s_CDCHECK_0059e8b4,s_NAME_0059e8ac,local_308,199);
   if (iVar2 != 0) {
     i = -1;
-    pcVar5 = local_308;
+    pcVar6 = local_308;
     do {
       if (i == 0) break;
       i = i + -1;
-      cVar1 = *pcVar5;
-      pcVar5 = pcVar5 + 1;
+      cVar1 = *pcVar6;
+      pcVar6 = pcVar6 + 1;
     } while (cVar1 != '\0');
     if (i != -2) {
       FUN_004c3fa0(s__Checking_cdrom__0059e8bc);
@@ -697,20 +698,20 @@ void FUN_00447db0(undefined4 param_1)
   char local_120 [32];
   char local_100 [256];
   
-  i = FUN_00448c90(s_Game_Settings_0059e96c);
+  i = FUN_00448c90(&DAT_006fa558,s_Game_Settings_0059e96c);
   puVar2 = *(undefined1 **)(i + 4);
   if (puVar2 == (undefined1 *)0x0) {
     puVar2 = &DAT_0057629c;
   }
-  FUN_004c3b60(puVar2);
-  uVar3 = FUN_004c3cd0(s_ETAPPE_0059e964,s_ETAPPE_0059e97c);
-  i = FUN_00448c90(param_1);
+  FUN_004c3b60();
+  uVar3 = FUN_004c3cd0(s_ETAPPE_0059e964,s_ETAPPE_0059e97c,puVar2);
+  i = FUN_00448c90(&DAT_006fa558,param_1);
   puVar2 = *(undefined1 **)(i + 4);
   if (puVar2 == (undefined1 *)0x0) {
     puVar2 = &DAT_0057629c;
   }
-  FUN_004c3b60(puVar2);
-  uVar4 = FUN_004c3cd0(s_PROGRAM_0059e934,s_RESOLUTION_0059e984);
+  FUN_004c3b60();
+  uVar4 = FUN_004c3cd0(s_PROGRAM_0059e934,s_RESOLUTION_0059e984,puVar2);
   skelet2d_set_resolution(uVar4);
   FUN_004c3d10(s_PROGRAM_0059e934,s_NAME_0059e990,local_140,0x1f);
   skelet2d_set_program_name(local_140);

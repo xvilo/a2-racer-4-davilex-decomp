@@ -791,15 +791,15 @@ undefined4 FUN_004c7750(int param_1,undefined4 param_2,undefined4 param_3,int pa
   int unaff_ESI;
   undefined1 *puVar5;
   undefined1 *puVar6;
-  undefined4 uVar7;
   undefined1 local_8 [4];
   undefined1 local_4 [4];
+  undefined4 this_val;
   
   uVar4 = param_2;
   if ((param_4 != -1) && (iVar2 = FUN_004c6160(param_2,param_4,0), iVar2 != 0)) {
     return 0x3e9;
   }
-  uVar7 = 1;
+  this_val = 1;
   puVar6 = local_8;
   puVar5 = local_4;
   piVar1 = *(int **)(param_1 * 0x44 + 0x28 + DAT_00740934);
@@ -809,14 +809,14 @@ undefined4 FUN_004c7750(int param_1,undefined4 param_2,undefined4 param_3,int pa
     FUN_004c4150(s__s__d____error_locking_sound_buf_005b54a4,s_D__Work_dxdraw_Sound_cpp_005b4f74,
                  0x4fb,param_1,uVar3);
   }
-  if ((puVar5 != (undefined1 *)0x0) && (iVar2 = FUN_00558b35(puVar6,puVar5,1,uVar4), iVar2 != 1)) {
+  if ((puVar5 != (undefined1 *)0x0) && (iVar2 = FUN_00558b35(), iVar2 != 1)) {
     return 0x3e9;
   }
-  if ((unaff_ESI != 0) && (iVar2 = FUN_00558b35(uVar7,unaff_ESI,1,uVar4), iVar2 != 1)) {
+  if ((unaff_ESI != 0) && (iVar2 = FUN_00558b35(this_val,this_val,unaff_ESI,1,uVar4), iVar2 != 1)) {
     return 0x3e9;
   }
   piVar1 = *(int **)(param_1 * 0x44 + 0x28 + DAT_00740934);
-  iVar2 = (**(code **)(*piVar1 + 0x4c))(piVar1,puVar6,puVar5,uVar7,unaff_ESI);
+  iVar2 = (**(code **)(*piVar1 + 0x4c))(piVar1,puVar6,puVar5,this_val,unaff_ESI);
   if (iVar2 != 0) {
     uVar4 = FUN_004c65b0(iVar2);
     FUN_004c4150(s__s__d____error_unlocking_sound_b_005b5470,s_D__Work_dxdraw_Sound_cpp_005b4f74,
@@ -834,7 +834,6 @@ undefined4 FUN_004c7880(char *str2,int param_2)
   FILE *file;
   int iVar1;
   undefined4 uVar2;
-  undefined1 local_2c [22];
   short local_16;
   undefined4 local_14;
   short local_c;
@@ -847,7 +846,7 @@ undefined4 FUN_004c7880(char *str2,int param_2)
       FUN_004c3fa0(s___s__005b5540,str2);
       return 1000;
     }
-    iVar1 = FUN_00558b35(local_2c,0x2c,1,file);
+    iVar1 = FUN_00558b35();
     if (iVar1 != 1) {
       FUN_004c6430(file);
       return 0x3e9;
@@ -882,7 +881,7 @@ undefined4 FUN_004c7880(char *str2,int param_2)
 
 /* ==== 004c7a10 FUN_004c7a10 ==== */
 
-int FUN_004c7a10(char *str2,undefined4 param_2,uint param_3)
+int __thiscall FUN_004c7a10(void *this,char *str2,undefined4 param_2,uint param_3)
 
 {
   char cVar1;

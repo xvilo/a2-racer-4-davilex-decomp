@@ -2,23 +2,22 @@
 
 /* ==== 004b8590 FUN_004b8590 ==== */
 
-int FUN_004b8590(void)
+int __thiscall FUN_004b8590(void *this)
 
 {
   int iVar1;
   int iVar2;
   int i;
-  int in_ECX;
   int iVar3;
   
-  if (*(int *)(in_ECX + 0xc) == 0) {
+  if (*(int *)((int)this + 0xc) == 0) {
     FUN_004c4150(s__s__d____T_ARRAY__get_new__s__d__005afb8c,s___array_hpp_005b1044,0xb9,
-                 in_ECX + 0x14,*(undefined4 *)(in_ECX + 4),in_ECX + 0x2d);
+                 (int)this + 0x14,*(undefined4 *)((int)this + 4),(int)this + 0x2d);
   }
-  iVar1 = *(int *)(in_ECX + 8);
-  iVar2 = *(int *)(in_ECX + 4);
+  iVar1 = *(int *)((int)this + 8);
+  iVar2 = *(int *)((int)this + 4);
   if (iVar1 < iVar2) {
-    iVar3 = *(int *)(in_ECX + 0x10);
+    iVar3 = *(int *)((int)this + 0x10);
     i = iVar1;
     do {
       if (*(char *)(iVar3 + i) == '\0') goto LAB_004b8612;
@@ -27,43 +26,41 @@ int FUN_004b8590(void)
   }
   i = 0;
   if (0 < iVar1) {
-    iVar3 = *(int *)(in_ECX + 0x10);
+    iVar3 = *(int *)((int)this + 0x10);
     do {
       if (*(char *)(iVar3 + i) == '\0') {
 LAB_004b8612:
         *(undefined1 *)(iVar3 + i) = 1;
-        *(int *)(in_ECX + 8) = i;
+        *(int *)((int)this + 8) = i;
         return i;
       }
       i = i + 1;
     } while (i < iVar1);
   }
-  FUN_004c4150(s__s__d____T_ARRAY__new_array__s_0_005afb40,s___array_hpp_005b1044,0xce,in_ECX + 0x14
-               ,iVar2,in_ECX + 0x2d);
+  FUN_004c4150(s__s__d____T_ARRAY__new_array__s_0_005afb40,s___array_hpp_005b1044,0xce,
+               (int)this + 0x14,iVar2,(int)this + 0x2d);
   return -1;
 }
 
 
 /* ==== 004b8620 FUN_004b8620 ==== */
 
-int FUN_004b8620(int param_1)
+int __thiscall FUN_004b8620(void *this,int param_2)
 
 {
-  int *in_ECX;
-  
-  if (in_ECX[3] == 0) {
-    FUN_004c4150(s__s__d____T_ARRAY______s__d__of_t_005b1008,s___array_hpp_005b1044,0x1b1,in_ECX + 5
-                 ,in_ECX[1],(int)in_ECX + 0x2d);
+  if (*(int *)((int)this + 0xc) == 0) {
+    FUN_004c4150(s__s__d____T_ARRAY______s__d__of_t_005b1008,s___array_hpp_005b1044,0x1b1,
+                 (int)this + 0x14,*(undefined4 *)((int)this + 4),(int)this + 0x2d);
   }
-  if ((param_1 < 0) || (in_ECX[1] <= param_1)) {
-    FUN_004c4150(s__s__d____out_of_boundaries__s__d_005b0fc8,s___array_hpp_005b1044,0x1b5,in_ECX + 5
-                 ,param_1,in_ECX[1]);
+  if ((param_2 < 0) || (*(int *)((int)this + 4) <= param_2)) {
+    FUN_004c4150(s__s__d____out_of_boundaries__s__d_005b0fc8,s___array_hpp_005b1044,0x1b5,
+                 (int)this + 0x14,param_2,*(undefined4 *)((int)this + 4));
   }
-  if (*(char *)(in_ECX[4] + param_1) == '\0') {
-    FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s___array_hpp_005b1044,0x1b9,in_ECX + 5
-                 ,param_1);
+  if (*(char *)(*(int *)((int)this + 0x10) + param_2) == '\0') {
+    FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s___array_hpp_005b1044,0x1b9,
+                 (int)this + 0x14,param_2);
   }
-  return param_1 * 0x19 + *in_ECX;
+  return param_2 * 0x19 + *(int *)this;
 }
 
 
@@ -246,7 +243,7 @@ void FUN_004b8910(int *source)
 void FUN_004b8b80(uint size)
 
 {
-  FUN_004ba830(size);
+  FUN_004ba830(&DAT_0073b1b0,size);
   DAT_0073b1f8 = 0;
   DAT_0073b1fc = 0;
   _DAT_0073b200 = 1.0 / _DAT_005b1498;
@@ -361,7 +358,7 @@ int FUN_004b8e00(int *source,int *param_2)
                  &DAT_0073b1c4,iVar1);
   }
   iVar2 = iVar1 * 0x48;
-  FUN_004b9b40(source,(int *)0x0,param_2);
+  FUN_004b9b40((void *)(DAT_0073b1b0 + iVar2),source,0,param_2);
   if (DAT_0073b1bc == 0) {
     FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_C__Work_DX3D_text_cpp_005b14ec,0xa3,
                  &DAT_0073b1c4,DAT_0073b1b4,&DAT_0073b1dd);
@@ -414,7 +411,7 @@ int FUN_004b8e00(int *source,int *param_2)
                  &DAT_0073b1c4,iVar1);
   }
   *(undefined4 *)(DAT_0073b1b0 + 0x40 + iVar2) = 0x3f800000;
-  iVar2 = FUN_004ba990(iVar1,s_C__Work_DX3D_text_cpp_005b14ec,0xa7);
+  iVar2 = FUN_004ba990(&DAT_0073b1b0,iVar1,s_C__Work_DX3D_text_cpp_005b14ec,0xa7);
   *(undefined4 *)(iVar2 + 0x44) = 0;
   return iVar1;
 }
@@ -476,7 +473,7 @@ int FUN_004b91c0(int *source,int *param_2)
                  &DAT_0073b1c4,iVar1);
   }
   iVar2 = iVar1 * 0x48;
-  FUN_004b9b40(source,(int *)0x4,param_2);
+  FUN_004b9b40((void *)(DAT_0073b1b0 + iVar2),source,4,param_2);
   if (DAT_0073b1bc == 0) {
     FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_C__Work_DX3D_text_cpp_005b14ec,0xb3,
                  &DAT_0073b1c4,DAT_0073b1b4,&DAT_0073b1dd);
@@ -529,7 +526,7 @@ int FUN_004b91c0(int *source,int *param_2)
                  &DAT_0073b1c4,iVar1);
   }
   *(undefined4 *)(DAT_0073b1b0 + 0x40 + iVar2) = 0x3f800000;
-  iVar2 = FUN_004ba990(iVar1,s_C__Work_DX3D_text_cpp_005b14ec,0xb7);
+  iVar2 = FUN_004ba990(&DAT_0073b1b0,iVar1,s_C__Work_DX3D_text_cpp_005b14ec,0xb7);
   *(undefined4 *)(iVar2 + 0x44) = 0;
   return iVar1;
 }
@@ -541,6 +538,7 @@ int FUN_004b94e0(char *source)
 
 {
   int iVar1;
+  int iVar2;
   
   iVar1 = FUN_004b9120();
   if (DAT_0073b1bc == 0) {
@@ -555,7 +553,8 @@ int FUN_004b94e0(char *source)
     FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s_C__Work_DX3D_text_cpp_005b14ec,0xc0,
                  &DAT_0073b1c4,iVar1);
   }
-  FUN_004b9fa0(source,0);
+  iVar2 = iVar1 * 0x48;
+  FUN_004b9fa0((void *)(iVar2 + DAT_0073b1b0),source,0);
   if (DAT_0073b1bc == 0) {
     FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_C__Work_DX3D_text_cpp_005b14ec,0xc1,
                  &DAT_0073b1c4,DAT_0073b1b4,&DAT_0073b1dd);
@@ -567,38 +566,36 @@ int FUN_004b94e0(char *source)
   if (*(char *)(DAT_0073b1c0 + iVar1) == '\0') {
     FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s_C__Work_DX3D_text_cpp_005b14ec,0xc1,
                  &DAT_0073b1c4,iVar1);
-    *(undefined4 *)(iVar1 * 0x48 + 0x44 + DAT_0073b1b0) = 1;
+    *(undefined4 *)(iVar2 + 0x44 + DAT_0073b1b0) = 1;
     return iVar1;
   }
-  *(undefined4 *)(iVar1 * 0x48 + 0x44 + DAT_0073b1b0) = 1;
+  *(undefined4 *)(iVar2 + 0x44 + DAT_0073b1b0) = 1;
   return iVar1;
 }
 
 
 /* ==== 004b9640 FUN_004b9640 ==== */
 
-void FUN_004b9640(void)
+void * __thiscall FUN_004b9640(void *this)
 
 {
-  undefined4 *in_ECX;
-  
-  FUN_004c1ab0();
-  *in_ECX = 0;
-  in_ECX[1] = 0;
-  in_ECX[2] = 0;
-  in_ECX[3] = 0;
-  in_ECX[4] = 0;
-  in_ECX[9] = 0;
-  in_ECX[10] = 0;
-  in_ECX[0xb] = 0;
-  in_ECX[0xc] = 0;
-  return;
+  FUN_004c1ab0((int)this + 0x14);
+  *(undefined4 *)this = 0;
+  *(undefined4 *)((int)this + 4) = 0;
+  *(undefined4 *)((int)this + 8) = 0;
+  *(undefined4 *)((int)this + 0xc) = 0;
+  *(undefined4 *)((int)this + 0x10) = 0;
+  *(undefined4 *)((int)this + 0x24) = 0;
+  *(undefined4 *)((int)this + 0x28) = 0;
+  *(undefined4 *)((int)this + 0x2c) = 0;
+  *(undefined4 *)((int)this + 0x30) = 0;
+  return this;
 }
 
 
 /* ==== 004b9670 FUN_004b9670 ==== */
 
-void FUN_004b9670(void)
+void __thiscall FUN_004b9670(void *this)
 
 {
   void *local_c;
@@ -611,7 +608,7 @@ void FUN_004b9670(void)
   ExceptionList = &local_c;
   FUN_004ba460();
   local_4 = 0xffffffff;
-  FUN_004c1ac0();
+  FUN_004c1ac0((int)this + 0x14);
   ExceptionList = local_c;
   return;
 }
@@ -878,136 +875,134 @@ void FUN_004b9ab0(undefined4 *param_1,undefined4 param_2,undefined4 param_3,unde
 
 /* ==== 004b9b40 FUN_004b9b40 ==== */
 
-undefined4 FUN_004b9b40(int *source,int *param_2,int *param_3)
+undefined4 __thiscall FUN_004b9b40(void *this,int *source,undefined4 param_2,int *param_3)
 
 {
-  int **ppiVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  int **ppiVar4;
-  int **in_ECX;
+  undefined4 *puVar1;
+  int *piVar2;
+  int **ppiVar3;
   int i;
   int unaff_EBX;
   int **unaff_ESI;
-  int *unaff_EDI;
-  int ***pppiVar5;
-  undefined4 *puVar6;
+  undefined4 *unaff_EDI;
+  int ***pppiVar4;
+  undefined4 *puVar5;
   undefined4 auStackY_5c [2];
   int **ppiStack_40;
   int *piStack_3c;
   int **ppiStack_38;
-  int **ppiStack_34;
+  int *piStack_34;
   int *piStack_30;
   int *piStack_2c;
-  int **ppiStack_28;
+  int *piStack_28;
   int *piStack_24;
   int *local_10;
   int *local_c;
   int iStack_8;
   
   piStack_24 = param_3;
-  ppiStack_28 = (int **)source;
+  piStack_28 = source;
   piStack_2c = (int *)s_Now_load_texture__s_with_dimensi_005b1ab8;
   piStack_30 = (int *)0x4b9b5d;
   FUN_004c3fa0();
   piStack_24 = source;
-  ppiStack_28 = (int **)0x4b9b69;
-  FUN_004c1ae0();
+  piStack_28 = (int *)0x4b9b69;
+  FUN_004c1ae0((int)this + 0x14);
   piStack_24 = (int *)s_Loading_temp_texture_005b1aa0;
-  in_ECX[0xb] = param_2;
-  ppiStack_28 = (int **)0x4b9b7a;
+  *(undefined4 *)((int)this + 0x2c) = param_2;
+  piStack_28 = (int *)0x4b9b7a;
   FUN_004c3fa0();
-  ppiStack_28 = (int **)0x4b9b7f;
-  puVar2 = (undefined4 *)FUN_004c2a50();
-  pppiVar5 = &ppiStack_40;
+  piStack_28 = (int *)0x4b9b7f;
+  puVar1 = (undefined4 *)FUN_004c2a50();
+  pppiVar4 = &ppiStack_40;
   for (i = 8; i != 0; i = i + -1) {
-    *pppiVar5 = (int **)*puVar2;
-    puVar2 = puVar2 + 1;
-    pppiVar5 = pppiVar5 + 1;
+    *pppiVar4 = (int **)*puVar1;
+    puVar1 = puVar1 + 1;
+    pppiVar4 = pppiVar4 + 1;
   }
   FUN_004c8690();
-  puVar2 = (undefined4 *)FUN_004c2a50();
+  puVar1 = (undefined4 *)FUN_004c2a50();
   auStackY_5c[1] = 0x4b9bad;
-  piVar3 = (int *)FUN_004b96c0((char *)source,(uint *)&local_c,(uint *)&local_10,(FILE *)0x1800,
-                               puVar2);
+  piVar2 = (int *)FUN_004b96c0((char *)source,(uint *)&local_c,(uint *)&local_10,(FILE *)0x1800,
+                               puVar1);
   auStackY_5c[1] = 0x4b9bb4;
-  puVar2 = (undefined4 *)FUN_004c2a50();
-  pppiVar5 = &ppiStack_40;
+  puVar1 = (undefined4 *)FUN_004c2a50();
+  pppiVar4 = &ppiStack_40;
   for (i = 8; i != 0; i = i + -1) {
-    *pppiVar5 = (int **)*puVar2;
-    puVar2 = puVar2 + 1;
-    pppiVar5 = pppiVar5 + 1;
+    *pppiVar4 = (int **)*puVar1;
+    puVar1 = puVar1 + 1;
+    pppiVar4 = pppiVar4 + 1;
   }
   FUN_004c8690();
   FUN_004c3fa0();
   FUN_004c3fa0();
   if ((param_3 == (int *)0xffffffff) || ((int)local_10 < (int)param_3)) {
     piStack_24 = param_3;
-    ppiStack_28 = (int **)s_Illegal_dimension_specified__cor_005b1a20;
+    piStack_28 = (int *)s_Illegal_dimension_specified__cor_005b1a20;
     piStack_2c = (int *)0x4b9c04;
     FUN_004c3fa0();
     param_3 = local_10;
   }
   if ((local_c == local_10) && (param_3 != local_c)) {
     piStack_24 = local_10;
-    ppiStack_28 = (int **)local_c;
+    piStack_28 = local_c;
     piStack_30 = source;
-    ppiStack_34 = (int **)0x24d;
+    piStack_34 = (int *)0x24d;
     ppiStack_38 = (int **)s_C__Work_DX3D_text_cpp_005b14ec;
     piStack_3c = (int *)s___s___d_Could_not_load_texture___005b19bc;
     ppiStack_40 = (int **)0x4b9c35;
     piStack_2c = param_3;
     FUN_004c4150();
   }
-  ppiStack_28 = (int **)s_Final_load_dimension__d_005b19a0;
+  piStack_28 = (int *)s_Final_load_dimension__d_005b19a0;
   piStack_2c = (int *)0x4b9c43;
   piStack_24 = param_3;
   FUN_004c3fa0();
   if ((int)param_3 < DAT_0073b4f4) {
-    ppiStack_28 = (int **)0x4b9c56;
-    piStack_24 = piVar3;
-    (**(code **)(*piVar3 + 8))();
+    piStack_28 = (int *)0x4b9c56;
+    piStack_24 = piVar2;
+    (**(code **)(*piVar2 + 8))();
     piStack_30 = (int *)0x257;
-    ppiStack_34 = (int **)s_C__Work_DX3D_text_cpp_005b14ec;
+    piStack_34 = (int *)s_C__Work_DX3D_text_cpp_005b14ec;
     ppiStack_38 = (int **)s___s___d_Requested_texture_dimens_005b1950;
     piStack_3c = (int *)0x4b9c6c;
     piStack_2c = param_3;
-    ppiStack_28 = (int **)param_3;
+    piStack_28 = param_3;
     FUN_004c4150();
   }
   piStack_24 = (int *)s_Now_creating_the_memory_texture_c_005b1928;
-  in_ECX[9] = param_3;
-  in_ECX[10] = param_3;
-  ppiStack_28 = (int **)0x4b9c7f;
+  *(int **)((int)this + 0x24) = param_3;
+  *(int **)((int)this + 0x28) = param_3;
+  piStack_28 = (int *)0x4b9c7f;
   FUN_004c3fa0();
   piStack_2c = local_10;
-  ppiVar4 = in_ECX + 1;
+  puVar1 = (undefined4 *)((int)this + 4);
   piStack_30 = local_c;
-  piStack_3c = (int *)0x4b9c94;
-  ppiStack_38 = ppiVar4;
-  ppiStack_34 = (int **)piVar3;
-  ppiStack_28 = (int **)param_3;
+  piStack_3c = (undefined4 *)0x4b9c94;
+  ppiStack_38 = (int **)puVar1;
+  piStack_34 = piVar2;
+  piStack_28 = param_3;
   FUN_004b9890();
-  ppiStack_28 = (int **)0x4b9c9e;
-  piStack_24 = piVar3;
-  (**(code **)(*piVar3 + 8))();
-  piStack_30 = *ppiVar4;
-  ppiVar1 = in_ECX + 3;
+  piStack_28 = (int *)0x4b9c9e;
+  piStack_24 = piVar2;
+  (**(code **)(*piVar2 + 8))();
+  piStack_30 = (int *)*puVar1;
+  puVar5 = (undefined4 *)((int)this + 0xc);
   piStack_2c = (int *)&DAT_00578d10;
-  ppiStack_34 = (int **)0x4b9cae;
-  ppiStack_28 = ppiVar1;
-  ppiStack_34 = (int **)(**(code **)*piStack_30)();
-  if (ppiStack_34 != (int **)0x0) {
+  piStack_34 = (int *)0x4b9cae;
+  piStack_28 = puVar5;
+  piStack_34 = (int *)(**(code **)*piStack_30)();
+  if (piStack_34 != (int *)0x0) {
     ppiStack_38 = (int **)0x4b9cb8;
     ppiStack_38 = (int **)FUN_004bb290();
-    piStack_3c = (int *)0x26b;
+    piStack_3c = (undefined4 *)0x26b;
     ppiStack_40 = (int **)s_C__Work_DX3D_text_cpp_005b14ec;
     FUN_004c4150();
   }
-  ppiStack_34 = (int **)0x4b9cda;
-  i = FUN_004c1030();
+  piStack_34 = (int *)0x4b9cda;
+  i = FUN_004c1030(&DAT_0073b258);
   if ((i != 0) && (iStack_8 != 4)) {
-    ppiStack_34 = (int **)s_Now_creating_the_video_texture_c_005b18c8;
+    piStack_34 = (int *)s_Now_creating_the_video_texture_c_005b18c8;
     ppiStack_38 = (int **)0x4b9cef;
     FUN_004c3fa0();
     ppiStack_40 = unaff_ESI;
@@ -1015,26 +1010,26 @@ undefined4 FUN_004b9b40(int *source,int *param_2,int *param_3)
     ppiStack_38 = (int **)param_3;
     FUN_004b9ab0();
   }
-  ppiStack_34 = (int **)s_Now_do_the_default_3D_code_005b18ac;
+  piStack_34 = (int *)s_Now_do_the_default_3D_code_005b18ac;
   ppiStack_38 = (int **)0x4b9d10;
   FUN_004c3fa0();
-  ppiStack_34 = (int **)0x4b9d1d;
-  i = FUN_004c1030();
+  piStack_34 = (int *)0x4b9d1d;
+  i = FUN_004c1030(&DAT_0073b258);
   if (i == 0) {
-    ppiStack_34 = (int **)s________________NO_HAL____________005b184c;
+    piStack_34 = (int *)s________________NO_HAL____________005b184c;
     ppiStack_38 = (int **)0x4b9da3;
     FUN_004c3fa0();
-    ppiStack_34 = (int **)*ppiVar4;
-    in_ECX[2] = (int *)ppiStack_34;
+    piStack_34 = (int *)*puVar1;
+    *(int **)((int)this + 8) = piStack_34;
     ppiStack_38 = (int **)0x4b9db1;
-    (**(code **)((int)*ppiStack_34 + 4))();
+    (**(code **)(*piStack_34 + 4))();
     ppiStack_38 = (int **)0x4b9db6;
     i = FUN_004c2af0();
     if (i == 2) {
       ppiStack_38 = (int **)s_Setting_texture_palette_005b1830;
       piStack_3c = (int *)0x4b9dc5;
       FUN_004c3fa0();
-      piStack_3c = *ppiVar4;
+      piStack_3c = (int *)*puVar1;
       ppiStack_38 = DAT_007409ec;
       ppiStack_40 = (int **)0x4b9dd7;
       ppiStack_40 = (int **)(**(code **)(*piStack_3c + 0x7c))();
@@ -1043,7 +1038,7 @@ undefined4 FUN_004b9b40(int *source,int *param_2,int *param_3)
         FUN_004c4150();
       }
       ppiStack_40 = DAT_007409ec;
-      ppiStack_38 = (int **)(**(code **)(*in_ECX[2] + 0x7c))();
+      ppiStack_38 = (int **)(**(code **)(**(int **)((int)this + 8) + 0x7c))();
       if (ppiStack_38 != (int **)0x0) {
         piStack_3c = (int *)0x4b9e13;
         piStack_3c = (int *)FUN_004bb290();
@@ -1051,44 +1046,44 @@ undefined4 FUN_004b9b40(int *source,int *param_2,int *param_3)
         FUN_004c4150();
       }
     }
-    ppiStack_40 = (int **)in_ECX[2];
-    ppiStack_38 = in_ECX + 4;
+    ppiStack_40 = *(int ***)((int)this + 8);
+    ppiStack_38 = (int **)((int)this + 0x10);
     piStack_3c = (int *)&DAT_00578d10;
-    ppiStack_34 = (int **)(*(code *)**ppiStack_40)();
-    if (ppiStack_34 != (int **)0x0) {
+    piStack_34 = (int *)(*(code *)**ppiStack_40)();
+    if (piStack_34 != (int *)0x0) {
       ppiStack_38 = (int **)0x4b9e46;
       ppiStack_38 = (int **)FUN_004bb290();
-      piStack_3c = (int *)0x2aa;
+      piStack_3c = (undefined4 *)0x2aa;
       ppiStack_40 = (int **)s_C__Work_DX3D_text_cpp_005b14ec;
       FUN_004c4150();
     }
   }
   else if (iStack_8 != 4) {
-    piStack_3c = in_ECX[2];
+    piStack_3c = *(int **)((int)this + 8);
     ppiStack_38 = (int **)&DAT_00578d10;
     ppiStack_40 = (int **)0x4b9d3d;
-    ppiStack_34 = in_ECX + 4;
+    piStack_34 = (undefined4 *)((int)this + 0x10);
     ppiStack_40 = (int **)(**(code **)*piStack_3c)();
     if (ppiStack_40 != (int **)0x0) {
       FUN_004bb290();
       FUN_004c4150();
     }
-    ppiStack_40 = (int **)*ppiVar1;
-    ppiStack_34 = (int **)(**(code **)(*in_ECX[4] + 0x14))();
-    if (ppiStack_34 != (int **)0x0) {
+    ppiStack_40 = (int **)*puVar5;
+    piStack_34 = (int *)(**(code **)(**(int **)((int)this + 0x10) + 0x14))();
+    if (piStack_34 != (int *)0x0) {
       ppiStack_38 = (int **)0x4b9d75;
       ppiStack_38 = (int **)FUN_004bb290();
-      piStack_3c = (int *)0x28b;
+      piStack_3c = (undefined4 *)0x28b;
       ppiStack_40 = (int **)s_C__Work_DX3D_text_cpp_005b14ec;
       FUN_004c4150();
     }
-    in_ECX[0xc] = (int *)0x1;
+    *(undefined4 *)((int)this + 0x30) = 1;
   }
-  ppiStack_34 = (int **)&stack0xffffffe8;
+  piStack_34 = (int *)&stack0xffffffe8;
   ppiStack_38 = (int **)0x4b9e68;
   FUN_004ba810();
-  piStack_3c = *ppiVar4;
-  ppiStack_34 = (int **)&stack0xffffffe8;
+  piStack_3c = (int *)*puVar1;
+  piStack_34 = (int *)&stack0xffffffe8;
   ppiStack_38 = (int **)0x8;
   ppiStack_40 = (int **)0x4b9e7a;
   ppiStack_40 = (int **)(**(code **)(*piStack_3c + 0x74))();
@@ -1098,48 +1093,48 @@ undefined4 FUN_004b9b40(int *source,int *param_2,int *param_3)
   }
   if (unaff_EBX != 4) {
     ppiStack_40 = &piStack_24;
-    ppiStack_40 = (int **)(**(code **)(*in_ECX[2] + 0x74))();
+    ppiStack_40 = (int **)(**(code **)(**(int **)((int)this + 8) + 0x74))();
     if (ppiStack_40 != (int **)0x0) {
       FUN_004c4400();
       FUN_004c4150();
     }
   }
   ppiStack_40 = (int **)0x4b9ee1;
-  i = FUN_004c1030();
+  i = FUN_004c1030(&DAT_0073b258);
   if (i == 0) {
-    ppiStack_40 = in_ECX;
-    ppiVar4 = (int **)(**(code **)(**ppiVar1 + 0xc))();
-    if (ppiVar4 == (int **)0x0) goto LAB_004b9f7b;
-    ppiStack_40 = ppiVar4;
+    ppiStack_40 = this;
+    ppiVar3 = (int **)(**(code **)(*(int *)*puVar5 + 0xc))();
+    if (ppiVar3 == (int **)0x0) goto LAB_004b9f7b;
+    ppiStack_40 = ppiVar3;
     FUN_004bb290();
   }
   else {
     if (unaff_EBX == 4) goto LAB_004b9f7b;
-    ppiStack_40 = in_ECX;
-    ppiVar4 = (int **)(**(code **)(*in_ECX[4] + 0xc))();
-    if (ppiVar4 == (int **)0x0) goto LAB_004b9f7b;
-    if (ppiVar4 == (int **)0x887602e2) {
-      ppiStack_40 = (int **)in_ECX[4];
+    ppiStack_40 = this;
+    ppiVar3 = (int **)(**(code **)(**(int **)((int)this + 0x10) + 0xc))();
+    if (ppiVar3 == (int **)0x0) goto LAB_004b9f7b;
+    if (ppiVar3 == (int **)0x887602e2) {
+      ppiStack_40 = *(int ***)((int)this + 0x10);
       (*(code *)(*ppiStack_40)[2])();
       ppiStack_40 = (int **)0x4b9f2b;
-      i = FUN_004c1030();
+      i = FUN_004c1030(&DAT_0073b258);
       if (i != 0) {
         ppiStack_40 = (int **)0x2c7;
         FUN_004c4150();
       }
       goto LAB_004b9f7b;
     }
-    ppiStack_40 = ppiVar4;
+    ppiStack_40 = ppiVar3;
     FUN_004bb290();
   }
   FUN_004c4150();
 LAB_004b9f7b:
-  puVar2 = &DAT_00740968;
-  puVar6 = auStackY_5c;
+  puVar1 = &DAT_00740968;
+  puVar5 = auStackY_5c;
   for (i = 8; i != 0; i = i + -1) {
-    *puVar6 = *puVar2;
-    puVar2 = puVar2 + 1;
-    puVar6 = puVar6 + 1;
+    *puVar5 = *puVar1;
+    puVar1 = puVar1 + 1;
+    puVar5 = puVar5 + 1;
   }
   FUN_004c8690();
   return 0;
@@ -1150,12 +1145,11 @@ LAB_004b9f7b:
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
+undefined4 __thiscall FUN_004b9fa0(void *this,char *source,undefined4 param_2)
 
 {
   undefined4 *puVar1;
   undefined4 uVar2;
-  int in_ECX;
   int i;
   undefined *puVar3;
   int **ppiVar4;
@@ -1171,9 +1165,9 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
   uint local_28;
   uint local_24;
   undefined4 __ftol_result_2;
+  undefined4 __ftol_result_4;
+  int *__ftol_result_3;
   undefined4 __ftol_result;
-  int *__ftol_result_4;
-  undefined4 __ftol_result_3;
   undefined4 uStack_10;
   undefined4 uStack_c;
   undefined4 uStack_8;
@@ -1181,8 +1175,8 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
   
   pcStack_3c = source;
   piStack_40 = (int *)0x4b9fb6;
-  FUN_004c1ae0();
-  *(undefined4 *)(in_ECX + 0x2c) = param_2;
+  FUN_004c1ae0((int)this + 0x14);
+  *(undefined4 *)((int)this + 0x2c) = param_2;
   pcStack_3c = (char *)0x4b9fc2;
   puVar1 = (undefined4 *)FUN_004c2a50();
   ppiVar4 = apiStack_58;
@@ -1195,7 +1189,7 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
   puVar1 = (undefined4 *)FUN_004c2a50();
   auStackY_74[1] = 0x4b9ff0;
   uVar2 = FUN_004b96c0(source,&local_28,&local_24,(FILE *)0x1800,puVar1);
-  *(undefined4 *)(in_ECX + 4) = uVar2;
+  *(undefined4 *)((int)this + 4) = uVar2;
   auStackY_74[1] = 0x4b9ff8;
   puVar1 = (undefined4 *)FUN_004c2a50();
   ppiVar4 = apiStack_58;
@@ -1205,12 +1199,12 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
     ppiVar4 = ppiVar4 + 1;
   }
   FUN_004c8690();
-  *(uint *)(in_ECX + 0x24) = local_28;
-  *(uint *)(in_ECX + 0x28) = local_24;
-  *(float *)(in_ECX + 0x34) = DAT_0073b1f8;
-  *(float *)(in_ECX + 0x3c) = _DAT_0073b200 + DAT_0073b1f8;
-  *(float *)(in_ECX + 0x38) = DAT_0073b1fc;
-  *(float *)(in_ECX + 0x40) = _DAT_0073b204 + DAT_0073b1fc;
+  *(uint *)((int)this + 0x24) = local_28;
+  *(uint *)((int)this + 0x28) = local_24;
+  *(float *)((int)this + 0x34) = DAT_0073b1f8;
+  *(float *)((int)this + 0x3c) = _DAT_0073b200 + DAT_0073b1f8;
+  *(float *)((int)this + 0x38) = DAT_0073b1fc;
+  *(float *)((int)this + 0x40) = _DAT_0073b204 + DAT_0073b1fc;
   if (DAT_0073b1bc == 0) {
     pcStack_3c = &DAT_0073b1dd;
     piStack_40 = (int *)DAT_0073b1b4;
@@ -1277,7 +1271,7 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
     puVar3 = DAT_0073b1b4;
   }
   pcStack_3c = (char *)0x4ba183;
-  __ftol_result_4 = (int *)__ftol();
+  __ftol_result_3 = (int *)__ftol();
   pcStack_3c = puVar3;
   if (DAT_0073b1bc == 0) {
     pcStack_3c = &DAT_0073b1dd;
@@ -1312,7 +1306,7 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
     puVar3 = DAT_0073b1b4;
   }
   pcStack_3c = (char *)0x4ba21d;
-  __ftol_result = __ftol();
+  __ftol_result_4 = __ftol();
   pcStack_3c = puVar3;
   if (DAT_0073b1bc == 0) {
     pcStack_3c = &DAT_0073b1dd;
@@ -1345,15 +1339,15 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
   }
   pcStack_3c = (char *)0x4ba2ab;
   pcStack_3c = (char *)__ftol();
-  piStack_40 = __ftol_result_4;
-  puStack_44 = (undefined4 *)__ftol_result;
+  piStack_40 = __ftol_result_3;
+  puStack_44 = (undefined4 *)__ftol_result_4;
   pcStack_48 = (char *)__ftol_result_2;
   pcStack_4c = s_dest__d__d___d__d_005b1b64;
   pcStack_50 = (char *)0x4ba2c9;
-  __ftol_result_3 = pcStack_3c;
+  __ftol_result = pcStack_3c;
   FUN_004c3fa0();
-  pcStack_50 = *(char **)(in_ECX + 0x28);
-  apiStack_58[1] = *(int **)(in_ECX + 0x24);
+  pcStack_50 = *(char **)((int)this + 0x28);
+  apiStack_58[1] = *(int **)((int)this + 0x24);
   apiStack_58[0] = (int *)0x0;
   uStack_10 = 0;
   uStack_c = 0;
@@ -1393,7 +1387,7 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
   puStack_44 = &uStack_10;
   piStack_40 = (int *)0x1000000;
   pcStack_50 = *(char **)(DAT_0073b1b0 + 4);
-  pcStack_48 = *(char **)(in_ECX + 4);
+  pcStack_48 = *(char **)((int)this + 4);
   pcStack_4c = (char *)&__ftol_result_2;
   apiStack_58[1] = (int *)0x4ba391;
   apiStack_58[1] = (int *)(**(code **)(*(int *)pcStack_50 + 0x14))();
@@ -1402,15 +1396,15 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
     apiStack_58[0] = (int *)FUN_004c4400();
     FUN_004c4150();
   }
-  apiStack_58[1] = *(int **)(in_ECX + 4);
+  apiStack_58[1] = *(int **)((int)this + 4);
   apiStack_58[0] = (int *)0x4ba3bc;
   (**(code **)(*apiStack_58[1] + 8))();
-  *(undefined4 *)(in_ECX + 4) = 0;
+  *(undefined4 *)((int)this + 4) = 0;
   DAT_0073b1f8 = _DAT_0073b200 + DAT_0073b1f8;
   if (1.0 <= DAT_0073b1f8) {
     DAT_0073b1fc = _DAT_0073b204 + DAT_0073b1fc;
     if (1.0 <= DAT_0073b1fc) {
-      apiStack_58[0] = __ftol_result_4;
+      apiStack_58[0] = __ftol_result_3;
       FUN_004c4150();
     }
     DAT_0073b1f8 = 0.0;
@@ -1424,7 +1418,7 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
   }
   FUN_004c8690();
   apiStack_58[0] = (int *)0x4ba446;
-  i = FUN_004c1030();
+  i = FUN_004c1030(&DAT_0073b258);
   if (i != 0) {
     apiStack_58[0] = (int *)0x0;
     FUN_004ba4c0();
@@ -1435,36 +1429,35 @@ undefined4 FUN_004b9fa0(char *source,undefined4 param_2)
 
 /* ==== 004ba460 FUN_004ba460 ==== */
 
-void FUN_004ba460(void)
+void __thiscall FUN_004ba460(void *this)
 
 {
   int *piVar1;
-  int in_ECX;
   
-  piVar1 = *(int **)(in_ECX + 4);
+  piVar1 = *(int **)((int)this + 4);
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
-    *(undefined4 *)(in_ECX + 4) = 0;
+    *(undefined4 *)((int)this + 4) = 0;
   }
-  piVar1 = *(int **)(in_ECX + 8);
+  piVar1 = *(int **)((int)this + 8);
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
-    *(undefined4 *)(in_ECX + 8) = 0;
+    *(undefined4 *)((int)this + 8) = 0;
   }
-  piVar1 = *(int **)(in_ECX + 0xc);
+  piVar1 = *(int **)((int)this + 0xc);
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
-    *(undefined4 *)(in_ECX + 0xc) = 0;
+    *(undefined4 *)((int)this + 0xc) = 0;
   }
-  piVar1 = *(int **)(in_ECX + 0x10);
+  piVar1 = *(int **)((int)this + 0x10);
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
-    *(undefined4 *)(in_ECX + 0x10) = 0;
+    *(undefined4 *)((int)this + 0x10) = 0;
   }
-  *(undefined4 *)(in_ECX + 0x24) = 0;
-  *(undefined4 *)(in_ECX + 0x28) = 0;
-  *(undefined4 *)(in_ECX + 0x2c) = 0;
-  *(undefined4 *)(in_ECX + 0x30) = 0;
+  *(undefined4 *)((int)this + 0x24) = 0;
+  *(undefined4 *)((int)this + 0x28) = 0;
+  *(undefined4 *)((int)this + 0x2c) = 0;
+  *(undefined4 *)((int)this + 0x30) = 0;
   return;
 }
 
@@ -1483,7 +1476,7 @@ void FUN_004ba4c0(int param_1)
     FUN_004c4150(s__s__d____Illegal_texturenumber___005b1b78,s_C__Work_DX3D_text_cpp_005b14ec,0x372,
                  param_1);
   }
-  iVar2 = FUN_004c1030();
+  iVar2 = FUN_004c1030(&DAT_0073b258);
   if (iVar2 != 0) {
     if (DAT_0073b1bc == 0) {
       FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_C__Work_DX3D_text_cpp_005b14ec,

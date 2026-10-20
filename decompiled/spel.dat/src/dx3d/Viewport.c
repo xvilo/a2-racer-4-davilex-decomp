@@ -79,12 +79,12 @@ LAB_004c0c23:
 
 /* ==== 004c0c30 FUN_004c0c30 ==== */
 
-int FUN_004c0c30(void)
+int __thiscall FUN_004c0c30(void *this)
 
 {
   int *piVar1;
   int iVar2;
-  void *operator_new_result;
+  void *this_val;
   undefined4 uVar3;
   void *pvStack_c;
   undefined1 *puStack_8;
@@ -97,16 +97,16 @@ int FUN_004c0c30(void)
   if (DAT_0073b788 == 0) {
     ExceptionList = &pvStack_c;
     FUN_004c4150(s__s__d____viewport_array_not_init_005b2b88,s_D__Work_DX3D_Viewport_cpp_005b2bb4,
-                 0x3c);
+                 0x3c,this);
   }
   iVar2 = FUN_004c0b80();
-  operator_new_result = operator_new(0x40);
+  this_val = operator_new(0x40);
   uStack_4 = 0;
-  if (operator_new_result == (void *)0x0) {
+  if (this_val == (void *)0x0) {
     uVar3 = 0;
   }
   else {
-    uVar3 = FUN_004c0e10();
+    uVar3 = FUN_004c0e10(this_val);
   }
   piVar1 = DAT_0073b784;
   uStack_4 = 0xffffffff;
@@ -167,47 +167,46 @@ void FUN_004c0d30(int param_1)
 
 /* ==== 004c0e10 FUN_004c0e10 ==== */
 
-void FUN_004c0e10(void)
+void * __thiscall FUN_004c0e10(void *this)
 
 {
   undefined4 *puVar1;
   int i;
   undefined4 uVar2;
-  undefined4 *in_ECX;
   undefined4 *puVar3;
   
-  puVar1 = in_ECX + 0xb;
+  puVar1 = (undefined4 *)((int)this + 0x2c);
   i = (**(code **)(*DAT_0073b778 + 0x18))(DAT_0073b778,puVar1,0);
   if (i != 0) {
     uVar2 = FUN_004bb290(i);
     FUN_004c4150(s__s__d____D3DError_Creating_viewp_005b2c50,s_D__Work_DX3D_Viewport_cpp_005b2bb4,
                  0x97,uVar2);
   }
-  in_ECX[0xf] = (float)DAT_005b379c / (float)DAT_005b3798;
-  puVar3 = in_ECX;
+  *(float *)((int)this + 0x3c) = (float)DAT_005b379c / (float)DAT_005b3798;
+  puVar3 = this;
   for (i = 0xb; i != 0; i = i + -1) {
     *puVar3 = 0;
     puVar3 = puVar3 + 1;
   }
-  *in_ECX = 0x2c;
-  in_ECX[1] = 0;
-  in_ECX[2] = 0;
-  in_ECX[3] = DAT_005b3798;
+  *(undefined4 *)this = 0x2c;
+  *(undefined4 *)((int)this + 4) = 0;
+  *(undefined4 *)((int)this + 8) = 0;
+  *(int *)((int)this + 0xc) = DAT_005b3798;
   i = DAT_005b379c;
-  in_ECX[8] = (float)in_ECX[0xf] + (float)in_ECX[0xf];
-  in_ECX[4] = i;
-  in_ECX[5] = 0xbf800000;
-  in_ECX[6] = in_ECX[0xf];
-  in_ECX[7] = 0x40000000;
-  in_ECX[9] = 0;
-  in_ECX[10] = 0x3f800000;
+  *(float *)((int)this + 0x20) = *(float *)((int)this + 0x3c) + *(float *)((int)this + 0x3c);
+  *(int *)((int)this + 0x10) = i;
+  *(undefined4 *)((int)this + 0x14) = 0xbf800000;
+  *(undefined4 *)((int)this + 0x18) = *(undefined4 *)((int)this + 0x3c);
+  *(undefined4 *)((int)this + 0x1c) = 0x40000000;
+  *(undefined4 *)((int)this + 0x24) = 0;
+  *(undefined4 *)((int)this + 0x28) = 0x3f800000;
   i = (**(code **)(*DAT_0073b4b4 + 0x18))(DAT_0073b4b4,*puVar1);
   if (i != 0) {
     uVar2 = FUN_004bb290(i);
     FUN_004c4150(s__s__d___D3DError_Creating_viewpo_005b2bfc,s_D__Work_DX3D_Viewport_cpp_005b2bb4,
                  0xaf,uVar2);
   }
-  i = (**(code **)(*(int *)*puVar1 + 0x44))((int *)*puVar1);
+  i = (**(code **)(*(int *)*puVar1 + 0x44))((int *)*puVar1,this);
   if (i != 0) {
     uVar2 = FUN_004bb290(i);
     FUN_004c4150(s__s__d____error_setting_viewport___005b2c28,s_D__Work_DX3D_Viewport_cpp_005b2bb4,
@@ -219,30 +218,29 @@ void FUN_004c0e10(void)
     FUN_004c4150(s__s__d___D3DError_Setting_viewpor_005b2bd0,s_D__Work_DX3D_Viewport_cpp_005b2bb4,
                  0xb7,uVar2);
   }
-  in_ECX[0xc] = 1;
-  return;
+  *(undefined4 *)((int)this + 0x30) = 1;
+  return this;
 }
 
 
 /* ==== 004c0f50 FUN_004c0f50 ==== */
 
-void FUN_004c0f50(undefined4 param_1)
+void __thiscall FUN_004c0f50(void *this,undefined4 param_2)
 
 {
   int iVar1;
   undefined4 uVar2;
-  int in_ECX;
   int local_10;
   int local_c;
   int local_8;
   int local_4;
   
-  local_10 = *(int *)(in_ECX + 4);
-  local_c = *(int *)(in_ECX + 8);
-  local_8 = *(int *)(in_ECX + 0xc) + local_10;
-  local_4 = *(int *)(in_ECX + 0x10) + local_c;
-  iVar1 = (**(code **)(**(int **)(in_ECX + 0x2c) + 0x30))
-                    (*(int **)(in_ECX + 0x2c),1,&local_10,param_1);
+  local_10 = *(int *)((int)this + 4);
+  local_c = *(int *)((int)this + 8);
+  local_8 = *(int *)((int)this + 0xc) + local_10;
+  local_4 = *(int *)((int)this + 0x10) + local_c;
+  iVar1 = (**(code **)(**(int **)((int)this + 0x2c) + 0x30))
+                    (*(int **)((int)this + 0x2c),1,&local_10,param_2);
   if (iVar1 != 0) {
     uVar2 = FUN_004bb290(iVar1);
     FUN_004c4150(s__s__d___D3DError_Clearing_z_buff_005b2c7c,s_D__Work_DX3D_Viewport_cpp_005b2bb4,
@@ -254,25 +252,24 @@ void FUN_004c0f50(undefined4 param_1)
 
 /* ==== 004c0fc0 FUN_004c0fc0 ==== */
 
-void FUN_004c0fc0(void)
+void * __thiscall FUN_004c0fc0(void *this)
 
 {
-  undefined4 *in_ECX;
   int i;
   undefined4 *puVar1;
   
-  puVar1 = in_ECX;
+  puVar1 = this;
   for (i = 0x33; i != 0; i = i + -1) {
     *puVar1 = 0;
     puVar1 = puVar1 + 1;
   }
-  puVar1 = in_ECX + 0x33;
+  puVar1 = (undefined4 *)((int)this + 0xcc);
   for (i = 0x33; i != 0; i = i + -1) {
     *puVar1 = 0;
     puVar1 = puVar1 + 1;
   }
-  in_ECX[0x66] = 0;
-  return;
+  *(undefined4 *)((int)this + 0x198) = 0;
+  return this;
 }
 
 

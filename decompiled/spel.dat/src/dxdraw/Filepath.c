@@ -63,7 +63,7 @@ LAB_004cd478:
 
 /* ==== 004cd4a0 FUN_004cd4a0 ==== */
 
-undefined4 FUN_004cd4a0(undefined4 param_1,byte *param_2)
+undefined4 FUN_004cd4a0(undefined4 param_1,void *this_val)
 
 {
   FILE *file;
@@ -72,7 +72,7 @@ undefined4 FUN_004cd4a0(undefined4 param_1,byte *param_2)
   byte local_200 [256];
   byte local_100 [256];
   
-  FUN_0055942f(param_2,local_304,local_100,local_200,local_300);
+  FUN_0055942f(this_val,this_val,local_304,local_100,local_200,local_300);
   FUN_0055a3a5(param_1,&DAT_00712694,&DAT_00712694,local_200,local_300);
   FUN_004c3fa0(s_path__s_005b66f4,param_1);
   file = (FILE *)FUN_005589a5(param_1,s_r_005b66f0);

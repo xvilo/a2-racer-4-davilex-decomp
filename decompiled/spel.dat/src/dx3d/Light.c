@@ -135,47 +135,47 @@ void FUN_004c39d0(void)
 
 {
   int iVar1;
-  int iVar2;
   int i;
+  int this_val;
   
   FUN_004c3fa0(s_exit_lights_005b3484);
   i = 0;
-  iVar2 = DAT_0073b88c;
+  iVar1 = DAT_0073b88c;
   if (0 < DAT_0073b88c) {
     do {
-      if ((i < 0) || (iVar2 <= i)) {
+      if ((i < 0) || (iVar1 <= i)) {
         FUN_004c4150(s__s__d____T_ARRAY__get_used___ill_0059133c,s___array_hpp_005b1044,0x43,i,
-                     &DAT_0073b89c,iVar2,&DAT_0073b8b5);
-        iVar2 = DAT_0073b88c;
+                     &DAT_0073b89c,iVar1,&DAT_0073b8b5);
+        iVar1 = DAT_0073b88c;
       }
       if (*(char *)(DAT_0073b898 + i) != '\0') {
         if (DAT_0073b894 == 0) {
           FUN_004c4150(s__s__d____T_ARRAY__get_data__s__d_005b0f3c,s_D__Work_DX3D_Light_cpp_005b346c
-                       ,0x1e,&DAT_0073b89c,iVar2,&DAT_0073b8b5);
-          iVar2 = DAT_0073b88c;
+                       ,0x1e,&DAT_0073b89c,iVar1,&DAT_0073b8b5);
+          iVar1 = DAT_0073b88c;
         }
-        if ((i < 0) || (iVar2 <= i)) {
+        if ((i < 0) || (iVar1 <= i)) {
           FUN_004c4150(s__s__d____out_of_boundaries__s__d_005b0fc8,s_D__Work_DX3D_Light_cpp_005b346c
-                       ,0x1e,&DAT_0073b89c,i,iVar2);
-          iVar2 = DAT_0073b88c;
+                       ,0x1e,&DAT_0073b89c,i,iVar1);
+          iVar1 = DAT_0073b88c;
         }
         if (*(char *)(DAT_0073b898 + i) == '\0') {
           FUN_004c4150(s__s__d____array_element_not_regis_005b0f98,s_D__Work_DX3D_Light_cpp_005b346c
                        ,0x1e,&DAT_0073b89c,i);
-          iVar2 = DAT_0073b88c;
+          iVar1 = DAT_0073b88c;
         }
-        iVar1 = *(int *)(DAT_0073b888 + i * 4);
-        if (iVar1 != 0) {
-          FUN_004c3b40();
-          FUN_0054b339(iVar1);
-          iVar2 = DAT_0073b88c;
+        this_val = *(int *)(DAT_0073b888 + i * 4);
+        if (this_val != 0) {
+          FUN_004c3b40(this_val);
+          FUN_0054b339(this_val);
+          iVar1 = DAT_0073b88c;
         }
       }
       i = i + 1;
-    } while (i < iVar2);
+    } while (i < iVar1);
   }
   if (DAT_0073b894 == 1) {
-    FUN_004c3fa0(s_T_ARRAY___deleting___16_16s___16_005af6ac,&DAT_0073b8b5,&DAT_0073b89c,iVar2);
+    FUN_004c3fa0(s_T_ARRAY___deleting___16_16s___16_005af6ac,&DAT_0073b8b5,&DAT_0073b89c,iVar1);
     FUN_0054b339(DAT_0073b888);
   }
   if (DAT_0073b894 != 0) {

@@ -31,7 +31,7 @@ void FUN_004a6a10(uint size,undefined4 param_2,undefined4 param_3,undefined4 par
   FUN_004c3fa0(s_Initializing_Physical_World_005af79c);
   DAT_00715b08 = FUN_004a3460();
   DAT_00715b0c = FUN_004a3460();
-  FUN_004a3960(0x3c783e10);
+  FUN_004a3960(&DAT_00715f58,0x3c783e10);
   FUN_004c3fa0(s_Done_initializing_Physical_World_005af778);
   FUN_004c3fa0(s_settings_textures___d___d___d_005af758,param_2,param_4,param_3);
   _DAT_007152a4 = param_4;
@@ -86,7 +86,7 @@ void FUN_004a6b10(undefined4 param_1)
     FUN_004c4150(s__rceng_load_etappe__engine_not_i_005af7d4);
   }
   FUN_004c3fa0(s_loading_etappe___s_005af7bc,param_1);
-  FUN_004ae490(param_1);
+  FUN_004ae490(&DAT_00715250,param_1);
   return;
 }
 
@@ -98,7 +98,7 @@ void FUN_004a6b50(void)
 {
   FUN_004a7710();
   FUN_004c3fa0(s_Destroying_Physical_World_005af824);
-  FUN_004a4070();
+  FUN_004a4070(&DAT_00715f58);
   FUN_004c3fa0(s_Done_destroying_Physical_World_005af800);
   return;
 }
@@ -184,7 +184,7 @@ void FUN_004a6c90(int param_1)
   *(undefined4 *)(param_1 + 0x38 + DAT_00715e50) = *(undefined4 *)(param_1 + 0x34 + DAT_00715e50);
   iVar1 = param_1 + DAT_00715e50;
   iVar2 = DAT_0073b0d0 + *(int *)(param_1 + 0x24 + DAT_00715e50) * 0xa9;
-  uVar3 = FUN_004af230(*(undefined4 *)(iVar1 + 0x38),*(undefined4 *)(iVar2 + 0x50),
+  uVar3 = FUN_004af230(&DAT_00715250,*(undefined4 *)(iVar1 + 0x38),*(undefined4 *)(iVar2 + 0x50),
                        *(undefined4 *)(iVar2 + 0x54),*(undefined4 *)(iVar2 + 0x58));
   *(undefined4 *)(iVar1 + 0x34) = uVar3;
   return;
@@ -318,7 +318,7 @@ void FUN_004a6fa0(int param_1)
   iVar1 = FUN_004aac20(param_1,uVar3);
   if (iVar1 != -1) {
     *(int *)(iVar2 + 0x3c + DAT_00715e50) = iVar1;
-    FUN_004ab110(param_1);
+    FUN_004ab110(iVar1 * 0x50 + DAT_00715eb8,param_1);
   }
   return;
 }
@@ -342,7 +342,7 @@ void FUN_004a7020(int param_1)
                  s_C__Work_A2IV_Engine_prog_Ifc_mai_005af874,0x224,
                  *(undefined4 *)(iVar2 + 0x3c + DAT_00715e50),param_1);
   }
-  FUN_004ab140(param_1);
+  FUN_004ab140(*(int *)(iVar2 + 0x3c + DAT_00715e50) * 0x50 + DAT_00715eb8,param_1);
   return;
 }
 

@@ -12,8 +12,14 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
   int j;
   int k;
   int iVar4;
-  int iVar5;
-  undefined2 *puVar6;
+  int this_val;
+  undefined2 *puVar5;
+  undefined4 *puVar6;
+  FILE *pFVar7;
+  short *psVar8;
+  undefined4 uVar9;
+  uint *puVar10;
+  undefined4 uVar11;
   undefined1 local_2b;
   short local_2a;
   short local_28;
@@ -34,9 +40,13 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
     return 1000;
   }
   FUN_0055a2d4(file);
-  FUN_00558b35(&local_26,1,2,file);
+  uVar11 = 2;
+  psVar8 = &local_26;
+  uVar9 = 1;
+  pFVar7 = file;
+  FUN_00558b35();
   DAT_005b5ea8 = local_26 + 1;
-  FUN_004c3fa0(s__s_maxmemimages____d_005b60a0,param_1,DAT_005b5ea8);
+  FUN_004c3fa0(s__s_maxmemimages____d_005b60a0,param_1,DAT_005b5ea8,psVar8,uVar9,uVar11,pFVar7);
   uVar1 = (uint)(((byte)param_2 & 1) == 1);
   j = param_2 - uVar1;
   k = FUN_004cbc70(DAT_005b5ea8,j);
@@ -45,13 +55,13 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
   }
   if (uVar1 == 0) {
     if ((DAT_00740d4c != 0) && (k = 0, 0 < DAT_005b5ea8)) {
-      iVar5 = 0;
+      this_val = 0;
       do {
         k = k + 1;
-        *(undefined4 *)(iVar5 + DAT_00740d44) = 0;
-        *(undefined4 *)(iVar5 + 0x1c + DAT_00740d44) = 0;
-        *(int *)(iVar5 + 0x18 + DAT_00740d44) = j;
-        iVar5 = iVar5 + 0x20;
+        *(undefined4 *)(this_val + DAT_00740d44) = 0;
+        *(undefined4 *)(this_val + 0x1c + DAT_00740d44) = 0;
+        *(int *)(this_val + 0x18 + DAT_00740d44) = j;
+        this_val = this_val + 0x20;
       } while (k < DAT_005b5ea8);
     }
   }
@@ -65,27 +75,33 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
         k = local_10;
         j = local_18;
         FUN_004c3fa0(s__s_allocating_image__d_005b6070,param_1,local_10);
-        FUN_00558b35(&local_28,1,2,file);
-        FUN_00558b35(&local_2a,1,2,file);
-        FUN_00558b35(&local_24,1,2,file);
-        FUN_00558b35(&local_22,1,2,file);
+        uVar11 = 2;
+        psVar8 = &local_28;
+        uVar9 = 1;
+        pFVar7 = file;
+        FUN_00558b35();
+        FUN_00558b35(&local_2a,&local_2a,1,2,file,psVar8,uVar9,uVar11,pFVar7);
+        FUN_00558b35();
+        FUN_00558b35();
         *(int *)(DAT_00740d44 + 8 + j) = (int)local_28;
         *(int *)(DAT_00740d44 + 0xc + j) = (int)local_2a;
         *(int *)(DAT_00740d44 + 0x10 + j) = (int)local_24;
         *(int *)(DAT_00740d44 + 0x14 + j) = (int)local_22;
         FUN_004cbd20(k);
         FUN_004cbff0(k,&local_14);
-        puVar6 = *(undefined2 **)(DAT_00740d44 + j);
-        local_1c = puVar6;
+        puVar5 = *(undefined2 **)(DAT_00740d44 + j);
+        local_1c = puVar5;
         switch(DAT_007409cc) {
         case 0:
           i = 0;
+          this_val = DAT_00740d44;
           if (0 < local_2a) {
             do {
-              FUN_00558b35(puVar6,1,(int)local_28,file);
-              puVar6 = (undefined2 *)((int)puVar6 + local_14);
+              FUN_00558b35(this_val,puVar5,1,(int)local_28,file);
+              this_val = (int)local_2a;
+              puVar5 = (undefined2 *)((int)puVar5 + local_14);
               i = i + 1;
-            } while (i < local_2a);
+            } while (i < this_val);
           }
           break;
         case 1:
@@ -94,22 +110,26 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
           if (0 < local_2a) {
             do {
               j = 0;
-              local_1c = puVar6;
+              local_1c = puVar5;
               if (0 < sVar3) {
                 do {
-                  FUN_00558b35(&local_8,1,1,file);
-                  uVar2 = FUN_004c81b0(local_8 & 0xff,8);
-                  *puVar6 = uVar2;
-                  puVar6 = puVar6 + 1;
+                  uVar11 = 1;
+                  puVar10 = &local_8;
+                  uVar9 = 1;
+                  pFVar7 = file;
+                  FUN_00558b35();
+                  uVar2 = FUN_004c81b0(local_8 & 0xff,8,puVar10,uVar9,uVar11,pFVar7);
+                  *puVar5 = uVar2;
+                  puVar5 = puVar5 + 1;
                   j = j + 1;
                   sVar3 = local_28;
                 } while (j < local_28);
               }
-              puVar6 = (undefined2 *)((int)local_1c + local_14);
+              puVar5 = (undefined2 *)((int)local_1c + local_14);
               i = i + 1;
               k = local_10;
               j = local_18;
-              local_1c = puVar6;
+              local_1c = puVar5;
             } while (i < local_2a);
           }
           break;
@@ -119,21 +139,25 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
           if (0 < local_2a) {
             do {
               j = 0;
-              local_1c = puVar6;
+              local_1c = puVar5;
               if (0 < sVar3) {
                 do {
-                  FUN_00558b35(&local_4,1,1,file);
-                  FUN_004c8380(local_4 & 0xff,8,puVar6);
-                  puVar6 = (undefined2 *)((int)puVar6 + 3);
+                  uVar11 = 1;
+                  puVar10 = &local_4;
+                  uVar9 = 1;
+                  pFVar7 = file;
+                  FUN_00558b35();
+                  FUN_004c8380(local_4 & 0xff,8,puVar5,puVar10,uVar9,uVar11,pFVar7);
+                  puVar5 = (undefined2 *)((int)puVar5 + 3);
                   j = j + 1;
                   sVar3 = local_28;
                 } while (j < local_28);
               }
-              puVar6 = (undefined2 *)((int)local_1c + local_14);
+              puVar5 = (undefined2 *)((int)local_1c + local_14);
               i = i + 1;
               k = local_10;
               j = local_18;
-              local_1c = puVar6;
+              local_1c = puVar5;
             } while (i < local_2a);
           }
           break;
@@ -141,29 +165,35 @@ undefined4 FUN_004cc580(undefined4 param_1,int param_2)
           FUN_004c3fa0(s_converting_from_24_to_16_bits_005b5ff8);
           i = 0;
           if (0 < *(int *)(DAT_00740d44 + 0xc + j)) {
-            iVar5 = j + 8;
+            this_val = j + 8;
             iVar4 = DAT_00740d44;
             do {
-              j = 0;
-              if (0 < *(int *)(iVar5 + iVar4)) {
-                iVar5 = local_18 + 8;
+              j = *(int *)(this_val + iVar4);
+              k = 0;
+              if (0 < j) {
+                this_val = local_18 + 8;
                 do {
-                  FUN_00558b35(&local_c,1,1,file);
-                  FUN_00558b35(&local_2b,1,1,file);
-                  FUN_00558b35(&param_2,1,1,file);
+                  FUN_00558b35(j,&local_c,1,1,file);
+                  FUN_00558b35(&local_2b,&local_2b,1,1,file);
+                  uVar11 = 1;
+                  puVar6 = &param_2;
+                  uVar9 = 1;
+                  pFVar7 = file;
+                  FUN_00558b35();
                   uVar2 = FUN_004c81b0((uint)CONCAT11((undefined1)param_2,local_2b) << 8 |
-                                       local_c & 0xff,0x18);
-                  *puVar6 = uVar2;
-                  puVar6 = puVar6 + 1;
-                  j = j + 1;
+                                       local_c & 0xff,0x18,puVar6,uVar9,uVar11,pFVar7);
+                  *puVar5 = uVar2;
+                  puVar5 = puVar5 + 1;
+                  j = *(int *)(this_val + DAT_00740d44);
+                  k = k + 1;
                   iVar4 = DAT_00740d44;
-                } while (j < *(int *)(iVar5 + DAT_00740d44));
+                } while (k < j);
               }
-              puVar6 = (undefined2 *)((int)local_1c + local_14);
+              puVar5 = (undefined2 *)((int)local_1c + local_14);
               i = i + 1;
               k = local_10;
               j = local_18;
-              local_1c = puVar6;
+              local_1c = puVar5;
             } while (i < *(int *)(local_18 + 0xc + iVar4));
           }
         }

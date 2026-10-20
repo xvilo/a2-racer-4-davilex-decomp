@@ -59,7 +59,7 @@ void FUN_00445f40(void)
 
 /* ==== 00446020 FUN_00446020 ==== */
 
-void FUN_00446020(void)
+void __thiscall FUN_00446020(void)
 
 {
   int iVar1;
@@ -105,7 +105,7 @@ void init_sparks(void)
 {
   FUN_00445f40();
   FUN_00446020();
-  _DAT_006ed6f8 = FUN_004b7400(s_S_SFX_PCX_0059d910);
+  _DAT_006ed6f8 = FUN_004b7400(&DAT_00712130,s_S_SFX_PCX_0059d910);
   return;
 }
 
@@ -352,9 +352,9 @@ void FUN_004467f0(undefined4 param_1)
   fVar4 = *(float *)(&DAT_006f5190 + iVar7 * 300);
   fVar5 = *(float *)(&DAT_006f5194 + iVar7 * 300);
   fVar6 = *(float *)(&DAT_006f5198 + iVar7 * 300);
-  fVar12 = (float10)FUN_004a6800();
+  fVar12 = (float10)FUN_004a6800(&DAT_007128b0);
   fVar12 = fVar12 * (float10)10.0;
-  fVar13 = (float10)FUN_004a6800();
+  fVar13 = (float10)FUN_004a6800(&DAT_007128b0);
   fVar13 = fVar13 * (float10)15.0;
   if ((float10)0.99 < fVar13) {
     fVar13 = (float10)0.99;
@@ -448,14 +448,14 @@ void FUN_004469e0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
   }
   i = FUN_004463c0(param_1);
   *(undefined4 *)(&DAT_006f51b8 + i * 300) = 1;
-  FUN_004a6800();
+  FUN_004a6800(&DAT_007128b0);
   __ftol_result = __ftol();
   i = FUN_004463c0(param_1);
   *(undefined4 *)(&DAT_006f51a8 + i * 300) = __ftol_result;
   i = FUN_00558625();
   j = FUN_004463c0(param_1);
   *(int *)(&DAT_006f51ac + j * 300) = i % 3;
-  fVar3 = (float10)FUN_004a6800();
+  fVar3 = (float10)FUN_004a6800(&DAT_007128b0);
   i = FUN_004463c0(param_1);
   i = i * 300;
   *(undefined4 *)(&DAT_006f5190 + i) = param_5;
@@ -481,11 +481,11 @@ undefined4 FUN_00446b60(void)
 {
   float10 fVar1;
   
-  fVar1 = (float10)FUN_004a67f0();
+  fVar1 = (float10)FUN_004a67f0(&DAT_007128b0);
   if (fVar1 - (float10)_DAT_006fa3cc < (float10)0.2) {
     return 0;
   }
-  fVar1 = (float10)FUN_004a67f0();
+  fVar1 = (float10)FUN_004a67f0(&DAT_007128b0);
   _DAT_006fa3cc = (float)fVar1;
   return 1;
 }
@@ -520,7 +520,7 @@ void FUN_00446c70(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
   float10 fVar2;
   
   if ((DAT_006fb904 != 0) &&
-     (fVar2 = (float10)FUN_004a6800(), (float10)12.0 <= (float10)1.0 / fVar2)) {
+     (fVar2 = (float10)FUN_004a6800(&DAT_007128b0), (float10)12.0 <= (float10)1.0 / fVar2)) {
     i = 0;
     do {
       iVar1 = FUN_004469b0();
@@ -584,7 +584,7 @@ void FUN_00446cf0(void)
 
 /* ==== 00446dd0 FUN_00446dd0 ==== */
 
-void FUN_00446dd0(void)
+void __thiscall FUN_00446dd0(void)
 
 {
   int iVar1;
@@ -655,8 +655,8 @@ void init_clouds(void)
   }
   FUN_00446cf0();
   FUN_00446dd0();
-  DAT_006f5088 = FUN_004b7400(s_S_SFX_PCX_0059dae4);
-  fVar2 = (float10)FUN_004a67f0();
+  DAT_006f5088 = FUN_004b7400(&DAT_00712130,s_S_SFX_PCX_0059dae4);
+  fVar2 = (float10)FUN_004a67f0(&DAT_007128b0);
   _DAT_006fa3cc = (float)fVar2;
   return;
 }
@@ -695,7 +695,7 @@ void FUN_00446fe0(void)
   float10 fVar6;
   
   if (DAT_006fb904 != 0) {
-    fVar6 = (float10)FUN_004a6800();
+    fVar6 = (float10)FUN_004a6800(&DAT_007128b0);
     i = DAT_006f5088;
     if ((float10)1.0 / fVar6 < (float10)10.0) {
       FUN_00446fb0();

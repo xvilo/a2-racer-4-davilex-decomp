@@ -42,25 +42,24 @@ void FUN_0040dfa0(void)
 
 /* ==== 0040dfc0 FUN_0040dfc0 ==== */
 
-void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
+void __thiscall FUN_0040dfc0(void *this,undefined4 *param_2,uint param_3,undefined4 *param_4)
 
 {
   int i;
   int j;
   undefined4 *puVar1;
-  int in_ECX;
   uint uVar2;
   undefined4 *puVar3;
   undefined4 *puVar4;
   undefined4 *puVar5;
   undefined4 *puVar6;
   
-  puVar4 = *(undefined4 **)(in_ECX + 8);
-  if (param_2 <= (uint)(*(int *)(in_ECX + 0xc) - (int)puVar4 >> 5)) {
-    if ((uint)((int)puVar4 - (int)param_1 >> 5) < param_2) {
-      puVar3 = param_1 + param_2 * 8;
-      if (param_1 != puVar4) {
-        puVar1 = puVar3 + param_2 * -8;
+  puVar4 = *(undefined4 **)((int)this + 8);
+  if (param_3 <= (uint)(*(int *)((int)this + 0xc) - (int)puVar4 >> 5)) {
+    if ((uint)((int)puVar4 - (int)param_2 >> 5) < param_3) {
+      puVar3 = param_2 + param_3 * 8;
+      if (param_2 != puVar4) {
+        puVar1 = puVar3 + param_3 * -8;
         do {
           if (puVar3 != (undefined4 *)0x0) {
             puVar5 = puVar1;
@@ -75,10 +74,10 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
           puVar3 = puVar3 + 8;
         } while (puVar1 != puVar4);
       }
-      puVar4 = *(undefined4 **)(in_ECX + 8);
-      for (i = param_2 - ((int)puVar4 - (int)param_1 >> 5); i != 0; i = i + -1) {
+      puVar4 = *(undefined4 **)((int)this + 8);
+      for (i = param_3 - ((int)puVar4 - (int)param_2 >> 5); i != 0; i = i + -1) {
         if (puVar4 != (undefined4 *)0x0) {
-          puVar3 = param_3;
+          puVar3 = param_4;
           puVar1 = puVar4;
           for (j = 8; j != 0; j = j + -1) {
             *puVar1 = *puVar3;
@@ -88,12 +87,12 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
         }
         puVar4 = puVar4 + 8;
       }
-      puVar4 = *(undefined4 **)(in_ECX + 8);
-      while (param_1 != puVar4) {
-        puVar5 = param_1 + 8;
-        puVar3 = param_3;
-        puVar1 = param_1;
-        for (i = 8; param_1 = puVar5, i != 0; i = i + -1) {
+      puVar4 = *(undefined4 **)((int)this + 8);
+      while (param_2 != puVar4) {
+        puVar5 = param_2 + 8;
+        puVar3 = param_4;
+        puVar1 = param_2;
+        for (i = 8; param_2 = puVar5, i != 0; i = i + -1) {
           *puVar1 = *puVar3;
           puVar3 = puVar3 + 1;
           puVar1 = puVar1 + 1;
@@ -101,11 +100,11 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
       }
     }
     else {
-      if (param_2 == 0) {
+      if (param_3 == 0) {
         return;
       }
       puVar3 = puVar4;
-      for (puVar1 = puVar4 + param_2 * -8; puVar1 != puVar4; puVar1 = puVar1 + 8) {
+      for (puVar1 = puVar4 + param_3 * -8; puVar1 != puVar4; puVar1 = puVar1 + 8) {
         if (puVar3 != (undefined4 *)0x0) {
           puVar5 = puVar1;
           puVar6 = puVar3;
@@ -117,9 +116,9 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
         }
         puVar3 = puVar3 + 8;
       }
-      puVar4 = *(undefined4 **)(in_ECX + 8);
-      puVar3 = puVar4 + param_2 * -8;
-      while (param_1 != puVar3) {
+      puVar4 = *(undefined4 **)((int)this + 8);
+      puVar3 = puVar4 + param_3 * -8;
+      while (param_2 != puVar3) {
         puVar3 = puVar3 + -8;
         puVar4 = puVar4 + -8;
         puVar1 = puVar3;
@@ -130,10 +129,10 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
           puVar5 = puVar5 + 1;
         }
       }
-      puVar4 = param_1;
-      while (puVar4 != param_1 + param_2 * 8) {
+      puVar4 = param_2;
+      while (puVar4 != param_2 + param_3 * 8) {
         puVar5 = puVar4 + 8;
-        puVar3 = param_3;
+        puVar3 = param_4;
         puVar1 = puVar4;
         for (i = 8; puVar4 = puVar5, i != 0; i = i + -1) {
           *puVar1 = *puVar3;
@@ -142,13 +141,13 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
         }
       }
     }
-    param_1 = (undefined4 *)(param_2 * 0x20);
-    *(int *)(in_ECX + 8) = *(int *)(in_ECX + 8) + (int)param_1;
+    param_2 = (undefined4 *)(param_3 * 0x20);
+    *(int *)((int)this + 8) = *(int *)((int)this + 8) + (int)param_2;
     return;
   }
-  i = *(int *)(in_ECX + 4);
-  if ((i == 0) || (uVar2 = (int)puVar4 - i >> 5, uVar2 <= param_2)) {
-    uVar2 = param_2;
+  i = *(int *)((int)this + 4);
+  if ((i == 0) || (uVar2 = (int)puVar4 - i >> 5, uVar2 <= param_3)) {
+    uVar2 = param_3;
   }
   if (i == 0) {
     i = 0;
@@ -163,8 +162,8 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
   }
   puVar1 = operator_new(j << 5);
   puVar3 = puVar1;
-  for (puVar4 = *(undefined4 **)(in_ECX + 4); uVar2 = param_2, puVar5 = puVar3, puVar4 != param_1;
-      puVar4 = puVar4 + 8) {
+  for (puVar4 = *(undefined4 **)((int)this + 4); uVar2 = param_3, puVar5 = puVar3, puVar4 != param_2
+      ; puVar4 = puVar4 + 8) {
     if (puVar3 != (undefined4 *)0x0) {
       puVar5 = puVar4;
       puVar6 = puVar3;
@@ -178,7 +177,7 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
   }
   for (; uVar2 != 0; uVar2 = uVar2 - 1) {
     if (puVar5 != (undefined4 *)0x0) {
-      puVar4 = param_3;
+      puVar4 = param_4;
       puVar6 = puVar5;
       for (j = 8; j != 0; j = j + -1) {
         *puVar6 = *puVar4;
@@ -188,13 +187,13 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
     }
     puVar5 = puVar5 + 8;
   }
-  puVar5 = *(undefined4 **)(in_ECX + 8);
-  puVar4 = puVar3 + param_2 * 8;
-  if (param_1 != puVar5) {
-    param_1 = (undefined4 *)((int)puVar4 + (param_2 * -0x20 - (int)puVar3) + (int)param_1);
+  puVar5 = *(undefined4 **)((int)this + 8);
+  puVar4 = puVar3 + param_3 * 8;
+  if (param_2 != puVar5) {
+    param_2 = (undefined4 *)((int)puVar4 + (param_3 * -0x20 - (int)puVar3) + (int)param_2);
     do {
       if (puVar4 != (undefined4 *)0x0) {
-        puVar3 = param_1;
+        puVar3 = param_2;
         puVar6 = puVar4;
         for (j = 8; j != 0; j = j + -1) {
           *puVar6 = *puVar3;
@@ -202,20 +201,20 @@ void FUN_0040dfc0(undefined4 *param_1,uint param_2,undefined4 *param_3)
           puVar6 = puVar6 + 1;
         }
       }
-      param_1 = param_1 + 8;
+      param_2 = param_2 + 8;
       puVar4 = puVar4 + 8;
-    } while (param_1 != puVar5);
+    } while (param_2 != puVar5);
   }
-  FUN_0054b339(*(undefined4 *)(in_ECX + 4));
-  j = *(int *)(in_ECX + 4);
-  *(undefined4 **)(in_ECX + 0xc) = puVar1 + i * 8;
+  FUN_0054b339(*(undefined4 *)((int)this + 4));
+  j = *(int *)((int)this + 4);
+  *(undefined4 **)((int)this + 0xc) = puVar1 + i * 8;
   if (j != 0) {
-    *(undefined4 **)(in_ECX + 4) = puVar1;
-    *(undefined4 **)(in_ECX + 8) = puVar1 + ((*(int *)(in_ECX + 8) - j >> 5) + param_2) * 8;
+    *(undefined4 **)((int)this + 4) = puVar1;
+    *(undefined4 **)((int)this + 8) = puVar1 + ((*(int *)((int)this + 8) - j >> 5) + param_3) * 8;
     return;
   }
-  *(undefined4 **)(in_ECX + 4) = puVar1;
-  *(undefined4 **)(in_ECX + 8) = puVar1 + param_2 * 8;
+  *(undefined4 **)((int)this + 4) = puVar1;
+  *(undefined4 **)((int)this + 8) = puVar1 + param_3 * 8;
   return;
 }
 
@@ -431,7 +430,7 @@ uint FUN_0040e5a0(int param_1,int param_2,char param_3)
           local_24 = *puVar5;
           local_20 = (float)puVar5[1];
           local_1c = puVar5[2];
-          local_40 = FUN_004af230(j,*puVar5,puVar5[1],puVar5[2]);
+          local_40 = FUN_004af230(&DAT_00715250,j,*puVar5,puVar5[1],puVar5[2]);
           FUN_004adaf0(&local_40,1,local_24,local_20,local_1c,local_34,&local_38,&local_3c);
           fVar9 = (float10)FUN_004ad640(local_24,local_20,local_1c,local_38,local_3c);
           local_20 = (float)(fVar9 + (float10)20.0);

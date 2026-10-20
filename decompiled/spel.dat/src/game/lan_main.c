@@ -33,14 +33,14 @@ void FUN_00458bc0(void)
   char local_140 [64];
   char acStack_100 [256];
   
-  FUN_004489a0(s_LANGUAGE_INI_005a4ec4,s_Language_Settings_005a4eb0);
-  iVar2 = FUN_00448c90(s_Language_Settings_005a4ed4);
+  FUN_004489a0(&DAT_006fa558,s_LANGUAGE_INI_005a4ec4,s_Language_Settings_005a4eb0);
+  iVar2 = FUN_00448c90(&DAT_006fa558,s_Language_Settings_005a4ed4);
   puVar3 = *(undefined1 **)(iVar2 + 4);
   if (puVar3 == (undefined1 *)0x0) {
     puVar3 = &DAT_0057629c;
   }
-  FUN_004c3b60(puVar3);
-  _DAT_006fd144 = FUN_004c3cd0(s_SETTINGS_005a4ef4,s_language_005a4ee8);
+  FUN_004c3b60();
+  _DAT_006fd144 = FUN_004c3cd0(s_SETTINGS_005a4ef4,s_language_005a4ee8,puVar3);
   if (_DAT_006fd144 == 0) {
     pcVar4 = s_NEDERLANDS_005a4f00;
   }
@@ -182,7 +182,7 @@ void FUN_00458e20(void)
   float fVar2;
   uint __ftol_result_2;
   int i;
-  void *operator_new_result;
+  void *this_val;
   undefined4 __ftol_result;
   undefined4 *puVar3;
   float in_stack_00000044;
@@ -204,9 +204,9 @@ void FUN_00458e20(void)
   fVar2 = *(float *)(i + DAT_0073b530);
   FUN_00460370();
   local_30 = 0x458ed3;
-  operator_new_result = operator_new(0xb0);
+  this_val = operator_new(0xb0);
   local_4 = 0;
-  if (operator_new_result != (void *)0x0) {
+  if (this_val != (void *)0x0) {
     local_30 = 0x40a00000;
     puVar3 = auStack_74;
     local_34 = (fVar1 * in_stack_00000044 - fVar2 * in_stack_0000004c) * 11.0;
@@ -215,9 +215,9 @@ void FUN_00458e20(void)
       *puVar3 = *(undefined4 *)register0x00000010;
       puVar3 = puVar3 + 1;
     }
-    FUN_004a6800();
+    FUN_004a6800(&DAT_007128b0);
     __ftol_result = __ftol();
-    FUN_00458f50(__ftol_result);
+    FUN_00458f50(this_val,__ftol_result);
   }
   ExceptionList = local_c;
   return;
@@ -226,15 +226,14 @@ void FUN_00458e20(void)
 
 /* ==== 00458f50 FUN_00458f50 ==== */
 
-void FUN_00458f50(int param_1)
+void * __thiscall FUN_00458f50(void *this,int param_2)
 
 {
-  undefined4 uVar1;
-  void *operator_new_result;
-  undefined4 *in_ECX;
+  void *this_val_2;
+  undefined4 this_val;
   int i;
+  undefined4 *puVar1;
   undefined4 *puVar2;
-  undefined4 *puVar3;
   float in_stack_0000003c;
   float in_stack_00000048;
   undefined4 in_stack_0000004c;
@@ -249,56 +248,57 @@ void FUN_00458f50(int param_1)
   local_4 = 0xffffffff;
   puStack_8 = &LAB_0056a7f3;
   local_c = ExceptionList;
-  puVar2 = (undefined4 *)&stack0x00000008;
-  puVar3 = auStackY_88;
+  puVar1 = (undefined4 *)&stack0x00000008;
+  puVar2 = auStackY_88;
   for (i = 0x10; i != 0; i = i + -1) {
-    *puVar3 = *puVar2;
+    *puVar2 = *puVar1;
+    puVar1 = puVar1 + 1;
     puVar2 = puVar2 + 1;
-    puVar3 = puVar3 + 1;
   }
   ExceptionList = &local_c;
-  FUN_0045e590();
+  FUN_0045e590(this);
   local_4 = 0;
-  *in_ECX = &PTR_LAB_00576838;
-  in_ECX[0x25] = 0x41a00000;
+  *(undefined ***)this = &PTR_LAB_00576838;
+  *(undefined4 *)((int)this + 0x94) = 0x41a00000;
   FUN_004602e0();
   in_stack_00000048 = in_stack_0000003c + 0.12;
   FUN_004602e0();
   FUN_004602e0();
   uStackY_50 = 0x459044;
-  in_stack_00000054 = operator_new(0x78);
+  this_val_2 = operator_new(0x78);
   local_4._0_1_ = 1;
-  if (in_stack_00000054 == (void *)0x0) {
-    uVar1 = 0;
+  if (this_val_2 == (void *)0x0) {
+    this_val = 0;
   }
   else {
     uStackY_50 = 0x459077;
+    in_stack_00000054 = this_val_2;
     FUN_004602e0();
-    uVar1 = FUN_004593e0();
+    this_val = FUN_004593e0(this_val_2);
   }
   local_4._0_1_ = 0;
-  in_ECX[0x2b] = uVar1;
-  if (1 < param_1) {
-    in_stack_00000054 = (void *)(param_1 + -1);
+  *(undefined4 *)((int)this + 0xac) = this_val;
+  if (1 < param_2) {
+    in_stack_00000054 = (void *)(param_2 + -1);
     do {
       FUN_004602e0();
       FUN_004602e0();
       FUN_004602e0();
       uStackY_50 = 0x459126;
-      operator_new_result = operator_new(0x78);
+      this_val_2 = operator_new(0x78);
       local_4._0_1_ = 2;
-      if (operator_new_result != (void *)0x0) {
+      if (this_val_2 != (void *)0x0) {
         uStackY_50 = 0x459156;
         FUN_004602e0();
-        FUN_004593e0();
+        FUN_004593e0(this_val_2);
       }
       local_4._0_1_ = 0;
-      FUN_0045dff0();
+      FUN_0045dff0(this_val);
       in_stack_00000054 = (void *)((int)in_stack_00000054 + -1);
     } while (in_stack_00000054 != (void *)0x0);
   }
   ExceptionList = local_c;
-  return;
+  return this;
 }
 
 

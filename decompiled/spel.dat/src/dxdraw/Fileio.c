@@ -39,11 +39,11 @@ undefined4 FUN_004c5e90(undefined4 param_1,undefined4 param_2)
   char *pcVar4;
   undefined4 uVar5;
   undefined4 uVar6;
+  FILE *pFVar7;
   int j;
   undefined4 local_18;
   char local_14 [20];
   
-  uVar6 = param_1;
   i = 0;
   if (DAT_00740914 != 0) {
     FUN_004c3fa0(s__s__d____warning___double_call_t_005b4970,s_D__Work_dxdraw_Fileio_cpp_005b49b4,
@@ -55,10 +55,10 @@ undefined4 FUN_004c5e90(undefined4 param_1,undefined4 param_2)
     uVar5 = 0x37;
   }
   else {
-    FUN_00558b35(&param_1,2,1,DAT_00740900);
+    FUN_00558b35();
     if ((short)param_1 < 1) {
       FUN_004c4150(s__s__d____could_not_open_<_s>_005b494c,s_D__Work_dxdraw_Fileio_cpp_005b49b4,0x42
-                   ,uVar6);
+                   ,param_1);
       return 0x3e9;
     }
     DAT_00740908 = (int)(short)param_1;
@@ -71,8 +71,12 @@ undefined4 FUN_004c5e90(undefined4 param_1,undefined4 param_2)
     j = 0;
     if (0 < DAT_00740908) {
       do {
-        FUN_00558b35(local_14,0x14,1,DAT_00740900);
-        FUN_00558b35(&local_18,1,4,DAT_00740900);
+        uVar6 = 1;
+        pcVar2 = local_14;
+        uVar5 = 0x14;
+        pFVar7 = DAT_00740900;
+        FUN_00558b35();
+        FUN_00558b35(&local_18,&local_18,1,4,DAT_00740900,pcVar2,uVar5,uVar6,pFVar7);
         k = 0xffffffff;
         pcVar2 = local_14;
         do {
@@ -107,12 +111,11 @@ undefined4 FUN_004c5e90(undefined4 param_1,undefined4 param_2)
       } while (j < DAT_00740908);
     }
     FUN_005588fd(DAT_00740900);
-    uVar6 = param_2;
     DAT_00740904 = FUN_005589a5(param_2,s_rb_005b496c);
     if (DAT_00740904 != 0) {
       uVar5 = FUN_005692e1(DAT_00740904);
       DAT_007408fc = FUN_00569269(uVar5);
-      FUN_004c3fa0(&DAT_005b48dc,uVar6);
+      FUN_004c3fa0(&DAT_005b48dc,param_2);
       FUN_004c3fa0(s______s______s_005b48bc,0x14,0x14,s_Bestand_005b48cc,10,10,s_Grootte_005b48d4);
       FUN_004c3fa0(s______s_005b4880,0x21,0x21,s__________________________________005b4888);
       i = 0;
@@ -139,9 +142,10 @@ undefined4 FUN_004c5e90(undefined4 param_1,undefined4 param_2)
     }
     uVar5 = 0x67;
     DAT_00740904 = 0;
+    param_1 = param_2;
   }
   FUN_004c4150(s__s__d____could_not_open_<_s>_005b494c,s_D__Work_dxdraw_Fileio_cpp_005b49b4,uVar5,
-               uVar6);
+               param_1);
   return 1000;
 }
 

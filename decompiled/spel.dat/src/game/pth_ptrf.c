@@ -5,9 +5,12 @@
 void FUN_00465620(int param_1)
 
 {
+  undefined4 this_val;
+  
   if (*(int *)(param_1 + 0x10) != -1) {
-    FUN_0049eb50(*(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x30 + DAT_00715e50));
-    FUN_0049e570();
+    this_val = FUN_0049eb50(&DAT_006fbb5c,
+                            *(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x30 + DAT_00715e50));
+    FUN_0049e570(this_val);
     *(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x5c + DAT_00715e50) = 0;
   }
   return;

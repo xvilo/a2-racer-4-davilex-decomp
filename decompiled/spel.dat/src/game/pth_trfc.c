@@ -45,9 +45,12 @@ void FUN_00466270(void)
 void FUN_00466400(int param_1)
 
 {
+  undefined4 this_val;
+  
   if (*(int *)(param_1 + 0x10) != -1) {
-    FUN_0049eb50(*(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x30 + DAT_00715e50));
-    FUN_0049e570();
+    this_val = FUN_0049eb50(&DAT_006fbb5c,
+                            *(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x30 + DAT_00715e50));
+    FUN_0049e570(this_val);
     *(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x5c + DAT_00715e50) = 0;
   }
   return;
@@ -119,7 +122,7 @@ void FUN_004666c0(int param_1)
   pvStack_c = ExceptionList;
   local_1c[0] = (undefined1)param_1;
   ExceptionList = &pvStack_c;
-  FUN_004028f0(0);
+  FUN_004028f0(local_1c,0);
   local_4 = 0;
   if (DAT_005d2aa8 == 0) {
     FUN_004c4150(s__s___d__No_traffic_types_availab_005a721c,
@@ -136,7 +139,7 @@ void FUN_004666c0(int param_1)
     str1 = str1 + 1;
   } while (cVar1 != '\0');
   i = ~i - 1;
-  cVar1 = FUN_00402a00(i,1);
+  cVar1 = FUN_00402a00(local_1c,i,1);
   if (cVar1 != '\0') {
     str1 = (char *)(&DAT_005d269c + iVar2 * 10);
     pcVar6 = pcStack_18;
@@ -150,14 +153,14 @@ void FUN_004666c0(int param_1)
       str1 = str1 + 1;
       pcVar6 = pcVar6 + 1;
     }
-    FUN_004029e0(i);
+    FUN_004029e0(local_1c,i);
   }
-  iVar2 = FUN_00424660(local_1c);
+  iVar2 = FUN_00424660(&DAT_005d3458,local_1c);
   str1 = *(char **)(iVar2 + 0x14);
   if (str1 == (char *)0x0) {
     str1 = "";
   }
-  uVar3 = FUN_004b75a0(str1);
+  uVar3 = FUN_004b75a0(&DAT_00712130,str1);
   iVar4 = FUN_004a7790(0,0,0,0,0,0,uVar3,0,0,0,0);
   FUN_00450b00(iVar4,s_HOOG4_005a7240);
   iVar5 = iVar4 * 0xf0;
@@ -185,9 +188,12 @@ void FUN_004666c0(int param_1)
 void FUN_00466950(int param_1)
 
 {
+  undefined4 this_val;
+  
   if (*(int *)(param_1 + 0x10) != -1) {
-    FUN_0049eb50(*(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x30 + DAT_00715e50));
-    FUN_0049e570();
+    this_val = FUN_0049eb50(&DAT_006fbb5c,
+                            *(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x30 + DAT_00715e50));
+    FUN_0049e570(this_val);
     *(undefined4 *)(*(int *)(param_1 + 0x10) * 0xf0 + 0x5c + DAT_00715e50) = 0;
   }
   return;
@@ -219,7 +225,7 @@ void FUN_00466db0(int param_1)
   pvStack_c = ExceptionList;
   local_1c[0] = (undefined1)param_1;
   ExceptionList = &pvStack_c;
-  FUN_004028f0(0);
+  FUN_004028f0(local_1c,0);
   local_4 = 0;
   if (DAT_005d2aa8 == 0) {
     FUN_004c4150(s__s___d__No_traffic_types_availab_005a72b4,
@@ -236,7 +242,7 @@ void FUN_00466db0(int param_1)
     str1 = str1 + 1;
   } while (cVar1 != '\0');
   i = ~i - 1;
-  cVar1 = FUN_00402a00(i,1);
+  cVar1 = FUN_00402a00(local_1c,i,1);
   if (cVar1 != '\0') {
     str1 = (char *)(&DAT_005d269c + iVar2 * 10);
     pcVar6 = pcStack_18;
@@ -250,14 +256,14 @@ void FUN_00466db0(int param_1)
       str1 = str1 + 1;
       pcVar6 = pcVar6 + 1;
     }
-    FUN_004029e0(i);
+    FUN_004029e0(local_1c,i);
   }
-  iVar2 = FUN_00424660(local_1c);
+  iVar2 = FUN_00424660(&DAT_005d3458,local_1c);
   str1 = *(char **)(iVar2 + 0x14);
   if (str1 == (char *)0x0) {
     str1 = "";
   }
-  uVar3 = FUN_004b75a0(str1);
+  uVar3 = FUN_004b75a0(&DAT_00712130,str1);
   iVar4 = FUN_004a7790(0,0,0,0,0,0,uVar3,0,FUN_00421f50,0,0);
   FUN_004a79d0(iVar4,0,0,0,0,0xc1200000,0,0x44a28000,0x3f666666,0x3e4ccccd,0,0,0,1);
   FUN_004a7190(iVar4);
@@ -342,11 +348,10 @@ void FUN_00467320(float *param_1,float *param_2,float param_3)
 
 /* ==== 00467370 FUN_00467370 ==== */
 
-void FUN_00467370(void)
+void * __thiscall FUN_00467370(void *this)
 
 {
   void *operator_new_result;
-  undefined4 *in_ECX;
   undefined1 local_11;
   void *local_c;
   undefined1 *puStack_8;
@@ -356,52 +361,52 @@ void FUN_00467370(void)
   puStack_8 = &LAB_0056ac29;
   local_c = ExceptionList;
   ExceptionList = &local_c;
-  *in_ECX = &PTR_LAB_00576984;
-  *(undefined1 *)(in_ECX + 1) = local_11;
+  *(undefined ***)this = &PTR_LAB_00576984;
+  *(undefined1 *)((int)this + 4) = local_11;
   operator_new_result = operator_new(0x18);
   *(void **)operator_new_result = operator_new_result;
   *(void **)((int)operator_new_result + 4) = operator_new_result;
-  in_ECX[2] = operator_new_result;
-  in_ECX[3] = 0;
-  *in_ECX = &PTR_LAB_00576974;
-  in_ECX[4] = &PTR_LAB_00576984;
+  *(void **)((int)this + 8) = operator_new_result;
+  *(undefined4 *)((int)this + 0xc) = 0;
+  *(undefined ***)this = &PTR_LAB_00576974;
+  *(undefined ***)((int)this + 0x10) = &PTR_LAB_00576984;
   local_4 = 0;
-  *(undefined1 *)(in_ECX + 5) = local_11;
+  *(undefined1 *)((int)this + 0x14) = local_11;
   operator_new_result = operator_new(0x18);
   *(void **)operator_new_result = operator_new_result;
   *(void **)((int)operator_new_result + 4) = operator_new_result;
-  in_ECX[6] = operator_new_result;
-  in_ECX[7] = 0;
-  in_ECX[4] = &PTR_LAB_00576974;
-  in_ECX[8] = &PTR_LAB_00576984;
+  *(void **)((int)this + 0x18) = operator_new_result;
+  *(undefined4 *)((int)this + 0x1c) = 0;
+  *(undefined ***)((int)this + 0x10) = &PTR_LAB_00576974;
+  *(undefined ***)((int)this + 0x20) = &PTR_LAB_00576984;
   local_4._0_1_ = 1;
-  *(undefined1 *)(in_ECX + 9) = local_11;
+  *(undefined1 *)((int)this + 0x24) = local_11;
   operator_new_result = operator_new(0x18);
   *(void **)operator_new_result = operator_new_result;
   *(void **)((int)operator_new_result + 4) = operator_new_result;
-  in_ECX[10] = operator_new_result;
-  in_ECX[0xb] = 0;
-  in_ECX[8] = &PTR_LAB_00576974;
-  in_ECX[0xc] = &PTR_LAB_00576984;
+  *(void **)((int)this + 0x28) = operator_new_result;
+  *(undefined4 *)((int)this + 0x2c) = 0;
+  *(undefined ***)((int)this + 0x20) = &PTR_LAB_00576974;
+  *(undefined ***)((int)this + 0x30) = &PTR_LAB_00576984;
   local_4._0_1_ = 2;
-  *(undefined1 *)(in_ECX + 0xd) = local_11;
+  *(undefined1 *)((int)this + 0x34) = local_11;
   operator_new_result = operator_new(0x18);
   *(void **)operator_new_result = operator_new_result;
   *(void **)((int)operator_new_result + 4) = operator_new_result;
-  in_ECX[0xe] = operator_new_result;
-  in_ECX[0xf] = 0;
-  in_ECX[0xc] = &PTR_LAB_00576974;
-  in_ECX[0x10] = &PTR_LAB_00576984;
+  *(void **)((int)this + 0x38) = operator_new_result;
+  *(undefined4 *)((int)this + 0x3c) = 0;
+  *(undefined ***)((int)this + 0x30) = &PTR_LAB_00576974;
+  *(undefined ***)((int)this + 0x40) = &PTR_LAB_00576984;
   local_4 = CONCAT31(local_4._1_3_,3);
-  *(undefined1 *)(in_ECX + 0x11) = local_11;
+  *(undefined1 *)((int)this + 0x44) = local_11;
   operator_new_result = operator_new(0x18);
   *(void **)operator_new_result = operator_new_result;
   *(void **)((int)operator_new_result + 4) = operator_new_result;
-  in_ECX[0x12] = operator_new_result;
-  in_ECX[0x13] = 0;
-  in_ECX[0x10] = &PTR_LAB_00576974;
+  *(void **)((int)this + 0x48) = operator_new_result;
+  *(undefined4 *)((int)this + 0x4c) = 0;
+  *(undefined ***)((int)this + 0x40) = &PTR_LAB_00576974;
   ExceptionList = local_c;
-  return;
+  return this;
 }
 
 

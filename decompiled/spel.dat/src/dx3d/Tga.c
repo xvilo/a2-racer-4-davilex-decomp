@@ -2,28 +2,27 @@
 
 /* ==== 004bfc00 FUN_004bfc00 ==== */
 
-void FUN_004bfc00(undefined4 *param_1,int param_2)
+void __thiscall FUN_004bfc00(void *this,undefined4 *param_2,int param_3)
 
 {
-  int *in_ECX;
   int i;
   undefined4 *puVar1;
   
-  if (*in_ECX != 2) {
+  if (*(int *)this != 2) {
     FUN_004c4150(s__s__d____mesh_is_not_of_requeste_00597c74,s___mesh_inl_005b24a8,0xe1);
   }
-  if (in_ECX[1] != 2) {
+  if (*(int *)((int)this + 4) != 2) {
     FUN_004c4150(s__s__d____vertices_were_not__yet__00597c44,s___mesh_inl_005b24a8,0xe4);
   }
-  if ((param_2 < 0) || (in_ECX[0x21] <= param_2)) {
-    FUN_004c4150(s__s__d____index__d_is_out_of_LVER_00597c0c,s___mesh_inl_005b24a8,0xe7,param_2,
-                 in_ECX[0x1f]);
+  if ((param_3 < 0) || (*(int *)((int)this + 0x84) <= param_3)) {
+    FUN_004c4150(s__s__d____index__d_is_out_of_LVER_00597c0c,s___mesh_inl_005b24a8,0xe7,param_3,
+                 *(undefined4 *)((int)this + 0x7c));
   }
-  puVar1 = (undefined4 *)(in_ECX[0x20] + param_2 * 0x20);
+  puVar1 = (undefined4 *)(*(int *)((int)this + 0x80) + param_3 * 0x20);
   for (i = 8; i != 0; i = i + -1) {
-    *param_1 = *puVar1;
+    *param_2 = *puVar1;
     puVar1 = puVar1 + 1;
-    param_1 = param_1 + 1;
+    param_2 = param_2 + 1;
   }
   return;
 }
@@ -57,7 +56,7 @@ FILE * FUN_004c00b0(char *str2,uint *param_2,uint *param_3,FILE *file_2,undefine
   undefined1 uStack_26;
   undefined1 local_25;
   uint uStack_24;
-  char acStack_20 [4];
+  char cStack_20;
   uint uStack_1c;
   undefined1 auStack_18 [4];
   uint uStack_14;
@@ -96,7 +95,7 @@ FILE * FUN_004c00b0(char *str2,uint *param_2,uint *param_3,FILE *file_2,undefine
   uStack_58 = 1;
   puStack_5c = (uint *)0x1;
   pFStack_54 = file;
-  FUN_00558b35(&local_29);
+  FUN_00558b35();
   if (local_29 != '\0') {
     puStack_4c = (uint *)0x4c016f;
     FUN_004c4150();
@@ -131,9 +130,9 @@ FILE * FUN_004c00b0(char *str2,uint *param_2,uint *param_3,FILE *file_2,undefine
   uStack_58 = 2;
   pFStack_50 = file;
   FUN_00558b35();
-  FUN_00558b35(acStack_20,1,1,file);
-  FUN_00558b35(&bStack_27,1,1,file);
-  if ((acStack_20[0] != ' ') && (acStack_20[0] != '\x18')) {
+  FUN_00558b35();
+  FUN_00558b35();
+  if (((char)_cStack_20 != ' ') && ((char)_cStack_20 != '\x18')) {
     FUN_004c3fa0();
     return (FILE *)0x0;
   }
@@ -176,8 +175,8 @@ FILE * FUN_004c00b0(char *str2,uint *param_2,uint *param_3,FILE *file_2,undefine
           uStack_58 = 1;
           pFStack_50 = file;
           FUN_00558b35();
-          FUN_00558b35(auStack_10,1,1,file);
-          if (acStack_20[0] == ' ') {
+          FUN_00558b35(auStack_10,auStack_10,1,1,file);
+          if (cStack_20 == ' ') {
             puStack_4c = (uint *)&uStack_26;
             pFStack_50 = (FILE *)0x4c034e;
             FUN_00558b35();

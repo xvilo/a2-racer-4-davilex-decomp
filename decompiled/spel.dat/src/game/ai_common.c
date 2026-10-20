@@ -365,13 +365,14 @@ void FUN_00405b60(undefined4 param_1,int param_2)
 {
   float fVar1;
   float *pfVar2;
-  undefined1 local_18 [24];
+  undefined1 local_18 [12];
+  undefined1 local_c [12];
   
   pfVar2 = (float *)FUN_004b4070(local_18,DAT_0073b0d0 +
                                           *(int *)(param_2 * 0xf0 + 0x24 + DAT_00715e50) * 0xa9 +
                                           0x10);
   fVar1 = SQRT(pfVar2[2] * pfVar2[2] + pfVar2[1] * pfVar2[1] + *pfVar2 * *pfVar2);
-  FUN_004066c0(*pfVar2 / fVar1,pfVar2[1] / fVar1,pfVar2[2] / fVar1);
+  FUN_004066c0(local_c,*pfVar2 / fVar1,pfVar2[1] / fVar1,pfVar2[2] / fVar1);
   return;
 }
 
@@ -390,7 +391,8 @@ void FUN_00405c80(int param_1)
   undefined4 uVar7;
   float *pfVar8;
   float10 fVar9;
-  undefined1 auStack_18 [24];
+  undefined1 auStack_18 [12];
+  undefined1 auStack_c [12];
   
   iVar3 = *(int *)(&DAT_005ceabc + param_1 * 0x294);
   iVar1 = param_1 * 0x294;
@@ -414,7 +416,7 @@ LAB_00405cc5:
                                    *(int *)(*(int *)(&DAT_005ceac0 + iVar3 + 4) * 0xf0 + 0x24 +
                                            DAT_00715e50) * 0xa9 + 0x10);
     fVar4 = SQRT(pfVar8[2] * pfVar8[2] + pfVar8[1] * pfVar8[1] + *pfVar8 * *pfVar8);
-    pfVar8 = (float *)FUN_004066c0(*pfVar8 / fVar4,pfVar8[1] / fVar4,pfVar8[2] / fVar4);
+    pfVar8 = (float *)FUN_004066c0(auStack_c,*pfVar8 / fVar4,pfVar8[1] / fVar4,pfVar8[2] / fVar4);
     iVar5 = *(int *)(*(int *)(&DAT_005ceac0 + iVar3 + 4) * 0xf0 + 0x24 + DAT_00715e50) * 0xa9 +
             DAT_0073b0d0;
     iVar3 = *(int *)((&DAT_005ce9e8)[param_1 * 0xa5] * 0xf0 + 0x24 + DAT_00715e50);
@@ -460,7 +462,8 @@ void FUN_00405e90(int param_1)
   undefined4 uVar16;
   float *pfVar17;
   float10 fVar18;
-  undefined1 auStack_18 [24];
+  undefined1 auStack_18 [12];
+  undefined1 auStack_c [12];
   
   iVar10 = *(int *)(&DAT_005ceabc + param_1 * 0x294);
   iVar1 = param_1 * 0x294;
@@ -485,7 +488,8 @@ void FUN_00405e90(int param_1)
                                     *(int *)(*(int *)(&DAT_005ceac0 + iVar10 + 4) * 0xf0 + 0x24 +
                                             DAT_00715e50) * 0xa9 + 0x10);
     fVar4 = SQRT(pfVar17[2] * pfVar17[2] + pfVar17[1] * pfVar17[1] + *pfVar17 * *pfVar17);
-    pfVar17 = (float *)FUN_004066c0(*pfVar17 / fVar4,pfVar17[1] / fVar4,pfVar17[2] / fVar4);
+    pfVar17 = (float *)FUN_004066c0(auStack_c,*pfVar17 / fVar4,pfVar17[1] / fVar4,pfVar17[2] / fVar4
+                                   );
     fVar11 = *pfVar17;
     fVar12 = pfVar17[1];
     fVar13 = pfVar17[2];
@@ -671,38 +675,43 @@ undefined4 FUN_00406460(undefined4 param_1,undefined4 *param_2)
   int i;
   int *piVar10;
   int iVar11;
-  int iVar12;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
   
   if (param_2 == (undefined4 *)0x0) {
     FUN_004c4150(s__s__d____a_Direction_is_NULL_0058fcf4,s_C__Work_A2IV_Game_prog_ai_common_0058fccc
                  ,0x255);
   }
   i = 0;
-  iVar12 = *(int *)(DAT_006fba58 * 0xf0 + 0x34 + DAT_00715e50);
-  iVar2 = *(int *)(DAT_00715f00 + 0xf8 + iVar12 * 0x994);
+  iVar11 = *(int *)(DAT_006fba58 * 0xf0 + 0x34 + DAT_00715e50);
+  iVar2 = *(int *)(DAT_00715f00 + 0xf8 + iVar11 * 0x994);
   if (0 < iVar2) {
-    piVar10 = (int *)(DAT_00715f00 + iVar12 * 0x994 + 0x164);
+    piVar10 = (int *)(DAT_00715f00 + iVar11 * 0x994 + 0x164);
     do {
-      iVar12 = *(int *)(*piVar10 * 0x50 + 0x14 + DAT_00715eb8);
-      if (-1 < iVar12) {
-        iVar11 = *piVar10 * 0x50;
+      iVar11 = *(int *)(*piVar10 * 0x50 + 0x14 + DAT_00715eb8);
+      if (-1 < iVar11) {
+        i = *piVar10 * 0x50;
+        iVar2 = i + 8 + DAT_00715eb8;
+        fStack_c = *(float *)(i + 8 + DAT_00715eb8);
+        fStack_8 = *(float *)(iVar2 + 4);
+        fStack_4 = *(float *)(iVar2 + 8);
+        iVar11 = iVar11 * 0x50;
         iVar2 = iVar11 + 8 + DAT_00715eb8;
-        iVar12 = iVar12 * 0x50;
-        i = iVar12 + 8 + DAT_00715eb8;
-        fVar5 = *(float *)(iVar12 + 8 + DAT_00715eb8) - *(float *)(iVar11 + 8 + DAT_00715eb8);
-        fVar8 = *(float *)(i + 4) - *(float *)(iVar2 + 4);
-        fVar7 = *(float *)(i + 8) - *(float *)(iVar2 + 8);
+        fVar5 = *(float *)(iVar11 + 8 + DAT_00715eb8) - fStack_c;
+        fVar8 = *(float *)(iVar2 + 4) - fStack_8;
+        fVar7 = *(float *)(iVar2 + 8) - fStack_4;
         fVar6 = SQRT(fVar5 * fVar5 + fVar8 * fVar8 + fVar7 * fVar7);
-        puVar9 = (undefined4 *)FUN_004066c0(fVar5 / fVar6,fVar8 / fVar6,fVar7 / fVar6);
+        puVar9 = (undefined4 *)FUN_004066c0(&fStack_c,fVar5 / fVar6,fVar8 / fVar6,fVar7 / fVar6);
         uVar3 = puVar9[1];
         uVar4 = puVar9[2];
         *param_2 = *puVar9;
         param_2[1] = uVar3;
         param_2[2] = uVar4;
-        puVar9 = (undefined4 *)(iVar11 + 8 + DAT_00715eb8);
-        puVar1 = (undefined4 *)(iVar12 + 8 + DAT_00715eb8);
-        FUN_0040a360(*puVar9,(float)puVar9[1] + 10.0,puVar9[2],*puVar1,(float)puVar1[1] + 10.0,
-                     puVar1[2]);
+        puVar9 = (undefined4 *)(i + 8 + DAT_00715eb8);
+        puVar1 = (undefined4 *)(iVar11 + 8 + DAT_00715eb8);
+        fStack_8 = (float)puVar1[1] + 10.0;
+        FUN_0040a360(*puVar9,(float)puVar9[1] + 10.0,puVar9[2],*puVar1,fStack_8,puVar1[2]);
         return 1;
       }
       i = i + 1;
@@ -755,14 +764,12 @@ void FUN_00406670(void)
 
 /* ==== 004066c0 FUN_004066c0 ==== */
 
-void FUN_004066c0(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+void __thiscall FUN_004066c0(void *this,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 
 {
-  undefined4 *in_ECX;
-  
-  *in_ECX = param_1;
-  in_ECX[1] = param_2;
-  in_ECX[2] = param_3;
+  *(undefined4 *)this = param_2;
+  *(undefined4 *)((int)this + 4) = param_3;
+  *(undefined4 *)((int)this + 8) = param_4;
   return;
 }
 
