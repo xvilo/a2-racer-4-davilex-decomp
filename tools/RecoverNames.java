@@ -10,7 +10,15 @@
 //   "***** Entry init_game *****"                   names the function it is in;
 //   "Unknown error in CRaceOverlay::Init %s (%d)"   names the function it is in;
 //   a named stub (an incrementally linked export: JMP xvga_init_fileio) names the function
-//   it jumps to.
+//   it jumps to;
+// and in the Delphi menu, whose methods trace themselves through a TDebug object:
+//   " Self = nil: TDebug.InProc"                    names the function it is in (TDebug's
+//                                                   own methods check Self so);
+//   Debug.InProc(ClassName + '.' + 'GetPlayer')     names the function making the call:
+//                                                   GetPlayer, in the class whose VMT (the
+//                                                   Class.vmt labels from the class tables)
+//                                                   comes last before it: Delphi places a
+//                                                   class's methods after its VMT.
 // Only functions that still have Ghidra's default name are renamed, and a name claimed by two
 // different functions is given to neither.
 //
@@ -46,6 +54,8 @@ public class RecoverNames extends GhidraScript {
 	/** "init_radar()", "init_radar()\n", "set_game_display() ...". */
 	static final Pattern CALL = Pattern.compile("^\\s*([A-Za-z_]\\w*)\\(\\)[\\s.]*$");
 	static final Pattern ENTRY = Pattern.compile("\\bEntry\\s+([A-Za-z_]\\w*)\\b");
+	static final Pattern SELF_NIL = Pattern.compile("^\\s*Self = nil: ((?:[A-Za-z_]\\w*\\.)?[A-Za-z_]\\w*)\\s*$");
+	static final Pattern IDENT = Pattern.compile("^[A-Za-z_]\\w*$");
 	static final Pattern MEMBER = Pattern.compile(
 		"(?:\\bin|\\berror in|while parsing in|^\\s*\\*{0,3}\\s*)\\s*((?:[A-Za-z_]\\w*::)+~?[A-Za-z_]\\w*)(?:\\(\\))?(?:\\s|:|$)");
 
@@ -101,6 +111,7 @@ public class RecoverNames extends GhidraScript {
 				}
 			}
 		}
+		delphiTraces(strings);
 		for (Function f : currentProgram.getFunctionManager().getFunctions(true)) {
 			Function t = f.isThunk() ? f.getThunkedFunction(false) : null;
 			if (t != null && !t.isExternal() && f.getSymbol().getSource() != SourceType.DEFAULT &&
@@ -118,6 +129,72 @@ public class RecoverNames extends GhidraScript {
 			}
 		}
 		println("RecoverNames: " + files.size() + " functions placed in source files");
+	}
+
+	/** The Delphi rules (see the top). */
+	private void delphiTraces(Map<Address, String> strings) {
+		// The class tables' VMTs by address.
+		TreeMap<Long, String> vmts = new TreeMap<>();
+		for (ghidra.program.model.symbol.Symbol sym : currentProgram.getSymbolTable().getAllSymbols(false)) {
+			String n = sym.getName();
+			if (n.endsWith(".vmt")) {
+				vmts.put(sym.getAddress().getOffset(), n.substring(0, n.length() - 4));
+			}
+		}
+		if (vmts.isEmpty()) {
+			return;
+		}
+		Function inProc = null;
+		for (Map.Entry<Address, String> e : strings.entrySet()) {
+			Matcher m = SELF_NIL.matcher(e.getValue());
+			if (!m.matches()) {
+				continue;
+			}
+			for (Reference r : getReferencesTo(e.getKey())) {
+				Function f = getFunctionContaining(r.getFromAddress());
+				if (f == null) {
+					continue;
+				}
+				String n = m.group(1).contains(".") ? m.group(1) : classAt(vmts, f) + "." + m.group(1);
+				claim(f.getEntryPoint(), n, "checks Self in " + n);
+				if (n.equals("TDebug.InProc")) {
+					inProc = f;
+				}
+			}
+		}
+		if (inProc == null) {
+			return;
+		}
+		for (Reference r : getReferencesTo(inProc.getEntryPoint())) {
+			if (!r.getReferenceType().isCall()) {
+				continue;
+			}
+			Function f = getFunctionContaining(r.getFromAddress());
+			if (f == null) {
+				continue;
+			}
+			// The last identifier string the function refers to before the call.
+			String method = null;
+			Instruction i = getInstructionAt(f.getEntryPoint());
+			for (; i != null && i.getAddress().compareTo(r.getFromAddress()) < 0; i = i.getNext()) {
+				for (Reference sr : i.getReferencesFrom()) {
+					String s = strings.get(sr.getToAddress());
+					if (s != null && IDENT.matcher(s).matches()) {
+						method = s;
+					}
+				}
+			}
+			if (method != null) {
+				// A function tracing twice claims the same name twice, which apply() accepts.
+				claim(f.getEntryPoint(), classAt(vmts, f) + "." + method, "traces itself as " + method);
+			}
+		}
+	}
+
+	/** The class whose VMT comes last before the function. */
+	private String classAt(TreeMap<Long, String> vmts, Function f) {
+		Map.Entry<Long, String> e = vmts.floorEntry(f.getEntryPoint().getOffset());
+		return e == null ? "Unit" : e.getValue();
 	}
 
 	/** The pushes before the call that consumes the string at `in`, and the call. */

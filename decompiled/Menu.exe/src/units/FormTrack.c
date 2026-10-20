@@ -29,7 +29,7 @@ void TfrmTrack_virtual_0fc(int *param_1)
   FUN_0045fe88(uVar2,iVar1);
   (**(code **)(*param_1 + 0xe8))(param_1,&PTR_TWinControl_virtual_000_00498aa4);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_00499d2d;
   puStack_18 = (undefined1 *)0x499d25;

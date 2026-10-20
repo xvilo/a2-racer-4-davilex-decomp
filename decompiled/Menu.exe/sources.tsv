@@ -3405,8 +3405,8 @@ address	name	file	how
 0045f834	FUN_0045f834	units/Classes.pas	nearest file
 0045fa3c	FUN_0045fa3c	units/Classes.pas	nearest file
 0045fb90	FUN_0045fb90	units/Classes.pas	nearest file
-0045fc70	FUN_0045fc70	units/Classes.pas	nearest file
-0045fcf0	FUN_0045fcf0	units/Classes.pas	nearest file
+0045fc70	TDebug.ExitProc	units/Classes.pas	nearest file
+0045fcf0	TDebug.ClearFile	units/Classes.pas	nearest file
 0045fd98	FUN_0045fd98	units/Classes.pas	nearest file
 0045fe38	FUN_0045fe38	units/Classes.pas	nearest file
 0045fe88	FUN_0045fe88	units/Classes.pas	nearest file
@@ -3431,7 +3431,7 @@ address	name	file	how
 00461be8	TTrack.virtual_000	units/GDIGraphic.pas	nearest file
 00461c7c	FUN_00461c7c	units/GDIGraphic.pas	nearest file
 00461c84	FUN_00461c84	units/GDIGraphic.pas	nearest file
-00461c8c	FUN_00461c8c	units/GDIGraphic.pas	nearest file
+00461c8c	TTrack.LoadFromIniFile	units/GDIGraphic.pas	nearest file
 00462070	FUN_00462070	units/GDIGraphic.pas	nearest file
 00462078	FUN_00462078	units/GDIGraphic.pas	nearest file
 00462130	TTuneUp.virtual_000	units/GDIGraphic.pas	nearest file
@@ -3460,7 +3460,7 @@ address	name	file	how
 00462ce0	xvga_get_filehandle	units/GDIGraphic.pas	nearest file
 00462d80	FUN_00462d80	units/GDIGraphic.pas	nearest file
 00462f5c	FUN_00462f5c	units/GDIGraphic.pas	nearest file
-00463140	FUN_00463140	units/GDIGraphic.pas	nearest file
+00463140	TResourceManager.Create	units/GDIGraphic.pas	nearest file
 004632b0	TResourceManager.Destroy	units/GDIGraphic.pas	nearest file
 00463388	FUN_00463388	units/GDIGraphic.pas	nearest file
 004633dc	FUN_004633dc	units/GDIGraphic.pas	nearest file
@@ -4039,28 +4039,28 @@ address	name	file	how
 0047f7d4	TData.gdfRadioBtnButtonStateChange	units/MenuData.pas	method of TData
 0047f7ec	TData.BtnStateChange	units/MenuData.pas	method of TData
 0047f804	TData.CombinedBtnStateChange	units/MenuData.pas	method of TData
-0047f840	FUN_0047f840	units/MenuData.pas	nearest file
-0047fa5c	FUN_0047fa5c	units/MenuData.pas	nearest file
-0047fbd4	FUN_0047fbd4	units/MenuData.pas	nearest file
-0047fdc8	FUN_0047fdc8	units/MenuData.pas	nearest file
-0047ff64	FUN_0047ff64	units/MenuData.pas	nearest file
-0048003c	FUN_0048003c	units/MenuData.pas	nearest file
-00480390	FUN_00480390	units/MenuData.pas	nearest file
-004803ac	FUN_004803ac	units/MenuData.pas	nearest file
-00480428	FUN_00480428	units/MenuData.pas	nearest file
-00480448	FUN_00480448	units/MenuData.pas	nearest file
-00480584	FUN_00480584	units/MenuData.pas	nearest file
-0048063c	FUN_0048063c	units/MenuData.pas	nearest file
-004806b0	FUN_004806b0	units/MenuData.pas	nearest file
-00480780	FUN_00480780	units/MenuData.pas	nearest file
-004807a8	FUN_004807a8	units/MenuData.pas	nearest file
-004807cc	FUN_004807cc	units/MenuData.pas	nearest file
-00480828	FUN_00480828	units/MenuData.pas	nearest file
-00480ae4	FUN_00480ae4	units/MenuData.pas	nearest file
-00480b08	FUN_00480b08	units/MenuData.pas	nearest file
-00480b78	FUN_00480b78	units/MenuData.pas	nearest file
-00480c9c	FUN_00480c9c	units/MenuData.pas	nearest file
-00480dd4	FUN_00480dd4	units/MenuData.pas	nearest file
+0047f840	FUN_0047f840	units/MenuData.pas	between functions of the file
+0047fa5c	TData.SavePlayer	units/MenuData.pas	method of TData
+0047fbd4	FUN_0047fbd4	units/MenuData.pas	between functions of the file
+0047fdc8	FUN_0047fdc8	units/MenuData.pas	between functions of the file
+0047ff64	TData.DoExit	units/MenuData.pas	method of TData
+0048003c	TData.FillRankResults	units/MenuData.pas	method of TData
+00480390	FUN_00480390	units/MenuData.pas	between functions of the file
+004803ac	FUN_004803ac	units/MenuData.pas	between functions of the file
+00480428	FUN_00480428	units/MenuData.pas	between functions of the file
+00480448	FUN_00480448	units/MenuData.pas	between functions of the file
+00480584	FUN_00480584	units/MenuData.pas	between functions of the file
+0048063c	FUN_0048063c	units/MenuData.pas	between functions of the file
+004806b0	FUN_004806b0	units/MenuData.pas	between functions of the file
+00480780	FUN_00480780	units/MenuData.pas	between functions of the file
+004807a8	FUN_004807a8	units/MenuData.pas	between functions of the file
+004807cc	FUN_004807cc	units/MenuData.pas	between functions of the file
+00480828	TData.ReadDefGraphics	units/MenuData.pas	method of TData
+00480ae4	FUN_00480ae4	units/MenuData.pas	between functions of the file
+00480b08	FUN_00480b08	units/MenuData.pas	between functions of the file
+00480b78	TData.GetWavTimeFactor	units/MenuData.pas	method of TData
+00480c9c	TData.ReadAvailableTextureMemory	units/MenuData.pas	method of TData
+00480dd4	TData.ReadTextureMemory	units/MenuData.pas	method of TData
 00480f04	FUN_00480f04	units/MenuData.pas	nearest file
 00480fcc	FUN_00480fcc	units/MenuData.pas	nearest file
 00481090	FUN_00481090	units/MenuData.pas	nearest file
@@ -4077,19 +4077,19 @@ address	name	file	how
 00481990	FUN_00481990	units/MenuData.pas	nearest file
 00481c68	FUN_00481c68	units/MenuData.pas	nearest file
 00481ce4	TDaviSoundBuffer.Destroy	units/MenuData.pas	nearest file
-00481d24	FUN_00481d24	units/MenuData.pas	nearest file
-00481e54	TSoundManager.Destroy	units/ComCtrls.pas	nearest file
-00481f5c	FUN_00481f5c	units/ComCtrls.pas	nearest file
-004820d0	FUN_004820d0	units/ComCtrls.pas	nearest file
-004821f0	FUN_004821f0	units/ComCtrls.pas	nearest file
-004823ac	FUN_004823ac	units/ComCtrls.pas	nearest file
-004825e4	FUN_004825e4	units/ComCtrls.pas	nearest file
-004825f8	FUN_004825f8	units/ComCtrls.pas	nearest file
-00482750	FUN_00482750	units/ComCtrls.pas	nearest file
-00482768	FUN_00482768	units/ComCtrls.pas	nearest file
-00482770	FUN_00482770	units/ComCtrls.pas	nearest file
-004827d8	FUN_004827d8	units/ComCtrls.pas	nearest file
-00482830	FUN_00482830	units/ComCtrls.pas	nearest file
+00481d24	TDaviSoundBuffer.Create	units/MenuData.pas	nearest file
+00481e54	TSoundManager.Destroy	units/MenuData.pas	nearest file
+00481f5c	TDaviSoundBuffer.StopSoundBuffer	units/MenuData.pas	nearest file
+004820d0	TDaviSoundBuffer.StartMusic	units/MenuData.pas	nearest file
+004821f0	FUN_004821f0	units/MenuData.pas	nearest file
+004823ac	FUN_004823ac	units/MenuData.pas	nearest file
+004825e4	FUN_004825e4	units/MenuData.pas	nearest file
+004825f8	TDaviSoundBuffer.LoadMusic	units/MenuData.pas	nearest file
+00482750	FUN_00482750	units/MenuData.pas	nearest file
+00482768	FUN_00482768	units/MenuData.pas	nearest file
+00482770	FUN_00482770	units/MenuData.pas	nearest file
+004827d8	FUN_004827d8	units/MenuData.pas	nearest file
+00482830	FUN_00482830	units/MenuData.pas	nearest file
 00482950	FUN_00482950	units/ComCtrls.pas	nearest file
 00482a08	FUN_00482a08	units/ComCtrls.pas	nearest file
 00482a0c	FUN_00482a0c	units/ComCtrls.pas	nearest file
@@ -4210,7 +4210,7 @@ address	name	file	how
 00487534	FUN_00487534	units/FormDisplaySettings.pas	nearest file
 00487b80	FUN_00487b80	units/FormDisplaySettings.pas	nearest file
 00487b9c	FUN_00487b9c	units/FormDisplaySettings.pas	nearest file
-00487bb0	FUN_00487bb0	units/FormDisplaySettings.pas	nearest file
+00487bb0	TfrmDisplaySettings.AddDriverToStrings	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 00487d30	TfrmDisplaySettings.FormCreate	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 00487e08	TfrmDisplaySettings.FormDestroy	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 00487f14	TfrmDisplaySettings.FormShow	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
@@ -4225,9 +4225,9 @@ address	name	file	how
 004881d8	FUN_004881d8	units/FormDisplaySettings.pas	between functions of the file
 00488248	FUN_00488248	units/FormDisplaySettings.pas	between functions of the file
 004882f4	TfrmDisplaySettings.cboDriverChange	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
-004884b8	FUN_004884b8	units/FormDisplaySettings.pas	between functions of the file
+004884b8	TfrmDisplaySettings.CopySettingsToControls	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 004887dc	FUN_004887dc	units/FormDisplaySettings.pas	between functions of the file
-00488808	FUN_00488808	units/FormDisplaySettings.pas	between functions of the file
+00488808	TfrmDisplaySettings.CopyControlsToSettings	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 00488b60	TfrmDisplaySettings.btnHelpStdClick	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 00488ba0	TfrmDisplaySettings.lblMipmappingClick	units/FormDisplaySettings.pas	method of TfrmDisplaySettings
 00488bd8	FUN_00488bd8	units/FormDisplaySettings.pas	nearest file
@@ -4237,7 +4237,7 @@ address	name	file	how
 004891e0	TfrmCoolDialog.btnHelpClick	units/FormCoolDialog.pas	method of TfrmCoolDialog
 0048937c	TfrmCoolDialog.GDIFormClose	units/FormCoolDialog.pas	method of TfrmCoolDialog
 004893a0	TfrmCoolDialog.ShowWinHelp	units/FormCoolDialog.pas	method of TfrmCoolDialog
-004895fc	FUN_004895fc	units/FormCoolDialog.pas	nearest file
+004895fc	TBitmapManager.Create	units/FormCoolDialog.pas	nearest file
 00489760	FUN_00489760	units/FormCoolDialog.pas	nearest file
 004899ec	FUN_004899ec	units/FormCoolDialog.pas	nearest file
 00489c28	FUN_00489c28	units/FormCoolDialog.pas	nearest file
@@ -4245,7 +4245,7 @@ address	name	file	how
 00489eb8	FUN_00489eb8	units/FormCoolDialog.pas	nearest file
 0048a25c	TGameIni.virtual_004	units/FormCoolDialog.pas	nearest file
 0048a2bc	TGameIni.Destroy	units/FormCoolDialog.pas	nearest file
-0048a300	FUN_0048a300	units/FormCoolDialog.pas	nearest file
+0048a300	TGameIni.DoLoadFromFile	units/FormCoolDialog.pas	nearest file
 0048a6ac	FUN_0048a6ac	units/FormCoolDialog.pas	nearest file
 0048a6c4	TGameIni.virtual_000	units/FormCoolDialog.pas	nearest file
 0048a7dc	FUN_0048a7dc	units/FormCoolDialog.pas	nearest file
@@ -4257,21 +4257,21 @@ address	name	file	how
 0048ac58	TSaveGame.virtual_00c	units/FormCoolDialog.pas	nearest file
 0048ad68	TSaveGame.virtual_014	units/FormCoolDialog.pas	nearest file
 0048ae64	TSaveGame.virtual_010	units/FormCoolDialog.pas	nearest file
-0048af60	FUN_0048af60	units/FormCoolDialog.pas	nearest file
-0048b0c8	FUN_0048b0c8	units/FormCoolDialog.pas	nearest file
+0048af60	TSaveGame.LoadFromFile	units/FormCoolDialog.pas	nearest file
+0048b0c8	TSaveGame.SaveToFile	units/FormCoolDialog.pas	nearest file
 0048b200	TSaveGame.virtual_000	units/FormCoolDialog.pas	nearest file
 0048b2b4	FUN_0048b2b4	units/FormCoolDialog.pas	nearest file
 0048b2ec	FUN_0048b2ec	units/FormCoolDialog.pas	nearest file
-0048b350	FUN_0048b350	units/FormCoolDialog.pas	nearest file
-0048b5bc	FUN_0048b5bc	units/FormCoolDialog.pas	nearest file
-0048b7c8	FUN_0048b7c8	units/FormCoolDialog.pas	nearest file
+0048b350	TSaveGame.WriteControlStuffToIni	units/FormCoolDialog.pas	nearest file
+0048b5bc	TSaveGame.WriteQRStuffToIni	units/FormCoolDialog.pas	nearest file
+0048b7c8	TSaveGame.WriteVRStuffToIni	units/FormCoolDialog.pas	nearest file
 0048ba20	FUN_0048ba20	units/FormCoolDialog.pas	nearest file
-0048bcf0	FUN_0048bcf0	units/FormCoolDialog.pas	nearest file
-0048c07c	FUN_0048c07c	units/FormCoolDialog.pas	nearest file
+0048bcf0	TSaveGame.WriteGeneralStuffToIni	units/FormCoolDialog.pas	nearest file
+0048c07c	TSaveGame.ReadInstalledResolution	units/FormCoolDialog.pas	nearest file
 0048c20c	FUN_0048c20c	units/FormCoolDialog.pas	nearest file
 0048c22c	FUN_0048c22c	units/FormCoolDialog.pas	nearest file
 0048c24c	FUN_0048c24c	units/FormCoolDialog.pas	nearest file
-0048c3f0	FUN_0048c3f0	units/FormCoolDialog.pas	nearest file
+0048c3f0	TSaveGame.WriteToInis	units/FormCoolDialog.pas	nearest file
 0048c604	FUN_0048c604	units/SingletonForm.pas	nearest file
 0048c624	FUN_0048c624	units/SingletonForm.pas	nearest file
 0048c644	FUN_0048c644	units/SingletonForm.pas	nearest file
@@ -4319,13 +4319,13 @@ address	name	file	how
 0048e0fc	FUN_0048e0fc	units/SingletonForm.pas	nearest file
 0048e114	FUN_0048e114	units/SingletonForm.pas	nearest file
 0048e138	FUN_0048e138	units/SingletonForm.pas	nearest file
-0048e148	FUN_0048e148	units/SingletonForm.pas	nearest file
-0048e510	FUN_0048e510	units/SingletonForm.pas	nearest file
+0048e148	TStatic.LoadFromIniFile	units/SingletonForm.pas	nearest file
+0048e510	TStatic.GetCharacterByGameIndex	units/SingletonForm.pas	nearest file
 0048e6d4	FUN_0048e6d4	units/SingletonForm.pas	nearest file
 0048e6dc	FUN_0048e6dc	units/SingletonForm.pas	nearest file
 0048e6ec	FUN_0048e6ec	units/SingletonForm.pas	nearest file
 0048e6f4	FUN_0048e6f4	units/SingletonForm.pas	nearest file
-0048e784	FUN_0048e784	units/SingletonForm.pas	nearest file
+0048e784	TGameValues.LoadFromIniFile	units/SingletonForm.pas	nearest file
 0048e988	TQuickRace.virtual_000	units/SingletonForm.pas	nearest file
 0048e9cc	TQuickRace.virtual_018	units/SingletonForm.pas	nearest file
 0048e9f8	TQuickRace.virtual_01c	units/SingletonForm.pas	nearest file
@@ -4394,16 +4394,16 @@ address	name	file	how
 00492dd8	FUN_00492dd8	units/FormJoyStickSettings.pas	nearest file
 00492fcc	TStoredGame.Destroy	units/FormJoyStickSettings.pas	nearest file
 00493000	TStoredGame.virtual_000	units/FormJoyStickSettings.pas	nearest file
-00493338	FUN_00493338	units/FormJoyStickSettings.pas	nearest file
-0049354c	FUN_0049354c	units/FormJoyStickSettings.pas	nearest file
-00493658	FUN_00493658	units/FormJoyStickSettings.pas	nearest file
-00493754	FUN_00493754	units/FormJoyStickSettings.pas	nearest file
-004938ac	FUN_004938ac	units/FormPlayer.pas	nearest file
-00493ac8	FUN_00493ac8	units/FormPlayer.pas	nearest file
-00493d30	FUN_00493d30	units/FormPlayer.pas	nearest file
-00493ed4	FUN_00493ed4	units/FormPlayer.pas	nearest file
-00494200	FUN_00494200	units/FormPlayer.pas	nearest file
-0049421c	FUN_0049421c	units/FormPlayer.pas	nearest file
+00493338	TfrmPlayer.BuildFileList	units/FormPlayer.pas	method of TfrmPlayer
+0049354c	TfrmPlayer.InitDlg	units/FormPlayer.pas	method of TfrmPlayer
+00493658	TfrmPlayer.ExitDlg	units/FormPlayer.pas	method of TfrmPlayer
+00493754	TfrmPlayer.AddNewPlayer	units/FormPlayer.pas	method of TfrmPlayer
+004938ac	TfrmPlayer.BackupFiles	units/FormPlayer.pas	method of TfrmPlayer
+00493ac8	TfrmPlayer.ReplaceFiles	units/FormPlayer.pas	method of TfrmPlayer
+00493d30	TfrmPlayer.DeleteBackUps	units/FormPlayer.pas	method of TfrmPlayer
+00493ed4	TfrmPlayer.UpdateScreen	units/FormPlayer.pas	method of TfrmPlayer
+00494200	FUN_00494200	units/FormPlayer.pas	between functions of the file
+0049421c	FUN_0049421c	units/FormPlayer.pas	between functions of the file
 004943bc	TfrmPlayer.btn1Click	units/FormPlayer.pas	method of TfrmPlayer
 004944fc	TfrmPlayer.btnDeletePlayerClick	units/FormPlayer.pas	method of TfrmPlayer
 00494658	TfrmPlayer.GDIFormCreate	units/FormPlayer.pas	method of TfrmPlayer
@@ -4439,8 +4439,8 @@ address	name	file	how
 00495c68	TfrmOptions.sldrMusicChange	units/FormOptions.pas	method of TfrmOptions
 00495cc8	TfrmOptions.sldrSoundChange	units/FormOptions.pas	method of TfrmOptions
 00495d1c	TfrmOptions.sldrVoiceChange	units/FormOptions.pas	method of TfrmOptions
-00495d6c	FUN_00495d6c	units/FormOptions.pas	between functions of the file
-004960fc	FUN_004960fc	units/FormOptions.pas	between functions of the file
+00495d6c	TfrmOptions.CopySettingsToControls	units/FormOptions.pas	method of TfrmOptions
+004960fc	TfrmOptions.CopyControlsToSettings	units/FormOptions.pas	method of TfrmOptions
 00496480	TfrmOptions.optKeyboardClick	units/FormOptions.pas	method of TfrmOptions
 004964c8	TfrmOptions.optJoypadClick	units/FormOptions.pas	method of TfrmOptions
 00496510	TfrmOptions.optJoystickClick	units/FormOptions.pas	method of TfrmOptions
@@ -4472,19 +4472,19 @@ address	name	file	how
 00497edc	FUN_00497edc	units/FormStartInfoKeyBoard.pas	nearest file
 00497f54	FUN_00497f54	units/FormStartInfoKeyBoard.pas	nearest file
 004980d4	TfrmStartInfoKeyBoard.GDIFormShow	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
-0049812c	FUN_0049812c	units/FormStartInfoKeyBoard.pas	nearest file
-004981f0	FUN_004981f0	units/FormStartInfoKeyBoard.pas	nearest file
-004982b4	FUN_004982b4	units/FormStartInfoKeyBoard.pas	nearest file
-00498378	FUN_00498378	units/FormStartInfoKeyBoard.pas	nearest file
-00498414	FUN_00498414	units/FormStartInfoKeyBoard.pas	nearest file
-004984f0	FUN_004984f0	units/FormStartInfoKeyBoard.pas	nearest file
-004985dc	FUN_004985dc	units/FormStartInfoKeyBoard.pas	nearest file
-00498634	FUN_00498634	units/FormStartInfoKeyBoard.pas	nearest file
-004986d0	FUN_004986d0	units/FormStartInfoKeyBoard.pas	nearest file
-00498758	FUN_00498758	units/FormGarage.pas	nearest file
-00498828	FUN_00498828	units/FormGarage.pas	nearest file
-004988f8	FUN_004988f8	units/FormGarage.pas	nearest file
-0049898c	FUN_0049898c	units/FormGarage.pas	nearest file
+0049812c	TfrmStartInfoKeyBoard.ShowStartInfoDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+004981f0	TfrmStartInfoKeyBoard.ShowWheelSettingsDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+004982b4	TfrmStartInfoKeyBoard.ShowJoystickSettingsDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+00498378	TfrmStartInfoKeyBoard.ShowKeySettingsDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+00498414	TfrmStartInfoKeyBoard.ShowNewPlayerDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+004984f0	TfrmStartInfoKeyBoard.ShowHighScoreDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+004985dc	FUN_004985dc	units/FormStartInfoKeyBoard.pas	between functions of the file
+00498634	TfrmStartInfoKeyBoard.ShowPlayerDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+004986d0	TfrmStartInfoKeyBoard.ShowNoMoneyDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+00498758	TfrmStartInfoKeyBoard.ShowDeletePlayerDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+00498828	TfrmStartInfoKeyBoard.ShowDoubleKeysDlg	units/FormStartInfoKeyBoard.pas	method of TfrmStartInfoKeyBoard
+004988f8	FUN_004988f8	units/FormStartInfoKeyBoard.pas	nearest file
+0049898c	FUN_0049898c	units/FormStartInfoKeyBoard.pas	nearest file
 00498d8c	TfrmGarage.FormCreate	units/FormGarage.pas	method of TfrmGarage
 00498df8	FUN_00498df8	units/FormGarage.pas	between functions of the file
 004990a0	TfrmGarage.FormShow	units/FormGarage.pas	method of TfrmGarage
@@ -4538,7 +4538,7 @@ address	name	file	how
 0049b704	TfrmCurrentChar.FormCreate	units/FormCurrentChar.pas	method of TfrmCurrentChar
 0049b734	TfrmCurrentChar.gdfBtnChooseButtonStateChange	units/FormCurrentChar.pas	method of TfrmCurrentChar
 0049b750	FUN_0049b750	units/FormCurrentChar.pas	nearest file
-0049b904	FUN_0049b904	units/FormUnlock.pas	nearest file
+0049b904	TfrmUnlock.ShowUnlockDlg	units/FormUnlock.pas	method of TfrmUnlock
 0049b964	TfrmUnlock.GDIFormShow	units/FormUnlock.pas	method of TfrmUnlock
 0049b98c	FUN_0049b98c	units/FormUnlock.pas	nearest file
 0049bd5c	TfrmQuickRace.FormCreate	units/FormQuickRace.pas	method of TfrmQuickRace
@@ -4609,13 +4609,13 @@ address	name	file	how
 0049eab4	TGameMenuScreen.virtual_0e4	units/BaseForm.pas	method of TGameMenuScreen
 0049eb00	FUN_0049eb00	units/BaseForm.pas	between functions of the file
 0049ecb4	TGameMenuScreen.FormClose	units/BaseForm.pas	method of TGameMenuScreen
-0049ed10	FUN_0049ed10	units/BaseForm.pas	nearest file
-0049ed24	FUN_0049ed24	units/BaseForm.pas	nearest file
-0049ed44	FUN_0049ed44	units/BaseForm.pas	nearest file
-0049ed60	FUN_0049ed60	units/BaseForm.pas	nearest file
-0049eef0	FUN_0049eef0	units/BaseForm.pas	nearest file
-0049f010	FUN_0049f010	units/BaseForm.pas	nearest file
-0049f100	FUN_0049f100	units/FormLoseNormal.pas	nearest file
+0049ed10	FUN_0049ed10	units/BaseForm.pas	between functions of the file
+0049ed24	FUN_0049ed24	units/BaseForm.pas	between functions of the file
+0049ed44	FUN_0049ed44	units/BaseForm.pas	between functions of the file
+0049ed60	TGameMenuScreen.CheckIfBestLap	units/BaseForm.pas	method of TGameMenuScreen
+0049eef0	TGameMenuScreen.CheckChaseQualify	units/BaseForm.pas	method of TGameMenuScreen
+0049f010	TGameMenuScreen.Process1stPosition	units/BaseForm.pas	method of TGameMenuScreen
+0049f100	TGameMenuScreen.ProcessQualify	units/BaseForm.pas	method of TGameMenuScreen
 0049f4f8	TfrmLoseNormal.virtual_0fc	units/FormLoseNormal.pas	method of TfrmLoseNormal
 0049f50c	TfrmLoseNormal.FormShow	units/FormLoseNormal.pas	method of TfrmLoseNormal
 0049f6fc	TfrmLoseNormal.timSampleTimer	units/FormLoseNormal.pas	method of TfrmLoseNormal
@@ -4719,24 +4719,24 @@ address	name	file	how
 004a4e2c	TfrmMain.FormDestroy	units/MainForm.pas	method of TfrmMain
 004a4f14	TfrmMain.FormShow	units/MainForm.pas	method of TfrmMain
 004a4fe8	TfrmMain.FormActivate	units/MainForm.pas	method of TfrmMain
-004a50d0	FUN_004a50d0	units/MainForm.pas	nearest file
-004a525c	FUN_004a525c	units/MainForm.pas	nearest file
-004a53d8	FUN_004a53d8	units/MainForm.pas	nearest file
-004a54dc	FUN_004a54dc	units/MainForm.pas	nearest file
-004a5624	FUN_004a5624	units/MainForm.pas	nearest file
-004a58a4	FUN_004a58a4	units/MainForm.pas	nearest file
-004a59cc	FUN_004a59cc	units/MainForm.pas	nearest file
-004a5bd8	FUN_004a5bd8	units/MainForm.pas	nearest file
-004a5c24	FUN_004a5c24	units/MainForm.pas	nearest file
-004a5d4c	FUN_004a5d4c	units/MainForm.pas	nearest file
-004a5d70	FUN_004a5d70	units/MainForm.pas	nearest file
+004a50d0	TfrmMain.ShowIntro	units/MainForm.pas	method of TfrmMain
+004a525c	TfrmMain.GetPlayer	units/MainForm.pas	method of TfrmMain
+004a53d8	TfrmMain.AskForNewPlayer	units/MainForm.pas	method of TfrmMain
+004a54dc	TfrmMain.FillRaceResultsQR	units/MainForm.pas	method of TfrmMain
+004a5624	TfrmMain.FillRaceResultsTour	units/MainForm.pas	method of TfrmMain
+004a58a4	TfrmMain.FlowQR	units/MainForm.pas	method of TfrmMain
+004a59cc	TfrmMain.FlowTour	units/MainForm.pas	method of TfrmMain
+004a5bd8	FUN_004a5bd8	units/MainForm.pas	between functions of the file
+004a5c24	FUN_004a5c24	units/MainForm.pas	between functions of the file
+004a5d4c	FUN_004a5d4c	units/MainForm.pas	between functions of the file
+004a5d70	TfrmMain.StartUp	units/MainForm.pas	method of TfrmMain
 004a60a4	TSettings.virtual_004	units/MainForm.pas	nearest file
-004a61a0	TSettings.Destroy	units/CaptionFrm.pas	nearest file
-004a628c	TSettings.virtual_00c	units/CaptionFrm.pas	nearest file
-004a63f4	TSettings.virtual_014	units/CaptionFrm.pas	nearest file
-004a6574	TSettings.virtual_010	units/CaptionFrm.pas	nearest file
-004a66ec	FUN_004a66ec	units/CaptionFrm.pas	nearest file
-004a66f0	TSettings.virtual_000	units/CaptionFrm.pas	nearest file
+004a61a0	TSettings.Destroy	units/MainForm.pas	nearest file
+004a628c	TSettings.virtual_00c	units/MainForm.pas	nearest file
+004a63f4	TSettings.virtual_014	units/MainForm.pas	nearest file
+004a6574	TSettings.virtual_010	units/MainForm.pas	nearest file
+004a66ec	FUN_004a66ec	units/MainForm.pas	nearest file
+004a66f0	TSettings.virtual_000	units/MainForm.pas	nearest file
 004a688c	TControls.virtual_00c	units/CaptionFrm.pas	nearest file
 004a6964	TControls.virtual_000	units/CaptionFrm.pas	nearest file
 004a6a38	FUN_004a6a38	units/CaptionFrm.pas	nearest file

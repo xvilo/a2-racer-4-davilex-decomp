@@ -1,8 +1,8 @@
 /* Menu.exe — units/FormUnlock.pas: 3 functions, split from decompiled.c by tools/split_sources.py */
 
-/* ==== 0049b904 FUN_0049b904 ==== */
+/* ==== 0049b904 TfrmUnlock.ShowUnlockDlg ==== */
 
-undefined4 FUN_0049b904(void)
+undefined4 TfrmUnlock_ShowUnlockDlg(void)
 
 {
   uint uVar1;

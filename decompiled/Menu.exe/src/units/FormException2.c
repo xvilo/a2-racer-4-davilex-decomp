@@ -838,7 +838,7 @@ void entry(void)
     puStack_38 = (undefined1 *)0x4a91ef;
     iVar4 = FUN_0045f46c();
     puStack_38 = (undefined1 *)0x4a91f4;
-    FUN_0045fcf0(iVar4);
+    TDebug_ClearFile(iVar4);
     puStack_38 = (undefined1 *)0x4a91fc;
     FUN_00481394(&local_1c);
     puStack_38 = (undefined1 *)local_1c;

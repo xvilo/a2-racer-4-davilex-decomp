@@ -286,9 +286,9 @@ void TfrmCoolDialog_ShowWinHelp(int *param_1)
 }
 
 
-/* ==== 004895fc FUN_004895fc ==== */
+/* ==== 004895fc TBitmapManager.Create ==== */
 
-void FUN_004895fc(int *param_1,char param_2,int param_3,undefined4 *param_4)
+void TBitmapManager_Create(int *param_1,char param_2,int param_3,undefined4 *param_4)
 
 {
   undefined4 *puVar1;
@@ -414,7 +414,7 @@ void FUN_00489760(int *param_1,undefined4 *param_2,int *param_3)
     (**(code **)(*param_3 + 0x48))(param_3,local_12c);
   }
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = pcStackY_16c;
   FUN_00403c80(&local_130,5);
   FUN_00403c80(&local_1c,2);
@@ -693,7 +693,7 @@ void FUN_00489eb8(int *param_1,undefined4 *param_2,int *param_3)
     (**(code **)(*param_3 + 0x48))(param_3,local_12c);
   }
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = pcStackY_16c;
   FUN_00403c80(&local_130,5);
   FUN_00403c80(&local_1c,2);
@@ -758,9 +758,9 @@ void TGameIni_Destroy(int *param_1,char param_2)
 }
 
 
-/* ==== 0048a300 FUN_0048a300 ==== */
+/* ==== 0048a300 TGameIni.DoLoadFromFile ==== */
 
-void FUN_0048a300(int *param_1,int *param_2)
+void TGameIni_DoLoadFromFile(int *param_1,int *param_2)
 
 {
   undefined4 *puVar1;
@@ -857,7 +857,7 @@ void FUN_0048a300(int *param_1,int *param_2)
   pcStackY_174 = &stack0xfffffffc;
   (**(code **)(*local_1c + 0xc))(local_1c,0,&local_12c);
   iVar5 = FUN_00408618(local_12c);
-  iVar5 = FUN_0048e510(*(int **)(*(int *)PTR_DAT_004ab694 + 0xcc),iVar5);
+  iVar5 = TStatic_GetCharacterByGameIndex(*(int **)(*(int *)PTR_DAT_004ab694 + 0xcc),iVar5);
   piVar6[2] = iVar5;
   (**(code **)(*local_1c + 0xc))(local_1c,2,&local_130);
   iVar5 = FUN_00408618(local_130);
@@ -971,7 +971,7 @@ void FUN_0048a804(int *param_1,undefined4 *param_2)
   uStackY_14c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStackY_14c;
   puStackY_144 = &stack0xfffffffc;
-  FUN_0048a300(param_1,local_c);
+  TGameIni_DoLoadFromFile(param_1,local_c);
   *in_FS_OFFSET = uStackY_14c;
   puStackY_144 = &LAB_0048a8d2;
   puStackY_148 = (undefined1 *)0x48a8ca;
@@ -1039,7 +1039,7 @@ void TSaveGame_virtual_004(int *param_1,char param_2)
   iVar4 = TSettings_virtual_004((int *)&PTR_TSettings_virtual_000_004a6010,'\x01');
   param_1[6] = iVar4;
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "Create";
   FUN_00403c80(&local_c,2);
   return;
@@ -1083,7 +1083,7 @@ void TSaveGame_Destroy(int *param_1,char param_2)
   FUN_0040c968(piVar2 + 3);
   TDataObject_Destroy(piVar2,extraout_DL & 0xfc);
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = "Destroy";
   FUN_00403c80(&local_c,2);
   return;
@@ -1160,7 +1160,7 @@ void TSaveGame_virtual_014(int *param_1,int *param_2)
   (**(code **)(*(int *)param_1[3] + 0x14))((int *)param_1[3],param_2);
   FUN_0045e350(param_2,param_1 + 5);
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = pcVar4;
   FUN_00403c80(&local_c,2);
   return;
@@ -1208,16 +1208,16 @@ void TSaveGame_virtual_010(int *param_1,int *param_2)
   (**(code **)(*(int *)param_1[3] + 0x10))((int *)param_1[3],param_2);
   FUN_0045e380(param_2,param_1[5]);
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = pcVar4;
   FUN_00403c80(&local_c,2);
   return;
 }
 
 
-/* ==== 0048af60 FUN_0048af60 ==== */
+/* ==== 0048af60 TSaveGame.LoadFromFile ==== */
 
-void FUN_0048af60(int *param_1,undefined *param_2)
+void TSaveGame_LoadFromFile(int *param_1,undefined *param_2)
 
 {
   uint uVar1;
@@ -1265,9 +1265,9 @@ void FUN_0048af60(int *param_1,undefined *param_2)
 }
 
 
-/* ==== 0048b0c8 FUN_0048b0c8 ==== */
+/* ==== 0048b0c8 TSaveGame.SaveToFile ==== */
 
-void FUN_0048b0c8(int *param_1,undefined *param_2)
+void TSaveGame_SaveToFile(int *param_1,undefined *param_2)
 
 {
   uint uVar1;
@@ -1366,9 +1366,9 @@ void FUN_0048b2ec(int param_1,byte *param_2)
 }
 
 
-/* ==== 0048b350 FUN_0048b350 ==== */
+/* ==== 0048b350 TSaveGame.WriteControlStuffToIni ==== */
 
-void FUN_0048b350(int *param_1,int *param_2)
+void TSaveGame_WriteControlStuffToIni(int *param_1,int *param_2)
 
 {
   uint uVar1;
@@ -1419,16 +1419,16 @@ void FUN_0048b350(int *param_1,int *param_2)
   uVar2 = FUN_004a6a70(*(int *)(param_1[6] + 0xc));
   (**(code **)(*param_2 + 0xc))(param_2,"INPUT","SENSITIVITY");
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = uVar2;
   FUN_00403c80(&local_c,2);
   return;
 }
 
 
-/* ==== 0048b5bc FUN_0048b5bc ==== */
+/* ==== 0048b5bc TSaveGame.WriteQRStuffToIni ==== */
 
-void FUN_0048b5bc(int *param_1,int *param_2)
+void TSaveGame_WriteQRStuffToIni(int *param_1,int *param_2)
 
 {
   uint uVar1;
@@ -1469,16 +1469,16 @@ void FUN_0048b5bc(int *param_1,int *param_2)
   (**(code **)(*param_2 + 0x14))(param_2,"PLAYER","VERSNELLINGSBAK",1);
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","POSITION");
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = 4;
   FUN_00403c80(&local_c,2);
   return;
 }
 
 
-/* ==== 0048b7c8 FUN_0048b7c8 ==== */
+/* ==== 0048b7c8 TSaveGame.WriteVRStuffToIni ==== */
 
-void FUN_0048b7c8(int *param_1,int *param_2)
+void TSaveGame_WriteVRStuffToIni(int *param_1,int *param_2)
 
 {
   undefined1 uVar1;
@@ -1535,7 +1535,7 @@ void FUN_0048b7c8(int *param_1,int *param_2)
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","TURBO_AMOUNT",*(undefined4 *)(iVar4 + 0x10));
   (**(code **)(*param_2 + 0xc))(param_2,"PLAYER","POSITION");
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = 4;
   FUN_00403c80(&local_c,2);
   return;
@@ -1613,9 +1613,9 @@ void FUN_0048ba20(int param_1,int *param_2)
 }
 
 
-/* ==== 0048bcf0 FUN_0048bcf0 ==== */
+/* ==== 0048bcf0 TSaveGame.WriteGeneralStuffToIni ==== */
 
-void FUN_0048bcf0(int *param_1,int *param_2)
+void TSaveGame_WriteGeneralStuffToIni(int *param_1,int *param_2)
 
 {
   bool bVar1;
@@ -1682,16 +1682,16 @@ void FUN_0048bcf0(int *param_1,int *param_2)
   uVar5 = FUN_004a7150(param_1[6]);
   (**(code **)(*param_2 + 0xc))(param_2,"OPTIONS","filter");
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = uVar5;
   FUN_00403c80(&local_c,2);
   return;
 }
 
 
-/* ==== 0048c07c FUN_0048c07c ==== */
+/* ==== 0048c07c TSaveGame.ReadInstalledResolution ==== */
 
-void FUN_0048c07c(int *param_1)
+void TSaveGame_ReadInstalledResolution(int *param_1)
 
 {
   undefined4 *puVar1;
@@ -1839,11 +1839,11 @@ void FUN_0048c24c(int *param_1,char param_2,undefined4 *param_3,undefined4 param
                *(int *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x38) + 0x10));
   (**(code **)(*(int *)param_1[6] + 0xc))
             ((int *)param_1[6],*(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xcc) + 0x30));
-  uVar2 = FUN_00480dd4();
+  uVar2 = TData_ReadTextureMemory();
   *(undefined1 *)(param_1[6] + 0x3c) = uVar2;
   *(undefined1 *)(param_1 + 7) = 0;
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = (int)pcVar4;
   FUN_00403c80(&local_20,2);
   FUN_00403c5c((int *)&local_8);
@@ -1851,9 +1851,9 @@ void FUN_0048c24c(int *param_1,char param_2,undefined4 *param_3,undefined4 param
 }
 
 
-/* ==== 0048c3f0 FUN_0048c3f0 ==== */
+/* ==== 0048c3f0 TSaveGame.WriteToInis ==== */
 
-void FUN_0048c3f0(int *param_1)
+void TSaveGame_WriteToInis(int *param_1)
 
 {
   undefined4 *puVar1;
@@ -1909,13 +1909,13 @@ void FUN_0048c3f0(int *param_1)
   uStack_140 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_140;
   puStack_138 = (undefined4 *)&stack0xfffffffc;
-  FUN_0048b350(local_8,local_c);
-  FUN_0048bcf0(local_8,local_c);
+  TSaveGame_WriteControlStuffToIni(local_8,local_c);
+  TSaveGame_WriteGeneralStuffToIni(local_8,local_c);
   if (*(char *)(*(int *)PTR_DAT_004ab694 + 0xa8) == '\x01') {
-    FUN_0048b5bc(local_8,local_c);
+    TSaveGame_WriteQRStuffToIni(local_8,local_c);
   }
   else if (*(char *)(*(int *)PTR_DAT_004ab694 + 0xa8) == '\x02') {
-    FUN_0048b7c8(local_8,local_c);
+    TSaveGame_WriteVRStuffToIni(local_8,local_c);
   }
   *in_FS_OFFSET = uStack_140;
   puStack_138 = (undefined4 *)&LAB_0048c50d;

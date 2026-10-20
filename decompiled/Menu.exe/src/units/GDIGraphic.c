@@ -226,9 +226,9 @@ bool FUN_00461c84(int param_1)
 }
 
 
-/* ==== 00461c8c FUN_00461c8c ==== */
+/* ==== 00461c8c TTrack.LoadFromIniFile ==== */
 
-void FUN_00461c8c(int *param_1,int param_2)
+void TTrack_LoadFromIniFile(int *param_1,int param_2)
 
 {
   undefined1 uVar1;
@@ -323,7 +323,7 @@ void FUN_00461c8c(int *param_1,int param_2)
   uStackY_84 = 0x461f17;
   uVar2 = FUN_0045f46c();
   uStackY_84 = 0x461f1c;
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = piVar4;
   FUN_00403c80((int *)&local_140,9);
   FUN_00403c80((int *)&stack0xffffffe4,2);
@@ -782,7 +782,7 @@ void TRace_virtual_01c(int *param_1,int *param_2)
   }
   FUN_00402f9c(local_c);
   j = FUN_0045f46c();
-  FUN_0045fc70(j);
+  TDebug_ExitProc(j);
   *in_FS_OFFSET = piVar2;
   FUN_00403c80((int *)&local_134,7);
   FUN_00403c80(&local_18,2);
@@ -1115,9 +1115,9 @@ void FUN_00462f5c(int *param_1,undefined *param_2,uint param_3)
 }
 
 
-/* ==== 00463140 FUN_00463140 ==== */
+/* ==== 00463140 TResourceManager.Create ==== */
 
-void FUN_00463140(int *param_1,char param_2,undefined4 *param_3)
+void TResourceManager_Create(int *param_1,char param_2,undefined4 *param_3)
 
 {
   undefined4 *puVar1;

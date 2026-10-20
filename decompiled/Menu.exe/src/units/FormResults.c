@@ -165,7 +165,7 @@ void TfrmResults_FormShow(int *param_1)
   FUN_0042e978((int *)param_1[0xbe],extraout_EDX_08,extraout_ECX_00);
   (**(code **)(*(int *)param_1[0xbc] + 0xb4))();
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = iVar4;
   FUN_00403c80((int *)&local_11c,3);
   FUN_00403c80(&local_10,2);
@@ -222,7 +222,7 @@ void TfrmResults_virtual_0fc(int *param_1)
     (**(code **)(*param_1 + 0xe8))(param_1,&PTR_TWinControl_virtual_000_004a0058);
   }
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = pcVar3;
   FUN_00403c80(&local_c,2);
   return;

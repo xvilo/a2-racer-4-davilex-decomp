@@ -256,7 +256,7 @@ void TfrmKeySettings_btnOkClick(int param_1)
   else {
     uVar1 = FUN_004925dc(param_1);
     FUN_00491d98(param_1,uVar1,(int *)&local_8);
-    FUN_00498828(param_1,local_8);
+    TfrmStartInfoKeyBoard_ShowDoubleKeysDlg(param_1,local_8);
   }
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00491f9d;

@@ -1,160 +1,4 @@
-/* Menu.exe — units/FormGarage.pas: 22 functions, split from decompiled.c by tools/split_sources.py */
-
-/* ==== 00498758 FUN_00498758 ==== */
-
-void FUN_00498758(undefined4 param_1,undefined4 *param_2)
-
-{
-  uint uVar1;
-  undefined4 *in_FS_OFFSET;
-  undefined4 uStack_28;
-  undefined1 *puStack_24;
-  undefined1 *puStack_20;
-  undefined4 uStack_1c;
-  undefined1 *puStack_18;
-  undefined1 *puStack_14;
-  int *local_10;
-  undefined4 local_c;
-  undefined4 *local_8;
-  
-  puStack_14 = (undefined1 *)0x498769;
-  local_8 = param_2;
-  FUN_00404090((int)param_2);
-  puStack_18 = &LAB_004987f7;
-  uStack_1c = *in_FS_OFFSET;
-  *in_FS_OFFSET = &uStack_1c;
-  puStack_20 = (undefined1 *)0x49877c;
-  puStack_14 = &stack0xfffffffc;
-  uVar1 = FUN_0045f46c();
-  puStack_20 = (undefined1 *)0x49878c;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowDeletePlayerDlg",2);
-  puStack_20 = (undefined1 *)0x49879a;
-  local_10 = (int *)TfrmCoolDialog_virtual_02c
-                              ((int *)&PTR_TWinControl_virtual_000_00496c14,'\x01',0);
-  puStack_24 = &LAB_004987da;
-  uStack_28 = *in_FS_OFFSET;
-  *in_FS_OFFSET = &uStack_28;
-  puStack_20 = &stack0xfffffffc;
-  FUN_00496dc4((int)local_10,local_8);
-  local_c = (**(code **)(*local_10 + 0xd8))();
-  *in_FS_OFFSET = uStack_28;
-  puStack_20 = &LAB_004987e1;
-  puStack_24 = (undefined1 *)0x4987d9;
-  FUN_00402f9c(local_10);
-  return;
-}
-
-
-/* ==== 00498828 FUN_00498828 ==== */
-
-void FUN_00498828(undefined4 param_1,undefined4 *param_2)
-
-{
-  uint uVar1;
-  undefined4 *in_FS_OFFSET;
-  undefined4 uStack_28;
-  undefined1 *puStack_24;
-  undefined1 *puStack_20;
-  undefined4 uStack_1c;
-  undefined1 *puStack_18;
-  undefined1 *puStack_14;
-  int *local_10;
-  undefined4 local_c;
-  undefined4 *local_8;
-  
-  puStack_14 = (undefined1 *)0x498839;
-  local_8 = param_2;
-  FUN_00404090((int)param_2);
-  puStack_18 = &LAB_004988c7;
-  uStack_1c = *in_FS_OFFSET;
-  *in_FS_OFFSET = &uStack_1c;
-  puStack_20 = (undefined1 *)0x49884c;
-  puStack_14 = &stack0xfffffffc;
-  uVar1 = FUN_0045f46c();
-  puStack_20 = (undefined1 *)0x49885c;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowDoubleKeysDlg",2);
-  puStack_20 = (undefined1 *)0x49886a;
-  local_10 = (int *)TfrmCoolDialog_virtual_02c
-                              ((int *)&PTR_TWinControl_virtual_000_004948a8,'\x01',0);
-  puStack_24 = &LAB_004988aa;
-  uStack_28 = *in_FS_OFFSET;
-  *in_FS_OFFSET = &uStack_28;
-  puStack_20 = &stack0xfffffffc;
-  FUN_00494a40((int)local_10,local_8);
-  local_c = (**(code **)(*local_10 + 0xd8))();
-  *in_FS_OFFSET = uStack_28;
-  puStack_20 = &LAB_004988b1;
-  puStack_24 = (undefined1 *)0x4988a9;
-  FUN_00402f9c(local_10);
-  return;
-}
-
-
-/* ==== 004988f8 FUN_004988f8 ==== */
-
-void FUN_004988f8(void)
-
-{
-  uint uVar1;
-  undefined4 *in_FS_OFFSET;
-  undefined4 uStack_18;
-  undefined1 *puStack_14;
-  undefined1 *puStack_10;
-  int *local_c;
-  undefined4 local_8;
-  
-  puStack_10 = (undefined1 *)0x498903;
-  uVar1 = FUN_0045f46c();
-  puStack_10 = (undefined1 *)0x498913;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowOptionsDlg",0);
-  puStack_10 = (undefined1 *)0x498921;
-  local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00497320,'\x01',0)
-  ;
-  puStack_14 = &LAB_00498956;
-  uStack_18 = *in_FS_OFFSET;
-  *in_FS_OFFSET = &uStack_18;
-  puStack_10 = &stack0xfffffffc;
-  local_8 = (**(code **)(*local_c + 0xd8))();
-  *in_FS_OFFSET = uStack_18;
-  puStack_10 = &LAB_0049895d;
-  puStack_14 = (undefined1 *)0x498955;
-  FUN_00402f9c(local_c);
-  return;
-}
-
-
-/* ==== 0049898c FUN_0049898c ==== */
-
-void FUN_0049898c(void)
-
-{
-  uint uVar1;
-  undefined4 *in_FS_OFFSET;
-  undefined4 uStack_18;
-  undefined1 *puStack_14;
-  undefined1 *puStack_10;
-  int *local_c;
-  undefined4 local_8;
-  
-  puStack_10 = (undefined1 *)0x498997;
-  uVar1 = FUN_0045f46c();
-  puStack_10 = (undefined1 *)0x4989a7;
-  FUN_0045fb90(uVar1,(undefined4 *)"ShowOptionsDlg",0);
-  puStack_10 = (undefined1 *)0x4989b5;
-  local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_0049504c,'\x01',0)
-  ;
-  puStack_14 = &LAB_004989ea;
-  uStack_18 = *in_FS_OFFSET;
-  *in_FS_OFFSET = &uStack_18;
-  puStack_10 = &stack0xfffffffc;
-  local_8 = (**(code **)(*local_c + 0xd8))();
-  *in_FS_OFFSET = uStack_18;
-  puStack_10 = &LAB_004989f1;
-  puStack_14 = (undefined1 *)0x4989e9;
-  FUN_00402f9c(local_c);
-  return;
-}
-
+/* Menu.exe — units/FormGarage.pas: 18 functions, split from decompiled.c by tools/split_sources.py */
 
 /* ==== 00498d8c TfrmGarage.FormCreate ==== */
 
@@ -359,12 +203,12 @@ void TfrmGarage_virtual_0fc(void)
   int iVar1;
   
   if (*(char *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18) + 0x1f) == '\0') {
-    FUN_0047ff64(*(int **)PTR_DAT_004ab694);
+    TData_DoExit(*(int **)PTR_DAT_004ab694);
   }
   else {
-    iVar1 = FUN_0049812c();
+    iVar1 = TfrmStartInfoKeyBoard_ShowStartInfoDlg();
     if (iVar1 != 2) {
-      FUN_0047ff64(*(int **)PTR_DAT_004ab694);
+      TData_DoExit(*(int **)PTR_DAT_004ab694);
       return;
     }
   }
@@ -411,7 +255,7 @@ void TfrmGarage_btnBuyTuneUpClick(int *param_1)
     iVar4 = *(int *)(iVar4 + 0x30);
     iVar5 = FUN_004993b8();
     if (*(int *)(iVar5 + 8) < iVar4) {
-      FUN_004986d0();
+      TfrmStartInfoKeyBoard_ShowNoMoneyDlg();
     }
     else {
       iVar4 = FUN_004993b8();
@@ -433,7 +277,7 @@ void TfrmGarage_btnBuyTuneUpClick(int *param_1)
       iVar4 = *(int *)(iVar4 + 8);
       iVar5 = FUN_004995e0((int)param_1);
       if (iVar4 < *(int *)(iVar5 + 0x30)) {
-        FUN_004986d0();
+        TfrmStartInfoKeyBoard_ShowNoMoneyDlg();
       }
       else {
         FUN_004807cc(*(int *)PTR_DAT_004ab694,(undefined4 *)&DAT_004993b0);
@@ -446,7 +290,7 @@ void TfrmGarage_btnBuyTuneUpClick(int *param_1)
     }
   }
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = "btnBuyTuneUpClick";
   FUN_00403c80(&local_c,2);
   return;

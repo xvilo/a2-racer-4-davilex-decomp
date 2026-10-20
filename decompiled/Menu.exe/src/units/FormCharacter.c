@@ -150,7 +150,7 @@ void FUN_0049ac68(int *param_1,int param_2)
   iVar4 = FUN_0048c22c(*(int *)(*(int *)puVar1 + 0xc0));
   TGroupBox_SetCaption(param_1[0xc0],*(uint **)(iVar4 + 0x18));
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = iVar3;
   FUN_00403c5c(&local_10);
   return;

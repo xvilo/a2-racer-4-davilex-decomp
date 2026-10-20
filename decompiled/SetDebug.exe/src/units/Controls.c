@@ -2918,17 +2918,17 @@ void FUN_004243f4(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
 
 /* WARNING: Removing unreachable block (ram,0x0042453a) */
 
-void TControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TControl_dynamic_ffed(int *param_1,int numerator,int denominator_2)
 
 {
   int *piVar1;
   int number;
-  int denominator_2;
+  int denominator;
   byte bVar2;
   int local_18;
   int local_14;
   
-  if (numerator != denominator) {
+  if (numerator != denominator_2) {
     if ((*(byte *)(param_1 + 8) & 1) == 0) {
       bVar2 = 0x1f;
     }
@@ -2939,36 +2939,36 @@ void TControl_dynamic_ffed(int *param_1,int numerator,int denominator)
       number = param_1[0xc];
     }
     else {
-      number = MulDiv(param_1[0xc],numerator,denominator);
+      number = MulDiv(param_1[0xc],numerator,denominator_2);
     }
     if ((bVar2 & 2) == 0) {
       local_18 = param_1[0xd];
     }
     else {
-      local_18 = MulDiv(param_1[0xd],numerator,denominator);
+      local_18 = MulDiv(param_1[0xd],numerator,denominator_2);
     }
     if (((bVar2 & 4) == 0) || ((*(byte *)((int)param_1 + 0x41) & 1) != 0)) {
       local_14 = param_1[0xe];
     }
     else if ((bVar2 & 1) == 0) {
-      local_14 = MulDiv(param_1[0xe],numerator,denominator);
+      local_14 = MulDiv(param_1[0xe],numerator,denominator_2);
     }
     else {
-      local_14 = MulDiv(param_1[0xc] + param_1[0xe],numerator,denominator);
+      local_14 = MulDiv(param_1[0xc] + param_1[0xe],numerator,denominator_2);
       local_14 = local_14 - number;
     }
     if (((bVar2 & 8) == 0) || ((*(byte *)((int)param_1 + 0x41) & 2) != 0)) {
-      denominator_2 = param_1[0xf];
+      denominator = param_1[0xf];
     }
     else {
-      denominator_2 = MulDiv(param_1[0xd] + param_1[0xf],numerator,denominator);
-      denominator_2 = denominator_2 - local_18;
+      denominator = MulDiv(param_1[0xd] + param_1[0xf],numerator,denominator_2);
+      denominator = denominator - local_18;
     }
-    (**(code **)(*param_1 + 0x7c))(param_1,number,local_18,denominator_2,local_14);
+    (**(code **)(*param_1 + 0x7c))(param_1,number,local_18,denominator,local_14);
     if ((*(char *)((int)param_1 + 0x49) == '\0') && ((bVar2 & 0x10) != 0)) {
       piVar1 = (int *)param_1[0x16];
       number = TFont_GetSize((int)piVar1);
-      number = MulDiv(number,numerator,denominator_2);
+      number = MulDiv(number,numerator,denominator);
       TFont_SetSize(piVar1,number);
     }
   }
@@ -9621,7 +9621,7 @@ void FUN_0042a404(int param_1,undefined4 param_2,undefined4 param_3)
 
 /* ==== 0042a44c TWinControl.dynamic_ffed ==== */
 
-void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator_2)
 
 {
   undefined4 *in_FS_OFFSET;
@@ -9635,8 +9635,8 @@ void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_14 = &stack0xfffffffc;
-  FUN_0042a404((int)param_1,numerator,denominator);
-  TControl_dynamic_ffed(param_1,numerator,denominator);
+  FUN_0042a404((int)param_1,numerator,denominator_2);
+  TControl_dynamic_ffed(param_1,numerator,denominator_2);
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_0042a4a4;
   puStack_18 = (undefined1 *)0x42a49c;

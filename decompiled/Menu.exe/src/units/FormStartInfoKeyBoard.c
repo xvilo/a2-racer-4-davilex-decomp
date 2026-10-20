@@ -1,4 +1,4 @@
-/* Menu.exe — units/FormStartInfoKeyBoard.pas: 13 functions, split from decompiled.c by tools/split_sources.py */
+/* Menu.exe — units/FormStartInfoKeyBoard.pas: 17 functions, split from decompiled.c by tools/split_sources.py */
 
 /* ==== 00497d6c FUN_00497d6c ==== */
 
@@ -207,9 +207,9 @@ void TfrmStartInfoKeyBoard_GDIFormShow(int *param_1)
 }
 
 
-/* ==== 0049812c FUN_0049812c ==== */
+/* ==== 0049812c TfrmStartInfoKeyBoard.ShowStartInfoDlg ==== */
 
-void FUN_0049812c(void)
+void TfrmStartInfoKeyBoard_ShowStartInfoDlg(void)
 
 {
   uint uVar1;
@@ -248,9 +248,9 @@ void FUN_0049812c(void)
 }
 
 
-/* ==== 004981f0 FUN_004981f0 ==== */
+/* ==== 004981f0 TfrmStartInfoKeyBoard.ShowWheelSettingsDlg ==== */
 
-void FUN_004981f0(undefined4 param_1,int param_2)
+void TfrmStartInfoKeyBoard_ShowWheelSettingsDlg(undefined4 param_1,int param_2)
 
 {
   uint uVar1;
@@ -285,9 +285,9 @@ void FUN_004981f0(undefined4 param_1,int param_2)
 }
 
 
-/* ==== 004982b4 FUN_004982b4 ==== */
+/* ==== 004982b4 TfrmStartInfoKeyBoard.ShowJoystickSettingsDlg ==== */
 
-void FUN_004982b4(undefined4 param_1,int param_2)
+void TfrmStartInfoKeyBoard_ShowJoystickSettingsDlg(undefined4 param_1,int param_2)
 
 {
   uint uVar1;
@@ -322,9 +322,9 @@ void FUN_004982b4(undefined4 param_1,int param_2)
 }
 
 
-/* ==== 00498378 FUN_00498378 ==== */
+/* ==== 00498378 TfrmStartInfoKeyBoard.ShowKeySettingsDlg ==== */
 
-void FUN_00498378(int param_1)
+void TfrmStartInfoKeyBoard_ShowKeySettingsDlg(int param_1)
 
 {
   uint uVar1;
@@ -354,9 +354,9 @@ void FUN_00498378(int param_1)
 }
 
 
-/* ==== 00498414 FUN_00498414 ==== */
+/* ==== 00498414 TfrmStartInfoKeyBoard.ShowNewPlayerDlg ==== */
 
-void FUN_00498414(int *param_1)
+void TfrmStartInfoKeyBoard_ShowNewPlayerDlg(int *param_1)
 
 {
   uint uVar1;
@@ -398,9 +398,9 @@ void FUN_00498414(int *param_1)
 }
 
 
-/* ==== 004984f0 FUN_004984f0 ==== */
+/* ==== 004984f0 TfrmStartInfoKeyBoard.ShowHighScoreDlg ==== */
 
-void FUN_004984f0(int *param_1)
+void TfrmStartInfoKeyBoard_ShowHighScoreDlg(int *param_1)
 
 {
   uint uVar1;
@@ -471,9 +471,9 @@ void FUN_004985dc(void)
 }
 
 
-/* ==== 00498634 FUN_00498634 ==== */
+/* ==== 00498634 TfrmStartInfoKeyBoard.ShowPlayerDlg ==== */
 
-void FUN_00498634(void)
+void TfrmStartInfoKeyBoard_ShowPlayerDlg(void)
 
 {
   uint uVar1;
@@ -495,9 +495,9 @@ void FUN_00498634(void)
   uStack_18 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_18;
   puStack_10 = &stack0xfffffffc;
-  FUN_0049354c(local_c);
+  TfrmPlayer_InitDlg(local_c);
   local_8 = (**(code **)(*local_c + 0xd8))();
-  FUN_00493658(local_c,local_8);
+  TfrmPlayer_ExitDlg(local_c,local_8);
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_004986ac;
   puStack_14 = (undefined1 *)0x4986a4;
@@ -506,9 +506,9 @@ void FUN_00498634(void)
 }
 
 
-/* ==== 004986d0 FUN_004986d0 ==== */
+/* ==== 004986d0 TfrmStartInfoKeyBoard.ShowNoMoneyDlg ==== */
 
-void FUN_004986d0(void)
+void TfrmStartInfoKeyBoard_ShowNoMoneyDlg(void)
 
 {
   uint uVar1;
@@ -534,6 +534,162 @@ void FUN_004986d0(void)
   *in_FS_OFFSET = uStack_18;
   puStack_10 = &LAB_00498735;
   puStack_14 = (undefined1 *)0x49872d;
+  FUN_00402f9c(local_c);
+  return;
+}
+
+
+/* ==== 00498758 TfrmStartInfoKeyBoard.ShowDeletePlayerDlg ==== */
+
+void TfrmStartInfoKeyBoard_ShowDeletePlayerDlg(undefined4 param_1,undefined4 *param_2)
+
+{
+  uint uVar1;
+  undefined4 *in_FS_OFFSET;
+  undefined4 uStack_28;
+  undefined1 *puStack_24;
+  undefined1 *puStack_20;
+  undefined4 uStack_1c;
+  undefined1 *puStack_18;
+  undefined1 *puStack_14;
+  int *local_10;
+  undefined4 local_c;
+  undefined4 *local_8;
+  
+  puStack_14 = (undefined1 *)0x498769;
+  local_8 = param_2;
+  FUN_00404090((int)param_2);
+  puStack_18 = &LAB_004987f7;
+  uStack_1c = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_1c;
+  puStack_20 = (undefined1 *)0x49877c;
+  puStack_14 = &stack0xfffffffc;
+  uVar1 = FUN_0045f46c();
+  puStack_20 = (undefined1 *)0x49878c;
+  FUN_0045fb90(uVar1,(undefined4 *)"ShowDeletePlayerDlg",2);
+  puStack_20 = (undefined1 *)0x49879a;
+  local_10 = (int *)TfrmCoolDialog_virtual_02c
+                              ((int *)&PTR_TWinControl_virtual_000_00496c14,'\x01',0);
+  puStack_24 = &LAB_004987da;
+  uStack_28 = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_28;
+  puStack_20 = &stack0xfffffffc;
+  FUN_00496dc4((int)local_10,local_8);
+  local_c = (**(code **)(*local_10 + 0xd8))();
+  *in_FS_OFFSET = uStack_28;
+  puStack_20 = &LAB_004987e1;
+  puStack_24 = (undefined1 *)0x4987d9;
+  FUN_00402f9c(local_10);
+  return;
+}
+
+
+/* ==== 00498828 TfrmStartInfoKeyBoard.ShowDoubleKeysDlg ==== */
+
+void TfrmStartInfoKeyBoard_ShowDoubleKeysDlg(undefined4 param_1,undefined4 *param_2)
+
+{
+  uint uVar1;
+  undefined4 *in_FS_OFFSET;
+  undefined4 uStack_28;
+  undefined1 *puStack_24;
+  undefined1 *puStack_20;
+  undefined4 uStack_1c;
+  undefined1 *puStack_18;
+  undefined1 *puStack_14;
+  int *local_10;
+  undefined4 local_c;
+  undefined4 *local_8;
+  
+  puStack_14 = (undefined1 *)0x498839;
+  local_8 = param_2;
+  FUN_00404090((int)param_2);
+  puStack_18 = &LAB_004988c7;
+  uStack_1c = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_1c;
+  puStack_20 = (undefined1 *)0x49884c;
+  puStack_14 = &stack0xfffffffc;
+  uVar1 = FUN_0045f46c();
+  puStack_20 = (undefined1 *)0x49885c;
+  FUN_0045fb90(uVar1,(undefined4 *)"ShowDoubleKeysDlg",2);
+  puStack_20 = (undefined1 *)0x49886a;
+  local_10 = (int *)TfrmCoolDialog_virtual_02c
+                              ((int *)&PTR_TWinControl_virtual_000_004948a8,'\x01',0);
+  puStack_24 = &LAB_004988aa;
+  uStack_28 = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_28;
+  puStack_20 = &stack0xfffffffc;
+  FUN_00494a40((int)local_10,local_8);
+  local_c = (**(code **)(*local_10 + 0xd8))();
+  *in_FS_OFFSET = uStack_28;
+  puStack_20 = &LAB_004988b1;
+  puStack_24 = (undefined1 *)0x4988a9;
+  FUN_00402f9c(local_10);
+  return;
+}
+
+
+/* ==== 004988f8 FUN_004988f8 ==== */
+
+void FUN_004988f8(void)
+
+{
+  uint uVar1;
+  undefined4 *in_FS_OFFSET;
+  undefined4 uStack_18;
+  undefined1 *puStack_14;
+  undefined1 *puStack_10;
+  int *local_c;
+  undefined4 local_8;
+  
+  puStack_10 = (undefined1 *)0x498903;
+  uVar1 = FUN_0045f46c();
+  puStack_10 = (undefined1 *)0x498913;
+  FUN_0045fb90(uVar1,(undefined4 *)"ShowOptionsDlg",0);
+  puStack_10 = (undefined1 *)0x498921;
+  local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_00497320,'\x01',0)
+  ;
+  puStack_14 = &LAB_00498956;
+  uStack_18 = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_18;
+  puStack_10 = &stack0xfffffffc;
+  local_8 = (**(code **)(*local_c + 0xd8))();
+  *in_FS_OFFSET = uStack_18;
+  puStack_10 = &LAB_0049895d;
+  puStack_14 = (undefined1 *)0x498955;
+  FUN_00402f9c(local_c);
+  return;
+}
+
+
+/* ==== 0049898c FUN_0049898c ==== */
+
+void FUN_0049898c(void)
+
+{
+  uint uVar1;
+  undefined4 *in_FS_OFFSET;
+  undefined4 uStack_18;
+  undefined1 *puStack_14;
+  undefined1 *puStack_10;
+  int *local_c;
+  undefined4 local_8;
+  
+  puStack_10 = (undefined1 *)0x498997;
+  uVar1 = FUN_0045f46c();
+  puStack_10 = (undefined1 *)0x4989a7;
+  FUN_0045fb90(uVar1,(undefined4 *)"ShowOptionsDlg",0);
+  puStack_10 = (undefined1 *)0x4989b5;
+  local_c = (int *)TfrmCoolDialog_virtual_02c((int *)&PTR_TWinControl_virtual_000_0049504c,'\x01',0)
+  ;
+  puStack_14 = &LAB_004989ea;
+  uStack_18 = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_18;
+  puStack_10 = &stack0xfffffffc;
+  local_8 = (**(code **)(*local_c + 0xd8))();
+  *in_FS_OFFSET = uStack_18;
+  puStack_10 = &LAB_004989f1;
+  puStack_14 = (undefined1 *)0x4989e9;
   FUN_00402f9c(local_c);
   return;
 }

@@ -1,4 +1,4 @@
-/* Menu.exe — units/BaseForm.pas: 19 functions, split from decompiled.c by tools/split_sources.py */
+/* Menu.exe — units/BaseForm.pas: 20 functions, split from decompiled.c by tools/split_sources.py */
 
 /* ==== 0049e394 TGameMenuScreen.FormCreate ==== */
 
@@ -79,7 +79,7 @@ void TGameMenuScreen_FormCreate(int *param_1)
             ((int *)param_1[0xb5],
              CONCAT31((int3)((uint)uVar8 >> 8),*(int *)(*(int *)PTR_DAT_004ab694 + 0xbc) == 0) ^ 1);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = uVar6;
   FUN_00403c5c((int *)&local_110);
   FUN_00403c80(&local_c,2);
@@ -115,7 +115,7 @@ void TGameMenuScreen_FormDestroy(int *param_1)
   uVar2 = FUN_0045f46c();
   FUN_0045fb90(uVar2,puVar1,0);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "FormDestroy (baseform)";
   FUN_00403c80(&local_c,2);
   return;
@@ -350,7 +350,7 @@ void TGameMenuScreen_btnCloseClick(int *param_1)
   iVar3 = FUN_0049e048();
   if (iVar3 == 3) {
     *(undefined1 *)(*(int *)PTR_DAT_004ab694 + 0xa8) = 0;
-    FUN_0047ff64(*(int **)PTR_DAT_004ab694);
+    TData_DoExit(*(int **)PTR_DAT_004ab694);
   }
   else if (iVar3 == 1) {
     (**(code **)(*param_1 + 0xe8))
@@ -501,9 +501,9 @@ void FUN_0049ed44(void)
 }
 
 
-/* ==== 0049ed60 FUN_0049ed60 ==== */
+/* ==== 0049ed60 TGameMenuScreen.CheckIfBestLap ==== */
 
-void FUN_0049ed60(void)
+void TGameMenuScreen_CheckIfBestLap(void)
 
 {
   undefined *puVar1;
@@ -556,14 +556,14 @@ void FUN_0049ed60(void)
     FUN_0048b2b4(*(int *)(*(int *)puVar1 + 0xc0),local_2c);
     FUN_00403e80((int *)&local_8,local_2c);
     do {
-      FUN_004984f0((int *)&local_8);
+      TfrmStartInfoKeyBoard_ShowHighScoreDlg((int *)&local_8);
     } while (local_8 == (undefined4 *)0x0);
     i_val = FUN_0048f44c(*(int *)(*(int *)puVar1 + 0xc4),
                          *(int *)(*(int *)(*(int *)puVar1 + 0xc0) + 0x14));
     FUN_00403cb0((int *)(i_val + 8),local_8);
   }
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = uStack_44;
   puStack_3c = &LAB_0049eea9;
   puStack_40 = (undefined1 *)0x49eea1;
@@ -572,9 +572,9 @@ void FUN_0049ed60(void)
 }
 
 
-/* ==== 0049eef0 FUN_0049eef0 ==== */
+/* ==== 0049eef0 TGameMenuScreen.CheckChaseQualify ==== */
 
-void FUN_0049eef0(void)
+void TGameMenuScreen_CheckChaseQualify(void)
 
 {
   undefined *puVar1;
@@ -600,14 +600,14 @@ void FUN_0049eef0(void)
     FUN_0045fe88(uVar2,0x49eff8);
   }
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   return;
 }
 
 
-/* ==== 0049f010 FUN_0049f010 ==== */
+/* ==== 0049f010 TGameMenuScreen.Process1stPosition ==== */
 
-void FUN_0049f010(void)
+void TGameMenuScreen_Process1stPosition(void)
 
 {
   int *piVar1;
@@ -634,7 +634,67 @@ void FUN_0049f010(void)
   uVar2 = FUN_0045f46c();
   FUN_0045fe88(uVar2,0x49f0e8);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
+  return;
+}
+
+
+/* ==== 0049f100 TGameMenuScreen.ProcessQualify ==== */
+
+void TGameMenuScreen_ProcessQualify(void)
+
+{
+  uint uVar1;
+  int iVar2;
+  undefined4 uVar3;
+  int iVar4;
+  undefined4 *in_FS_OFFSET;
+  undefined4 uStack_20;
+  undefined1 *puStack_1c;
+  undefined1 *puStack_18;
+  undefined4 *local_14;
+  int local_10;
+  undefined4 *local_c;
+  int local_8;
+  
+  puStack_18 = &stack0xfffffffc;
+  local_8 = 0;
+  local_c = (undefined4 *)0x0;
+  local_10 = 0;
+  local_14 = (undefined4 *)0x0;
+  puStack_1c = &LAB_0049f222;
+  uStack_20 = *in_FS_OFFSET;
+  *in_FS_OFFSET = &uStack_20;
+  uVar1 = FUN_0045f46c();
+  FUN_0045fb90(uVar1,(undefined4 *)"ProcessQualify",0);
+  FUN_004085ac(*(undefined4 *)(*(int *)PTR_DAT_004ab694 + 0xa4),(int *)&local_c);
+  FUN_00403f28(&local_8,(undefined4 *)"playerpos: ",local_c);
+  iVar4 = local_8;
+  uVar1 = FUN_0045f46c();
+  FUN_0045fe88(uVar1,iVar4);
+  iVar2 = FUN_0049ed24();
+  iVar4 = *(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18);
+  uVar3 = FUN_00462070(iVar2,CONCAT31((int3)((uint)iVar4 >> 8),*(undefined1 *)(iVar4 + 8)));
+  FUN_004085ac(uVar3,(int *)&local_14);
+  FUN_00403f28(&local_10,(undefined4 *)"QualifyPos: ",local_14);
+  iVar4 = local_10;
+  uVar1 = FUN_0045f46c();
+  FUN_0045fe88(uVar1,iVar4);
+  *(byte *)(*(int *)PTR_DAT_004ab694 + 0xd0) = *(byte *)(*(int *)PTR_DAT_004ab694 + 0xd0) | 2;
+  uVar1 = FUN_0045f46c();
+  FUN_0045fe88(uVar1,0x49f284);
+  iVar4 = FUN_0049ed44();
+  if (*(int *)(iVar4 + 0xc) ==
+      *(int *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x10) + 0xc)) {
+    iVar4 = FUN_0049ed44();
+    FUN_0048dd00(iVar4);
+  }
+  uVar1 = FUN_0045f46c();
+  TDebug_ExitProc(uVar1);
+  *in_FS_OFFSET = uStack_20;
+  puStack_18 = &LAB_0049f229;
+  puStack_1c = (undefined1 *)0x49f221;
+  FUN_00403c80((int *)&local_14,4);
   return;
 }
 

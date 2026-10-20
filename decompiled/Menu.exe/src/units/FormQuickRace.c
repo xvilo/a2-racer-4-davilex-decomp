@@ -70,7 +70,7 @@ void TfrmQuickRace_FormShow(int *param_1)
   *(undefined1 *)(*(int *)PTR_DAT_004ab694 + 0xa8) = 1;
   FUN_0049c3c8((int)param_1);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "FormShow";
   FUN_00403c80(&local_c,2);
   return;
@@ -95,16 +95,16 @@ void TfrmQuickRace_virtual_0fc(int param_1)
   int iVar1;
   
   if (*(char *)(*(int *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18) + 0x1f) == '\0') {
-    FUN_0047ff64(*(int **)PTR_DAT_004ab694);
+    TData_DoExit(*(int **)PTR_DAT_004ab694);
   }
   else {
     TTimer_SetEnabled(*(int *)(param_1 + 0x344),'\0');
-    iVar1 = FUN_0049812c();
+    iVar1 = TfrmStartInfoKeyBoard_ShowStartInfoDlg();
     if (iVar1 == 2) {
       TTimer_SetEnabled(*(int *)(param_1 + 0x344),'\x01');
       return;
     }
-    FUN_0047ff64(*(int **)PTR_DAT_004ab694);
+    TData_DoExit(*(int **)PTR_DAT_004ab694);
   }
   return;
 }

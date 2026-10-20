@@ -13013,16 +13013,16 @@ void FUN_0043764c(int param_1,int param_2,undefined4 param_3,int param_4)
 
 /* ==== 004376a4 FUN_004376a4 ==== */
 
-void FUN_004376a4(int x_val,int y_val,int x_val_2,int y_val_2,int param_5)
+void FUN_004376a4(int x_val_2,int y_val,int x_val,int y_val_2,int param_5)
 
 {
   TPen_SetColor(*(int **)(*(int *)(param_5 + -4) + 0x10),0x80000014);
-  FUN_00419154(*(int **)(param_5 + -4),x_val_2,y_val);
-  FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val);
-  FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val_2);
-  TPen_SetColor(*(int **)(*(int *)(param_5 + -4) + 0x10),0x80000010);
+  FUN_00419154(*(int **)(param_5 + -4),x_val,y_val);
+  FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val);
   FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val_2);
-  FUN_004190f4(*(int **)(param_5 + -4),x_val_2,y_val + -1);
+  TPen_SetColor(*(int **)(*(int *)(param_5 + -4) + 0x10),0x80000010);
+  FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val_2);
+  FUN_004190f4(*(int **)(param_5 + -4),x_val,y_val + -1);
   return;
 }
 
@@ -13782,7 +13782,7 @@ int FUN_0043a91c(int param_1)
 
 /* ==== 0043a940 FUN_0043a940 ==== */
 
-void FUN_0043a940(int *param_1,int i_val,int *param_3,int param_4)
+void FUN_0043a940(int *param_1,int i_val_2,int *param_3,int param_4)
 
 {
   bool bVar1;
@@ -13820,7 +13820,7 @@ void FUN_0043a940(int *param_1,int i_val,int *param_3,int param_4)
   int *local_10;
   int local_c;
   int *local_8;
-  int i_val_2;
+  int i_val;
   int x_val;
   int y_val;
   
@@ -13871,21 +13871,21 @@ void FUN_0043a940(int *param_1,int i_val,int *param_3,int param_4)
       x_val = 0;
       piVar2 = (int *)FUN_0041df1c(local_10);
       pHVar3 = (HDC)FUN_004194d8(piVar2);
-      i_val_2 = local_c;
+      i_val = local_c;
       p_Var4 = (HIMAGELIST)FUN_0043a5b8((int)local_8);
-      ImageList_Draw(p_Var4,i_val_2,pHVar3,x_val,y_val,UVar8);
+      ImageList_Draw(p_Var4,i_val,pHVar3,x_val,y_val,UVar8);
       UVar8 = 0x10;
       y_val = 0;
       x_val = 0;
       piVar2 = (int *)FUN_0041df1c(local_14);
       pHVar3 = (HDC)FUN_004194d8(piVar2);
-      i_val_2 = local_c;
+      i_val = local_c;
       p_Var4 = (HIMAGELIST)FUN_0043a5b8((int)local_8);
-      ImageList_Draw(p_Var4,i_val_2,pHVar3,x_val,y_val,UVar8);
+      ImageList_Draw(p_Var4,i_val,pHVar3,x_val,y_val,UVar8);
       hbmMask = (HBITMAP)(**(code **)(*local_14 + 0x60))();
       hbmImage = (HBITMAP)(**(code **)(*local_10 + 0x60))();
       p_Var4 = (HIMAGELIST)FUN_0043a5b8((int)local_8);
-      BVar5 = ImageList_Replace(p_Var4,i_val,hbmImage,hbmMask);
+      BVar5 = ImageList_Replace(p_Var4,i_val_2,hbmImage,hbmMask);
       if (BVar5 == 0) {
         FUN_00405808((undefined4 *)PTR_PTR_004ab6b4,(int *)&local_18);
         piVar2 = FUN_0040b5d8((int *)&DAT_0040ea0c,'\x01',local_18);

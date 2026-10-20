@@ -51,7 +51,7 @@ void TfrmMainScreen_FormShow(int *param_1)
                  (undefined4 *)&DAT_0049d9f4);
   }
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "FormShow";
   FUN_00403c80(&local_c,2);
   return;
@@ -63,7 +63,7 @@ void TfrmMainScreen_FormShow(int *param_1)
 void TfrmMainScreen_btnPlayerClick(int param_1)
 
 {
-  FUN_00498634();
+  TfrmStartInfoKeyBoard_ShowPlayerDlg();
   FUN_0049dc40(param_1);
   return;
 }
@@ -109,7 +109,7 @@ void TfrmMainScreen_virtual_0fc(int *param_1)
   if ((char)param_1[0xcf] != '\0') {
     FUN_00403f28((int *)&local_8,*(undefined4 **)(*(int *)PTR_DAT_004ab694 + 0xb8),
                  (undefined4 *)"static.ini");
-    FUN_0048e148(*(int **)(*(int *)PTR_DAT_004ab694 + 0xcc),local_8);
+    TStatic_LoadFromIniFile(*(int **)(*(int *)PTR_DAT_004ab694 + 0xcc),local_8);
     piVar3 = (int *)(**(code **)(**(int **)(*(int *)PTR_DAT_004ab694 + 0xcc) + 8))();
     uVar4 = FUN_0045f46c();
     FUN_0045fd98(uVar4,0x49db34,piVar3);
@@ -157,7 +157,7 @@ void TfrmMainScreen_btnCloseClick(void)
 
 {
   *(undefined1 *)(*(int *)PTR_DAT_004ab694 + 0xa8) = 0;
-  FUN_0047ff64(*(int **)PTR_DAT_004ab694);
+  TData_DoExit(*(int **)PTR_DAT_004ab694);
   return;
 }
 

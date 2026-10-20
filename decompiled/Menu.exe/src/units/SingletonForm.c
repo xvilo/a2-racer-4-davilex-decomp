@@ -297,7 +297,7 @@ void TQRState_virtual_014(int *param_1,int *param_2)
   TRaceState_virtual_014(param_1,param_2);
   FUN_0045e370(param_2,param_1 + 4);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "LoadFromStream";
   FUN_00403c80(&local_c,2);
   return;
@@ -334,7 +334,7 @@ void TQRState_virtual_010(int *param_1,int *param_2)
   TRaceState_virtual_010(param_1,param_2);
   FUN_0045e3a8(param_2);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "SaveToStream";
   FUN_00403c80(&local_c,2);
   return;
@@ -382,7 +382,7 @@ void TRaceState_virtual_014(int *param_1,int *param_2)
   FUN_0045e350(param_2,param_1 + 2);
   FUN_0045e350(param_2,param_1 + 3);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "LoadFromStream";
   FUN_00403c80(&local_c,2);
   return;
@@ -419,7 +419,7 @@ void TRaceState_virtual_010(int *param_1,int *param_2)
   FUN_0045e380(param_2,param_1[2]);
   FUN_0045e380(param_2,param_1[3]);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "SaveToStream";
   FUN_00403c80(&local_c,2);
   return;
@@ -676,7 +676,7 @@ void TTourState_virtual_014(int *param_1,int *param_2)
     } while (i_val != 0);
   }
   i_val = FUN_0045f46c();
-  FUN_0045fc70(i_val);
+  TDebug_ExitProc(i_val);
   *in_FS_OFFSET = "LoadFromStream";
   FUN_00403c80(&local_10,2);
   return;
@@ -729,7 +729,7 @@ void TTourState_virtual_010(int *param_1,int *param_2)
     } while (i_val != 0);
   }
   i_val = FUN_0045f46c();
-  FUN_0045fc70(i_val);
+  TDebug_ExitProc(i_val);
   *in_FS_OFFSET = "SaveToStream";
   FUN_00403c80(&local_10,2);
   return;
@@ -945,7 +945,7 @@ void TCharResult_virtual_014(int *param_1,int *param_2)
     i_val = i_val + 1;
   } while ((char)i_val != '\x05');
   i_val = FUN_0045f46c();
-  FUN_0045fc70(i_val);
+  TDebug_ExitProc(i_val);
   *in_FS_OFFSET = "LoadFromStream";
   FUN_00403c80(&local_10,2);
   return;
@@ -990,7 +990,7 @@ void TCharResult_virtual_010(int *param_1,int *param_2)
     i_val = i_val + 1;
   } while ((char)i_val != '\x05');
   i_val = FUN_0045f46c();
-  FUN_0045fc70(i_val);
+  TDebug_ExitProc(i_val);
   *in_FS_OFFSET = "SaveToStream";
   FUN_00403c80(&local_c,2);
   return;
@@ -1200,7 +1200,7 @@ void TStatic_virtual_004(int *param_1,char param_2)
     uVar4 = extraout_ECX_02;
   } while (i_val != 5);
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = "Create";
   FUN_00403c80(&local_10,2);
   return;
@@ -1256,7 +1256,7 @@ void TStatic_Destroy(int *param_1,char param_2)
   } while (i_val != 5);
   TDataObject_Destroy(piVar2,local_5 & 0xfc);
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = "Destroy";
   FUN_00403c80(&local_10,2);
   return;
@@ -1307,9 +1307,9 @@ void FUN_0048e138(int param_1)
 }
 
 
-/* ==== 0048e148 FUN_0048e148 ==== */
+/* ==== 0048e148 TStatic.LoadFromIniFile ==== */
 
-void FUN_0048e148(int *param_1,undefined4 *param_2)
+void TStatic_LoadFromIniFile(int *param_1,undefined4 *param_2)
 
 {
   undefined4 *puVar1;
@@ -1391,7 +1391,7 @@ void FUN_0048e148(int *param_1,undefined4 *param_2)
   uStack_170 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_170;
   puStack_168 = &stack0xfffffffc;
-  FUN_0048e784((int *)param_1[0xb],local_c);
+  TGameValues_LoadFromIniFile((int *)param_1[0xb],local_c);
   (**(code **)*local_c)(local_c,"GENERAL","DownLoadURL",&local_130);
   FUN_00403cb0(param_1 + 0x10,local_130);
   FUN_0045e860(param_1[0xd]);
@@ -1405,7 +1405,7 @@ void FUN_0048e148(int *param_1,undefined4 *param_2)
     j = 0;
     do {
       local_14 = TDataObject_virtual_004((int *)&PTR_TTrack_virtual_000_0046196c,'\x01',uVar2);
-      FUN_00461c8c(local_14,j);
+      TTrack_LoadFromIniFile(local_14,j);
       FUN_0045e7e4(param_1[0xd],local_14);
       j = j + 1;
       i_val = i_val - 1;
@@ -1459,9 +1459,9 @@ void FUN_0048e148(int *param_1,undefined4 *param_2)
 }
 
 
-/* ==== 0048e510 FUN_0048e510 ==== */
+/* ==== 0048e510 TStatic.GetCharacterByGameIndex ==== */
 
-void FUN_0048e510(int *param_1,int param_2)
+void TStatic_GetCharacterByGameIndex(int *param_1,int param_2)
 
 {
   undefined1 *puVar1;
@@ -1573,9 +1573,9 @@ void FUN_0048e6f4(void)
 }
 
 
-/* ==== 0048e784 FUN_0048e784 ==== */
+/* ==== 0048e784 TGameValues.LoadFromIniFile ==== */
 
-void FUN_0048e784(int *param_1,int *param_2)
+void TGameValues_LoadFromIniFile(int *param_1,int *param_2)
 
 {
   uint uVar1;
@@ -1611,7 +1611,7 @@ void FUN_0048e784(int *param_1,int *param_2)
   iVar2 = (**(code **)(*param_2 + 8))(param_2,"GAMEVALUES","FirstPlaceBonus");
   param_1[2] = iVar2;
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = 0x9c4;
   FUN_00403c80(&local_c,2);
   return;
@@ -1897,7 +1897,7 @@ void TMenuIni_virtual_018(int *param_1,int *param_2)
     } while (j != 0);
   }
   j = FUN_0045f46c();
-  FUN_0045fc70(j);
+  TDebug_ExitProc(j);
   *in_FS_OFFSET = (int)ppuVar4;
   FUN_00403c80((int *)&local_138,8);
   FUN_00403c80(&local_18,2);

@@ -27194,24 +27194,24 @@ void FUN_00417838(HANDLE param_1,int *param_2,char param_3)
   HDC local_20;
   HDC local_1c;
   HDC local_18;
-  HBITMAP h_val;
+  HBITMAP h_val_2;
   int local_10;
   int local_c;
-  HANDLE h_val_2;
+  HANDLE h_val;
   
   local_10 = *param_2;
   local_c = param_2[1];
-  h_val_2 = param_1;
+  h_val = param_1;
   local_1c = CreateCompatibleDC((HDC)0x0);
   local_20 = CreateCompatibleDC((HDC)0x0);
   uStack_50 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_50;
-  GetObjectA(h_val_2,0x18,local_38);
+  GetObjectA(h_val,0x18,local_38);
   if (param_3 != '\0') {
-    h_val = CreateBitmap(local_10,local_c,1,1,(void *)0x0);
-    if (h_val != (HBITMAP)0x0) {
-      h = SelectObject(local_1c,h_val_2);
-      h_00 = SelectObject(local_20,h_val);
+    h_val_2 = CreateBitmap(local_10,local_c,1,1,(void *)0x0);
+    if (h_val_2 != (HBITMAP)0x0) {
+      h = SelectObject(local_1c,h_val);
+      h_00 = SelectObject(local_20,h_val_2);
       StretchBlt(local_20,0,0,local_10,local_c,local_1c,0,0,src,src_2,0xcc0020);
       if (h != (HGDIOBJ)0x0) {
         SelectObject(local_1c,h);
@@ -27233,8 +27233,8 @@ void FUN_00417838(HANDLE param_1,int *param_2,char param_3)
   }
   uVar1 = *in_FS_OFFSET;
   *in_FS_OFFSET = &stack0xffffffa4;
-  h_val = CreateCompatibleBitmap(local_18,local_10,local_c);
-  if (h_val == (HBITMAP)0x0) {
+  h_val_2 = CreateCompatibleBitmap(local_18,local_10,local_c);
+  if (h_val_2 == (HBITMAP)0x0) {
     FUN_00417780();
   }
   *in_FS_OFFSET = uVar1;
@@ -37189,17 +37189,17 @@ void FUN_004243f4(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
 
 /* WARNING: Removing unreachable block (ram,0x0042453a) */
 
-void TControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TControl_dynamic_ffed(int *param_1,int numerator,int denominator_2)
 
 {
   int *piVar1;
   int number;
-  int denominator_2;
+  int denominator;
   byte bVar2;
   int local_18;
   int local_14;
   
-  if (numerator != denominator) {
+  if (numerator != denominator_2) {
     if ((*(byte *)(param_1 + 8) & 1) == 0) {
       bVar2 = 0x1f;
     }
@@ -37210,36 +37210,36 @@ void TControl_dynamic_ffed(int *param_1,int numerator,int denominator)
       number = param_1[0xc];
     }
     else {
-      number = MulDiv(param_1[0xc],numerator,denominator);
+      number = MulDiv(param_1[0xc],numerator,denominator_2);
     }
     if ((bVar2 & 2) == 0) {
       local_18 = param_1[0xd];
     }
     else {
-      local_18 = MulDiv(param_1[0xd],numerator,denominator);
+      local_18 = MulDiv(param_1[0xd],numerator,denominator_2);
     }
     if (((bVar2 & 4) == 0) || ((*(byte *)((int)param_1 + 0x41) & 1) != 0)) {
       local_14 = param_1[0xe];
     }
     else if ((bVar2 & 1) == 0) {
-      local_14 = MulDiv(param_1[0xe],numerator,denominator);
+      local_14 = MulDiv(param_1[0xe],numerator,denominator_2);
     }
     else {
-      local_14 = MulDiv(param_1[0xc] + param_1[0xe],numerator,denominator);
+      local_14 = MulDiv(param_1[0xc] + param_1[0xe],numerator,denominator_2);
       local_14 = local_14 - number;
     }
     if (((bVar2 & 8) == 0) || ((*(byte *)((int)param_1 + 0x41) & 2) != 0)) {
-      denominator_2 = param_1[0xf];
+      denominator = param_1[0xf];
     }
     else {
-      denominator_2 = MulDiv(param_1[0xd] + param_1[0xf],numerator,denominator);
-      denominator_2 = denominator_2 - local_18;
+      denominator = MulDiv(param_1[0xd] + param_1[0xf],numerator,denominator_2);
+      denominator = denominator - local_18;
     }
-    (**(code **)(*param_1 + 0x7c))(param_1,number,local_18,denominator_2,local_14);
+    (**(code **)(*param_1 + 0x7c))(param_1,number,local_18,denominator,local_14);
     if ((*(char *)((int)param_1 + 0x49) == '\0') && ((bVar2 & 0x10) != 0)) {
       piVar1 = (int *)param_1[0x16];
       number = TFont_GetSize((int)piVar1);
-      number = MulDiv(number,numerator,denominator_2);
+      number = MulDiv(number,numerator,denominator);
       TFont_SetSize(piVar1,number);
     }
   }
@@ -44149,7 +44149,7 @@ void FUN_0042a404(int param_1,undefined4 param_2,undefined4 param_3)
 
 /* ==== 0042a44c TWinControl.dynamic_ffed ==== */
 
-void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator_2)
 
 {
   undefined4 *in_FS_OFFSET;
@@ -44163,8 +44163,8 @@ void TWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
   uStack_1c = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_1c;
   puStack_14 = &stack0xfffffffc;
-  FUN_0042a404((int)param_1,numerator,denominator);
-  TControl_dynamic_ffed(param_1,numerator,denominator);
+  FUN_0042a404((int)param_1,numerator,denominator_2);
+  TControl_dynamic_ffed(param_1,numerator,denominator_2);
   *in_FS_OFFSET = uStack_1c;
   puStack_14 = &LAB_0042a4a4;
   puStack_18 = (undefined1 *)0x42a49c;
@@ -44792,35 +44792,35 @@ void FUN_0042abbc(int param_1)
   HWND hWnd;
   int i_val;
   RECT *pRVar2;
-  tagRECT *rect;
-  tagRECT rect_2;
+  tagRECT *rect_2;
+  tagRECT rect;
   WINDOWPLACEMENT windowplacement;
   
   BVar1 = IsIconic(*(HWND *)(param_1 + 0x14c));
   if (BVar1 == 0) {
-    GetWindowRect(*(HWND *)(param_1 + 0x14c),&rect_2);
+    GetWindowRect(*(HWND *)(param_1 + 0x14c),&rect);
   }
   else {
     windowplacement.length = 0x2c;
     GetWindowPlacement(*(HWND *)(param_1 + 0x14c),&windowplacement);
     pRVar2 = &windowplacement.rcNormalPosition;
-    rect = &rect_2;
+    rect_2 = &rect;
     for (i_val = 4; i_val != 0; i_val = i_val + -1) {
-      rect->left = pRVar2->left;
+      rect_2->left = pRVar2->left;
       pRVar2 = (RECT *)&pRVar2->top;
-      rect = (tagRECT *)((int)rect + 4);
+      rect_2 = (tagRECT *)((int)rect_2 + 4);
     }
   }
   window_long = GetWindowLongA(*(HWND *)(param_1 + 0x14c),-0x10);
   if (((window_long & 0x40000000) != 0) &&
      (hWnd = (HWND)GetWindowLongA(*(HWND *)(param_1 + 0x14c),-8), hWnd != (HWND)0x0)) {
-    ScreenToClient(hWnd,(LPPOINT)&rect_2);
-    ScreenToClient(hWnd,(LPPOINT)&rect_2.right);
+    ScreenToClient(hWnd,(LPPOINT)&rect);
+    ScreenToClient(hWnd,(LPPOINT)&rect.right);
   }
-  *(LONG *)(param_1 + 0x30) = rect_2.left;
-  *(LONG *)(param_1 + 0x34) = rect_2.top;
-  *(LONG *)(param_1 + 0x38) = rect_2.right - rect_2.left;
-  *(LONG *)(param_1 + 0x3c) = rect_2.bottom - rect_2.top;
+  *(LONG *)(param_1 + 0x30) = rect.left;
+  *(LONG *)(param_1 + 0x34) = rect.top;
+  *(LONG *)(param_1 + 0x38) = rect.right - rect.left;
+  *(LONG *)(param_1 + 0x3c) = rect.bottom - rect.top;
   FUN_00423f38(param_1);
   return;
 }
@@ -58201,11 +58201,11 @@ void FUN_0043affc(int param_1,int numerator,int denominator)
 
 /* ==== 0043b0a0 TScrollingWinControl.dynamic_ffed ==== */
 
-void TScrollingWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TScrollingWinControl_dynamic_ffed(int *param_1,int numerator,int param_3)
 
 {
-  FUN_0043affc((int)param_1,numerator,denominator);
-  TWinControl_dynamic_ffed(param_1,numerator,denominator);
+  FUN_0043affc((int)param_1,numerator,param_3);
+  TWinControl_dynamic_ffed(param_1,numerator,param_3);
   return;
 }
 

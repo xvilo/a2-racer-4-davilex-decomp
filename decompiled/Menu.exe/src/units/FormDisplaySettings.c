@@ -207,9 +207,9 @@ void FUN_00487b9c(int param_1)
 }
 
 
-/* ==== 00487bb0 FUN_00487bb0 ==== */
+/* ==== 00487bb0 TfrmDisplaySettings.AddDriverToStrings ==== */
 
-void FUN_00487bb0(void)
+void TfrmDisplaySettings_AddDriverToStrings(void)
 
 {
   uint uVar1;
@@ -249,7 +249,7 @@ void FUN_00487bb0(void)
   FUN_00403e14(&local_8,in_stack_00000008);
   (**(code **)(*in_stack_00000010 + 0x38))(in_stack_00000010,local_8,puVar2);
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = uStack_20;
   puStack_18 = &LAB_00487c3d;
   puStack_1c = (undefined1 *)0x487c35;
@@ -287,8 +287,8 @@ void TfrmDisplaySettings_FormCreate(int *param_1)
   FUN_0045fb90(uVar2,puVar1,0);
   DirectDrawEnumerateA();
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
-  *in_FS_OFFSET = FUN_00487bb0;
+  TDebug_ExitProc(uVar2);
+  *in_FS_OFFSET = TfrmDisplaySettings_AddDriverToStrings;
   FUN_00403c80(&local_c,2);
   return;
 }
@@ -331,7 +331,7 @@ void TfrmDisplaySettings_FormDestroy(int *param_1)
     (**(code **)(**(int **)(param_1[0xb5] + 0x1f0) + 0x44))(*(int **)(param_1[0xb5] + 0x1f0),2);
   }
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "FormDestroy";
   FUN_00403c80(&local_c,2);
   return;
@@ -373,10 +373,10 @@ void TfrmDisplaySettings_FormShow(int *param_1)
   iVar3 = FUN_00485de8(param_1[0xc6],1);
   TGroupBox_SetCaption(iVar3,*(uint **)(PTR_DAT_004ab8b4 + 0x58));
   TGroupBox_SetCaption(param_1[0xd4],*(uint **)(PTR_DAT_004ab8b4 + 8));
-  FUN_004884b8(param_1);
+  TfrmDisplaySettings_CopySettingsToControls(param_1);
   (**(code **)(*(int *)param_1[0xcf] + 0xb0))();
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "FormShow";
   FUN_00403c80(&local_c,2);
   return;
@@ -388,7 +388,7 @@ void TfrmDisplaySettings_FormShow(int *param_1)
 void TfrmDisplaySettings_btnOkClick(int *param_1)
 
 {
-  FUN_00488808(param_1);
+  TfrmDisplaySettings_CopyControlsToSettings(param_1);
   return;
 }
 
@@ -648,16 +648,16 @@ void TfrmDisplaySettings_cboDriverChange(int *param_1)
     }
   }
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "cboDriverChange";
   FUN_00403c80(&local_10,2);
   return;
 }
 
 
-/* ==== 004884b8 FUN_004884b8 ==== */
+/* ==== 004884b8 TfrmDisplaySettings.CopySettingsToControls ==== */
 
-void FUN_004884b8(int *param_1)
+void TfrmDisplaySettings_CopySettingsToControls(int *param_1)
 
 {
   uint uVar1;
@@ -773,7 +773,7 @@ void FUN_004884b8(int *param_1)
   uVar2 = FUN_00487b9c((int)param_1);
   (**(code **)(*(int *)param_1[0xb6] + 0x5c))((int *)param_1[0xb6],uVar2);
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = pcVar8;
   FUN_00403c5c((int *)&local_130);
   FUN_00403c80(&local_c,2);
@@ -808,9 +808,9 @@ undefined4 * FUN_004887dc(undefined4 *param_1)
 }
 
 
-/* ==== 00488808 FUN_00488808 ==== */
+/* ==== 00488808 TfrmDisplaySettings.CopyControlsToSettings ==== */
 
-void FUN_00488808(int *param_1)
+void TfrmDisplaySettings_CopyControlsToSettings(int *param_1)
 
 {
   undefined1 uVar1;
@@ -936,7 +936,7 @@ void FUN_00488808(int *param_1)
     FUN_0045fe88(uVar3,iVar4);
   }
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = "CopyControlsToSettings";
   FUN_00403c5c(&local_110);
   FUN_00403c80(&local_c,2);
@@ -1001,7 +1001,7 @@ void FUN_00488bd8(int param_1)
     (**(code **)(**(int **)(param_1 + 0x35c) + 0x5c))(*(int **)(param_1 + 0x35c),0);
   }
   else {
-    iVar2 = FUN_00480c9c();
+    iVar2 = TData_ReadAvailableTextureMemory();
     if (0 < iVar2) {
       if (iVar2 < 0x1000000) {
         cVar1 = (**(code **)(**(int **)(param_1 + 0x35c) + 0xb4))();

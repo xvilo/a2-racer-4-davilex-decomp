@@ -54,7 +54,7 @@ void TfrmOptions_btnCancelClick(int *param_1)
   FUN_004a66ec(iVar1,param_1[0xe2]);
   param_1[0x8d] = 2;
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = "btnCancelClick";
   FUN_00403c80(&local_c,2);
   return;
@@ -96,7 +96,7 @@ void TfrmOptions_btnOkClick(int *param_1)
   puVar2 = local_8;
   uVar3 = FUN_0045f46c();
   FUN_0045fb90(uVar3,puVar2,0);
-  FUN_004960fc(param_1);
+  TfrmOptions_CopyControlsToSettings(param_1);
   piVar4 = *(int **)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18);
   iVar1 = *piVar4;
   (**(code **)(iVar1 + 0xc))(piVar4,param_1[0xe1],iVar1,pcVar5,puVar6,iVar7);
@@ -105,7 +105,7 @@ void TfrmOptions_btnOkClick(int *param_1)
   FUN_0045fd98(uVar3,0x49590c,piVar4);
   param_1[0x8d] = 1;
   uVar3 = FUN_0045f46c();
-  FUN_0045fc70(uVar3);
+  TDebug_ExitProc(uVar3);
   *in_FS_OFFSET = pcVar5;
   FUN_00403c80(&local_c,2);
   return;
@@ -210,12 +210,12 @@ void TfrmOptions_btnVideoAdvancedClick(int *param_1)
   iVar3 = local_8;
   uVar1 = FUN_0045f46c();
   FUN_0045fe88(uVar1,iVar3);
-  FUN_004960fc(param_1);
+  TfrmOptions_CopyControlsToSettings(param_1);
   piVar2 = (int *)TCustomForm_virtual_02c((int *)&PTR_TWinControl_virtual_000_004875b8,'\x01',0);
   piVar2[0xd8] = param_1[0xe1];
   iVar3 = (**(code **)(*piVar2 + 0xd8))();
   if (iVar3 == 1) {
-    FUN_00495d6c(param_1);
+    TfrmOptions_CopySettingsToControls(param_1);
   }
   FUN_00402f9c(piVar2);
   FUN_004085ac(*(undefined4 *)(param_1[0xe1] + 0x2c),(int *)&local_14);
@@ -224,7 +224,7 @@ void TfrmOptions_btnVideoAdvancedClick(int *param_1)
   uVar1 = FUN_0045f46c();
   FUN_0045fe88(uVar1,iVar3);
   uVar1 = FUN_0045f46c();
-  FUN_0045fc70(uVar1);
+  TDebug_ExitProc(uVar1);
   *in_FS_OFFSET = uStack_28;
   puStack_20 = &LAB_00495b11;
   puStack_24 = (undefined1 *)0x495b09;
@@ -375,9 +375,9 @@ void TfrmOptions_sldrVoiceChange(int param_1)
 }
 
 
-/* ==== 00495d6c FUN_00495d6c ==== */
+/* ==== 00495d6c TfrmOptions.CopySettingsToControls ==== */
 
-void FUN_00495d6c(int *param_1)
+void TfrmOptions_CopySettingsToControls(int *param_1)
 
 {
   char cVar1;
@@ -482,7 +482,7 @@ LAB_00495eb5:
   uVar5 = FUN_0045f46c();
   FUN_0045fe88(uVar5,iVar2);
   uVar5 = FUN_0045f46c();
-  FUN_0045fc70(uVar5);
+  TDebug_ExitProc(uVar5);
   *in_FS_OFFSET = "CopySettingsToControls";
   FUN_00403c80((int *)&local_11c,4);
   FUN_00403c80(&local_c,2);
@@ -490,9 +490,9 @@ LAB_00495eb5:
 }
 
 
-/* ==== 004960fc FUN_004960fc ==== */
+/* ==== 004960fc TfrmOptions.CopyControlsToSettings ==== */
 
-void FUN_004960fc(int *param_1)
+void TfrmOptions_CopyControlsToSettings(int *param_1)
 
 {
   int iVar1;
@@ -603,7 +603,7 @@ void FUN_004960fc(int *param_1)
   uVar5 = FUN_0045f46c();
   FUN_0045fe88(uVar5,iVar1);
   uVar5 = FUN_0045f46c();
-  FUN_0045fc70(uVar5);
+  TDebug_ExitProc(uVar5);
   *in_FS_OFFSET = "CopyControlsToSettings";
   FUN_00403c80((int *)&local_11c,4);
   FUN_00403c80(&local_c,2);
@@ -668,7 +668,7 @@ void TfrmOptions_btnControlsClick(int param_1)
   
   cVar1 = (**(code **)(**(int **)(param_1 + 0x318) + 0xb8))();
   if (cVar1 != '\0') {
-    FUN_00498378(*(int *)(*(int *)(param_1 + 900) + 0xc));
+    TfrmStartInfoKeyBoard_ShowKeySettingsDlg(*(int *)(*(int *)(param_1 + 900) + 0xc));
     return;
   }
   cVar1 = (**(code **)(**(int **)(param_1 + 800) + 0xb8))();
@@ -678,11 +678,11 @@ void TfrmOptions_btnControlsClick(int param_1)
       FUN_00403c40("Unknown or invalid controler type selected");
     }
     else {
-      FUN_004981f0(param_1,*(int *)(*(int *)(param_1 + 900) + 0xc));
+      TfrmStartInfoKeyBoard_ShowWheelSettingsDlg(param_1,*(int *)(*(int *)(param_1 + 900) + 0xc));
     }
   }
   else {
-    FUN_004982b4(param_1,*(int *)(*(int *)(param_1 + 900) + 0xc));
+    TfrmStartInfoKeyBoard_ShowJoystickSettingsDlg(param_1,*(int *)(*(int *)(param_1 + 900) + 0xc));
   }
   return;
 }
@@ -809,9 +809,9 @@ void TfrmOptions_GDIFormCreate(int *param_1)
   (**(code **)(*(int *)param_1[0xe1] + 0xc))
             ((int *)param_1[0xe1],*(undefined4 *)(*(int *)(*(int *)PTR_DAT_004ab694 + 0xc0) + 0x18))
   ;
-  FUN_00495d6c(param_1);
+  TfrmOptions_CopySettingsToControls(param_1);
   uVar2 = FUN_0045f46c();
-  FUN_0045fc70(uVar2);
+  TDebug_ExitProc(uVar2);
   *in_FS_OFFSET = "GDIFormCreate";
   FUN_00403c80(&local_c,2);
   return;

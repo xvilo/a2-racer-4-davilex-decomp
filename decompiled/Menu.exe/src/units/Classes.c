@@ -12435,15 +12435,15 @@ void FUN_0040709c(UINT flags_val,SIZE_T bytes)
 
 /* ==== 004070ac FUN_004070ac ==== */
 
-void FUN_004070ac(LPCVOID mem,SIZE_T bytes,UINT flags_val)
+void FUN_004070ac(LPCVOID mem_2,SIZE_T bytes,UINT flags_val)
 
 {
-  HGLOBAL mem_2;
+  HGLOBAL mem;
   
-  mem_2 = GlobalHandle(mem);
-  GlobalUnlock(mem_2);
-  mem_2 = GlobalReAlloc(mem_2,bytes,flags_val);
-  GlobalLock(mem_2);
+  mem = GlobalHandle(mem_2);
+  GlobalUnlock(mem);
+  mem = GlobalReAlloc(mem,bytes,flags_val);
+  GlobalLock(mem);
   return;
 }
 
@@ -23475,33 +23475,33 @@ LPCVOID TMemoryStream_virtual_010(int param_1,SIZE_T *param_2)
 
 {
   int *piVar1;
-  LPCVOID mem;
+  LPCVOID mem_2;
   LPCVOID extraout_ECX;
   
   if (0 < (int)*param_2) {
     *param_2 = *param_2 + 0x1fff & 0xffffe000;
   }
-  mem = *(LPCVOID *)(param_1 + 4);
+  mem_2 = *(LPCVOID *)(param_1 + 4);
   if (*param_2 != *(SIZE_T *)(param_1 + 0x10)) {
     if (*param_2 == 0) {
-      FUN_004070c8(mem);
-      mem = (LPCVOID)0x0;
+      FUN_004070c8(mem_2);
+      mem_2 = (LPCVOID)0x0;
     }
     else {
       if (*(SIZE_T *)(param_1 + 0x10) == 0) {
-        mem = (LPCVOID)FUN_0040709c((uint)*(ushort *)PTR_DAT_004ab948,*param_2);
+        mem_2 = (LPCVOID)FUN_0040709c((uint)*(ushort *)PTR_DAT_004ab948,*param_2);
       }
       else {
-        mem = (LPCVOID)FUN_004070ac(mem,*param_2,(uint)*(ushort *)PTR_DAT_004ab948);
+        mem_2 = (LPCVOID)FUN_004070ac(mem_2,*param_2,(uint)*(ushort *)PTR_DAT_004ab948);
       }
-      if (mem == (LPCVOID)0x0) {
+      if (mem_2 == (LPCVOID)0x0) {
         piVar1 = FUN_0040b694((int *)&DAT_0040e574,'\x01',(undefined4 *)PTR_PTR_004ab9bc);
         FUN_004036f4(piVar1);
-        mem = extraout_ECX;
+        mem_2 = extraout_ECX;
       }
     }
   }
-  return mem;
+  return mem_2;
 }
 
 
@@ -29459,9 +29459,9 @@ void FUN_0045fb90(uint param_1,undefined4 *param_2,byte param_3)
 }
 
 
-/* ==== 0045fc70 FUN_0045fc70 ==== */
+/* ==== 0045fc70 TDebug.ExitProc ==== */
 
-void FUN_0045fc70(uint param_1)
+void TDebug_ExitProc(uint param_1)
 
 {
   int *piVar1;
@@ -29485,9 +29485,9 @@ void FUN_0045fc70(uint param_1)
 }
 
 
-/* ==== 0045fcf0 FUN_0045fcf0 ==== */
+/* ==== 0045fcf0 TDebug.ClearFile ==== */
 
-void FUN_0045fcf0(int param_1)
+void TDebug_ClearFile(int param_1)
 
 {
   undefined4 uVar1;

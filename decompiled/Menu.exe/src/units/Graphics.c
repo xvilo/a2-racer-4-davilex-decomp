@@ -5642,30 +5642,30 @@ void TBitmapImage_virtual_000(int param_1)
 
 /* ==== 0041cfdc FUN_0041cfdc ==== */
 
-void FUN_0041cfdc(HGDIOBJ h_val,HPALETTE param_2,int param_3)
+void FUN_0041cfdc(HGDIOBJ h_val_2,HPALETTE param_2,int param_3)
 
 {
   UINT cEntries;
   undefined4 *in_FS_OFFSET;
   undefined4 uVar1;
   tagPALETTEENTRY local_414 [256];
-  HGDIOBJ h_val_2;
+  HGDIOBJ h_val;
   HDC hdc_val;
   HDC local_c;
   HPALETTE local_8;
   
-  if ((h_val != (HGDIOBJ)0x0) && (*(ushort *)(param_3 + 0x26) < 9)) {
+  if ((h_val_2 != (HGDIOBJ)0x0) && (*(ushort *)(param_3 + 0x26) < 9)) {
     local_8 = param_2;
     cEntries = FUN_0041a064(param_2,local_414,0xff);
     if (cEntries != 0) {
       local_c = GetDC((HWND)0x0);
       hdc_val = CreateCompatibleDC(local_c);
-      h_val_2 = SelectObject(hdc_val,h_val);
+      h_val = SelectObject(hdc_val,h_val_2);
       uVar1 = *in_FS_OFFSET;
       *in_FS_OFFSET = &stack0xfffffbd8;
       SetDIBColorTable(hdc_val,0,cEntries,(RGBQUAD *)local_414);
       *in_FS_OFFSET = uVar1;
-      SelectObject(hdc_val,h_val_2);
+      SelectObject(hdc_val,h_val);
       DeleteDC(hdc_val);
       ReleaseDC((HWND)0x0,local_c);
       return;

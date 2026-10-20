@@ -2110,24 +2110,24 @@ void FUN_00417838(HANDLE param_1,int *param_2,char param_3)
   HDC local_20;
   HDC local_1c;
   HDC local_18;
-  HBITMAP h_val;
+  HBITMAP h_val_2;
   int local_10;
   int local_c;
-  HANDLE h_val_2;
+  HANDLE h_val;
   
   local_10 = *param_2;
   local_c = param_2[1];
-  h_val_2 = param_1;
+  h_val = param_1;
   local_1c = CreateCompatibleDC((HDC)0x0);
   local_20 = CreateCompatibleDC((HDC)0x0);
   uStack_50 = *in_FS_OFFSET;
   *in_FS_OFFSET = &uStack_50;
-  GetObjectA(h_val_2,0x18,local_38);
+  GetObjectA(h_val,0x18,local_38);
   if (param_3 != '\0') {
-    h_val = CreateBitmap(local_10,local_c,1,1,(void *)0x0);
-    if (h_val != (HBITMAP)0x0) {
-      h = SelectObject(local_1c,h_val_2);
-      h_00 = SelectObject(local_20,h_val);
+    h_val_2 = CreateBitmap(local_10,local_c,1,1,(void *)0x0);
+    if (h_val_2 != (HBITMAP)0x0) {
+      h = SelectObject(local_1c,h_val);
+      h_00 = SelectObject(local_20,h_val_2);
       StretchBlt(local_20,0,0,local_10,local_c,local_1c,0,0,src,src_2,0xcc0020);
       if (h != (HGDIOBJ)0x0) {
         SelectObject(local_1c,h);
@@ -2149,8 +2149,8 @@ void FUN_00417838(HANDLE param_1,int *param_2,char param_3)
   }
   uVar1 = *in_FS_OFFSET;
   *in_FS_OFFSET = &stack0xffffffa4;
-  h_val = CreateCompatibleBitmap(local_18,local_10,local_c);
-  if (h_val == (HBITMAP)0x0) {
+  h_val_2 = CreateCompatibleBitmap(local_18,local_10,local_c);
+  if (h_val_2 == (HBITMAP)0x0) {
     FUN_00417780();
   }
   *in_FS_OFFSET = uVar1;

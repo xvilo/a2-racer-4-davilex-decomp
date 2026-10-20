@@ -41,10 +41,10 @@ for m in "${modules[@]}"; do
 		python3 -I "$ROOT/tools/delphi_names.py" "$bin" "$ROOT/symbols/$m.tsv" "$out/forms"
 		lang=(delphi)
 	fi
-	# Recovered names (from the last run, or the Delphi metadata), then hand-assigned ones
-	# (symbols/manual/<module>.tsv) over them.
-	python3 -I "$ROOT/tools/merge_names.py" "$names" "$ROOT/symbols/$m.tsv" "$ROOT/symbols/$m.recovered.tsv" \
-		"$ROOT/symbols/manual/$m.tsv"
+	# The Delphi metadata's names, then hand-assigned ones (symbols/manual/<module>.tsv) over
+	# them. RecoverNames.java finds its names again in every run (symbols/<module>.recovered.tsv
+	# is its output, not an input).
+	python3 -I "$ROOT/tools/merge_names.py" "$names" "$ROOT/symbols/$m.tsv" "$ROOT/symbols/manual/$m.tsv"
 
 	echo "== $m: REA overview"
 	$REA analyze "$bin" --provider ghidra \

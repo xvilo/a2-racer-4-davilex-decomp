@@ -113,18 +113,18 @@ uint FUN_004743d8(int *param_1,int *param_2,int param_3)
 {
   int *piVar1;
   int iVar2;
-  uint i_val;
+  uint i_val_2;
   uint uVar3;
   
-  i_val = FUN_00474390((int)param_1);
-  uVar3 = FUN_0043a940(param_1,i_val,param_2,param_3);
+  i_val_2 = FUN_00474390((int)param_1);
+  uVar3 = FUN_0043a940(param_1,i_val_2,param_2,param_3);
   piVar1 = param_1 + 0x1f;
   iVar2 = *piVar1;
   *piVar1 = *piVar1 + 1;
   if (SCARRY4(iVar2,1)) {
     thunk_FUN_00402808(uVar3);
   }
-  return i_val;
+  return i_val_2;
 }
 
 

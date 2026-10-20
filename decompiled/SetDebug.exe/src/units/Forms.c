@@ -206,35 +206,35 @@ void FUN_0042abbc(int param_1)
   HWND hWnd;
   int i_val;
   RECT *pRVar2;
-  tagRECT *rect;
-  tagRECT rect_2;
+  tagRECT *rect_2;
+  tagRECT rect;
   WINDOWPLACEMENT windowplacement;
   
   BVar1 = IsIconic(*(HWND *)(param_1 + 0x14c));
   if (BVar1 == 0) {
-    GetWindowRect(*(HWND *)(param_1 + 0x14c),&rect_2);
+    GetWindowRect(*(HWND *)(param_1 + 0x14c),&rect);
   }
   else {
     windowplacement.length = 0x2c;
     GetWindowPlacement(*(HWND *)(param_1 + 0x14c),&windowplacement);
     pRVar2 = &windowplacement.rcNormalPosition;
-    rect = &rect_2;
+    rect_2 = &rect;
     for (i_val = 4; i_val != 0; i_val = i_val + -1) {
-      rect->left = pRVar2->left;
+      rect_2->left = pRVar2->left;
       pRVar2 = (RECT *)&pRVar2->top;
-      rect = (tagRECT *)((int)rect + 4);
+      rect_2 = (tagRECT *)((int)rect_2 + 4);
     }
   }
   window_long = GetWindowLongA(*(HWND *)(param_1 + 0x14c),-0x10);
   if (((window_long & 0x40000000) != 0) &&
      (hWnd = (HWND)GetWindowLongA(*(HWND *)(param_1 + 0x14c),-8), hWnd != (HWND)0x0)) {
-    ScreenToClient(hWnd,(LPPOINT)&rect_2);
-    ScreenToClient(hWnd,(LPPOINT)&rect_2.right);
+    ScreenToClient(hWnd,(LPPOINT)&rect);
+    ScreenToClient(hWnd,(LPPOINT)&rect.right);
   }
-  *(LONG *)(param_1 + 0x30) = rect_2.left;
-  *(LONG *)(param_1 + 0x34) = rect_2.top;
-  *(LONG *)(param_1 + 0x38) = rect_2.right - rect_2.left;
-  *(LONG *)(param_1 + 0x3c) = rect_2.bottom - rect_2.top;
+  *(LONG *)(param_1 + 0x30) = rect.left;
+  *(LONG *)(param_1 + 0x34) = rect.top;
+  *(LONG *)(param_1 + 0x38) = rect.right - rect.left;
+  *(LONG *)(param_1 + 0x3c) = rect.bottom - rect.top;
   FUN_00423f38(param_1);
   return;
 }
@@ -1814,11 +1814,11 @@ void FUN_0043affc(int param_1,int numerator,int denominator)
 
 /* ==== 0043b0a0 TScrollingWinControl.dynamic_ffed ==== */
 
-void TScrollingWinControl_dynamic_ffed(int *param_1,int numerator,int denominator)
+void TScrollingWinControl_dynamic_ffed(int *param_1,int numerator,int param_3)
 
 {
-  FUN_0043affc((int)param_1,numerator,denominator);
-  TWinControl_dynamic_ffed(param_1,numerator,denominator);
+  FUN_0043affc((int)param_1,numerator,param_3);
+  TWinControl_dynamic_ffed(param_1,numerator,param_3);
   return;
 }
 
