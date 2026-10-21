@@ -480,6 +480,11 @@ bool sys_quit_requested()
 	return quit_requested;
 }
 
+bool sys_scripted()
+{
+	return !script_lines.empty();
+}
+
 void sys_text_input(bool on)
 {
 	if (headless)

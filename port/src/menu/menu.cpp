@@ -7,6 +7,7 @@
 
 #include "audio/mixer.h"
 #include "menu/delphi.h"
+#include "menu/film.h"
 #include "menu/savegame.h"
 #include "menu/dfm.h"
 #include "menu/forms.h"
@@ -650,16 +651,28 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	intro.load(res, "TfrmTrackIntro", with({}));
 	float intro_leave = -1;
 	bool tour_done = false; /* the race just won finished the Tour */
+	CinepakFilm final_film;
+	bool final_film_on = false;
+	uint32_t final_film_start = 0;
+	auto final_frame = std::make_shared<Image>();
 	auto advance = [&]() {
 		size_t next = (size_t)save.chars[tour_char % save.chars.size()].next_track;
 		tour_ix = std::min(next, info.tour_tracks.size() - 1);
 		if (tour_done) {
 			tour_done = false;
 			int ch = tour_ch();
-			/* The original plays the winner's film (medWinner, between the anchors); until
-			 * films play, the character's winning picture stands where WinNormal has it. */
+			/* The winner's film (medWinner: CH<nn>.avi between the anchors); without it, the
+			 * character's winning picture where WinNormal has it. */
 			win_final.extras.clear();
-			if (Control *at = win.get("imgItem"))
+			final_film_on = final_film.open(find_file_ci(menu_dir, numbered("CH", ch, ".avi")));
+			Control *tl = win_final.get("lblAncTopLeft"), *br = win_final.get("lblAncBottomRight");
+			if (final_film_on && tl && br) {
+				final_film_start = sys_ticks();
+				final_film.seek(0, *final_frame);
+				win_final.extras.push_back({ final_frame, (tl->x + br->x - final_film.width()) / 2,
+					(tl->y + br->y - final_film.height()) / 2 });
+			}
+			else if (Control *at = win.get("imgItem"))
 				win_final.extras.push_back({ res.image(numbered("win_ch", ch)), at->x, at->y });
 			caption(win_final, "lblTextBlock", info.chars[ch].win);
 			voice.say("CCW08_", 0) || voice.say("CDW07_", 4);
@@ -1314,6 +1327,17 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (!have.empty())
 			load_player(have[0]);
 	}
+	/* TfrmMain.StartUp: the intro film first (menu.ini [GENERAL] INTROAVI), then the
+	 * player. Test scripts skip it unless A2_INTRO=1. */
+	bool intro_wanted = screenshot.empty() && (!sys_scripted() || (getenv("A2_INTRO") && *getenv("A2_INTRO") == '1'));
+	if (intro_wanted) {
+		std::string film = menu_ini.get("GENERAL", "INTROAVI", "DATA\\INTRO1.MPG");
+		std::replace(film.begin(), film.end(), '\\', '/');
+		size_t slash = film.rfind('/');
+		std::string path = find_file_ci(data_dir, slash == std::string::npos ? film : film.substr(slash + 1));
+		if (!path.empty())
+			play_mpeg(path, cv);
+	}
 	if (current < 0 && screenshot.empty())
 		open_dialog(newp, true);
 
@@ -1387,6 +1411,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			show_tour_track();
 			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
 			screen = TRACK;
+		}
+		if (screen == WIN_FINAL && final_film_on) {
+			size_t n = (size_t)((sys_ticks() - final_film_start) / 1000.0f * final_film.fps());
+			final_film.seek(std::min(n, final_film.frames() - 1), *final_frame);
 		}
 		if (screen == TRACK && sys_ticks() >= next_cycle) {
 			next_cycle = sys_ticks() + 2000;

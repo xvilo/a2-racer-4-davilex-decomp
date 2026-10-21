@@ -54,6 +54,8 @@ uint32_t sys_ticks();
 void sys_sleep(uint32_t ms);
 /* Whether a key (Windows virtual-key code, as the game stores them) is held now. */
 bool keyispressed(int vk);
+/* Whether a test script drives the input. */
+bool sys_scripted();
 /* Typed characters arrive in SysInput::text while text input is on. */
 void sys_text_input(bool on);
 /* The picture the script's "shot" command saves; set by the game. */
