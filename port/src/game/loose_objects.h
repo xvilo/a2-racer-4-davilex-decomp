@@ -4,6 +4,7 @@
  *
  *   type  2 pilon               10 kg, friction 1.0, elasticity 0.6, sound PION_HIT_CAR
  *         3 road works sign     50 kg, 0.9, 0.2, sound PAAL_HIT_CAR
+ *         7 radar trap         150 kg, 0.9, 0.2, sound PAAL_HIT_CAR
  *        10 police blockade   2000 kg, 1.4, 0.2
  *        18 lamp post         2000 kg, 0.9, 0, hinged at its foot: it only falls over
  *        19 rubbish bin       2000 kg, 0.9, 0.2
@@ -53,6 +54,11 @@ public:
 
 	void build(const Track &track, MeshCache &meshes, TextureManager &textures, const std::string &data_dir);
 	bool loose(const TrackObject *o) const { return index.count(o) != 0; }
+	LooseObject *find(const TrackObject *o)
+	{
+		auto it = index.find(o);
+		return it == index.end() ? nullptr : &list[it->second];
+	}
 	/* Pushes a car and the objects it touches apart, sharing out the speed they met at. The
 	 * hardest knock's speed (m/s, 0 if none) and object. */
 	float hit(Car &car, LooseObject *&which);

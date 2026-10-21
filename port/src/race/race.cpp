@@ -1304,7 +1304,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float message_time = 0;
 	int flashes = 0;
 	float flash_message = 0;
-	std::vector<char> flashed(radar_traps.size(), 0);
+	std::vector<char> flashed(radar_traps.size(), 0), trap_down(radar_traps.size(), 0);
 	int catches = 0;
 	bool pad_turbo = false;
 	int horn_voice = 0;
@@ -1659,6 +1659,20 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (rules.phase == RaceRules::RACING) {
 			for (size_t t = 0; t < radar_traps.size(); t++) {
 				const TrackObject &o = *radar_traps[t];
+				/* Knocked down, it flashes no more; the player's doing earns the radar
+				 * bonus (language.ini 51, game.ini radarbonus). */
+				if (const LooseObject *lo = loose.find(&o); lo && lo->tilt > 45) {
+					if (!trap_down[t]) {
+						trap_down[t] = 1;
+						float ex = lo->pos[0] - car.pos[0], ez = lo->pos[2] - car.pos[2];
+						if (ex * ex + ez * ez < 150 * 150) {
+							money = std::min(money + 100, 999999);
+							message = hud.lang.get(TXT_RADAR_BONUS, "FLITS BONUS  +100 EURO");
+							message_time = 3;
+						}
+					}
+					continue;
+				}
 				float dx = o.pos[0] - car.pos[0], dz = o.pos[2] - car.pos[2];
 				bool in_range = dx * dx + dz * dz < 120 * 120;
 				if (in_range && !flashed[t] && car.speed_kmh() > 80) {
