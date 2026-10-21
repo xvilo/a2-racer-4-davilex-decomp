@@ -480,6 +480,11 @@ bool sys_quit_requested()
 	return quit_requested;
 }
 
+bool sys_open_url(const std::string &url)
+{
+	return SDL_OpenURL(url.c_str()) == 0;
+}
+
 bool sys_scripted()
 {
 	return !script_lines.empty();

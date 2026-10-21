@@ -8,6 +8,7 @@
 #include "audio/mixer.h"
 #include "menu/delphi.h"
 #include "menu/film.h"
+#include "menu/winhelp.h"
 #include "menu/savegame.h"
 #include "menu/dfm.h"
 #include "menu/forms.h"
@@ -1321,6 +1322,165 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (Control *c = highscore.get(b))
 			c->visible = false;
 
+	/* Help (btnHelpClick): Miss Honeybunny's balloon under the Help button with the
+	 * screen's questions (Agent.ini [<form>] Caption, [<form>BalloonItems] question=help
+	 * id); the original's MS Agent character isn't there, the voice is (cmh07). A question
+	 * opens its topic from Menu.hlp, which the original shows in WinHelp. */
+	IniFile agent_ini;
+	agent_ini.load(find_file_ci(menu_dir, "Agent.ini"));
+	WinHelp helpfile;
+	helpfile.load(find_file_ci(menu_dir, "Menu.hlp"));
+	struct Balloon {
+		bool open = false;
+		std::string title;
+		std::vector<std::pair<std::string, int>> items;
+		std::vector<std::vector<std::string>> lines; /* each item wrapped */
+		std::vector<std::string> title_lines;
+		int x = 0, y = 0, w = 170, h = 0;
+		int hover = -1;
+	} balloon;
+	struct HelpTopic {
+		bool open = false;
+		std::string title;
+		std::vector<std::string> lines;
+		int scroll = 0;
+	} topic;
+	const float help_px = 13, topic_px = 15;
+	const int topic_w = 600, topic_h = 440, topic_x = (800 - topic_w) / 2, topic_y = (600 - topic_h) / 2;
+	auto item_top = [&](size_t k) {
+		int y = balloon.y + 8 + (int)(balloon.title_lines.size() * help_px * 1.15f) + 10;
+		for (size_t i = 0; i < k; i++)
+			y += (int)(balloon.lines[i].size() * help_px * 1.15f) + 4;
+		return y;
+	};
+	auto open_help = [&](Form &f) {
+		balloon.items.clear();
+		balloon.lines.clear();
+		for (const std::string &k : agent_ini.keys(f.cls + "BalloonItems"))
+			balloon.items.push_back({ k, agent_ini.get_int(f.cls + "BalloonItems", k, -1) });
+		if (balloon.items.empty())
+			return;
+		balloon.title = agent_ini.get(f.cls, "Caption", "Help");
+		balloon.title_lines = font.wrap(balloon.title, help_px, (float)balloon.w - 30);
+		for (auto &it : balloon.items)
+			balloon.lines.push_back(font.wrap(it.first, help_px, (float)balloon.w - 16));
+		Control *hb = f.get("btnHelp");
+		int bx = hb ? hb->x : 600, by = hb ? hb->y + hb->h : 40;
+		balloon.x = std::clamp(bx - 40, 4, 800 - balloon.w - 4);
+		balloon.y = 0;
+		balloon.h = item_top(balloon.items.size()) + 6;
+		balloon.y = std::min(by + 14, 600 - 4 - balloon.h);
+		balloon.open = true;
+		balloon.hover = -1;
+		voice.say("cmh", 7);
+	};
+	auto open_topic = [&](int id) {
+		std::string title, text;
+		if (!helpfile.topic(id, title, text))
+			return;
+		topic.title = title;
+		topic.lines.clear();
+		size_t start = 0;
+		while (start <= text.size()) {
+			size_t nl = text.find('\n', start);
+			std::string para = text.substr(start, nl == std::string::npos ? std::string::npos : nl - start);
+			for (const std::string &l : font.wrap(para, topic_px, (float)topic_w - 40))
+				topic.lines.push_back(l);
+			topic.lines.push_back("");
+			if (nl == std::string::npos)
+				break;
+			start = nl + 1;
+		}
+		topic.scroll = 0;
+		topic.open = true;
+	};
+	auto draw_help = [&]() {
+		const uint32_t black = rgba(0, 0, 0), white = rgba(255, 255, 255);
+		if (balloon.open) {
+			int x = balloon.x, y = balloon.y, w = balloon.w, h = balloon.h;
+			/* The tail up to the Help button, the body, its outline (TBalloonForm). */
+			for (int k = 0; k < 12; k++)
+				cv.fill(x + 40 - k / 2, y - 12 + k, 2 + k, 1, white);
+			cv.fill(x - 1, y - 1, w + 2, h + 2, black);
+			cv.fill(x, y, w, h, white);
+			float lh = help_px * 1.15f;
+			for (size_t i = 0; i < balloon.title_lines.size(); i++)
+				font.draw(cv, x + 6, y + 6 + (int)(i * lh), balloon.title_lines[i], help_px, black);
+			font.draw(cv, x + w - 14, y + 4, "x", help_px, black);
+			for (size_t k = 0; k < balloon.items.size(); k++) {
+				uint32_t c = (int)k == balloon.hover ? rgba(255, 0, 0) : rgba(116, 6, 31);
+				int ty = item_top(k);
+				for (size_t i = 0; i < balloon.lines[k].size(); i++) {
+					int ly = ty + (int)(i * lh);
+					font.draw(cv, x + 8, ly, balloon.lines[k][i], help_px, c);
+					cv.fill(x + 8, ly + (int)help_px + 1, (int)font.width(balloon.lines[k][i], help_px), 1, c);
+				}
+			}
+		}
+		if (topic.open) {
+			cv.fill(topic_x - 2, topic_y - 2, topic_w + 4, topic_h + 4, black);
+			cv.fill(topic_x, topic_y, topic_w, topic_h, rgba(255, 255, 238));
+			font.draw(cv, topic_x + 20, topic_y + 14, topic.title, topic_px + 6, rgba(116, 6, 31));
+			float lh = topic_px * 1.25f;
+			int rows = (int)((topic_h - 70) / lh);
+			for (int i = 0; i < rows && topic.scroll + i < (int)topic.lines.size(); i++)
+				font.draw(cv, topic_x + 20, topic_y + 52 + (int)(i * lh), topic.lines[(size_t)(topic.scroll + i)], topic_px,
+					black);
+			font.draw(cv, topic_x + topic_w - 18, topic_y + 8, "x", topic_px, black);
+		}
+	};
+	/* The balloon and the topic take the input while they're open. */
+	auto help_input = [&](const SysInput &in) {
+		if (topic.open) {
+			float lh = topic_px * 1.25f;
+			int rows = (int)((topic_h - 70) / lh);
+			if (in.key == KEY_DOWN)
+				topic.scroll = std::min(topic.scroll + 1, std::max(0, (int)topic.lines.size() - rows));
+			else if (in.key == KEY_UP)
+				topic.scroll = std::max(topic.scroll - 1, 0);
+			else if (in.key != KEY_NONE || in.mouse_clicked)
+				topic.open = false;
+			return true;
+		}
+		if (!balloon.open)
+			return false;
+		balloon.hover = -1;
+		for (size_t k = 0; k < balloon.items.size(); k++) {
+			int ty = item_top(k), th = (int)(balloon.lines[k].size() * help_px * 1.15f);
+			if (in.mouse_x >= balloon.x && in.mouse_x < balloon.x + balloon.w && in.mouse_y >= ty && in.mouse_y < ty + th)
+				balloon.hover = (int)k;
+		}
+		if (in.key == KEY_ESCAPE)
+			balloon.open = false;
+		else if (in.mouse_clicked) {
+			if (balloon.hover >= 0)
+				open_topic(balloon.items[(size_t)balloon.hover].second);
+			else
+				balloon.open = false;
+		}
+		return true;
+	};
+
+	/* Internet (TfrmInternetDlg): go to the A2 Racer site (static.ini DOWNLOADURL)? */
+	Form internet;
+	internet.load(res, "TfrmInternetDlg", with({}));
+	main.handlers["btnInternetClick"] = [&]() { open_dialog(internet); };
+	internet.handlers["btnOk1"] = [&]() {
+		close_dialog();
+		std::string url = static_ini.get("GENERAL", "DOWNLOADURL");
+		if (!url.empty() && !sys_open_url(url))
+			fprintf(stderr, "menu: cannot open %s\n", url.c_str());
+	};
+	for (const char *b : { "btnCancel", "btnClose" })
+		internet.handlers[b] = [&]() { close_dialog(); };
+
+	for (Form *f : { &main, &diff, &qr, &results, &character, &trackf, &garage, &qualify, &win, &lose, &win_chase,
+			 &lose_chase, &win_final, &intro, &options, &keyset, &joyset, &wheelset, &startinfo, &startinfo_kb,
+			 &closedlg, &doublekeys, &newp, &playerf, &deletep, &nomoney, &highscore, &internet }) {
+		f->handlers["btnHelpClick"] = [&, f]() { open_help(*f); };
+		f->handlers["btnHelp"] = [&, f]() { open_help(*f); };
+	}
+
 	int wanted = port_ini.get_int("GENERAL", "CURRENTPLAYER", -1);
 	if (!(wanted >= 0 && load_player(wanted))) {
 		std::vector<int> have = players.list();
@@ -1371,6 +1531,16 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		}
 		Form &f = *fp;
 		float dt = 0.01f;
+		if (balloon.open || topic.open) {
+			help_input(in);
+			f.draw(cv, res);
+			for (const Shown &sh : dialogs)
+				sh.form->draw(cv, res);
+			draw_help();
+			sys_present(cv.px.data());
+			sys_sleep(10);
+			continue;
+		}
 		if (!dialogs.empty()) {
 			Form *d = dialogs.back().form;
 			auto top = [&]() { return !dialogs.empty() && dialogs.back().form == d; };

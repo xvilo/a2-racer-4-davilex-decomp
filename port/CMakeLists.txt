@@ -42,6 +42,7 @@ add_executable(a2racer4 WIN32
 	src/menu/menu.cpp
 	src/menu/savegame.cpp
 	src/menu/film.cpp
+	src/menu/winhelp.cpp
 )
 target_include_directories(a2racer4 PRIVATE src third_party)
 # SDL2main (WinMain -> main) has to come before SDL2 for MinGW's linker.
