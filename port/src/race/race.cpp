@@ -511,6 +511,12 @@ struct Racer {
 	 * faster the faster it goes. */
 	float light = 255;
 	int engine_voice = 0; /* its engine heard by the player */
+	/* ai_racer.cpp, opponent.ini IRRITATING: bumped by the player it gets irritated
+	 * (IrritationBashIncrement, falling off), and past the threshold goes after it for a
+	 * while (STATE_IRRITATING). */
+	bool irritating = false;
+	float irritation = 0, revenge = 0;
+	float base_skill = 1; /* its opponent.ini skill, before intel.ini's catch-up */
 	int was_police = NONE;  /* last frame's, for the communicator */
 	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
@@ -858,6 +864,22 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	int difficulty = std::clamp(opt.difficulty >= 0 ? opt.difficulty : gi.get_int("OPTIONS", "Difficulty", 1), 0, 2);
 	PoliceRules police_rules;
 	police_rules.load(data_dir, opt.stage, difficulty);
+	float catch_up_speed = 70, catch_up_close[2] = { 20, 5 }, catch_up_far[2] = { 50, 35 };
+	int catch_up_close_chunks[2] = { 15, 20 }, catch_up_far_chunks = 40;
+	{
+		IniFile in;
+		std::string ip = find_file_ci(data_dir, "intel.ini");
+		if (!ip.empty() && in.load(ip)) {
+			catch_up_speed = (float)in.get_int("GENERAL", "CatchUpSpeed", 70);
+			catch_up_close[0] = (float)in.get_int("GENERAL", "CatchUpCloseEasy", 20);
+			catch_up_close[1] = (float)in.get_int("GENERAL", "CatchUpCloseNormal", 5);
+			catch_up_far[0] = (float)in.get_int("GENERAL", "CatchUpFarEasy", 50);
+			catch_up_far[1] = (float)in.get_int("GENERAL", "CatchUpFarNormal", 35);
+			catch_up_close_chunks[0] = in.get_int("GENERAL", "CatchUpCloseChunkEasy", 15);
+			catch_up_close_chunks[1] = in.get_int("GENERAL", "CatchUpCloseChunkNormal", 20);
+			catch_up_far_chunks = in.get_int("GENERAL", "CatchUpFarChunk", 40);
+		}
+	}
 	int supercop_front = 12, supercop_rear = 8, supercop_cheat_far = 10, supercop_cheat_put = 4;
 	bool supercop_cheat = true;
 	{
@@ -891,6 +913,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			std::vector<std::string> b = split_fields(
 				opp.get("Racer " + std::to_string(entry) + " Level " + std::to_string(difficulty), std::to_string(opt.stage)));
 			rc.ai.skill = player ? 1.0f : skill_factor(b.size() > 1 ? b[1].c_str() : "NORMAL");
+			rc.base_skill = rc.ai.skill;
+			rc.irritating = !b.empty() && b[0] == "IRRITATING";
 			racers.push_back(std::move(rc));
 		}
 	}
@@ -1590,6 +1614,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				}
 				else if (rc.arrested)
 					ci.hold = true;
+				else if (rc.revenge > 0 && rc.racing() && !rc.player) {
+					ci = rc.ai.chase(track, rc.car, car, STEP, CopAction::INTO);
+				}
 				else
 					ci = rc.player && !autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
 				if (rc.player && autopilot)
@@ -1658,6 +1685,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 							knock_sound(imp, false, since);
 						if (me_.player && !other.traffic && v > 2)
 							sound.effect("RACER_COLLISION", 0.6f);
+						if (me_.player && other.irritating && v > 3)
+							racers[&other == &racers[i] ? i : j].irritation += 30;
 						/* ai_racer.cpp: a racer bumped by the player has its say. */
 						if (me_.player && !other.traffic && other.police == Racer::NONE && other.entry < 5 && v > 2)
 							comm.post("~racer" + std::to_string(other.entry) + "collision", other.entry, clock);
@@ -2018,6 +2047,26 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (me.damage >= 0.8f * 1100 && !comm_damage_said)
 			comm.post("~a_lotta_damage", -1, clock), comm_damage_said = true;
 		comm.update(clock, frame_dt, sound);
+		/* The rivals: irritation falling off, revenge once past it; intel.ini's catch-up
+		 * (not on hard): with the player over CatchUpSpeed, a rival more than
+		 * CatchUpClose / CatchUpFar chunks ahead of it loses that much of its speed. */
+		for (Racer &rc : racers) {
+			if (rc.player || !rc.racing())
+				continue;
+			rc.irritation = std::max(0.0f, rc.irritation - 10 * frame_dt);
+			if (rc.irritation > 50 && rc.revenge <= 0)
+				rc.revenge = 4, rc.irritation = 0;
+			rc.revenge = std::max(0.0f, rc.revenge - frame_dt);
+			float penalty = 0;
+			if (difficulty < 2 && car.speed_kmh() > catch_up_speed) {
+				int ahead = (int)(rc.rules.progress - rules.progress);
+				if (ahead > catch_up_far_chunks)
+					penalty = catch_up_far[difficulty];
+				else if (ahead > catch_up_close_chunks[difficulty])
+					penalty = catch_up_close[difficulty];
+			}
+			rc.ai.skill = rc.base_skill * (1 - penalty / 100);
+		}
 		if (rules.phase == RaceRules::RACING) {
 			stuck_time = car.speed_kmh() < 5 ? stuck_time + frame_dt : 0;
 			/* Against the road's way: the next chunk behind the car. */
