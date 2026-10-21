@@ -195,6 +195,9 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 		rl = -grip * load * (a / (a + b)) * tanhf(shape * slip_r);
 		if (in.brake > 0.5f && in.throttle > 0.5f)
 			rl *= 0.5f; /* handbrake-like slide */
+		/* The handbrake: the rear wheels locked slide sideways and drag the car to a stop. */
+		if (in.handbrake)
+			rl *= 0.3f;
 
 		/* Engine: full pull at low speed, none at the top speed. Brake, then reverse. */
 		float throttle = in.turbo ? 1 : in.throttle;
@@ -208,6 +211,8 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 			else if (vf > -25 / 3.6f && in.brake > 0.5f)
 				drive -= in.brake * m * 3.0f;
 		}
+		if (in.handbrake)
+			drive -= std::clamp(vf * 4, -1.0f, 1.0f) * m * 4.0f;
 		/* Rolling resistance (more off the road) and air drag. */
 		float roll = (on_grass ? 1.2f : 0.15f) * m;
 		drive -= std::clamp(vf * 2, -1.0f, 1.0f) * roll;

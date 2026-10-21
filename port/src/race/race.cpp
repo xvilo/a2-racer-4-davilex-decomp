@@ -45,7 +45,8 @@ std::string lower(std::string s)
 
 /* The keys from game.ini [INPUT] (Windows virtual-key codes). */
 struct Keys {
-	int left = 37, right = 39, up = 38, down = 40, turbo = 17;
+	int left = 37, right = 39, up = 38, down = 40, turbo = 17, handbrake = 18, horn = 72;
+	int sensitivity = 50;
 
 	void load(const std::string &dir)
 	{
@@ -58,6 +59,9 @@ struct Keys {
 		up = ini.get_int("INPUT", "UP", up);
 		down = ini.get_int("INPUT", "DOWN", down);
 		turbo = ini.get_int("INPUT", "EXTRA1", turbo);
+		handbrake = ini.get_int("INPUT", "EXTRA2", handbrake);
+		horn = ini.get_int("INPUT", "EXTRA3", horn);
+		sensitivity = ini.get_int("INPUT", "SENSITIVITY", sensitivity);
 	}
 };
 
@@ -963,8 +967,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float next_spawn = 0;
 	Keys keys;
 	keys.load(data_dir);
-	int *key_fields[5] = { &keys.up, &keys.down, &keys.left, &keys.right, &keys.turbo };
-	for (int k = 0; k < 5; k++)
+	int *key_fields[7] = { &keys.up, &keys.down, &keys.left, &keys.right, &keys.turbo, &keys.handbrake, &keys.horn };
+	for (int k = 0; k < 7; k++)
 		if (opt.keys[k] > 0)
 			*key_fields[k] = opt.keys[k];
 	RaceSound sound;
@@ -1294,6 +1298,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float flash_message = 0;
 	std::vector<char> flashed(radar_traps.size(), 0);
 	int catches = 0;
+	bool pad_turbo = false;
+	int horn_voice = 0;
 	float warning_left = 0;     /* the warning's interlude, s */
 	const Racer *warning_cop = nullptr;
 	float stuck_time = 0, wrong_time = 0;
@@ -1402,9 +1408,36 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		player_in.steer = (keyispressed(keys.right) ? 1.0f : 0.0f) - (keyispressed(keys.left) ? 1.0f : 0.0f);
 		player_in.throttle = keyispressed(keys.up) ? 1.0f : 0.0f;
 		player_in.brake = keyispressed(keys.down) ? 1.0f : 0.0f;
+		player_in.handbrake = keyispressed(keys.handbrake);
+		bool horn_now = keyispressed(keys.horn);
+		/* A joystick, joypad or wheel as well (input.cpp): the stick's travel to the power
+		 * of SENSITIVITY (more: livelier near the middle), a dead zone in the middle. */
+		pad_turbo = false;
+		if (opt.device != 0) {
+			SysPad pad = sys_pad();
+			if (pad.present) {
+				float sens = (float)std::clamp(opt.sensitivity >= 0 ? opt.sensitivity : keys.sensitivity, 0, 100);
+				float sx = fabsf(pad.steer) < 0.08f ? 0 : pad.steer;
+				float shaped = (sx < 0 ? -1 : 1) * powf(fabsf(sx), 2.0f - 1.5f * sens / 100);
+				if (fabsf(shaped) > fabsf(player_in.steer))
+					player_in.steer = shaped;
+				player_in.throttle = std::max(player_in.throttle, pad.throttle);
+				player_in.brake = std::max(player_in.brake, pad.brake);
+				pad_turbo = pad.button[0];
+				player_in.handbrake = player_in.handbrake || pad.button[1];
+				horn_now = horn_now || pad.button[2];
+			}
+		}
+		/* The horn (TOETER) while the key is held. */
+		if (horn_now && !horn_voice && rules.phase != RaceRules::COUNTDOWN)
+			horn_voice = sound.loop("TOETER");
+		if (horn_voice)
+			sound.set(horn_voice, horn_now ? 1 : 0);
+		if (!horn_now && horn_voice)
+			sound.stop_voice(horn_voice), horn_voice = 0;
 		/* The turbo (FUN_0044e970): a tenth of a unit every 100 ms while burning, so a full
 		 * tank lasts ten seconds; fast forward burns it for free. */
-		bool want_turbo = rules.phase == RaceRules::RACING && (fast_left > 0 || (!autopilot && keyispressed(keys.turbo)));
+		bool want_turbo = rules.phase == RaceRules::RACING && (fast_left > 0 || (!autopilot && (keyispressed(keys.turbo) || pad_turbo)));
 		turbo_tick += frame_dt;
 		if (!want_turbo) {
 			turbo_on = false;

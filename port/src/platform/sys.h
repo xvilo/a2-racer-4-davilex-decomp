@@ -54,6 +54,14 @@ uint32_t sys_ticks();
 void sys_sleep(uint32_t ms);
 /* Whether a key (Windows virtual-key code, as the game stores them) is held now. */
 bool keyispressed(int vk);
+/* A game controller or joystick (the original's DirectInput joystick, joypad and wheel):
+ * steering -1..1, accelerator and brake 0..1, buttons 0 turbo, 1 handbrake, 2 horn. */
+struct SysPad {
+	bool present = false;
+	float steer = 0, throttle = 0, brake = 0;
+	bool button[3] = {};
+};
+SysPad sys_pad();
 /* Opens a web address in the system's browser. */
 bool sys_open_url(const std::string &url);
 /* Whether a test script drives the input. */

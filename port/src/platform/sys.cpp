@@ -1,5 +1,7 @@
 #include "platform/sys.h"
 
+#include <algorithm>
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -160,7 +162,7 @@ bool sys_init(const char *title, const SysOptions &opt)
 		load_script(opt.script);
 	if (headless)
 		return SDL_Init(SDL_INIT_TIMER) == 0;
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0) {
 		SDL_Log("SDL_Init: %s", SDL_GetError());
 		return false;
 	}
@@ -447,6 +449,60 @@ static SDL_Scancode vk_to_scancode(int vk)
 	case 0x28: return SDL_SCANCODE_DOWN;
 	default: return SDL_SCANCODE_UNKNOWN;
 	}
+}
+
+SysPad sys_pad()
+{
+	static SDL_GameController *pad = nullptr;
+	static SDL_Joystick *stick = nullptr;
+	SysPad p;
+	if (headless || !SDL_WasInit(SDL_INIT_JOYSTICK))
+		return p;
+	if ((pad && !SDL_GameControllerGetAttached(pad)) || (stick && !SDL_JoystickGetAttached(stick))) {
+		if (pad)
+			SDL_GameControllerClose(pad);
+		if (stick)
+			SDL_JoystickClose(stick);
+		pad = nullptr, stick = nullptr;
+	}
+	if (!pad && !stick) {
+		for (int i = 0; i < SDL_NumJoysticks() && !pad && !stick; i++) {
+			if (SDL_IsGameController(i))
+				pad = SDL_GameControllerOpen(i);
+			else
+				stick = SDL_JoystickOpen(i);
+		}
+	}
+	auto axis = [](int v) { return std::clamp((float)v / 32767.0f, -1.0f, 1.0f); };
+	if (pad) {
+		p.present = true;
+		p.steer = axis(SDL_GameControllerGetAxis(pad, SDL_CONTROLLER_AXIS_LEFTX));
+		p.throttle = axis(SDL_GameControllerGetAxis(pad, SDL_CONTROLLER_AXIS_TRIGGERRIGHT));
+		p.brake = axis(SDL_GameControllerGetAxis(pad, SDL_CONTROLLER_AXIS_TRIGGERLEFT));
+		/* Or the face buttons for the pedals. */
+		if (SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_A))
+			p.throttle = 1;
+		if (SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_X))
+			p.brake = 1;
+		p.button[0] = SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) ||
+			SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_Y);
+		p.button[1] = SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_B) ||
+			SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		p.button[2] = SDL_GameControllerGetButton(pad, SDL_CONTROLLER_BUTTON_LEFTSTICK);
+	}
+	else if (stick) {
+		/* A joystick or wheel: x steers, y forward accelerates and back brakes (a wheel's
+		 * pedals often come as the next two axes). */
+		p.present = true;
+		int axes = SDL_JoystickNumAxes(stick);
+		p.steer = axes > 0 ? axis(SDL_JoystickGetAxis(stick, 0)) : 0;
+		float y = axes > 1 ? axis(SDL_JoystickGetAxis(stick, 1)) : 0;
+		p.throttle = std::max(0.0f, -y);
+		p.brake = std::max(0.0f, y);
+		for (int b = 0; b < 3; b++)
+			p.button[b] = SDL_JoystickNumButtons(stick) > b && SDL_JoystickGetButton(stick, b);
+	}
+	return p;
 }
 
 bool keyispressed(int vk)

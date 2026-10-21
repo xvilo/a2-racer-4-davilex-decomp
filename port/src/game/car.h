@@ -50,6 +50,7 @@ struct CarInput {
 	float brake = 0;    /* 0..1 */
 	bool hold = false;  /* held on the line (before the start) */
 	bool turbo = false; /* the turbo burning */
+	bool handbrake = false; /* the rear wheels locked */
 };
 
 struct Car {

@@ -305,6 +305,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		ro.keys[2] = save.keys[2];
 		ro.keys[3] = save.keys[3];
 		ro.keys[4] = save.keys[4];
+		ro.keys[5] = save.keys[5];
+		ro.keys[6] = save.keys[6];
+		ro.device = save.control_type & 3;
+		ro.sensitivity = ro.device == 3 ? save.wheel_sensitivity : save.joy_sensitivity;
 		/* Quick Race: no money, a full tank (WriteToInis). */
 		ro.money = 0;
 		ro.turbo = 100;

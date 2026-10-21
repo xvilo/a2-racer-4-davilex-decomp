@@ -17,7 +17,10 @@ struct RaceOptions {
 	/* The player's settings (the menu writes them to game.ini and Raser.ini in the
 	 * original): keys up, down, left, right as virtual-key codes (0: game.ini's), and
 	 * the music and effects volumes 0..1 (negative: Raser.ini's). */
-	int keys[5] = {}; /* ... and the turbo (EXTRA1) */
+	int keys[7] = {}; /* ... and the turbo (EXTRA1), handbrake (EXTRA2), horn (EXTRA3) */
+	/* The controller (the menu's CONTROLTYPE: 0 keyboard, 1 joystick, 2 joypad, 3 wheel)
+	 * and its sensitivity (0..100; -1: game.ini [INPUT] SENSITIVITY). */
+	int device = 0, sensitivity = -1;
 	float music_volume = -1, sfx_volume = -1;
 	/* game.ini [PLAYER] MONEY and TURBO_AMOUNT (0..100): what the player brings. */
 	int money = 0;

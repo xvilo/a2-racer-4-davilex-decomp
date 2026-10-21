@@ -12,7 +12,7 @@ Working:
 
 Not yet: the loose objects knocking into each other and breaking up (phone booths, crate piles), and their scripts' own reactions; the Help's animated Miss Honeybunny (the original's MS Agent character).
 
-Keys while driving: the arrow keys (or those in `game.ini` [INPUT]) steer, accelerate and brake/reverse; C changes the camera (chase, driver, two inspection views); R puts the car back on the road; Esc quits.
+Keys while driving: the arrow keys (or those in `game.ini` [INPUT] and the Options) steer, accelerate and brake/reverse, Ctrl burns the turbo, Alt pulls the handbrake, the horn key sounds the horn; with a joystick, joypad or wheel chosen in the Options it drives too (a game controller: the left stick, the triggers or A/X, the shoulder buttons for turbo and handbrake); P pauses; C changes the camera (chase, driver, two inspection views); R puts the car back on the road; Esc quits.
 
 ## Download
 
