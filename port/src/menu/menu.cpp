@@ -580,13 +580,13 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	character.handlers["btnPreviousClick"] = [&]() { show_current(); };
 	character.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
 	/* TfrmTrack.FormShow: the character's next undriven track; once the Tour is done, the
-	 * track chosen last. Testing: A2_TOUR_START=<n> begins at the n-th track. */
+	 * track chosen last. Testing: A2_TOUR_START=<n> puts the character on the n-th track. */
 	auto choose_tour_track = [&]() {
-		const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
 		size_t n = info.tour_tracks.size();
-		tour_ix = (size_t)cr.next_track < n ? (size_t)cr.next_track : (size_t)std::clamp(save.tour_track, 0, (int)n - 1);
 		if (getenv("A2_TOUR_START"))
-			tour_ix = (size_t)std::max(atoi(getenv("A2_TOUR_START")), 0);
+			cr.next_track = std::clamp(atoi(getenv("A2_TOUR_START")), 0, (int)n - 1);
+		tour_ix = (size_t)cr.next_track < n ? (size_t)cr.next_track : (size_t)std::clamp(save.tour_track, 0, (int)n - 1);
 	};
 	character.handlers["btnNextClick"] = [&]() {
 		choose_tour_track();
