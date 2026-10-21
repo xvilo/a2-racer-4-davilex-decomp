@@ -111,6 +111,11 @@ int RaceSound::loop(const std::string &name)
 	return Mixer::get().play(sample(name), 0, true);
 }
 
+void RaceSound::set(int voice, float volume, float pitch)
+{
+	Mixer::get().set(voice, volume * sfx_volume * 0.7f, pitch);
+}
+
 void RaceSound::set(int voice, float volume)
 {
 	Mixer::get().set(voice, volume * sfx_volume * 0.7f, 1);

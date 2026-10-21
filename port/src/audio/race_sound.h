@@ -32,6 +32,8 @@ public:
 	 * stop_voice(). */
 	int loop(const std::string &name);
 	void set(int voice, float volume);
+	/* ... and its pitch (1: as recorded). */
+	void set(int voice, float volume, float pitch);
 	void stop_voice(int voice);
 	/* The player's engine, every frame. */
 	void engine(const Car &car, float throttle);

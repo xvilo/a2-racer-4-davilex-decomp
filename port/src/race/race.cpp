@@ -465,6 +465,7 @@ struct Racer {
 	/* FUN_004a8200: lit as the road under it (its colour's light), following it the
 	 * faster the faster it goes. */
 	float light = 255;
+	int engine_voice = 0; /* its engine heard by the player */
 	int was_police = NONE;  /* last frame's, for the communicator */
 	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
@@ -1616,6 +1617,35 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			clock += STEP;
 		}
 		sound.engine(car, autopilot ? 1.0f : player_in.throttle);
+		/* The other cars' engines (snd_main.cpp's sound sources; CAR_CFG.INI's engine
+		 * sample, e.g. HOOG4): the four nearest within 600, pitched by their speed. */
+		{
+			std::vector<std::pair<float, Racer *>> near;
+			for (Racer &rc : racers) {
+				if (rc.player || rc.hidden || rc.car.spec.sound.empty())
+					continue;
+				float dx = rc.car.pos[0] - car.pos[0], dz = rc.car.pos[2] - car.pos[2], d = dx * dx + dz * dz;
+				if (d < 600 * 600)
+					near.push_back({ d, &rc });
+			}
+			std::sort(near.begin(), near.end(), [](auto &a, auto &b) { return a.first < b.first; });
+			std::vector<Racer *> heard;
+			for (size_t i = 0; i < near.size() && i < 4; i++)
+				heard.push_back(near[i].second);
+			for (Racer &rc : racers) {
+				bool on = std::find(heard.begin(), heard.end(), &rc) != heard.end();
+				if (on) {
+					if (!rc.engine_voice)
+						rc.engine_voice = sound.loop(rc.car.spec.sound);
+					float d = sqrtf((rc.car.pos[0] - car.pos[0]) * (rc.car.pos[0] - car.pos[0]) +
+						(rc.car.pos[2] - car.pos[2]) * (rc.car.pos[2] - car.pos[2]));
+					float pitch = 0.6f + std::min(rc.car.speed_kmh(), 200.0f) / 200 * 0.9f;
+					sound.set(rc.engine_voice, (1 - d / 600) * 0.5f, pitch);
+				}
+				else if (rc.engine_voice)
+					sound.stop_voice(rc.engine_voice), rc.engine_voice = 0;
+			}
+		}
 		if (car.gear != last_gear) {
 			if (car.gear > 0 && last_gear > 0)
 				sound.effect(sound.gear_name, 0.8f);
@@ -2123,6 +2153,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				else
 					(rc.ai.skill > 0 ? with : against)++;
 			}
+			for (Racer &rc : racers)
+				if (rc.car.chunk == -999 && rc.engine_voice)
+					sound.stop_voice(rc.engine_voice), rc.engine_voice = 0;
 			racers.erase(std::remove_if(racers.begin() + 1, racers.end(),
 							 [](const Racer &rc) { return rc.car.chunk == -999; }),
 				racers.end());
