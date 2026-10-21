@@ -1,6 +1,7 @@
 #include "race/communicator.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cstdlib>
 
 #include "audio/race_sound.h"

@@ -1,6 +1,7 @@
 #include "game/loose_objects.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
@@ -283,14 +284,14 @@ void LooseObjects::update(float dt, const CollisionWorld &world)
 	}
 }
 
-void LooseObjects::revive(int player_chunk, int n, int far)
+void LooseObjects::revive(int player_chunk, int n, int away)
 {
 	for (LooseObject &l : list) {
 		bool knocked = l.moving || l.tilt > 0 || l.yaw != 0 || l.pos[0] != l.obj->pos[0] || l.pos[2] != l.obj->pos[2];
 		if (!knocked || n <= 0)
 			continue;
 		int d = ((l.obj->chunk - player_chunk) % n + n) % n;
-		if (d < far || d > n - far)
+		if (d < away || d > n - away)
 			continue;
 		for (int k = 0; k < 3; k++)
 			l.pos[k] = l.obj->pos[k], l.vel[k] = 0;

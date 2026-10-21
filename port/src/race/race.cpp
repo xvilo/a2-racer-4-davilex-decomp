@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <cstdint>
 #include <string>
 #include <map>
 #include <vector>
@@ -1671,18 +1672,18 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		/* The other cars' engines (snd_main.cpp's sound sources; CAR_CFG.INI's engine
 		 * sample, e.g. HOOG4): the four nearest within 600, pitched by their speed. */
 		{
-			std::vector<std::pair<float, Racer *>> near;
+			std::vector<std::pair<float, Racer *>> nearest;
 			for (Racer &rc : racers) {
 				if (rc.player || rc.hidden || rc.car.spec.sound.empty())
 					continue;
 				float dx = rc.car.pos[0] - car.pos[0], dz = rc.car.pos[2] - car.pos[2], d = dx * dx + dz * dz;
 				if (d < 600 * 600)
-					near.push_back({ d, &rc });
+					nearest.push_back({ d, &rc });
 			}
-			std::sort(near.begin(), near.end(), [](auto &a, auto &b) { return a.first < b.first; });
+			std::sort(nearest.begin(), nearest.end(), [](auto &a, auto &b) { return a.first < b.first; });
 			std::vector<Racer *> heard;
-			for (size_t i = 0; i < near.size() && i < 4; i++)
-				heard.push_back(near[i].second);
+			for (size_t i = 0; i < nearest.size() && i < 4; i++)
+				heard.push_back(nearest[i].second);
 			for (Racer &rc : racers) {
 				bool on = std::find(heard.begin(), heard.end(), &rc) != heard.end();
 				if (on) {

@@ -1,5 +1,7 @@
 #include "game/police.h"
 
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 
 #include "res/archive.h"

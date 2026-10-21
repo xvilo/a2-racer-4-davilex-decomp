@@ -65,8 +65,8 @@ public:
 	float hit(Car &car, LooseObject *&which);
 	void update(float dt, const CollisionWorld &world);
 	/* OnRevive: the ones knocked about, back in their places once out of sight (their
-	 * chunk at least `far` from the player's, of n). */
-	void revive(int player_chunk, int n, int far);
+	 * chunk at least `away` from the player's, of n). */
+	void revive(int player_chunk, int n, int away);
 	/* The ones within `range` chunks of chunk (of n). */
 	void draw(Renderer &r, int chunk, int n, int range) const;
 
