@@ -783,6 +783,15 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	intro.load(res, "TfrmTrackIntro", with({}));
 	float intro_leave = -1;
 	bool tour_done = false; /* the race just won finished the Tour */
+	/* TfrmWinNormal, TfrmQualify, TfrmLoseNormal: the character's own words (the winner's
+	 * when qualified), then after timSample's 4.5 s the host's about the track. */
+	struct Later {
+		std::string prefix;
+		int n = 0;
+		Screen on = MAIN;
+		float in = -1;
+	} later;
+	auto say_later = [&](const char *prefix, int n, Screen on) { later = { prefix, n, on, 4.5f }; };
 	int final_sample = 3;
 	float final_next = 0;
 	bool unlock_due = false; /* ... and the next Quick Race unlocks D.T. Harry */
@@ -885,7 +894,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			caption(win, "lblTextBlock", tr.win);
 			if (Control *c = win.get("lblBonus"))
 				c->visible = false; /* the prize money: not kept yet */
-			voice.say("CDW07_", t);
+			voice.say("CDW", ch);
+			say_later("CDW07_", t, WIN);
 			screen = WIN;
 		}
 		else if (r.finished && place - 1 <= tr.qualify_position[std::clamp(difficulty, 0, 2)]) {
@@ -893,14 +903,16 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			qualify.set_graphic(res, "imgItem", numbered("win_ch", r.order.empty() ? ch : r.order[0].car));
 			qualify.set_graphic(res, "imgWinnerName", numbered("chara_", r.order.empty() ? ch : r.order[0].car));
 			caption(qualify, "lblTextBlock", tr.qualify);
-			voice.say("CDQ07_", t);
+			voice.say("CDW", r.order.empty() ? ch : r.order[0].car);
+			say_later("CDQ07_", t, QUALIFY);
 			screen = QUALIFY;
 		}
 		else {
 			lose.set_graphic(res, "imgTrackName", numbered("trname", t));
 			lose.set_graphic(res, "imgItem", numbered("los_ch", ch));
 			caption(lose, "lblTextBlock", tr.lose);
-			voice.say("CDL07_", t);
+			voice.say("CDL", ch);
+			say_later("CDL07_", t, LOSE);
 			screen = LOSE;
 		}
 	};
@@ -1747,6 +1759,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
 			screen = TRACK;
 		}
+		if (later.in > 0 && (later.in -= dt) <= 0 && screen == later.on)
+			voice.say(later.prefix, later.n);
 		if (screen == WIN_FINAL && final_sample < 3 && (final_next -= dt) <= 0) {
 			static const char *said[3] = { "cdw07_04.wav", nullptr, "ccw08_05.wav" };
 			std::string file = said[final_sample] ? said[final_sample] : numbered("ccw08_", tour_ch(), ".wav");
