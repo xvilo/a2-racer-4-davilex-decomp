@@ -146,6 +146,7 @@ struct MenuSound {
 	std::string dir; /* MenuData, for the sounds beside the archive (unlock.wav) */
 	int voice = 0;
 	float voices = 1, effects = 1; /* the player's volumes, 0..1 */
+	float length = 0;              /* the last one said, in seconds */
 	unsigned rnd = 1;
 
 	bool play(const std::string &file)
@@ -155,7 +156,9 @@ struct MenuSound {
 			return false;
 		Mixer &mx = Mixer::get();
 		mx.stop(voice);
-		voice = mx.play(decode_wav(bytes), voices);
+		std::shared_ptr<Sample> s = decode_wav(bytes);
+		length = s && s->rate > 0 ? (float)s->data.size() / (float)s->rate : 0;
+		voice = mx.play(s, voices);
 		return voice != 0;
 	}
 
@@ -777,6 +780,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	intro.load(res, "TfrmTrackIntro", with({}));
 	float intro_leave = -1;
 	bool tour_done = false; /* the race just won finished the Tour */
+	int final_sample = 3;
+	float final_next = 0;
 	bool unlock_due = false; /* ... and the next Quick Race unlocks D.T. Harry */
 	CinepakFilm final_film;
 	bool final_film_on = false;
@@ -802,7 +807,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			else if (Control *at = win.get("imgItem"))
 				win_final.extras.push_back({ res.image(numbered("win_ch", ch)), at->x, at->y });
 			caption(win_final, "lblTextBlock", info.chars[ch].win);
-			voice.say("CCW08_", 0) || voice.say("CDW07_", 4);
+			/* FormShowScreen, timSample1, timSample2: D.T. Harry (CDW07_04), the winner
+			 * (CCW08_<character>), then CCW08_05, each 1.5 s after the last ended. */
+			final_sample = 0;
+			final_next = 0;
 			screen = WIN_FINAL;
 		}
 		else {
@@ -815,7 +823,19 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		f->handlers["btnNextClick"] = [&]() { advance(); };
 	for (Form *f : { &lose, &lose_chase })
 		f->handlers["btnNextClick"] = [&]() { show_tour_track(); screen = TRACK; };
-	win_final.handlers["btnNextClick"] = [&]() { screen = MAIN; };
+	/* On to the Quick Race while it has D.T. Harry to unlock, else the characters. */
+	win_final.handlers["btnNextClick"] = [&]() {
+		final_sample = 3;
+		if (!save.unlock_popup_shown) {
+			quick = true;
+			show_mode();
+			screen = QUICK;
+		}
+		else {
+			show_character();
+			screen = CHARACTER;
+		}
+	};
 	for (Form *f : { &qualify, &win, &lose, &win_chase, &lose_chase, &win_final, &intro, &trackf, &character })
 		if (!f->handlers.count("btnCloseClick"))
 			f->handlers["btnCloseClick"] = [&]() { screen = QUIT; };
@@ -1723,6 +1743,12 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			show_tour_track();
 			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
 			screen = TRACK;
+		}
+		if (screen == WIN_FINAL && final_sample < 3 && (final_next -= dt) <= 0) {
+			static const char *said[3] = { "cdw07_04.wav", nullptr, "ccw08_05.wav" };
+			std::string file = said[final_sample] ? said[final_sample] : numbered("ccw08_", tour_ch(), ".wav");
+			final_next = voice.play(file) ? voice.length + 1.5f : 1.5f;
+			final_sample++;
 		}
 		if (screen == TRACK_INTRO && intro_leave > 0 && (intro_leave -= dt) <= 0) {
 			intro_leave = -1;
