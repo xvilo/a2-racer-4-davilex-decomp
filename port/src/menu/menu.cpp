@@ -153,11 +153,34 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		main.set_graphic(res, "imgItem", quick ? "quick.tga" : "tour.tga");
 	};
 	show_mode();
-	enum Screen { MAIN, QUICK, RACE, QUIT } screen = MAIN;
+	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, QUIT } screen = MAIN;
 	main.handlers["optQuickRaceClick"] = [&]() { quick = true; show_mode(); };
 	main.handlers["optTourClick"] = [&]() { quick = false; show_mode(); };
 	main.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
-	main.handlers["btnNextClick"] = [&]() { screen = QUICK; };
+	main.handlers["btnNextClick"] = [&]() { screen = DIFFICULTY; };
+
+	/* The difficulty (TfrmDifficulty): easy, normal or hard, with its picture; the
+	 * heading says which game. */
+	Form diff;
+	diff.load(res, "TfrmDifficulty",
+		with({ { "gdfBtnEasy", "easy" }, { "gdfBtnMedium", "norma" }, { "gdfBtnHard", "hard" } }));
+	diff.background = res.image("quickdif.bmp");
+	int difficulty = 1;
+	auto show_difficulty = [&]() {
+		const char *opts[3] = { "optEasy", "optMedium", "optHard" };
+		for (int k = 0; k < 3; k++)
+			if (Control *c = diff.get(opts[k]))
+				c->checked = k == difficulty;
+		diff.set_graphic(res, "imgItem", numbered("diffic", difficulty));
+		diff.set_graphic(res, "imgItemName", quick ? "headquic.tga" : "headtour.tga");
+	};
+	show_difficulty();
+	diff.handlers["optEasyClick"] = [&]() { difficulty = 0; show_difficulty(); };
+	diff.handlers["optMediumClick"] = [&]() { difficulty = 1; show_difficulty(); };
+	diff.handlers["optHardClick"] = [&]() { difficulty = 2; show_difficulty(); };
+	diff.handlers["btnPreviousClick"] = [&]() { screen = MAIN; };
+	diff.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	diff.handlers["btnNextClick"] = [&]() { screen = QUICK; };
 
 	/* Quick Race (TfrmQuickRace): a track and a character, each with its pictures; the
 	 * track's preview pictures cycle every two seconds (timCycler). */
@@ -216,9 +239,50 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	qr.handlers["btnPrevTrack1Click"] = [&]() { step(track_ix, info.quick_tracks.size(), -1); show_track(); };
 	qr.handlers["btnNextCharClick"] = [&]() { step(char_ix, info.quick_chars.size(), 1); show_char(); };
 	qr.handlers["btnPrevCharClick"] = [&]() { step(char_ix, info.quick_chars.size(), -1); show_char(); };
-	qr.handlers["btnPreviousClick"] = [&]() { screen = MAIN; };
+	qr.handlers["btnPreviousClick"] = [&]() { screen = DIFFICULTY; };
 	qr.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
 	qr.handlers["btnNextClick"] = [&]() { screen = RACE; };
+
+	/* The results (TfrmResults): the field in finishing order, portraits and times
+	 * (the winner's, then the others' differences), the player's row highlighted, the
+	 * winner's picture; QUICKRES.bmp after a quick race. */
+	Form results;
+	results.load(res, "TfrmResults", with({}));
+	results.background = res.image("quickres.bmp");
+	results.handlers["btnNextClick"] = [&]() { screen = QUICK; };
+	results.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	RaceResult last;
+	auto show_results = [&]() {
+		results.extras.clear();
+		Control *pt = results.get("lblTopImage"), *p2 = results.get("lbl2ndImage");
+		Control *pm = results.get("lblTime"), *pf = results.get("lblFocus");
+		if (!pt || !p2 || !pm || !pf || last.order.empty())
+			return;
+		/* Copies: adding the rows below moves the controls. */
+		Control top = *pt, second = *p2, time_proto = *pm, focus = *pf;
+		const Control *time = &time_proto;
+		int step = second.y - top.y;
+		results.set_graphic(res, "imgItem", numbered("win_ch", last.order[0].car));
+		for (size_t k = 0; k < last.order.size(); k++) {
+			const RaceResult::Entry &e = last.order[k];
+			results.extras.push_back({ res.image(numbered("res_ch", e.car)), top.x, top.y + step * (int)k });
+			int t = (int)((k == 0 ? e.time : e.time - last.order[0].time) * 100 + 0.5f);
+			char buf[32];
+			snprintf(buf, sizeof buf, "%s%d:%02d:%02d", k ? "+" : "", t / 6000, t / 100 % 60, t % 100);
+			Control lbl = *time;
+			lbl.name = "row" + std::to_string(k);
+			lbl.caption = buf;
+			lbl.y = time->y + step * (int)k;
+			/* The template label itself is hidden; the rows the program makes show. */
+			lbl.visible = true;
+			results.controls.push_back(lbl);
+		}
+		if (Control *f = results.get("imgFocus")) {
+			f->picture = res.image("focus.tga");
+			f->x = focus.x;
+			f->y = focus.y + step * (last.position - 1);
+		}
+	};
 
 	if (!screenshot.empty()) {
 		/* Testing: "quick:<file>" shows the Quick Race screen. */
@@ -231,10 +295,12 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	SysInput in;
 	while (screen != QUIT && !sys_quit_requested()) {
 		sys_poll(in);
-		Form &f = screen == QUICK ? qr : main;
+		Form &f = screen == QUICK ? qr : screen == RESULTS ? results : screen == DIFFICULTY ? diff : main;
 		if (in.key == KEY_ESCAPE)
 			screen = screen == MAIN ? QUIT : MAIN;
 		f.input(in);
+		if (screen == DIFFICULTY)
+			show_difficulty();
 		if (screen == QUICK && sys_ticks() >= next_cycle) {
 			next_cycle = sys_ticks() + 2000;
 			cycle = (cycle + 1) % 6;
@@ -244,11 +310,22 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			RaceOptions ro;
 			ro.stage = info.quick_tracks.empty() ? 0 : info.tracks[info.quick_tracks[track_ix]].stage;
 			ro.car = info.quick_chars.empty() ? 0 : info.chars[info.quick_chars[char_ix]].car;
-			race_main(data_dir, race_rcs, ro);
-			screen = QUICK;
+			ro.difficulty = difficulty;
+			last = RaceResult();
+			race_main(data_dir, race_rcs, ro, &last);
+			if (last.quit || last.order.empty()) {
+				screen = QUICK;
+				continue;
+			}
+			/* Drop the rows of an earlier results screen. */
+			results.controls.erase(std::remove_if(results.controls.begin(), results.controls.end(),
+									   [](const Control &c) { return c.name.rfind("row", 0) == 0; }),
+				results.controls.end());
+			show_results();
+			screen = RESULTS;
 			continue;
 		}
-		(screen == QUICK ? qr : main).draw(cv, res);
+		f.draw(cv, res);
 		sys_present(cv.px.data());
 		sys_sleep(10);
 	}

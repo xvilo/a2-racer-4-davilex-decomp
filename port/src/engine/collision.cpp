@@ -46,7 +46,7 @@ void CollisionWorld::build(const Road &road)
 						for (float &x : n)
 							x = -x;
 					}
-					if (n[1] > 0.75f && l < 3) {
+					if (n[1] > 0.75f) {
 						for (int k = 0; k < 3; k++)
 							tr.normal[k] = n[k];
 						tr.list = l;

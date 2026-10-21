@@ -169,6 +169,7 @@ struct Racer {
 	RaceRules rules;
 	bool player = false;
 	bool traffic = false;
+	int entry = 0; /* CAR_CFG.INI racer */
 	/* The police (TrackObject type 9): waiting by the road until a racer comes by, then
 	 * after it; it gives up when left far behind. */
 	enum { NONE, WAITING, CHASING, GAVE_UP } police = NONE;
@@ -330,16 +331,17 @@ CarModel load_model(const Track &track, MeshCache &meshes, TextureManager &textu
 
 } // namespace
 
-int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOptions &opt)
+int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOptions &opt, RaceResult *result)
 {
 	Track track;
 	std::string err = track.load(data_dir, opt.stage, opt.league);
 	if (err.empty() && track.road.chunks.size() < 2)
 		err = "the stage has no road";
-	/* The field: the six racers of the league (CAR_CFG.INI [league<n>] 0..5); the player
-	 * drives one of them, the computer the others. */
+	/* The field: five racers of the league (CAR_CFG.INI [league<n>] 0..5; the menu's
+	 * results show five, static.ini [TOURRACE] has five characters); the player drives
+	 * one of them, the computer the others. */
 	std::vector<Racer> racers;
-	const int field = 6;
+	const int field = 5;
 	IniFile gi, opp;
 	{
 		std::string gp = find_file_ci(data_dir, "game.ini");
@@ -349,7 +351,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (!op.empty())
 			opp.load(op);
 	}
-	int difficulty = std::clamp(gi.get_int("OPTIONS", "Difficulty", 1), 0, 2);
+	int difficulty = std::clamp(opt.difficulty >= 0 ? opt.difficulty : gi.get_int("OPTIONS", "Difficulty", 1), 0, 2);
 	/* Testing: A2_RIVALS=0 races alone. */
 	int rivals = field - 1;
 	if (const char *rv = getenv("A2_RIVALS"))
@@ -360,6 +362,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (player || entry != opt.car) {
 			Racer rc;
 			rc.player = player;
+			rc.entry = entry;
 			err = rc.car.spec.load(data_dir, "league" + std::to_string(opt.league), entry, opt.motor, opt.gearbox);
 			/* opponent.ini [Racer <n> Level <difficulty>] <stage>= behaviour, skill, ... */
 			std::vector<std::string> b = split_fields(
@@ -376,6 +379,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	 * Reserve room so references to the racers stay valid. */
 	racers.reserve(racers.size() + 64);
 	Racer &me = racers[0];
+	bool autopilot = opt.autopilot;
+	if (const char *ap = getenv("A2_AUTOPILOT"))
+		autopilot = autopilot || (*ap && *ap != '0');
 	printf("race: stage %d (%s), car %s (%s): %.0f kg, top speed %.0f km/h, %d gears; %zu rivals\n", opt.stage,
 		track.info.name.c_str(), me.car.spec.name.c_str(), me.car.spec.animation.c_str(), me.car.spec.mass,
 		me.car.spec.top_speed, me.car.spec.gear_count, racers.size() - 1);
@@ -401,20 +407,6 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	std::map<std::string, CarModel> models;
 	for (const auto &k : traffic.kinds)
 		models[k.spec.animation] = load_model(track, meshes, textures, k.spec.animation);
-	/* Each drive map node's chunk and whether its lane runs the race's way. */
-	std::vector<int> node_chunk(track.drive.size());
-	std::vector<char> node_with(track.drive.size());
-	for (size_t i = 0; i < track.drive.size(); i++) {
-		const DriveNode &dn = track.drive[i];
-		node_chunk[i] = world.nearest_chunk(dn.pos[0], dn.pos[2], -1);
-		int c = node_chunk[i];
-		float a[3], b[3];
-		track.road_centre(c, a);
-		track.road_centre(c + 1, b);
-		int nx = dn.next >= 0 && dn.next < (int)track.drive.size() ? dn.next : (int)i;
-		const float *q = track.drive[(size_t)nx].pos;
-		node_with[i] = (q[0] - dn.pos[0]) * (b[0] - a[0]) + (q[2] - dn.pos[2]) * (b[2] - a[2]) > 0;
-	}
 	unsigned rnd = 12345;
 	auto random = [&]() {
 		rnd = rnd * 1103515245u + 12345u;
@@ -433,6 +425,20 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (const char *lp = getenv("A2_LAPS"))
 		laps = std::max(atoi(lp), 1);
 
+	/* Each drive map node's chunk and whether its lane runs the race's way. */
+	std::vector<int> node_chunk(track.drive.size());
+	std::vector<char> node_with(track.drive.size());
+	for (size_t i = 0; i < track.drive.size(); i++) {
+		const DriveNode &dn = track.drive[i];
+		node_chunk[i] = world.nearest_chunk(dn.pos[0], dn.pos[2], -1);
+		int c = node_chunk[i];
+		float a[3], b[3];
+		track.road_centre(c, a);
+		track.road_centre(c + 1, b);
+		int nx = dn.next >= 0 && dn.next < (int)track.drive.size() ? dn.next : (int)i;
+		const float *q = track.drive[(size_t)nx].pos;
+		node_with[i] = (q[0] - dn.pos[0]) * (b[0] - a[0]) + (q[2] - dn.pos[2]) * (b[2] - a[2]) > 0;
+	}
 	/* The grid: two by two behind the start line, which the race crosses towards higher
 	 * chunks; the player starts last. */
 	int start_line = std::max(track.find_trigger(13), 0);
@@ -444,7 +450,33 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	for (size_t i = 0; i < racers.size(); i++) {
 		size_t slot = racers.size() - 1 - i; /* player (0) in the last slot */
 		int row = (int)slot / 2;
-		racers[i].car.place(world, track, start - 2 - row * 2, (slot % 2) ? 22.0f : -22.0f);
+		int grid_chunk = ((start - 2 - row * 2) % n + n) % n;
+		/* On the lanes that run the race's way (the drive map's), two side by side; a
+		 * stage without them puts the cars either side of the road's middle. */
+		std::vector<size_t> lanes;
+		for (size_t k2 = 0; k2 < track.drive.size(); k2++) {
+			if (node_chunk[k2] == grid_chunk && node_with[k2] && track.drive[k2].next >= 0)
+				lanes.push_back(k2);
+		}
+		if (lanes.size() >= 2) {
+			/* Across the road, from left to right. */
+			float c0[3], c1[3];
+			track.road_centre(grid_chunk, c0);
+			track.road_centre(grid_chunk + 1, c1);
+			float dx = c1[0] - c0[0], dz = c1[2] - c0[2];
+			auto across = [&](size_t k2) {
+				const float *p = track.drive[k2].pos;
+				return (p[0] - c0[0]) * dz - (p[2] - c0[2]) * dx;
+			};
+			std::sort(lanes.begin(), lanes.end(), [&](size_t a2, size_t b2) { return across(a2) < across(b2); });
+			/* The two lanes in the middle of the carriageway. */
+			size_t m = (lanes.size() - 2) / 2;
+			const DriveNode &dn = track.drive[lanes[m + slot % 2]];
+			const float *q = track.drive[(size_t)dn.next].pos;
+			racers[i].car.place_at(world, dn.pos, atan2f(q[0] - dn.pos[0], q[2] - dn.pos[2]));
+		}
+		else
+			racers[i].car.place(world, track, grid_chunk, (slot % 2) ? 22.0f : -22.0f);
 		racers[i].rules.begin(n, start_line, track.find_trigger(14), laps, racers[i].car.chunk);
 		racers[i].safe.push_back({ { racers[i].car.pos[0], racers[i].car.pos[1], racers[i].car.pos[2] },
 			racers[i].car.yaw, 0 });
@@ -495,6 +527,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	const char *trace_env = getenv("A2_TRACE");
 	bool trace = trace_env && *trace_env && *trace_env != '0';
 	float clock = 0, next_trace = 1;
+	float race_limit = getenv("A2_RACE_LIMIT") ? (float)atof(getenv("A2_RACE_LIMIT")) : 0;
 	auto position_of = [&](const Racer &who) {
 		int p = 1;
 		for (const Racer &o : racers) {
@@ -516,6 +549,11 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		float frame_dt = std::min((now - last) / 1000.0f, 0.1f);
 		acc += frame_dt;
 		last = now;
+		/* Testing: A2_RACE_LIMIT=<seconds> ends the race there as if finished. */
+		if (race_limit > 0 && clock > race_limit && rules.phase == RaceRules::RACING) {
+			rules.phase = RaceRules::FINISHED;
+			rules.finished_at = 14;
+		}
 		/* "DRUK 'SPATIE' OM VERDER TE GAAN" */
 		if ((rules.phase == RaceRules::FINISHED || rules.phase == RaceRules::ARRESTED) &&
 			(rules.finished_at > 15 || in.key == KEY_SPACE || in.key == KEY_ENTER))
@@ -547,7 +585,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				else if (rc.police == Racer::CHASING)
 					ci = rc.ai.chase(track, rc.car, car, STEP);
 				else
-					ci = rc.player && !opt.autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
+					ci = rc.player && !autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
 				if (!rc.racing())
 					rc.rules.phase = RaceRules::RACING;
 				/* No driving before the start; after the finish the car rolls out. */
@@ -570,7 +608,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			acc -= STEP;
 			clock += STEP;
 		}
-		sound.engine(car, opt.autopilot ? 1.0f : player_in.throttle);
+		sound.engine(car, autopilot ? 1.0f : player_in.throttle);
 		/* The police: a waiting car sets off when the player passes close by fast, or when
 		 * a radar trap flashes nearby (Flitspaal, TrackObject type 7, over 80 km/h). */
 		if (rules.phase == RaceRules::RACING) {
@@ -698,7 +736,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			if (rc.car.airborne && rc.car.vel[1] < -40)
 				rc.respawn(world, clock);
 			rc.stuck = rc.car.speed_kmh() < 3 && rc.rules.phase == RaceRules::RACING ? rc.stuck + frame_dt : 0;
-			if (rc.stuck > (rc.player && !opt.autopilot ? 1e9f : 8.0f)) {
+			if (rc.stuck > (rc.player && !autopilot ? 1e9f : 8.0f)) {
 				rc.respawn(world, clock);
 				rc.stuck = 0;
 			}
@@ -807,6 +845,38 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		sys_gl_end_frame();
 	}
 	sound.stop();
+	if (trace) {
+		for (int i = 0; i < field_size; i++) {
+			const Racer &rc = racers[(size_t)i];
+			printf("racer %d (car %d): chunk %d, progress %.0f, %.0f km/h%s\n", i, rc.entry, rc.car.chunk,
+				rc.rules.progress, rc.car.speed_kmh(), rc.player ? " (player)" : "");
+		}
+	}
+	if (result) {
+		result->finished = rules.phase == RaceRules::FINISHED;
+		result->arrested = rules.phase == RaceRules::ARRESTED;
+		result->quit = !result->finished && !result->arrested;
+		result->lap_times = rules.lap_times;
+		result->order.clear();
+		float distance = (float)std::max(rules.distance(), 1);
+		for (int i = 0; i < field_size; i++) {
+			const Racer &rc = racers[(size_t)i];
+			RaceResult::Entry e;
+			e.car = rc.entry;
+			e.player = rc.player;
+			/* Not there yet: the time its pace so far would take. */
+			e.time = rc.rules.phase == RaceRules::FINISHED
+				? rc.rules.time
+				: rules.time * distance / std::max(rc.rules.progress, 1.0f) + 0.01f * (float)i;
+			result->order.push_back(e);
+		}
+		std::sort(result->order.begin(), result->order.end(),
+			[](const RaceResult::Entry &a, const RaceResult::Entry &b) { return a.time < b.time; });
+		for (size_t k = 0; k < result->order.size(); k++) {
+			if (result->order[k].player)
+				result->position = (int)k + 1;
+		}
+	}
 	printf("race: %s, position %d of %d, time %s",
 		rules.phase == RaceRules::FINISHED ? "finished" : rules.phase == RaceRules::ARRESTED ? "arrested" : "not finished",
 		position_of(racers[0]), field_size, format_time(rules.time).c_str());
