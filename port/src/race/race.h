@@ -12,6 +12,8 @@ struct RaceOptions {
 	int car = 0;     /* entry in CAR_CFG.INI [league<n>] */
 	int motor = 0, gearbox = 0;
 	int difficulty = -1; /* 0 easy, 1 normal, 2 hard; -1: game.ini [OPTIONS] Difficulty */
+	int laps = 0;         /* 0: game.ini [OPTIONS] Nrlaps */
+	float time_limit = 0; /* seconds; a chase must be finished in time (0: none) */
 	/* Testing: drive by itself along the drive map (also with A2_AUTOPILOT=1). */
 	bool autopilot = false;
 };
@@ -19,7 +21,7 @@ struct RaceOptions {
 /* How the race went, for the menu: the field in finishing order. Racers still on the road
  * when the player finished get a time from their pace so far. */
 struct RaceResult {
-	bool finished = false, arrested = false, quit = false;
+	bool finished = false, arrested = false, time_up = false, quit = false;
 	struct Entry {
 		int car = 0;      /* CAR_CFG.INI racer, also the character's number */
 		float time = 0;   /* seconds */

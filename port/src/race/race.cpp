@@ -104,6 +104,7 @@ struct Hud {
 	/* The race's information over the 3D picture, laid out by overlay<car>.ini. */
 	float flash = 0;
 	int flashes = 0;
+	float time_limit = 0;
 
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
@@ -115,6 +116,8 @@ struct Hud {
 		overlay.element(r, "OVL_SPEEDOMETER_DOP");
 		overlay.element(r, "OVL_SPEEDOMETER_GLAS");
 		overlay.string("STRING_RACE_TIME_VALUE", format_time(rules.time));
+		if (time_limit > 0 && rules.phase == RaceRules::RACING)
+			overlay.string("STRING_COUNTDOWN_TIMER", format_time(std::max(0.0f, time_limit - rules.time)));
 		char buf[64];
 		if (rules.circuit) {
 			snprintf(buf, sizeof buf, "%s %d/%d", lang.get(TXT_LAP, "RONDE").c_str(), std::min(rules.lap, rules.laps),
@@ -135,6 +138,10 @@ struct Hud {
 		else if (rules.phase == RaceRules::RACING && rules.circuit && rules.lap == rules.laps && rules.laps > 1 &&
 			rules.time - rules.lap_start < 3) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_LAST_LAP, "LAATSTE RONDE"));
+		}
+		else if (rules.phase == RaceRules::TIME_UP) {
+			overlay.string("STRING_TIME_UP", "");
+			overlay.string("STRING_FINISH_TEXT", "");
 		}
 		else if (rules.phase == RaceRules::ARRESTED) {
 			overlay.string("STRING_ARRESTED", lang.get(TXT_ARRESTED, "GEARRESTEERD"));
@@ -420,7 +427,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	sound.start_music(track.info.music);
 	bool said_go = false, said_finish = false;
 	int last_count = 4;
-	int laps = gi.get_int("OPTIONS", "Nrlaps", 2);
+	int laps = opt.laps > 0 ? opt.laps : gi.get_int("OPTIONS", "Nrlaps", 2);
 	/* Testing: A2_LAPS=<n> overrides the number of laps. */
 	if (const char *lp = getenv("A2_LAPS"))
 		laps = std::max(atoi(lp), 1);
@@ -549,13 +556,19 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		float frame_dt = std::min((now - last) / 1000.0f, 0.1f);
 		acc += frame_dt;
 		last = now;
+		/* A chase has to be finished in time. */
+		if (opt.time_limit > 0 && rules.time > opt.time_limit && rules.phase == RaceRules::RACING) {
+			rules.phase = RaceRules::TIME_UP;
+			rules.finished_at = 0;
+		}
 		/* Testing: A2_RACE_LIMIT=<seconds> ends the race there as if finished. */
 		if (race_limit > 0 && clock > race_limit && rules.phase == RaceRules::RACING) {
 			rules.phase = RaceRules::FINISHED;
 			rules.finished_at = 14;
 		}
 		/* "DRUK 'SPATIE' OM VERDER TE GAAN" */
-		if ((rules.phase == RaceRules::FINISHED || rules.phase == RaceRules::ARRESTED) &&
+		if ((rules.phase == RaceRules::FINISHED || rules.phase == RaceRules::ARRESTED ||
+				rules.phase == RaceRules::TIME_UP) &&
 			(rules.finished_at > 15 || in.key == KEY_SPACE || in.key == KEY_ENTER))
 			break;
 
@@ -840,6 +853,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				draw_car(r, rc.car, rc.model);
 		}
 		hud.flash = flash_message;
+		hud.time_limit = opt.time_limit;
 		hud.flashes = flashes;
 		hud.draw(r, rules, car, position_of(me), field_size);
 		sys_gl_end_frame();
@@ -855,7 +869,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (result) {
 		result->finished = rules.phase == RaceRules::FINISHED;
 		result->arrested = rules.phase == RaceRules::ARRESTED;
-		result->quit = !result->finished && !result->arrested;
+		result->time_up = rules.phase == RaceRules::TIME_UP;
+		result->quit = !result->finished && !result->arrested && !result->time_up;
 		result->lap_times = rules.lap_times;
 		result->order.clear();
 		float distance = (float)std::max(rules.distance(), 1);

@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "audio/mixer.h"
 #include "menu/delphi.h"
 #include "menu/dfm.h"
 #include "menu/forms.h"
@@ -51,29 +52,48 @@ std::vector<int> int_list(const std::string &s)
 /* static.ini: the tracks ([TRACK<n>]) and characters ([char<n>]) the menu offers. */
 struct Static {
 	struct Track {
-		std::string name, type;
+		std::string name, type, story, win, qualify, lose;
 		int stage = 0;
+		int laps = 0;
+		int qualify_position[3] = { 3, 3, 3 }; /* per difficulty */
+		bool chase = false;                     /* CHASETIME set: escape the police */
 	};
 	struct Character {
-		std::string name;
+		std::string name, story, win;
 		int car = 0; /* indexingame: the CAR_CFG.INI racer */
 		int accel = 3, speed = 3, handling = 3, brakes = 3;
 	};
 	std::map<int, Track> tracks;
 	std::map<int, Character> chars;
 	std::vector<int> quick_tracks, quick_chars, tour_tracks, tour_chars;
-	int quick_default_char = 0;
+	int quick_default_char = 0, tour_default_char = 0;
 
 	void load(const IniFile &ini)
 	{
 		for (int i = 0; i < ini.get_int("GENERAL", "TRACKCOUNT", 10); i++) {
 			std::string sec = "TRACK" + std::to_string(i);
-			tracks[i] = { ini.get(sec, "NAME"), ini.get(sec, "TYPE"), ini.get_int(sec, "INDEXINGAME", i) };
+			Track t;
+			t.name = ini.get(sec, "NAME");
+			t.type = ini.get(sec, "TYPE");
+			t.story = ini.get(sec, "STORY");
+			t.win = ini.get(sec, "WINTEXT");
+			t.qualify = ini.get(sec, "QUALIFYTEXT");
+			t.lose = ini.get(sec, "LOSETEXT");
+			t.stage = ini.get_int(sec, "INDEXINGAME", i);
+			t.laps = ini.get_int(sec, "NRLAPS", 0);
+			std::vector<int> q = int_list(ini.get(sec, "QUALIFYPOSITION"));
+			for (size_t k = 0; k < 3 && k < q.size(); k++)
+				t.qualify_position[k] = q[k];
+			for (int c : int_list(ini.get(sec, "CHASETIME")))
+				t.chase = t.chase || c > 0;
+			tracks[i] = t;
 		}
 		for (int i = 0; i < ini.get_int("GENERAL", "CHARCOUNT", 9); i++) {
 			std::string sec = "char" + std::to_string(i);
 			Character c;
 			c.name = ini.get(sec, "name");
+			c.story = ini.get(sec, "story");
+			c.win = ini.get(sec, "winracetext");
 			c.car = ini.get_int(sec, "indexingame", i);
 			c.accel = ini.get_int(sec, "accell", 3);
 			c.speed = ini.get_int(sec, "speed", 3);
@@ -86,6 +106,40 @@ struct Static {
 		tour_tracks = int_list(ini.get("TOURRACE", "TRACKIX"));
 		tour_chars = int_list(ini.get("TOURRACE", "CHARIX"));
 		quick_default_char = ini.get_int("QUICKRACE", "DEFAULTCHAR", 0);
+		tour_default_char = ini.get_int("TOURRACE", "DEFAULTCHAR", 0);
+	}
+};
+
+/* The menu's voices and sounds (MenuRcs WAVs; TData's PlaySample: "<prefix><nn>_<k>.wav",
+ * one of the variants that exist, picked at random). */
+struct MenuSound {
+	const NamedArchive *rcs = nullptr;
+	int voice = 0;
+	unsigned rnd = 1;
+
+	bool play(const std::string &file)
+	{
+		std::vector<uint8_t> bytes;
+		if (!rcs || !rcs->read(file, bytes))
+			return false;
+		Mixer &mx = Mixer::get();
+		mx.stop(voice);
+		voice = mx.play(decode_wav(bytes), 1.0f);
+		return voice != 0;
+	}
+
+	bool say(const std::string &prefix, int n)
+	{
+		std::vector<std::string> have;
+		for (int k = 0; k < 10; k++) {
+			std::string f = numbered(numbered(prefix, n, "_"), k, ".wav");
+			if (rcs && rcs->has(f))
+				have.push_back(f);
+		}
+		if (have.empty())
+			return false;
+		rnd = rnd * 1103515245u + 12345u;
+		return play(have[(rnd >> 8) % have.size()]);
 	}
 };
 
@@ -153,7 +207,11 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		main.set_graphic(res, "imgItem", quick ? "quick.tga" : "tour.tga");
 	};
 	show_mode();
-	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, QUIT } screen = MAIN;
+	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, CHARACTER, TRACK, TRACK_INTRO, TOUR_RACE, QUALIFY,
+		WIN, LOSE, WIN_CHASE, LOSE_CHASE, WIN_FINAL, QUIT } screen = MAIN;
+	MenuSound voice;
+	voice.rcs = &rcs;
+	Mixer::get().open();
 	main.handlers["optQuickRaceClick"] = [&]() { quick = true; show_mode(); };
 	main.handlers["optTourClick"] = [&]() { quick = false; show_mode(); };
 	main.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
@@ -180,7 +238,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	diff.handlers["optHardClick"] = [&]() { difficulty = 2; show_difficulty(); };
 	diff.handlers["btnPreviousClick"] = [&]() { screen = MAIN; };
 	diff.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
-	diff.handlers["btnNextClick"] = [&]() { screen = QUICK; };
+	diff.handlers["btnNextClick"] = [&]() { screen = quick ? QUICK : CHARACTER; };
 
 	/* Quick Race (TfrmQuickRace): a track and a character, each with its pictures; the
 	 * track's preview pictures cycle every two seconds (timCycler). */
@@ -284,6 +342,172 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		}
 	};
 
+	/* The Tour (static.ini [TOURRACE]): a character, then its tracks one by one. */
+	size_t tour_char = 0, tour_ix = 0;
+	for (size_t k = 0; k < info.tour_chars.size(); k++) {
+		if (info.tour_chars[k] == info.tour_default_char)
+			tour_char = k;
+	}
+	auto tour_ch = [&]() { return info.tour_chars.empty() ? 0 : info.tour_chars[tour_char % info.tour_chars.size()]; };
+	auto tour_tr = [&]() { return info.tour_tracks.empty() ? 0 : info.tour_tracks[tour_ix % info.tour_tracks.size()]; };
+	auto ratings = [&](Form &f, const Static::Character &cc) {
+		f.extras.clear();
+		Control *a00 = f.get("lblAncInd00"), *a01 = f.get("lblAncInd01"), *a10 = f.get("lblAncInd10");
+		if (!a00 || !a01 || !a10)
+			return;
+		const int values[4] = { cc.speed, cc.accel, cc.handling, cc.brakes };
+		for (int row = 0; row < 4; row++)
+			for (int k = 0; k < std::min(values[row] * 9 / 5, 9); k++)
+				f.extras.push_back({ res.image("redin_up.tga"), a00->x + k * (a01->x - a00->x),
+					a00->y + row * (a10->y - a00->y) });
+	};
+	auto caption = [](Form &f, const char *name, const std::string &text) {
+		if (Control *c = f.get(name)) {
+			c->caption = text;
+			c->wrap = true;
+		}
+	};
+
+	/* The character (TfrmCharacter): portrait with car, name, story and ratings; Verder
+	 * plays the character's own words (CCS<nn>_<k>) and moves on when they end. */
+	Form character;
+	character.load(res, "TfrmCharacter", with({}));
+	float char_leave = -1;
+	auto show_character = [&]() {
+		int ch = tour_ch();
+		character.set_graphic(res, "imgItemName", numbered("chara_", ch));
+		character.set_graphic(res, "imgItem", numbered("ch_", ch));
+		caption(character, "lblTextBlock", info.chars[ch].story);
+		ratings(character, info.chars[ch]);
+	};
+	show_character();
+	character.handlers["btnNextCharClick"] = [&]() { step(tour_char, info.tour_chars.size(), 1); show_character(); };
+	character.handlers["btnPrevCharClick"] = [&]() { step(tour_char, info.tour_chars.size(), -1); show_character(); };
+	character.handlers["btnPreviousClick"] = [&]() { screen = DIFFICULTY; };
+	character.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	character.handlers["btnNextClick"] = [&]() {
+		/* Testing: A2_TOUR_START=<n> begins the Tour at its n-th track. */
+		tour_ix = getenv("A2_TOUR_START") ? (size_t)std::max(atoi(getenv("A2_TOUR_START")), 0) : 0;
+		char_leave = voice.say("CCS", tour_ch()) ? 2.5f : 0.01f;
+	};
+
+	/* The next track (TfrmTrack): its name, preview pictures and story, with Miss
+	 * Honeybunny telling about it (CTI07_<track>). */
+	Form trackf;
+	trackf.load(res, "TfrmTrack", with({}));
+	auto show_tour_track = [&]() {
+		int t = tour_tr();
+		trackf.set_graphic(res, "imgTrackName", numbered("trname", t));
+		trackf.set_graphic(res, "imgTrack1", numbered("ttc", t, "") + numbered("_", cycle));
+		trackf.set_graphic(res, "imgItem", "hunny.tga");
+		trackf.set_graphic(res, "imgShadow", "shadow.tga");
+		if (Control *c = trackf.get("imgTrack2"))
+			c->visible = false;
+		if (Control *c = trackf.get("lblType"))
+			c->caption = info.tracks[t].type;
+		caption(trackf, "lblTextBlock", info.tracks[t].story);
+		/* "%s Plaats" with the qualifying place (menu.ini [ordinalnumbers]); none for a chase. */
+		if (Control *c = trackf.get("lblQualify")) {
+			c->caption.clear();
+			if (!info.tracks[t].chase) {
+				int q = info.tracks[t].qualify_position[std::clamp(difficulty, 0, 2)] + 1;
+				std::string fmt = menu_ini.get("MENUSTRINGS", "14"), ord = menu_ini.get("ordinalnumbers", std::to_string(q));
+				size_t at = fmt.find("%s");
+				c->caption = at == std::string::npos ? ord : fmt.replace(at, 2, ord);
+			}
+		}
+		/* The stages driven so far, on the row of dots. */
+		trackf.extras.clear();
+		Control *d0 = trackf.get("lblAncTrackInd00"), *d1 = trackf.get("lblAncTrackInd01");
+		if (d0 && d1)
+			for (size_t k = 0; k <= tour_ix && k < info.tour_tracks.size(); k++)
+				trackf.extras.push_back({ res.image("redin_up.tga"), d0->x + (int)k * (d1->x - d0->x), d0->y });
+		for (const char *n : { "btnNextTrack", "btnPrevTrack", "lblTime", "lblRecName", "imgFocus" })
+			if (Control *c = trackf.get(n))
+				c->visible = false;
+	};
+	trackf.handlers["btnPreviousClick"] = [&]() { screen = CHARACTER; };
+	trackf.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	trackf.handlers["btnNextClick"] = [&]() { screen = TOUR_RACE; };
+
+	/* After the race: won, qualified, lost (and for a chase: escaped or caught), with the
+	 * track's texts and D.T. Harry's comments. */
+	Form qualify, win, lose, win_chase, lose_chase, win_final, intro;
+	qualify.load(res, "TfrmQualify", with({}));
+	win.load(res, "TfrmWinNormal", with({}));
+	lose.load(res, "TfrmLoseNormal", with({}));
+	win_chase.load(res, "TfrmWinChase", with({}));
+	lose_chase.load(res, "TfrmLoseChase", with({}));
+	win_final.load(res, "TfrmWinFinal", with({}));
+	intro.load(res, "TfrmTrackIntro", with({}));
+	float intro_leave = -1;
+	auto advance = [&]() {
+		tour_ix++;
+		if (tour_ix >= info.tour_tracks.size()) {
+			int ch = tour_ch();
+			/* The original plays the winner's film (medWinner, between the anchors); until
+			 * films play, the character's winning picture stands where WinNormal has it. */
+			win_final.extras.clear();
+			if (Control *at = win.get("imgItem"))
+				win_final.extras.push_back({ res.image(numbered("win_ch", ch)), at->x, at->y });
+			caption(win_final, "lblTextBlock", info.chars[ch].win);
+			voice.say("CCW08_", 0) || voice.say("CDW07_", 4);
+			screen = WIN_FINAL;
+		}
+		else {
+			intro_leave = 4;
+			voice.play("nexttr.wav");
+			screen = TRACK_INTRO;
+		}
+	};
+	for (Form *f : { &qualify, &win, &win_chase })
+		f->handlers["btnNextClick"] = [&]() { advance(); };
+	for (Form *f : { &lose, &lose_chase })
+		f->handlers["btnNextClick"] = [&]() { show_tour_track(); screen = TRACK; };
+	win_final.handlers["btnNextClick"] = [&]() { screen = MAIN; };
+	for (Form *f : { &qualify, &win, &lose, &win_chase, &lose_chase, &win_final, &intro, &trackf, &character })
+		if (!f->handlers.count("btnCloseClick"))
+			f->handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	intro.handlers["imgBackGroundClick"] = [&]() { intro_leave = 0.01f; };
+	auto tour_outcome = [&](const RaceResult &r) {
+		int t = tour_tr(), ch = tour_ch();
+		const Static::Track &tr = info.tracks[t];
+		int place = std::max(r.position, 1);
+		if (tr.chase) {
+			Form &f = r.finished ? win_chase : lose_chase;
+			f.set_graphic(res, "imgTrackName", numbered("trname", t));
+			f.set_graphic(res, "imgItem", r.finished ? "copangry.tga" : "cophappy.tga");
+			caption(f, "lblTextBlock", r.finished ? tr.win : tr.lose);
+			voice.say(r.finished ? "CDW05_" : "CDL05_", t);
+			screen = r.finished ? WIN_CHASE : LOSE_CHASE;
+			return;
+		}
+		if (r.finished && place == 1) {
+			win.set_graphic(res, "imgTrackName", numbered("trname", t));
+			win.set_graphic(res, "imgItem", numbered("win_ch", ch));
+			caption(win, "lblTextBlock", tr.win);
+			if (Control *c = win.get("lblBonus"))
+				c->visible = false; /* the prize money: not kept yet */
+			voice.say("CDW07_", t);
+			screen = WIN;
+		}
+		else if (r.finished && place - 1 <= tr.qualify_position[std::clamp(difficulty, 0, 2)]) {
+			qualify.set_graphic(res, "imgTrackName", numbered("trname", t));
+			qualify.set_graphic(res, "imgItem", numbered("win_ch", r.order.empty() ? ch : r.order[0].car));
+			qualify.set_graphic(res, "imgWinnerName", numbered("chara_", r.order.empty() ? ch : r.order[0].car));
+			caption(qualify, "lblTextBlock", tr.qualify);
+			voice.say("CDQ07_", t);
+			screen = QUALIFY;
+		}
+		else {
+			lose.set_graphic(res, "imgTrackName", numbered("trname", t));
+			lose.set_graphic(res, "imgItem", numbered("los_ch", ch));
+			caption(lose, "lblTextBlock", tr.lose);
+			voice.say("CDL07_", t);
+			screen = LOSE;
+		}
+	};
+
 	if (!screenshot.empty()) {
 		/* Testing: "quick:<file>" shows the Quick Race screen. */
 		Form &f = screenshot.rfind("quick:", 0) == 0 ? qr : main;
@@ -295,12 +519,71 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	SysInput in;
 	while (screen != QUIT && !sys_quit_requested()) {
 		sys_poll(in);
-		Form &f = screen == QUICK ? qr : screen == RESULTS ? results : screen == DIFFICULTY ? diff : main;
+		Form *fp = &main;
+		switch (screen) {
+		case QUICK: fp = &qr; break;
+		case RESULTS: fp = &results; break;
+		case DIFFICULTY: fp = &diff; break;
+		case CHARACTER: fp = &character; break;
+		case TRACK: fp = &trackf; break;
+		case TRACK_INTRO: fp = &intro; break;
+		case QUALIFY: fp = &qualify; break;
+		case WIN: fp = &win; break;
+		case LOSE: fp = &lose; break;
+		case WIN_CHASE: fp = &win_chase; break;
+		case LOSE_CHASE: fp = &lose_chase; break;
+		case WIN_FINAL: fp = &win_final; break;
+		default: break;
+		}
+		Form &f = *fp;
+		float dt = 0.01f;
 		if (in.key == KEY_ESCAPE)
 			screen = screen == MAIN ? QUIT : MAIN;
 		f.input(in);
 		if (screen == DIFFICULTY)
 			show_difficulty();
+		/* The character's words, then the track. */
+		if (char_leave > 0 && (char_leave -= dt) <= 0) {
+			char_leave = -1;
+			show_tour_track();
+			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
+			screen = TRACK;
+		}
+		if (screen == TRACK_INTRO && intro_leave > 0 && (intro_leave -= dt) <= 0) {
+			intro_leave = -1;
+			show_tour_track();
+			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
+			screen = TRACK;
+		}
+		if (screen == TRACK && sys_ticks() >= next_cycle) {
+			next_cycle = sys_ticks() + 2000;
+			cycle = (cycle + 1) % 6;
+			show_tour_track();
+		}
+		if (screen == TOUR_RACE) {
+			int t = tour_tr();
+			RaceOptions ro;
+			ro.stage = info.tracks[t].stage;
+			ro.car = info.chars[tour_ch()].car;
+			ro.difficulty = difficulty;
+			ro.laps = info.tracks[t].laps;
+			if (info.tracks[t].chase) {
+				std::vector<int> ct = int_list(static_ini.get("TRACK" + std::to_string(t), "CHASETIME"));
+				if (!ct.empty())
+					ro.time_limit = ct[(size_t)std::clamp(difficulty, 0, (int)ct.size() - 1)] / 1000.0f;
+			}
+			Mixer::get().stop(voice.voice);
+			RaceResult r;
+			race_main(data_dir, race_rcs, ro, &r);
+			Mixer::get().open();
+			if (r.quit) {
+				show_tour_track();
+				screen = TRACK;
+			}
+			else
+				tour_outcome(r);
+			continue;
+		}
 		if (screen == QUICK && sys_ticks() >= next_cycle) {
 			next_cycle = sys_ticks() + 2000;
 			cycle = (cycle + 1) % 6;
