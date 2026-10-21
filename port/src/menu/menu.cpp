@@ -260,6 +260,37 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		sys_text_input(!dialogs.empty() && dialogs.back().typing);
 	};
 	std::function<void()> show_garage;
+	/* The track records (menu.ini [HIGHSCORES]: <track>= best lap in ms, name<track>=);
+	 * the original keeps them in its own menu.ini, the port in the user's folder (seeded
+	 * from the game's). */
+	IniFile *records = nullptr;
+	auto record = [&](int t, int &ms, std::string &name) {
+		std::string k = std::to_string(t);
+		const IniFile &src = records && records->has("HIGHSCORES", k) ? *records : menu_ini;
+		ms = src.get_int("HIGHSCORES", k, 0);
+		name = src.get("HIGHSCORES", "name" + k);
+		return ms > 0;
+	};
+	/* [FORMAT] TIME=%d:%.2d:%.2d: minutes, seconds, hundredths. */
+	auto format_ms = [&](int ms) {
+		char buf[64];
+		std::string fmt = menu_ini.get("FORMAT", "TIME", "%d:%.2d:%.2d");
+		snprintf(buf, sizeof buf, fmt.c_str(), ms / 60000, ms / 1000 % 60, ms / 10 % 100);
+		return std::string(buf);
+	};
+	auto show_record = [&](Form &f, int t) {
+		int ms = 0;
+		std::string name;
+		bool have = record(t, ms, name);
+		if (Control *c = f.get("lblTime")) {
+			c->caption = have ? format_ms(ms) : "";
+			c->visible = true;
+		}
+		if (Control *c = f.get("lblRecName")) {
+			c->caption = have ? name : "";
+			c->visible = true;
+		}
+	};
 	auto apply_volumes = [&]() {
 		voice.voices = save.voices_volume / 100.0f;
 		voice.effects = save.flags[SaveGame::FX_ON] ? save.fx_volume / 100.0f : 0;
@@ -326,10 +357,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		qr.set_graphic(res, "imgTrackName", numbered("trname", t));
 		if (Control *c = qr.get("lblType"))
 			c->caption = tr.type;
-		if (Control *c = qr.get("lblTime"))
-			c->caption = "";
-		if (Control *c = qr.get("lblRecName"))
-			c->caption = "";
+		show_record(qr, t);
 		if (Control *c = qr.get("lblLocked"))
 			c->visible = false;
 		qr.set_graphic(res, "imgTrack1", numbered("qtc", t, "") + numbered("_", cycle));
@@ -502,9 +530,9 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			c->visible = tour_ix > 0;
 		if (Control *c = trackf.get("btnNextTrack"))
 			c->visible = tour_ix < last;
-		for (const char *n : { "lblTime", "lblRecName", "imgFocus" })
-			if (Control *c = trackf.get(n))
-				c->visible = false;
+		show_record(trackf, t);
+		if (Control *c = trackf.get("imgFocus"))
+			c->visible = false;
 	};
 	trackf.handlers["btnPreviousClick"] = [&]() { screen = CHARACTER; };
 	trackf.handlers["btnPrevTrackClick"] = [&]() {
@@ -721,6 +749,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	std::string port_ini_path = save_dir + (save_dir.empty() || save_dir.back() == '/' ? "" : "/") + "menu.ini";
 	IniFile port_ini;
 	port_ini.load(port_ini_path);
+	records = &port_ini;
 	int current = -1;
 	auto list_index = [](const std::vector<int> &list, int v, size_t def) {
 		for (size_t k = 0; k < list.size(); k++)
@@ -1240,6 +1269,45 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			 &lose_chase, &win_final, &intro })
 		f->handlers["btnCloseClick"] = ask_close;
 
+	/* A new track record (CheckIfBestLap): any lap of a finished race under the track's
+	 * best; TfrmHighScoreDlg asks the name (the player's to start with) until one is
+	 * given. */
+	Form highscore;
+	highscore.load(res, "TfrmHighScoreDlg", with({}));
+	int record_track = -1;
+	auto check_record = [&](int t, const RaceResult &r) {
+		if (!r.finished)
+			return;
+		int ms = 0;
+		std::string name;
+		bool have = record(t, ms, name);
+		int best = have ? ms : 0x7fffffff;
+		for (float lap : r.lap_times)
+			best = std::min(best, (int)(lap * 1000 + 0.5f));
+		if (best <= 0 || (have && best >= ms) || best == 0x7fffffff)
+			return;
+		port_ini.set_int("HIGHSCORES", std::to_string(t), best);
+		port_ini.save(port_ini_path);
+		record_track = t;
+		highscore.text() = save.name;
+		voice.say("aud", 2) || voice.play("aud2.wav");
+		open_dialog(highscore, true);
+	};
+	highscore.handlers["btnOk1"] = [&]() {
+		std::string nm = highscore.text();
+		while (!nm.empty() && nm.back() == ' ')
+			nm.pop_back();
+		if (nm.empty())
+			return;
+		port_ini.set("HIGHSCORES", "name" + std::to_string(record_track), nm);
+		port_ini.save(port_ini_path);
+		close_dialog();
+		show_track();
+	};
+	for (const char *b : { "btnHelp", "btnClose" })
+		if (Control *c = highscore.get(b))
+			c->visible = false;
+
 	int wanted = port_ini.get_int("GENERAL", "CURRENTPLAYER", -1);
 	if (!(wanted >= 0 && load_player(wanted))) {
 		std::vector<int> have = players.list();
@@ -1353,8 +1421,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 				show_tour_track();
 				screen = TRACK;
 			}
-			else
+			else {
 				tour_outcome(r);
+				check_record(t, r);
+			}
 			continue;
 		}
 		if (screen == QUICK && sys_ticks() >= next_cycle) {
@@ -1380,6 +1450,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 				results.controls.end());
 			show_results();
 			screen = RESULTS;
+			if (!info.quick_tracks.empty())
+				check_record(info.quick_tracks[track_ix % info.quick_tracks.size()], last);
 			continue;
 		}
 		f.draw(cv, res);
