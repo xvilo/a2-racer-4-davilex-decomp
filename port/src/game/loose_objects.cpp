@@ -18,6 +18,7 @@ namespace {
 
 struct ScriptPhysics {
 	float mass, friction, elasticity;
+	std::string sound;
 };
 
 std::string lower(std::string s)
@@ -29,7 +30,9 @@ std::string lower(std::string s)
 
 /* bonus.dso is compiled DaviScript. Each scripted object's OnInit_<animation> pushes its
  * InitPhysics arguments as double literals (the bytes 03 01 01 00 01 and the double) and
- * calls CScriptedObject's method 3 (3c 03 00). Only that much is read here. */
+ * calls CScriptedObject's method 3 (3c 03 00); a string literal (03 01 03 00 03, a u16
+ * length and the text) names the sound.ini sample of its InitSound3D, which OnFramecall
+ * plays (the barrel organ). Only that much is read here. */
 std::map<std::string, ScriptPhysics> read_scripted(const std::string &dir)
 {
 	std::map<std::string, ScriptPhysics> out;
@@ -37,6 +40,7 @@ std::map<std::string, ScriptPhysics> read_scripted(const std::string &dir)
 	if (!read_file_ci(dir, "Bonus.dso", d))
 		return out;
 	static const uint8_t lit[5] = { 0x03, 0x01, 0x01, 0x00, 0x01 };
+	static const uint8_t str[5] = { 0x03, 0x01, 0x03, 0x00, 0x03 };
 	static const char init[] = "OnInit_";
 	for (size_t i = 0; i + sizeof init < d.size(); i++) {
 		if (memcmp(&d[i], init, sizeof init - 1) != 0)
@@ -49,6 +53,7 @@ std::map<std::string, ScriptPhysics> read_scripted(const std::string &dir)
 		while (end + 2 < d.size() && !(d[end] == 'O' && d[end + 1] == 'n' && isupper(d[end + 2])))
 			end++;
 		std::vector<float> vals;
+		std::string sound;
 		bool calls_init = false;
 		for (size_t k = e; k + 13 <= end; k++) {
 			if (memcmp(&d[k], lit, 5) == 0) {
@@ -56,11 +61,16 @@ std::map<std::string, ScriptPhysics> read_scripted(const std::string &dir)
 				memcpy(&v, &d[k + 5], 8);
 				vals.push_back((float)v);
 			}
+			if (memcmp(&d[k], str, 5) == 0) {
+				size_t len = d[k + 5] | d[k + 6] << 8;
+				if (k + 7 + len <= end && sound.empty())
+					sound.assign((const char *)&d[k + 7], len);
+			}
 			if (d[k] == 0x3c && d[k + 1] == 0x03 && d[k + 2] == 0x00)
 				calls_init = true;
 		}
 		if (calls_init && vals.size() >= 3)
-			out[name] = { vals[0], vals[1], vals[2] };
+			out[name] = { vals[0], vals[1], vals[2], sound };
 		i = e;
 	}
 	return out;
@@ -104,6 +114,7 @@ void LooseObjects::build(const Track &track, MeshCache &meshes, TextureManager &
 			l.mass = std::max(it->second.mass, 1.0f);
 			l.friction = it->second.friction;
 			l.elasticity = it->second.elasticity;
+			l.sound3d = it->second.sound;
 			break;
 		}
 		default: continue;
@@ -209,6 +220,13 @@ void LooseObjects::update(float dt, const CollisionWorld &world)
 			}
 		}
 		if (!l.hinged) {
+			/* 0x4545a0: a light obstacle (21) loses 5% of its speed a frame. */
+			if (l.obj->type == 21) {
+				float k = powf(0.95f, dt * 30);
+				for (float &v : l.vel)
+					v *= k;
+				l.spin *= k;
+			}
 			l.vel[1] -= g * dt;
 			for (int k = 0; k < 3; k++)
 				l.pos[k] += l.vel[k] * 10 * dt;

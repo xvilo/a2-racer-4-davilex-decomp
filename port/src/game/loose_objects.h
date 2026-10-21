@@ -35,6 +35,7 @@ struct LooseObject {
 	float mass = 100, friction = 1, elasticity = 0.2f;
 	bool hinged = false;
 	const char *sound = nullptr;
+	std::string sound3d; /* a scripted one's sample, sounding from it all the while */
 	float radius = 5, height = 0; /* game units */
 	float pos[3] = {};
 	float vel[3] = {};       /* m/s */

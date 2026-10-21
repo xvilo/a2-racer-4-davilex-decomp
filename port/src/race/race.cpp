@@ -730,6 +730,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		const TrackObject *obj;
 		std::string file;
 		int voice = 0;
+		const LooseObject *moved = nullptr; /* a scripted object sounds from where it is */
 	};
 	std::vector<Ambient> ambients;
 	{
@@ -746,6 +747,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				ambients.push_back({ &o, b == std::string::npos ? f[0] : f[0].substr(b + 1) });
 			}
 	}
+	for (const LooseObject &l : loose.list)
+		if (!l.sound3d.empty())
+			ambients.push_back({ l.obj, l.sound3d, 0, &l });
 	for (const TrackObject &o : track.objects)
 		if (o.type == 12)
 			if (const AnimType *t = track.anim_type(o.animation); t && !t->frames.empty())
@@ -1396,7 +1400,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (light_time >= light_cycle[light_step].time)
 			light_step = (light_step + 1) % 3, light_time = 0;
 		for (Ambient &am : ambients) {
-			float dx = am.obj->pos[0] - car.pos[0], dz = am.obj->pos[2] - car.pos[2];
+			const float *at = am.moved ? am.moved->pos : am.obj->pos;
+			float dx = at[0] - car.pos[0], dz = at[2] - car.pos[2];
 			float d = sqrtf(dx * dx + dz * dz);
 			const float reach = 600;
 			if (d < reach) {
