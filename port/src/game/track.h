@@ -9,6 +9,8 @@
  *   <anim>.ini           [config] n=<animation>; [<animation>] n=<model>.d3d,<texture>
  *                        (gen_anim.ini always, e<nn>_anim.ini per stage, L<n>_anim.ini per
  *                        league; Raser.ini [3D Anims])
+ *   etappe<n>.ini        [objects] n=<mesh path>, <texture path>, name, type, <animation>,
+ *                        ...: the one-frame animations of most of the stage's objects
  *   etappe<n>.pmp        each chunk's two values a and b are trigger numbers (etappe<n>.ini
  *                        [triggers]); the race starts at the chunk with 13 (StartPosition)
  *                        and runs towards higher chunk numbers (Tr_finis.cpp)

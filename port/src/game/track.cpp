@@ -68,6 +68,21 @@ std::string Track::load(const std::string &dir, int stage, int league)
 	read_animations(dir, raser.get("3D Anims", "general", "gen_anim.ini"), animations);
 	read_animations(dir, raser.get("3D Anims", std::to_string(stage)), animations);
 	read_animations(dir, raser.get("3D Anims", "league" + std::to_string(league)), animations);
+	/* Most of the stage's objects have a one-frame animation in etappe<n>.ini [objects]:
+	 * mesh path, texture path, name, type, animation, ... */
+	IniFile stage_ini;
+	std::string stage_path = find_file_ci(dir, info.file + ".ini");
+	if (!stage_path.empty() && stage_ini.load(stage_path)) {
+		auto base = [](const std::string &p) {
+			size_t s = p.find_last_of("\\/");
+			return s == std::string::npos ? p : p.substr(s + 1);
+		};
+		for (int i = 0, n = stage_ini.get_int("objects", "count"); i < n; i++) {
+			std::vector<std::string> f = split_fields(stage_ini.get("objects", std::to_string(i)));
+			if (f.size() > 4 && !animations.count(lower(f[4])))
+				animations[lower(f[4])] = { { base(f[0]), base(f[1]) } };
+		}
+	}
 
 	drive.clear();
 	std::vector<uint8_t> dmp;
