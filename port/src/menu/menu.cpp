@@ -599,6 +599,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	Form currentf;
 	currentf.load(res, "TfrmCurrentChar", with({ { "gdfBtnChoose", "newch" } }));
 	std::function<void()> show_tour_track;
+	float track_voice_in = -1;
 	show_current = [&]() {
 		int ch = tour_ch();
 		const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
@@ -620,7 +621,6 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	currentf.handlers["btnNextClick"] = [&]() {
 		choose_tour_track();
 		show_tour_track();
-		voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
 		screen = TRACK;
 	};
 
@@ -632,8 +632,15 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		int t = tour_tr();
 		trackf.set_graphic(res, "imgTrackName", numbered("trname", t));
 		trackf.set_graphic(res, "imgTrack1", numbered("ttc", t, "") + numbered("_", cycle));
+		/* FUN_00499d68: Miss Honeybunny tells about a race, the shadow about a chase;
+		 * tmrSound's 1.5 s later (CTI07_<track>, CTI08_<track>). */
 		trackf.set_graphic(res, "imgItem", "hunny.tga");
 		trackf.set_graphic(res, "imgShadow", "shadow.tga");
+		if (Control *c = trackf.get("imgItem"))
+			c->visible = !info.tracks[t].chase;
+		if (Control *c = trackf.get("imgShadow"))
+			c->visible = info.tracks[t].chase;
+		track_voice_in = 1.5f;
 		if (Control *c = trackf.get("imgTrack2"))
 			c->visible = false;
 		if (Control *c = trackf.get("lblType"))
@@ -1756,9 +1763,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (char_leave > 0 && (char_leave -= dt) <= 0) {
 			char_leave = -1;
 			show_tour_track();
-			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
 			screen = TRACK;
 		}
+		if (track_voice_in > 0 && (track_voice_in -= dt) <= 0 && screen == TRACK)
+			voice.say(info.tracks[tour_tr()].chase ? "CTI08_" : "CTI07_", tour_tr());
 		if (later.in > 0 && (later.in -= dt) <= 0 && screen == later.on)
 			voice.say(later.prefix, later.n);
 		if (screen == WIN_FINAL && final_sample < 3 && (final_next -= dt) <= 0) {
@@ -1770,7 +1778,6 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (screen == TRACK_INTRO && intro_leave > 0 && (intro_leave -= dt) <= 0) {
 			intro_leave = -1;
 			show_tour_track();
-			voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
 			screen = TRACK;
 		}
 		if (screen == WIN_FINAL && final_film_on) {
