@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "audio/mixer.h"
+#include "menu/agent.h"
 #include "menu/delphi.h"
 #include "menu/film.h"
 #include "menu/winhelp.h"
@@ -1450,8 +1451,13 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 
 	/* Help (btnHelpClick): Miss Honeybunny's balloon under the Help button with the
 	 * screen's questions (Agent.ini [<form>] Caption, [<form>BalloonItems] question=help
-	 * id); the original's MS Agent character isn't there, the voice is (cmh07). A question
-	 * opens its topic from Menu.hlp, which the original shows in WinHelp. */
+	 * id), and she stands under it (Hunny.acs: Left the button's + 10, the balloon's
+	 * bottom 6 above her), saying cmh07. A question opens its topic from Menu.hlp, which
+	 * the original shows in WinHelp. */
+	AgentCharacter hunny;
+	hunny.load(find_file_ci(menu_dir, "Hunny.acs"));
+	AgentPlayer agent;
+	agent.character = &hunny;
 	IniFile agent_ini;
 	agent_ini.load(find_file_ci(menu_dir, "Agent.ini"));
 	WinHelp helpfile;
@@ -1498,6 +1504,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		balloon.y = std::min(by + 14, 600 - 4 - balloon.h);
 		balloon.open = true;
 		balloon.hover = -1;
+		agent.show(std::clamp(bx + 10, 0, 800 - hunny.width), std::min(balloon.y + balloon.h + 6, 600 - hunny.height));
 		voice.say("cmh", 7);
 	};
 	auto open_topic = [&](int id) {
@@ -1522,11 +1529,14 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	};
 	auto draw_help = [&]() {
 		const uint32_t black = rgba(0, 0, 0), white = rgba(255, 255, 255);
+		if (const Image *a = agent.frame())
+			cv.blit(*a, agent.x, agent.y);
 		if (balloon.open) {
 			int x = balloon.x, y = balloon.y, w = balloon.w, h = balloon.h;
-			/* The tail up to the Help button, the body, its outline (TBalloonForm). */
-			for (int k = 0; k < 12; k++)
-				cv.fill(x + 40 - k / 2, y - 12 + k, 2 + k, 1, white);
+			/* The tail down to her, the body, its outline (TBalloonForm). */
+			int tx = std::clamp(agent.x + hunny.width / 2, x + 8, x + w - 20);
+			for (int k = 0; k < 6; k++)
+				cv.fill(tx + k, y + h + k, 12 - 2 * k, 1, white);
 			cv.fill(x - 1, y - 1, w + 2, h + 2, black);
 			cv.fill(x, y, w, h, white);
 			float lh = help_px * 1.15f;
@@ -1660,6 +1670,9 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		}
 		Form &f = *fp;
 		float dt = 0.01f;
+		if (!balloon.open)
+			agent.hide();
+		agent.update(dt);
 		if (balloon.open || topic.open) {
 			help_input(in);
 			f.draw(cv, res);
@@ -1814,6 +1827,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			continue;
 		}
 		f.draw(cv, res);
+		if (const Image *a = agent.frame())
+			cv.blit(*a, agent.x, agent.y);
 		sys_present(cv.px.data());
 		sys_sleep(10);
 	}
