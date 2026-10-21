@@ -370,7 +370,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			Racer rc;
 			rc.player = player;
 			rc.entry = entry;
-			err = rc.car.spec.load(data_dir, "league" + std::to_string(opt.league), entry, opt.motor, opt.gearbox);
+			err = rc.car.spec.load(data_dir, "league" + std::to_string(opt.league), entry,
+				player ? opt.motor : 0, player ? opt.gearbox : 0, player ? opt.tyres : 0, player ? opt.abs : 0);
 			/* opponent.ini [Racer <n> Level <difficulty>] <stage>= behaviour, skill, ... */
 			std::vector<std::string> b = split_fields(
 				opp.get("Racer " + std::to_string(entry) + " Level " + std::to_string(difficulty), std::to_string(opt.stage)));

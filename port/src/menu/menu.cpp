@@ -68,6 +68,13 @@ struct Static {
 	std::map<int, Character> chars;
 	std::vector<int> quick_tracks, quick_chars, tour_tracks, tour_chars;
 	int quick_default_char = 0, tour_default_char = 0;
+	/* [TUNEUPS] SPECS<n>= name, price, and what it adds to speed, acceleration, brakes,
+	 * handling; TEXT<n>. 0 motor, 1 tyres, 2 ABS, 3 gearbox, 4 turbo oil. */
+	struct TuneUp {
+		std::string name, text;
+		int price = 0, speed = 0, accel = 0, brakes = 0, handling = 0;
+	};
+	std::vector<TuneUp> tuneups;
 
 	void load(const IniFile &ini)
 	{
@@ -108,6 +115,16 @@ struct Static {
 		tour_chars = int_list(ini.get("TOURRACE", "CHARIX"));
 		quick_default_char = ini.get_int("QUICKRACE", "DEFAULTCHAR", 0);
 		tour_default_char = ini.get_int("TOURRACE", "DEFAULTCHAR", 0);
+		for (int i = 0; ini.has("TUNEUPS", "SPECS" + std::to_string(i)); i++) {
+			std::vector<std::string> f = split_fields(ini.get("TUNEUPS", "SPECS" + std::to_string(i)));
+			TuneUp u;
+			u.name = f.empty() ? "" : f[0];
+			int *vals[5] = { &u.price, &u.speed, &u.accel, &u.brakes, &u.handling };
+			for (size_t k = 0; k < 5 && k + 1 < f.size(); k++)
+				*vals[k] = atoi(f[k + 1].c_str());
+			u.text = ini.get("TUNEUPS", "TEXT" + std::to_string(i));
+			tuneups.push_back(u);
+		}
 	}
 };
 
@@ -127,6 +144,14 @@ struct MenuSound {
 		mx.stop(voice);
 		voice = mx.play(decode_wav(bytes), 1.0f);
 		return voice != 0;
+	}
+
+	/* A sound over whatever is being said (TData's PlaySound, e.g. PEEP). */
+	void effect(const std::string &file)
+	{
+		std::vector<uint8_t> bytes;
+		if (rcs && rcs->read(file, bytes))
+			Mixer::get().play(decode_wav(bytes), 1.0f);
 	}
 
 	bool say(const std::string &prefix, int n)
@@ -212,10 +237,21 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		main.set_graphic(res, "imgItem", quick ? "quick.tga" : "tour.tga");
 	};
 	show_mode();
-	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, CHARACTER, TRACK, TRACK_INTRO, TOUR_RACE, QUALIFY,
+	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, CHARACTER, TRACK, GARAGE, TRACK_INTRO, TOUR_RACE, QUALIFY,
 		WIN, LOSE, WIN_CHASE, LOSE_CHASE, WIN_FINAL, QUIT } screen = MAIN;
 	MenuSound voice;
 	voice.rcs = &rcs;
+	/* A dialog shown over the screen (ShowModal); typing goes to its text field. */
+	Form *dialog = nullptr;
+	auto open_dialog = [&](Form &d, bool typing = false) {
+		dialog = &d;
+		sys_text_input(typing);
+	};
+	auto close_dialog = [&]() {
+		dialog = nullptr;
+		sys_text_input(false);
+	};
+	std::function<void()> show_garage;
 	Mixer::get().open();
 	main.handlers["optQuickRaceClick"] = [&]() { quick = true; show_mode(); };
 	main.handlers["optTourClick"] = [&]() { quick = false; show_mode(); };
@@ -288,7 +324,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (a00 && a01 && a10) {
 			const int values[4] = { cc.speed, cc.accel, cc.handling, cc.brakes };
 			for (int row = 0; row < 4; row++)
-				for (int k = 0; k < std::min(values[row] * 9 / 5, 9); k++)
+				for (int k = 0; k < std::min(values[row], 9); k++)
 					qr.extras.push_back({ res.image("redin_up.tga"), a00->x + k * (a01->x - a00->x),
 						a00->y + row * (a10->y - a00->y) });
 		}
@@ -362,7 +398,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			return;
 		const int values[4] = { cc.speed, cc.accel, cc.handling, cc.brakes };
 		for (int row = 0; row < 4; row++)
-			for (int k = 0; k < std::min(values[row] * 9 / 5, 9); k++)
+			for (int k = 0; k < std::min(values[row], 9); k++)
 				f.extras.push_back({ res.image("redin_up.tga"), a00->x + k * (a01->x - a00->x),
 					a00->y + row * (a10->y - a00->y) });
 	};
@@ -455,7 +491,98 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		show_tour_track();
 	};
 	trackf.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
-	trackf.handlers["btnNextClick"] = [&]() { screen = TOUR_RACE; };
+	bool just_qualified = false; /* the last race was won or qualified (TData flag 2) */
+	trackf.handlers["btnNextClick"] = [&]() {
+		save.tour_track = (int)tour_ix;
+		show_garage();
+		/* FUN_00499538: D.T. Harry's comment on coming in. */
+		voice.say(just_qualified ? "CGR" : "CBR", 7);
+		screen = GARAGE;
+	};
+
+	/* The garage (TfrmGarage): tune-ups for this race, paid from the character's money;
+	 * turbo oil (10 per buy, up to 100) stays. The dots: speed, acceleration, handling,
+	 * brakes as the character has them with what is bought (red), what this tune-up would
+	 * add (green, klrondje) or take (blue, blind_up); then the turbo. */
+	Form garage;
+	garage.load(res, "TfrmGarage",
+		with({ { "gdfBtnBuyTU", "buy" }, { "gdfBtnPrevious3", "back3" }, { "gdfBtnNext3", "next3" } }));
+	Form nomoney;
+	nomoney.load(res, "TfrmNoMoney", with({}));
+	size_t tuneup = 0;
+	show_garage = [&]() {
+		SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		const Static::Character &cc = info.chars[tour_ch()];
+		garage.set_graphic(res, "imgItemName", numbered("tune_", (int)tuneup));
+		garage.set_graphic(res, "imgItem", numbered("tuneup", (int)tuneup));
+		const Static::TuneUp *u = tuneup < info.tuneups.size() ? &info.tuneups[tuneup] : nullptr;
+		caption(garage, "lblTextBlock", u ? u->text : "");
+		if (Control *c = garage.get("lblPoints"))
+			c->caption = std::to_string(cr.money);
+		if (Control *c = garage.get("lblPrice")) {
+			std::string fmt = menu_ini.get("MENUSTRINGS", "13", "%s");
+			size_t at = fmt.find("%s");
+			std::string price = std::to_string(u ? u->price : 0);
+			c->caption = at == std::string::npos ? price : fmt.replace(at, 2, price);
+		}
+		int have[4] = { cc.speed, cc.accel, cc.handling, cc.brakes };
+		for (size_t k = 0; k < 4 && k < info.tuneups.size(); k++) {
+			if (!cr.upgrades[k])
+				continue;
+			const Static::TuneUp &t = info.tuneups[k];
+			have[0] += t.speed;
+			have[1] += t.accel;
+			have[2] += t.handling;
+			have[3] += t.brakes;
+		}
+		int add[4] = {};
+		if (u && tuneup < 4 && !cr.upgrades[tuneup]) {
+			add[0] = u->speed;
+			add[1] = u->accel;
+			add[2] = u->handling;
+			add[3] = u->brakes;
+		}
+		garage.extras.clear();
+		Control *a00 = garage.get("lblAncInd00"), *a01 = garage.get("lblAncInd01"), *a10 = garage.get("lblAncInd10");
+		auto row = [&](int r, int value, int delta) {
+			if (!a00 || !a01 || !a10)
+				return;
+			for (int j = 0; j < 9; j++) {
+				const char *img = j < value ? (j < value + delta ? "redin_up.tga" : "blind_up.tga")
+											: (j < value + delta ? "klrondje.tga" : nullptr);
+				if (img)
+					garage.extras.push_back({ res.image(img), a00->x + j * (a01->x - a00->x), a00->y + r * (a10->y - a00->y) });
+			}
+		};
+		for (int r = 0; r < 4; r++)
+			row(r, have[r], add[r]);
+		row(4, (cr.turbo * 9 + 50) / 100, tuneup == 4 ? 1 : 0);
+		if (Control *c = garage.get("btnBuyTuneUp"))
+			c->enabled = tuneup == 4 ? cr.turbo < 100 : tuneup < 4 && !cr.upgrades[tuneup];
+	};
+	garage.handlers["btnNextTUClick"] = [&]() { tuneup = (tuneup + 1) % 5; show_garage(); };
+	garage.handlers["btnPrevTUClick"] = [&]() { tuneup = (tuneup + 4) % 5; show_garage(); };
+	garage.handlers["btnBuyTuneUpClick"] = [&]() {
+		SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		if (tuneup >= info.tuneups.size())
+			return;
+		if (cr.money < info.tuneups[tuneup].price) {
+			open_dialog(nomoney);
+			return;
+		}
+		cr.money -= info.tuneups[tuneup].price;
+		if (tuneup == 4)
+			cr.turbo = std::min(cr.turbo + static_ini.get_int("GAMEVALUES", "TURBOOILAMOUNT", 10), 100);
+		else
+			cr.upgrades[tuneup] = 1;
+		voice.effect("peep.wav");
+		show_garage();
+	};
+	garage.handlers["btnPreviousClick"] = [&]() { show_tour_track(); screen = TRACK; };
+	garage.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	garage.handlers["btnNextClick"] = [&]() { screen = TOUR_RACE; };
+	for (const char *b : { "btnOk1", "btnClose" })
+		nomoney.handlers[b] = [&]() { close_dialog(); };
 
 	/* After the race: won, qualified, lost (and for a chase: escaped or caught), with the
 	 * track's texts and D.T. Harry's comments. */
@@ -509,6 +636,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		bool through = tr.chase ? r.finished
 								: r.finished && place - 1 <= tr.qualify_position[std::clamp(difficulty, 0, 2)];
 		SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		just_qualified = through;
+		/* The tune-ups last one race. */
+		if (r.finished)
+			std::fill(cr.upgrades, cr.upgrades + 4, 0);
 		if (through && (size_t)cr.next_track == tour_ix) {
 			cr.next_track++;
 			tour_done = (size_t)cr.next_track >= info.tour_tracks.size();
@@ -615,19 +746,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	};
 
 	/* Dialogs over the screen: the name of a new player, the list of players, deleting. */
-	Form *dialog = nullptr;
 	Form newp, playerf, deletep;
 	newp.load(res, "TfrmNewPlayer", with({}));
 	playerf.load(res, "TfrmPlayer", with({ { "gdfBtnDeletePlayer", "delet" }, { "defEmpty", "butp1" } }));
 	deletep.load(res, "TfrmDeletePlayer", with({}));
-	auto open_dialog = [&](Form &d) {
-		dialog = &d;
-		sys_text_input(&d == &newp);
-	};
-	auto close_dialog = [&]() {
-		dialog = nullptr;
-		sys_text_input(false);
-	};
 	auto set_look = [&](Control &c, const std::string &prefix) {
 		static const char *states[5] = { "_up", "_hi", "_do", "_fo", "_di" };
 		for (int k = 0; k < 5; k++)
@@ -708,7 +830,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (who == -1) {
 			newp_from_players = true;
 			newp.text().clear();
-			open_dialog(newp);
+			open_dialog(newp, true);
 		}
 		else if (who >= 0 && who != current) {
 			store_player();
@@ -794,7 +916,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			load_player(have[0]);
 	}
 	if (current < 0 && screenshot.empty())
-		open_dialog(newp);
+		open_dialog(newp, true);
 
 	if (!screenshot.empty()) {
 		/* Testing: "quick:<file>" shows the Quick Race screen. */
@@ -814,6 +936,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		case DIFFICULTY: fp = &diff; break;
 		case CHARACTER: fp = &character; break;
 		case TRACK: fp = &trackf; break;
+		case GARAGE: fp = &garage; break;
 		case TRACK_INTRO: fp = &intro; break;
 		case QUALIFY: fp = &qualify; break;
 		case WIN: fp = &win; break;
@@ -869,6 +992,11 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.car = info.chars[tour_ch()].car;
 			ro.difficulty = difficulty;
 			ro.laps = info.tracks[t].laps;
+			const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+			ro.motor = cr.upgrades[0];
+			ro.tyres = cr.upgrades[1];
+			ro.abs = cr.upgrades[2];
+			ro.gearbox = cr.upgrades[3];
 			if (info.tracks[t].chase) {
 				std::vector<int> ct = int_list(static_ini.get("TRACK" + std::to_string(t), "CHASETIME"));
 				if (!ct.empty())

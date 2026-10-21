@@ -24,7 +24,8 @@ static float vdyns(const std::vector<uint8_t> &d, int record, int offset)
 	return f;
 }
 
-std::string CarSpec::load(const std::string &dir, const std::string &section, int index, int motor, int gearbox)
+std::string CarSpec::load(const std::string &dir, const std::string &section, int index, int motor, int gearbox,
+	int tyres, int abs)
 {
 	IniFile cfg;
 	std::string path = find_file_ci(dir, "CAR_CFG.INI");
@@ -53,10 +54,12 @@ std::string CarSpec::load(const std::string &dir, const std::string &section, in
 		return "cannot read VDYNS.DAT";
 	motor = std::clamp(motor, 0, 4);
 	gearbox = std::clamp(gearbox, 0, 4);
+	tyres = std::clamp(tyres, 0, 4);
+	brake_force = abs > 0 ? 1.25f : 1;
 	mass = vdyns(d, dynamics, 0x00);
 	top_speed = vdyns(d, dynamics, 0x98 + 4 * motor);
-	grip = vdyns(d, dynamics, 0xac + 4 * motor);
-	grip_shape = vdyns(d, dynamics, 0xc0 + 4 * motor);
+	grip = vdyns(d, dynamics, 0xac + 4 * tyres);
+	grip_shape = vdyns(d, dynamics, 0xc0 + 4 * tyres);
 	gear_count = 0;
 	for (int g = 0; g < 6; g++) {
 		gears[g] = vdyns(d, dynamics, 0xd4 + gearbox * 0x18 + 4 * g);
@@ -187,7 +190,7 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 		}
 		if (in.brake > 0) {
 			if (vf > 0.5f)
-				drive -= in.brake * m * 9.0f;
+				drive -= in.brake * m * 9.0f * spec.brake_force;
 			else if (vf > -25 / 3.6f && in.brake > 0.5f)
 				drive -= in.brake * m * 3.0f;
 		}

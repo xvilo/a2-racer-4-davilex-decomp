@@ -29,12 +29,16 @@ struct CarSpec {
 	float mass = 600;
 	float top_speed = 100;        /* km/h */
 	float grip = 0.7f, grip_shape = 3.8f;
+	/* The garage's ABS: the port's own stand-in, stronger brakes (the original's ABS is
+	 * Ipion's business). */
+	float brake_force = 1;
 	float gears[6] = { 2.8f, 2.2f, 1.3f, 1.0f, 0.8f, 0 };
 	int gear_count = 5;
 
 	/* Reads entry `index` of section (e.g. "league0") from CAR_CFG.INI and its dynamics
-	 * record; motor/gearbox are the upgrade levels (0 or 1). An error message, or empty. */
-	std::string load(const std::string &dir, const std::string &section, int index, int motor, int gearbox);
+	 * record; motor/gearbox/tyres/abs are the upgrade levels (0 or 1). An error message, or empty. */
+	std::string load(const std::string &dir, const std::string &section, int index, int motor, int gearbox,
+		int tyres = 0, int abs = 0);
 	/* The entry of section whose name (the first field) is name; -1 if none. */
 	static int find(const std::string &dir, const std::string &section, const std::string &name);
 };

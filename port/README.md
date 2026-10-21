@@ -7,10 +7,10 @@ The game's own data is not included. Point the port at the original CD image, or
 ## Status
 
 Working:
-- **The menu**, built at run time from the player's own `Menu.exe` (its form resources and class tables): the main screen, Quick Race (track and character choice, with their pictures and the character's ratings) and its results, and the Tour: character, each track in turn (a chase against the clock on the police tracks), the win / qualify / lose screens with the hosts' voices, and the final winner. Players: a new player's name at the first start, the player list (switch, add, delete; Annuleren undoes), each with their own save (`SaveGame<n>.RCR` in the user data folder or `--save`, byte for byte the original's format) keeping the difficulty, choices and Tour progress. Options follow.
+- **The menu**, built at run time from the player's own `Menu.exe` (its form resources and class tables): the main screen, Quick Race (track and character choice, with their pictures and the character's ratings) and its results, and the Tour: character, each track in turn with the garage before it (tune-ups for one race and turbo oil, bought with the prize money; a chase against the clock on the police tracks), the win / qualify / lose screens with the hosts' voices, and the final winner. Players: a new player's name at the first start, the player list (switch, add, delete; Annuleren undoes), each with their own save (`SaveGame<n>.RCR` in the user data folder or `--save`, byte for byte the original's format) keeping the difficulty, choices and Tour progress. Options follow.
 - **The race**: the stage with its scenery, sky and objects; the player's car from `CAR_CFG.INI` and `VDYNS.DAT` with the port's own physics (the original used the Ipion library); a countdown, laps, times, positions and the finish; five computer rivals; traffic both ways; police that wait by the road, chase, and arrest; radar traps; the original HUD from `overlay<n>.ini`; music, engine and effects.
 
-Not yet: damage, money and the garage, power-ups, films (MPEG), the helper character.
+Not yet: damage, turbo and money pick-ups in the race, power-ups, films (MPEG), the helper character.
 
 Keys while driving: the arrow keys (or those in `game.ini` [INPUT]) steer, accelerate and brake/reverse; C changes the camera (chase, driver, two inspection views); R puts the car back on the road; Esc quits.
 

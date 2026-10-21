@@ -10,7 +10,7 @@ struct RaceOptions {
 	int stage = 0;
 	int league = 0;
 	int car = 0;     /* entry in CAR_CFG.INI [league<n>] */
-	int motor = 0, gearbox = 0;
+	int motor = 0, gearbox = 0, tyres = 0, abs = 0; /* the garage's upgrades (0 or 1) */
 	int difficulty = -1; /* 0 easy, 1 normal, 2 hard; -1: game.ini [OPTIONS] Difficulty */
 	int laps = 0;         /* 0: game.ini [OPTIONS] Nrlaps */
 	float time_limit = 0; /* seconds; a chase must be finished in time (0: none) */
