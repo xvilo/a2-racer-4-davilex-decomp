@@ -825,7 +825,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			continue;
 		cop.police = Racer::WAITING;
 		cop.model = load_model(track, meshes, textures, cop.car.spec.animation);
-		cop.car.place_at(world, o.pos, -o.rot[1] * PI / 180);
+		cop.car.place_at(world, o.pos, o.rot[1] * PI / 180);
 		cop.rules.phase = RaceRules::RACING;
 		racers.push_back(std::move(cop));
 	}
@@ -1517,7 +1517,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				continue;
 			glPushMatrix();
 			glTranslatef(o.pos[0], o.pos[1], o.pos[2]);
-			gl_rotate(-o.rot[1], 0, 1, 0);
+			gl_rotate(o.rot[1], 0, 1, 0);
 			gl_rotate(o.rot[0], 1, 0, 0);
 			gl_rotate(o.rot[2], 0, 0, 1);
 			r.draw_mesh(*m, textures.get((*frames)[0].texture));
@@ -1618,7 +1618,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				pulse *= std::max(0.0f, 1 - (clock - b.taken) / 0.5f);
 			glPushMatrix();
 			glTranslatef(b.obj->pos[0], b.obj->pos[1], b.obj->pos[2]);
-			gl_rotate(-b.obj->rot[1] + clock * 600 * 360 / 1024, 0, 1, 0);
+			gl_rotate(b.obj->rot[1] + clock * 600 * 360 / 1024, 0, 1, 0);
 			glScalef(pulse, pulse, pulse);
 			r.draw_mesh(*b.mesh, b.tex);
 			glPopMatrix();

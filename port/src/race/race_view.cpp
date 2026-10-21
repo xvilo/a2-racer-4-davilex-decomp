@@ -108,7 +108,7 @@ int race_view(const std::string &data_dir, const NamedArchive &rcs, int stage, i
 				continue;
 			glPushMatrix();
 			glTranslatef(o.pos[0], o.pos[1], o.pos[2]);
-			gl_rotate(-o.rot[1], 0, 1, 0);
+			gl_rotate(o.rot[1], 0, 1, 0);
 			gl_rotate(o.rot[0], 1, 0, 0);
 			gl_rotate(o.rot[2], 0, 0, 1);
 			r.draw_mesh(*m, textures.get((*frames)[0].texture));

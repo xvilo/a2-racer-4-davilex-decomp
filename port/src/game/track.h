@@ -16,7 +16,9 @@
  *                        and runs towards higher chunk numbers (Tr_finis.cpp)
  *   etappe<n>.omp        int32 count; then 68-byte records { int32 chunk, type; float
  *                        x, y, z; float rotation x, y, z (degrees); char animation[32];
- *                        int32 flags }
+ *                        int32 flags }; rotation y turns the model's +z towards +x
+ *                        (its heading, like a car's yaw: the objects line up with the
+ *                        drive map's lanes so)
  */
 #pragma once
 
