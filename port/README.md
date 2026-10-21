@@ -18,6 +18,12 @@ Builds of the latest commit are on the [latest release](https://github.com/xvilo
 
 Put `a2racer4` next to the CD image (`A2RACER4.bin` or `.iso`) and start it, drag the image onto it, or run `a2racer4 --data /path/to/A2RACER4.bin`. A folder with a copy of the CD's files works too. The first start unpacks the CD's `Data` folder into the user's data folder (`%APPDATA%\Davilex\A2 Racer 4\disc` on Windows, `~/.local/share/Davilex/A2 Racer 4/disc` on Linux). The macOS build isn't notarised: run `xattr -dr com.apple.quarantine /path/to/a2racer4` once after unpacking.
 
+## In the browser
+
+[xvilo.github.io/a2-racer-4-davilex-decomp](https://xvilo.github.io/a2-racer-4-davilex-decomp/) runs the port as WebAssembly, rebuilt from every push to main. The page downloads the CD image from the [Internet Archive](https://archive.org/details/a2rcriv) (469 MB, checked against its SHA-1), or takes your own `.bin` or `.iso`; it unpacks the `Data` folder itself and keeps it in the browser's storage (IndexedDB) with your saves, so later visits start straight away. Nothing is uploaded anywhere.
+
+To build it: install [Emscripten](https://emscripten.org) (`emcmake` on the PATH), run `port/web/build.sh`, and serve `port/build-web/web` over HTTP (`python3 -m http.server -d port/build-web/web`). The race's fixed-function OpenGL runs on Emscripten's emulation over WebGL 1, and Asyncify lets the game's own loops hand control back to the browser each frame.
+
 ## Build
 
 You need CMake 3.16 or later, a C++17 compiler and SDL2. OpenGL is loaded through SDL at run time.
@@ -37,7 +43,7 @@ For a self-contained executable, build SDL2 statically first: `tools/build_stati
 | `--data <dir or image>` | Where the game files are (also `A2_DATA`): the CD image (`.bin` with raw 2352-byte sectors, or `.iso`), a copy of the CD, or its `Data` folder |
 | `--save <dir>` | Where options and players go. Default: the user's data folder |
 | `--scale N` | Opens the window at N × 800×600. The window can be resized freely and keeps 4:3 |
-| `--race N` | Drives stage N (0–11) straight away; `--car N` picks the car (`CAR_CFG.INI` [league0] entry). For testing: `A2_AUTOPILOT=1` drives by itself along the lanes of the stage's drive map (`A2_AUTOPILOT=<s>`: for that many seconds), `A2_TRACE=1` prints the car's state every second, `A2_START=<chunk>` starts elsewhere, `A2_LAPS`, `A2_RIVALS`, `A2_TRAFFIC`, `A2_POLICE` change the race, `A2_RACE_LIMIT=<s>` ends it early as finished, `A2_TOUR_START=<n>` begins the Tour at its n-th track, `A2_DAMAGE=<n>` starts the car damaged |
+| `--race N` | Drives stage N (0–11) straight away; `--car N` picks the car (`CAR_CFG.INI` [league0] entry). For testing: `A2_AUTOPILOT=1` drives by itself along the lanes of the stage's drive map (`A2_AUTOPILOT=<s>`: for that many seconds), `A2_TRACE=1` prints the car's state every second, `A2_START=<chunk>` starts elsewhere, `A2_LAPS`, `A2_RIVALS`, `A2_TRAFFIC`, `A2_POLICE` change the race, `A2_RACE_LIMIT=<s>` ends it early as finished, `A2_TOUR_START=<n>` puts the Tour's character on its n-th track, `A2_DAMAGE=<n>` starts the car damaged |
 | `--race-view N` | A fly-through along stage N's road |
 | `--screenshot file.png` | Draws the main menu, saves it and exits, without a window |
 | `--script file` | Scripted input for testing: keys, text, clicks and screenshots on a timeline (see `src/platform/sys.cpp`) |

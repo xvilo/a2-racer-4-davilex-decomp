@@ -12,6 +12,22 @@
 #include "gfx/png.h"
 #include "platform/gl.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
+/* In the browser the game's loops hand control back after each frame (Asyncify), at
+ * most 60 a second, so that the page can draw and the events come in. */
+static void web_yield()
+{
+#ifdef __EMSCRIPTEN__
+	static uint32_t last;
+	uint32_t now = SDL_GetTicks(), due = last + 16;
+	emscripten_sleep(now < due && due - now <= 16 ? due - now : 0);
+	last = SDL_GetTicks();
+#endif
+}
+
 static SDL_Window *window;
 /* OpenGL when available (needed by the race); else an SDL renderer for the menus. */
 static SDL_GLContext gl_context;
@@ -196,6 +212,9 @@ bool sys_init(const char *title, const SysOptions &opt)
 		glBindTexture(GL_TEXTURE_2D, screen_texture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		/* 800x600 isn't a power of two: WebGL 1 only draws such a texture clamped. */
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCREEN_W, SCREEN_H, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 			nullptr);
 		return true;
@@ -306,6 +325,7 @@ void sys_present(const uint32_t *rgba)
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	SDL_GL_SwapWindow(window);
+	web_yield();
 }
 
 bool sys_gl_begin_frame(int &w, int &h)
@@ -348,6 +368,7 @@ void sys_gl_end_frame()
 		glshot_path.clear();
 	}
 	SDL_GL_SwapWindow(window);
+	web_yield();
 }
 
 static int map_key(SDL_Keycode k)
@@ -563,5 +584,9 @@ uint32_t sys_ticks()
 
 void sys_sleep(uint32_t ms)
 {
+#ifdef __EMSCRIPTEN__
+	emscripten_sleep(ms);
+#else
 	SDL_Delay(ms);
+#endif
 }

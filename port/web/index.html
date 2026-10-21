@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A2 Racer 4</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --bg: #101418; --panel: #1a2027; --line: #2c353f; --text: #e8edf2; --muted: #93a1ae;
+    --accent: #ffb000; --accent-text: #1a1200; --bad: #ff6b5b; --good: #6bd38a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  header { width: 100%; max-width: 960px; padding: 16px 16px 8px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: .02em; }
+  header span { color: var(--muted); font-size: 13px; }
+  header a { color: var(--muted); margin-left: auto; font-size: 13px; }
+  main { width: 100%; max-width: 960px; padding: 0 16px 16px; }
+  #stage { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #000; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 100%; outline: none; }
+  #setup {
+    position: absolute; inset: 0; overflow: auto; padding: 24px;
+    display: flex; flex-direction: column; justify-content: center; gap: 14px;
+    background: linear-gradient(160deg, #18212b, #0c0f12);
+  }
+  #setup[hidden] { display: none; }
+  #setup p { margin: 0; color: var(--muted); max-width: 60ch; }
+  .pick {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 12px 14px; border: 1px dashed var(--line); border-radius: 6px; background: var(--panel);
+  }
+  .pick[hidden] { display: none; }
+  .pick.drag { border-color: var(--accent); }
+  progress { flex: 1; min-width: 8em; accent-color: var(--accent); }
+  .pick b { min-width: 9em; }
+  .pick .state { color: var(--muted); font-size: 13px; flex: 1; min-width: 12em; }
+  .pick .state.ok { color: var(--good); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  button, label.btn {
+    font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line);
+    border-radius: 5px; padding: 6px 14px; cursor: pointer;
+  }
+  button:hover, label.btn:hover { border-color: var(--muted); }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; padding: 8px 22px; }
+  button:disabled { opacity: .45; cursor: default; }
+  input[type=file] { display: none; }
+  #status { color: var(--muted); font-size: 13px; }
+  #status.bad { color: var(--bad); }
+  #bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding-top: 10px; color: var(--muted); font-size: 13px; }
+  #bar .keys { flex: 1; min-width: 14em; }
+  pre#log { white-space: pre-wrap; max-height: 9em; overflow: auto; margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+  pre#log:empty { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>A2 Racer 4</h1>
+  <span>De politie slaat terug! Davilex, 2000, ported to C++ and WebAssembly</span>
+  <a href="https://github.com/xvilo/a2-racer-4-davilex-decomp">source</a>
+</header>
+<main>
+  <div id="stage">
+    <canvas id="canvas" width="800" height="600" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+    <div id="setup">
+      <p>The game's data isn't part of this site. The page downloads the CD image from the
+         <a href="https://archive.org/details/a2rcriv" style="color:inherit">Internet Archive</a>, or you choose your own copy.
+         Its game files are unpacked once and kept in this browser's storage, together with your saves. Nothing is uploaded to a server.</p>
+      <div class="pick" id="fetch" hidden>
+        <b>CD image</b>
+        <span class="state" id="fetch-state">Downloading from the Internet Archive…</span>
+        <progress id="fetch-bar" max="1" value="0"></progress>
+        <button id="fetch-cancel">Use my own file</button>
+      </div>
+      <div class="pick" id="pick-disc" hidden>
+        <b>CD image</b>
+        <span class="state" id="disc-state">Not chosen: a .bin (raw 2352-byte sectors) or an .iso</span>
+        <label class="btn">Choose…<input type="file" id="disc-file" accept=".bin,.iso,.img,.BIN,.ISO,.IMG"></label>
+      </div>
+      <div class="row">
+        <button class="primary" id="play" disabled>Play</button>
+        <button id="forget" hidden>Forget the game files</button>
+        <span id="status">Loading…</span>
+      </div>
+    </div>
+  </div>
+  <div id="bar">
+    <span class="keys">Arrow keys drive, Ctrl burns the turbo, Alt pulls the handbrake, P pauses, Esc quits the race.
+      Click the picture first so it gets the keys.</span>
+    <button id="fullscreen" disabled>Full screen</button>
+  </div>
+  <pre id="log"></pre>
+</main>
+<script>
+// The game's user data folder (SDL_GetPrefPath in the browser) lives in IndexedDB: the
+// saves, and the CD's Data folder in disc/, as the desktop builds unpack it.
+const ROOT = '/libsdl';
+const PREF = ROOT + '/Davilex/A2 Racer 4';
+const DISC = PREF + '/disc';
+
+// Without stored game files the page first fetches the CD image from the Internet
+// Archive (its /cors/ path allows other sites to fetch it); the hash makes sure it is that image.
+const ARCHIVE_URL = 'https://archive.org/cors/a2rcriv/A2RACER4.bin';
+const ARCHIVE_SIZE = 469214592;
+const ARCHIVE_SHA1 = 'd716b06cfbc6431d5ebcfba6ed0a49a2e41d2c23';
+
+const $ = id => document.getElementById(id);
+const status = (text, bad) => { $('status').textContent = text; $('status').classList.toggle('bad', !!bad); };
+const log = text => { const l = $('log'); l.textContent += text + '\n'; l.scrollTop = l.scrollHeight; };
+
+// A chosen File, or the download: { name, size, data }.
+let discFile = null;
+let download = null;
+let running = false;
+let syncing = false;
+
+function exists(path) {
+  try { FS.stat(path); return true; } catch (e) { return false; }
+}
+
+function hasDisc() {
+  return exists(DISC) && FS.readdir(DISC).some(n => n.toLowerCase() === 'spel.dat');
+}
+
+function mkdirs(path) {
+  let p = '';
+  for (const part of path.split('/').filter(Boolean)) {
+    p += '/' + part;
+    if (!exists(p)) FS.mkdir(p);
+  }
+}
+
+function sync() {
+  return new Promise(resolve => {
+    if (syncing) return resolve();
+    syncing = true;
+    FS.syncfs(false, err => { syncing = false; if (err) log('storage: ' + err); resolve(); });
+  });
+}
+
+function refresh() {
+  const disc = hasDisc();
+  $('disc-state').textContent = discFile ? discFile.name + ' (' + (discFile.size / 1048576).toFixed(0) + ' MB)'
+    : disc ? 'The game files are stored in this browser' : 'Not chosen: a .bin (raw 2352-byte sectors) or an .iso';
+  $('disc-state').classList.toggle('ok', !!discFile || disc);
+  $('play').disabled = !(discFile || disc);
+  $('forget').hidden = !disc;
+  $('fetch').hidden = !download;
+  $('pick-disc').hidden = !!download;
+  status(download ? 'Downloading the CD image…' : discFile || disc ? 'Ready.' : 'Choose the CD image to play.');
+}
+
+async function downloadDisc() {
+  download = new AbortController();
+  refresh();
+  let error = null;
+  try {
+    const r = await fetch(ARCHIVE_URL, { signal: download.signal });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = new Uint8Array(ARCHIVE_SIZE);
+    const reader = r.body.getReader();
+    let n = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (n + value.length > data.length) throw new Error('the file is larger than expected');
+      data.set(value, n);
+      n += value.length;
+      $('fetch-bar').value = n / ARCHIVE_SIZE;
+      $('fetch-state').textContent = 'Downloading from the Internet Archive: '
+        + (n / 1048576).toFixed(0) + ' of ' + (ARCHIVE_SIZE / 1048576).toFixed(0) + ' MB';
+    }
+    if (n !== ARCHIVE_SIZE) throw new Error('the download stopped early');
+    $('fetch-state').textContent = 'Checking the download…';
+    const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-1', data))]
+      .map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hash !== ARCHIVE_SHA1) throw new Error('it is not the expected CD image');
+    if (!discFile) discFile = { name: 'A2RACER4.bin from the Internet Archive', size: n, data };
+  } catch (e) {
+    if (!download.signal.aborted) error = e;
+  }
+  download = null;
+  refresh();
+  if (error) {
+    log('download: ' + (error.message || error));
+    status('The download didn\'t work. Choose the CD image yourself.', true);
+  }
+}
+
+// The CD image's Data folder into DISC (res/discimage.cpp's unpacking, done here so that
+// the whole image never has to sit in the game's file system): ISO 9660 with Joliet names
+// when the disc has them, 2048-byte sectors (.iso) or raw 2352-byte ones (.bin, Mode 1 or
+// Mode 2 XA form 1). An uploaded file is read a piece at a time.
+async function unpackDisc(src) {
+  const SECTOR = 2048;
+  const bytes = async (pos, len) => src.data ? src.data.subarray(pos, pos + len)
+    : new Uint8Array(await src.slice(pos, pos + len).arrayBuffer());
+  const head = await bytes(0, 12);
+  const sync = [0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0];
+  const raw = sync.every((b, i) => head[i] === b);
+  const size = raw ? 2352 : SECTOR;
+  // count sectors from lba: their 2048 user bytes each.
+  async function sectors(lba, count) {
+    const block = await bytes(lba * size, count * size);
+    if (!raw) return block;
+    const out = new Uint8Array(count * SECTOR);
+    for (let i = 0; i < count; i++) {
+      const s = block.subarray(i * 2352, (i + 1) * 2352);
+      if (s.length < 2352 || !sync.every((b, k) => s[k] === b)) continue;
+      out.set(s.subarray(s[15] === 1 ? 16 : 24, (s[15] === 1 ? 16 : 24) + SECTOR), i * SECTOR);
+    }
+    return out;
+  }
+  async function extent(lba, len) {
+    const out = new Uint8Array(len);
+    const step = 256; // sectors at a time
+    for (let done = 0; done < len; done += step * SECTOR) {
+      const n = Math.min(step, Math.ceil((len - done) / SECTOR));
+      const s = await sectors(lba + done / SECTOR, n);
+      out.set(s.subarray(0, Math.min(s.length, len - done)), done);
+    }
+    return out;
+  }
+  const rd32 = (p, o) => p[o] | p[o + 1] << 8 | p[o + 2] << 16 | (p[o + 3] << 24 >>> 0);
+  let joliet = false, root = null;
+  for (let s = 16; s < 32; s++) {
+    const vd = await sectors(s, 1);
+    if (vd[0] === 255) break;
+    if (String.fromCharCode(...vd.subarray(1, 6)) !== 'CD001') break;
+    const isJoliet = vd[0] === 2 && vd[88] === 0x25 && vd[89] === 0x2f && [0x40, 0x43, 0x45].includes(vd[90]);
+    if (vd[0] === 1 || isJoliet) {
+      if (!root || isJoliet) { root = vd.slice(156, 190); joliet = isJoliet; }
+    }
+  }
+  if (!root) throw new Error('not an ISO 9660 CD image');
+  const name = r => {
+    const n = r[32];
+    let s = '';
+    if (joliet) for (let i = 0; i + 1 < n; i += 2) s += String.fromCharCode(r[33 + i] << 8 | r[34 + i]);
+    else s = String.fromCharCode(...r.subarray(33, 33 + n));
+    s = s.split(';')[0];
+    return s.endsWith('.') ? s.slice(0, -1) : s;
+  };
+  function* records(dir) {
+    for (let i = 0; i < dir.length;) {
+      const len = dir[i];
+      if (len === 0) { i = (Math.floor(i / SECTOR) + 1) * SECTOR; continue; }
+      const r = dir.subarray(i, i + len);
+      i += len;
+      if (r[32] === 0 || (r[32] === 1 && r[33] <= 1)) continue;
+      yield r;
+    }
+  }
+  let files = 0, done = 0;
+  async function unpack(lba, len, out) {
+    mkdirs(out);
+    for (const r of records(await extent(lba, len))) {
+      const path = out + '/' + name(r);
+      if (r[25] & 2) { await unpack(rd32(r, 2), rd32(r, 10), path); continue; }
+      FS.writeFile(path, await extent(rd32(r, 2), rd32(r, 10)));
+      files++;
+      done += rd32(r, 10);
+      status('Unpacking the game files: ' + (done / 1048576).toFixed(0) + ' MB');
+    }
+  }
+  const top = await extent(rd32(root, 2), rd32(root, 10));
+  for (const r of records(top)) {
+    if ((r[25] & 2) && name(r).toLowerCase() === 'data') {
+      await unpack(rd32(r, 2), rd32(r, 10), DISC);
+      log('unpacked ' + files + ' files');
+      return;
+    }
+  }
+  throw new Error('no Data folder (is this the A2 Racer 4 CD?)');
+}
+
+$('fetch-cancel').onclick = () => download && download.abort();
+
+function setDisc(f) { if (f) { discFile = f; refresh(); } }
+
+$('disc-file').onchange = e => setDisc(e.target.files[0]);
+{
+  const el = $('pick-disc');
+  el.ondragover = e => { e.preventDefault(); el.classList.add('drag'); };
+  el.ondragleave = () => el.classList.remove('drag');
+  el.ondrop = e => { e.preventDefault(); el.classList.remove('drag'); setDisc(e.dataTransfer.files[0]); };
+}
+
+const rm = dir => {
+  if (!exists(dir)) return;
+  for (const n of FS.readdir(dir)) {
+    if (n === '.' || n === '..') continue;
+    const p = dir + '/' + n;
+    FS.isDir(FS.stat(p).mode) ? rm(p) : FS.unlink(p);
+  }
+  FS.rmdir(dir);
+};
+
+$('forget').onclick = async () => {
+  if (!confirm('Remove the unpacked game files from this browser? Your saves are kept.')) return;
+  rm(DISC);
+  await sync();
+  refresh();
+};
+
+$('fullscreen').onclick = () => Module.requestFullscreen(false, false);
+
+$('play').onclick = async () => {
+  $('play').disabled = true;
+  if (discFile) {
+    try {
+      status('Unpacking the game files (once)…');
+      rm(DISC);
+      await unpackDisc(discFile);
+      discFile = null;
+      status('Storing the game files in this browser…');
+      await sync();
+    } catch (e) {
+      rm(DISC);
+      status('Could not unpack the CD image: ' + (e.message || e), true);
+      log('unpack: ' + (e.stack || e));
+      discFile = null;
+      refresh();
+      return;
+    }
+  }
+  running = true;
+  $('setup').hidden = true;
+  $('fullscreen').disabled = false;
+  $('canvas').focus();
+  Module.callMain(['--data', DISC]);
+};
+
+// Saves are written by the game whenever it likes; store them regularly.
+setInterval(() => { if (running) sync(); }, 3000);
+document.addEventListener('visibilitychange', () => { if (document.hidden && running) sync(); });
+
+var Module = {
+  canvas: $('canvas'),
+  print: text => console.log(text),
+  printErr: text => { console.warn(text); log(text); },
+  preRun: [() => {
+    FS.mkdir(ROOT);
+    FS.mount(IDBFS, {}, ROOT);
+    addRunDependency('idbfs');
+    FS.syncfs(true, err => {
+      if (err) log('storage: ' + err);
+      removeRunDependency('idbfs');
+    });
+  }],
+  onRuntimeInitialized: () => { refresh(); if (!hasDisc()) downloadDisc(); },
+  onExit: async code => {
+    running = false;
+    await sync();
+    $('fullscreen').disabled = true;
+    $('setup').hidden = false;
+    discFile = null;
+    refresh();
+    $('play').hidden = true;
+    status(code === 0 ? 'The game has ended. Reload the page to play again.'
+      : 'The game stopped (see the messages below). Reload the page to try again.', code !== 0);
+  },
+  onAbort: what => { status('The game crashed: ' + what, true); $('setup').hidden = false; },
+};
+window.addEventListener('error', e => log(String(e.message)));
+</script>
+<script src="a2racer4.js" async></script>
+</body>
+</html>

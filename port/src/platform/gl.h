@@ -5,6 +5,10 @@
 
 #include <SDL_opengl.h>
 
+/* In the browser Emscripten emulates these on WebGL (LEGACY_GL_EMULATION) and links them
+ * itself. */
+#ifndef __EMSCRIPTEN__
+
 
 #define A2_GL_FUNCS(X) \
 	X(void, Viewport, (GLint x, GLint y, GLsizei w, GLsizei h)) \
@@ -121,6 +125,7 @@ A2_GL_FUNCS(A2_GL_DECLARE)
 #define glReadBuffer a2_glReadBuffer
 #define glGetError a2_glGetError
 #define glGetString a2_glGetString
+#endif
 
 /* Loads the functions for the current context; false if one is missing. */
 bool gl_load(void);

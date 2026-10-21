@@ -8,7 +8,9 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
 
-find_package(SDL2 REQUIRED CONFIG)
+if(NOT EMSCRIPTEN)
+	find_package(SDL2 REQUIRED CONFIG)
+endif()
 
 add_executable(a2racer4 WIN32
 	src/main.cpp
@@ -51,6 +53,19 @@ add_executable(a2racer4 WIN32
 	src/menu/agent.cpp
 )
 target_include_directories(a2racer4 PRIVATE src third_party)
+if(EMSCRIPTEN)
+	# The web build (web/build.sh): SDL2 from Emscripten's ports, the fixed-function OpenGL
+	# the race uses emulated on WebGL 1, and Asyncify so that the game's own loops (which
+	# sleep and poll as on Windows) can hand control back to the browser. The page puts
+	# the CD's files in IndexedDB (IDBFS) and starts main itself.
+	target_compile_options(a2racer4 PRIVATE -sUSE_SDL=2 -O3)
+	target_link_options(a2racer4 PRIVATE -sUSE_SDL=2 -sLEGACY_GL_EMULATION -sMAX_WEBGL_VERSION=1
+		-sASYNCIFY -sASYNCIFY_STACK_SIZE=131072 -sSTACK_SIZE=4MB -sALLOW_MEMORY_GROWTH
+		-sINITIAL_MEMORY=128MB -sMAXIMUM_MEMORY=2GB -sFORCE_FILESYSTEM -lidbfs.js -sINVOKE_RUN=0
+		-sEXIT_RUNTIME -sENVIRONMENT=web -sEXPORTED_RUNTIME_METHODS=callMain,FS,IDBFS -O3)
+	target_compile_options(a2racer4 PRIVATE -Wall -Wextra -Wno-unused-parameter)
+	return()
+endif()
 # SDL2main (WinMain -> main) has to come before SDL2 for MinGW's linker.
 if(TARGET SDL2::SDL2main)
 	target_link_libraries(a2racer4 PRIVATE SDL2::SDL2main)

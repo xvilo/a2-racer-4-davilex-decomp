@@ -54,6 +54,26 @@ unsigned TextureManager::get(const std::string &name)
 				any = true;
 			}
 		}
+#ifdef __EMSCRIPTEN__
+		/* WebGL 1 repeats only textures a power of two across: the others are scaled up. */
+		auto pow2 = [](int n) {
+			int p = 1;
+			while (p < n)
+				p *= 2;
+			return p;
+		};
+		int pw = pow2(img.width), ph = pow2(img.height);
+		if (pw != img.width || ph != img.height) {
+			std::vector<uint32_t> scaled((size_t)pw * ph);
+			for (int y = 0; y < ph; y++)
+				for (int x = 0; x < pw; x++)
+					scaled[(size_t)y * pw + x] =
+						img.pixels[(size_t)(y * img.height / ph) * img.width + (size_t)(x * img.width / pw)];
+			img.pixels.swap(scaled);
+			img.width = pw;
+			img.height = ph;
+		}
+#endif
 		glGenTextures(1, &tex);
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

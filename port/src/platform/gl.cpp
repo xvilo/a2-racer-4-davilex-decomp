@@ -2,6 +2,12 @@
 
 #include <SDL.h>
 
+#ifdef __EMSCRIPTEN__
+bool gl_load(void)
+{
+	return true;
+}
+#else
 #define A2_GL_DEFINE(ret, name, args) ret (APIENTRY *a2_gl##name) args;
 A2_GL_FUNCS(A2_GL_DEFINE)
 #undef A2_GL_DEFINE
@@ -19,3 +25,4 @@ bool gl_load(void)
 #undef A2_GL_LOAD
 	return ok;
 }
+#endif
