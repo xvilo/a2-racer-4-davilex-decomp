@@ -35,6 +35,8 @@ struct CarSpec {
 	/* Reads entry `index` of section (e.g. "league0") from CAR_CFG.INI and its dynamics
 	 * record; motor/gearbox are the upgrade levels (0 or 1). An error message, or empty. */
 	std::string load(const std::string &dir, const std::string &section, int index, int motor, int gearbox);
+	/* The entry of section whose name (the first field) is name; -1 if none. */
+	static int find(const std::string &dir, const std::string &section, const std::string &name);
 };
 
 struct CarInput {

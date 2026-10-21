@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <map>
 #include <vector>
 
 #include "audio/race_sound.h"
@@ -157,6 +158,7 @@ struct Racer {
 	AiDriver ai;
 	RaceRules rules;
 	bool player = false;
+	bool traffic = false;
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
 	 * spot isn't the one it just crashed from. */
 	struct Safe {
@@ -215,8 +217,9 @@ void collide(Car &a, Car &b)
 	float ca[2][2], cb[2][2];
 	circles(a, ca);
 	circles(b, cb);
-	float ra = std::max(a.spec.wheel_front[0], a.spec.wheel_rear[0]) + 2;
-	float rb = std::max(b.spec.wheel_front[0], b.spec.wheel_rear[0]) + 2;
+	/* About the bodies' half width (the wheels sit a little inside it). */
+	float ra = std::max(a.spec.wheel_front[0], a.spec.wheel_rear[0]) + 3.5f;
+	float rb = std::max(b.spec.wheel_front[0], b.spec.wheel_rear[0]) + 3.5f;
 	for (auto &p : ca) {
 		for (auto &q : cb) {
 			float dx = q[0] - p[0], dz = q[1] - p[1], d2 = dx * dx + dz * dz, r = ra + rb;
@@ -239,6 +242,57 @@ void collide(Car &a, Car &b)
 		}
 	}
 }
+
+/* The stage's traffic (traffic.ini [Traffic Track <n>]: vehicles from CAR_CFG.INI
+ * [traffic] with weights, and how many may be about at once going the race's way
+ * (MAX_TRAFFIC_RIGHT) and against it (MAX_TRAFFIC_LEFT)). Cars appear on the drive map's
+ * lanes out of sight around the player and disappear again when left far behind. */
+struct TrafficPlan {
+	struct Kind {
+		CarSpec spec;
+		int weight = 1;
+	};
+	std::vector<Kind> kinds;
+	int total_weight = 0;
+	int max_with = 0, max_against = 0;
+
+	void load(const std::string &dir, int stage)
+	{
+		IniFile ini;
+		std::string p = find_file_ci(dir, "traffic.ini");
+		if (p.empty() || !ini.load(p))
+			return;
+		std::string sec = "Traffic Track " + std::to_string(stage);
+		int count = ini.get_int(sec, "COUNT", 0);
+		for (int i = 0; i < count; i++) {
+			std::vector<std::string> f = split_fields(ini.get(sec, std::to_string(i)));
+			if (f.empty())
+				continue;
+			int entry = CarSpec::find(dir, "traffic", f[0]);
+			Kind k;
+			if (entry < 0 || !k.spec.load(dir, "traffic", entry, 0, 0).empty())
+				continue;
+			k.weight = std::max(f.size() > 1 ? atoi(f[1].c_str()) : 1, 1);
+			total_weight += k.weight;
+			kinds.push_back(k);
+		}
+		max_with = ini.get_int(sec, "MAX_TRAFFIC_RIGHT", 0);
+		max_against = ini.get_int(sec, "MAX_TRAFFIC_LEFT", 0);
+	}
+
+	const CarSpec *pick(unsigned r) const
+	{
+		if (kinds.empty())
+			return nullptr;
+		int w = (int)(r % (unsigned)total_weight);
+		for (const Kind &k : kinds) {
+			if (w < k.weight)
+				return &k.spec;
+			w -= k.weight;
+		}
+		return &kinds.back().spec;
+	}
+};
 
 CarModel load_model(const Track &track, MeshCache &meshes, TextureManager &textures, const std::string &anim)
 {
@@ -301,6 +355,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		fprintf(stderr, "race: %s\n", err.c_str());
 		return 1;
 	}
+	/* The racers live at the front of the list; traffic comes and goes behind them.
+	 * Reserve room so references to the racers stay valid. */
+	racers.reserve(racers.size() + 64);
 	Racer &me = racers[0];
 	printf("race: stage %d (%s), car %s (%s): %.0f kg, top speed %.0f km/h, %d gears; %zu rivals\n", opt.stage,
 		track.info.name.c_str(), me.car.spec.name.c_str(), me.car.spec.animation.c_str(), me.car.spec.mass,
@@ -317,6 +374,36 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	const std::vector<AnimFrame> *sky = track.animation("sky");
 	for (Racer &rc : racers)
 		rc.model = load_model(track, meshes, textures, rc.car.spec.animation);
+	TrafficPlan traffic;
+	if (gi.get_int("OPTIONS", "Traffic", 1))
+		traffic.load(data_dir, opt.stage);
+	/* Testing: A2_TRAFFIC=0 turns it off. */
+	if (const char *tf = getenv("A2_TRAFFIC"))
+		if (*tf == '0')
+			traffic.kinds.clear();
+	std::map<std::string, CarModel> models;
+	for (const auto &k : traffic.kinds)
+		models[k.spec.animation] = load_model(track, meshes, textures, k.spec.animation);
+	/* Each drive map node's chunk and whether its lane runs the race's way. */
+	std::vector<int> node_chunk(track.drive.size());
+	std::vector<char> node_with(track.drive.size());
+	for (size_t i = 0; i < track.drive.size(); i++) {
+		const DriveNode &dn = track.drive[i];
+		node_chunk[i] = world.nearest_chunk(dn.pos[0], dn.pos[2], -1);
+		int c = node_chunk[i];
+		float a[3], b[3];
+		track.road_centre(c, a);
+		track.road_centre(c + 1, b);
+		int nx = dn.next >= 0 && dn.next < (int)track.drive.size() ? dn.next : (int)i;
+		const float *q = track.drive[(size_t)nx].pos;
+		node_with[i] = (q[0] - dn.pos[0]) * (b[0] - a[0]) + (q[2] - dn.pos[2]) * (b[2] - a[2]) > 0;
+	}
+	unsigned rnd = 12345;
+	auto random = [&]() {
+		rnd = rnd * 1103515245u + 12345u;
+		return rnd >> 8;
+	};
+	float next_spawn = 0;
 	Keys keys;
 	keys.load(data_dir);
 	RaceSound sound;
@@ -345,8 +432,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		racers[i].safe.push_back({ { racers[i].car.pos[0], racers[i].car.pos[1], racers[i].car.pos[2] },
 			racers[i].car.yaw, 0 });
 	}
-	Car &car = me.car;
-	RaceRules &rules = me.rules;
+	const int field_size = (int)racers.size();
+	Car &car = racers[0].car;
+	RaceRules &rules = racers[0].rules;
 	float cam[3] = { car.pos[0] - sinf(car.yaw) * 60, car.pos[1] + 25, car.pos[2] - cosf(car.yaw) * 60 };
 	/* 0 chase, 1 driver, 2 and 3 beside and in front of the car (looking at it). */
 	int camera = 0;
@@ -359,7 +447,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	auto position_of = [&](const Racer &who) {
 		int p = 1;
 		for (const Racer &o : racers) {
-			if (&o != &who && o.score() > who.score())
+			if (&o != &who && !o.traffic && o.score() > who.score())
 				p++;
 		}
 		return p;
@@ -402,6 +490,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		while (acc >= STEP) {
 			for (Racer &rc : racers) {
 				CarInput ci = rc.player && !opt.autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
+				if (rc.traffic)
+					rc.rules.phase = RaceRules::RACING;
 				/* No driving before the start; after the finish the car rolls out. */
 				if (rc.rules.phase != RaceRules::RACING) {
 					ci.throttle = 0;
@@ -412,7 +502,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					rc.ai.stuck = 0;
 				}
 				rc.car.step(world, ci, STEP);
-				rc.rules.update(STEP, rc.car.chunk);
+				if (!rc.traffic)
+					rc.rules.update(STEP, rc.car.chunk);
 			}
 			for (size_t i = 0; i < racers.size(); i++) {
 				for (size_t j = i + 1; j < racers.size(); j++)
@@ -422,6 +513,60 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			clock += STEP;
 		}
 		sound.engine(car, opt.autopilot ? 1.0f : player_in.throttle);
+		/* Traffic: new cars out of sight, old ones gone when far behind. */
+		if (!traffic.kinds.empty() && clock >= next_spawn) {
+			next_spawn = clock + 0.5f;
+			int with = 0, against = 0;
+			for (Racer &rc : racers) {
+				if (!rc.traffic)
+					continue;
+				int d = ((rc.car.chunk - car.chunk) % n + n) % n;
+				if (d > n / 2)
+					d -= n;
+				if (d < -12 || d > 40)
+					rc.car.chunk = -999; /* gone */
+				else
+					(rc.ai.skill > 0 ? with : against)++;
+			}
+			racers.erase(std::remove_if(racers.begin() + 1, racers.end(),
+							 [](const Racer &rc) { return rc.car.chunk == -999; }),
+				racers.end());
+			bool want_with = with < traffic.max_with, want_against = against < traffic.max_against;
+			if ((want_with || want_against) && !track.drive.empty()) {
+				bool go_with = want_with && (!want_against || random() % 2);
+				for (int tries = 0; tries < 20; tries++) {
+					size_t i = random() % track.drive.size();
+					int d = ((node_chunk[i] - car.chunk) % n + n) % n;
+					if (d < 14 || d > 34 || (bool)node_with[i] != go_with || track.drive[i].next < 0)
+						continue;
+					const DriveNode &dn = track.drive[i];
+					bool clear = true;
+					for (const Racer &o : racers) {
+						float dx = o.car.pos[0] - dn.pos[0], dz = o.car.pos[2] - dn.pos[2];
+						clear = clear && dx * dx + dz * dz > 80 * 80;
+					}
+					if (!clear || racers.size() >= racers.capacity())
+						break;
+					const CarSpec *spec = traffic.pick(random());
+					Racer t;
+					t.traffic = true;
+					t.car.spec = *spec;
+					t.model = models[spec->animation];
+					const float *q = track.drive[(size_t)dn.next].pos;
+					t.car.place_at(world, dn.pos, atan2f(q[0] - dn.pos[0], q[2] - dn.pos[2]));
+					/* A steady 45..60 km/h (stored as a share of the car's top speed; negative
+					 * marks a car coming the other way, for the counts). */
+					float cruise = (45 + (float)(random() % 16)) / std::max(spec->top_speed, 50.0f);
+					t.ai.skill = go_with ? cruise : -cruise;
+					t.ai.node = (int)i;
+					t.rules.phase = RaceRules::RACING;
+					t.car.vel[0] = sinf(t.car.yaw) * 10;
+					t.car.vel[2] = cosf(t.car.yaw) * 10;
+					racers.push_back(std::move(t));
+					break;
+				}
+			}
+		}
 		for (Racer &rc : racers) {
 			/* Fallen off the world, or stuck for long: back on the road. */
 			if (rc.car.airborne && rc.car.vel[1] < -40)
@@ -515,12 +660,12 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			if (d <= 25 || d >= n - 25)
 				draw_car(r, rc.car, rc.model);
 		}
-		hud.draw(r, rules, car, position_of(me), (int)racers.size());
+		hud.draw(r, rules, car, position_of(me), field_size);
 		sys_gl_end_frame();
 	}
 	sound.stop();
-	printf("race: %s, position %d of %zu, time %s", rules.phase == RaceRules::FINISHED ? "finished" : "not finished",
-		position_of(me), racers.size(), format_time(rules.time).c_str());
+	printf("race: %s, position %d of %d, time %s", rules.phase == RaceRules::FINISHED ? "finished" : "not finished",
+		position_of(racers[0]), field_size, format_time(rules.time).c_str());
 	for (size_t i = 0; i < rules.lap_times.size(); i++)
 		printf("%s lap %zu %s", i ? "," : ";", i + 1, format_time(rules.lap_times[i]).c_str());
 	printf("\n");

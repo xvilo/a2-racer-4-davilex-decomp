@@ -89,7 +89,7 @@ CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 		turn += fabsf(remainderf(h2 - h1, 2 * PI));
 		a = b;
 	}
-	float v_top = car.spec.top_speed / 3.6f * skill;
+	float v_top = car.spec.top_speed / 3.6f * fabsf(skill);
 	float v_bend = 10 + 30 / (1 + turn * 2.5f);
 	float target = std::min(v_top, v_bend);
 	in.throttle = speed < target ? 1.0f : 0.0f;

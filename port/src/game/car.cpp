@@ -76,6 +76,21 @@ std::string CarSpec::load(const std::string &dir, const std::string &section, in
 	return "";
 }
 
+int CarSpec::find(const std::string &dir, const std::string &section, const std::string &name)
+{
+	IniFile cfg;
+	std::string path = find_file_ci(dir, "CAR_CFG.INI");
+	if (path.empty() || !cfg.load(path))
+		return -1;
+	int count = cfg.get_int(section, "Count", 0);
+	for (int i = 0; i < count; i++) {
+		std::vector<std::string> f = split_fields(cfg.get(section, std::to_string(i)));
+		if (!f.empty() && equal_ci(f[0], name))
+			return i;
+	}
+	return -1;
+}
+
 void Car::place(const CollisionWorld &world, const Track &track, int c, float side)
 {
 	int n = (int)track.road.chunks.size();
