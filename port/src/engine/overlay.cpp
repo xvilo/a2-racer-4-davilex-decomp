@@ -135,9 +135,13 @@ void Overlay::element(Renderer &r, const std::string &name, float angle, float z
 	if (angle != 0)
 		gl_rotate(-angle, 0, 0, 1);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	/* The dashboard is see-through (its vertices' alpha), the glass over it more so. */
+	/* The dashboard is see-through (its vertices' alpha), the glass over it more so; the
+	 * lamps' glows are alpha maps (black where clear), added on. */
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	if (name.size() > 5 && name.compare(name.size() - 5, 5, "_GLOW") == 0)
+		glBlendFunc(GL_ONE, GL_ONE);
+	else
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	r.draw_mesh(*e.mesh, e.tex, e.tinted ? e.rgba : nullptr);
 	glDisable(GL_BLEND);
 	glPopMatrix();

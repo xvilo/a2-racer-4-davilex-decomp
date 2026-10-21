@@ -1,4 +1,5 @@
 #include "race/race.h"
+#include "race/communicator.h"
 #include "race/effects.h"
 
 #include <algorithm>
@@ -128,10 +129,46 @@ struct Hud {
 	/* A pick-up's text (PrintText), for a few seconds. */
 	std::string message;
 	float message_time = 0;
+	const Communicator *comm = nullptr;
+	float owner_damage = 0; /* the speaking racer's, 0..1100 */
+
+	/* The communicator (Ovl_Communicator.cpp): sliding up from below the screen for a
+	 * message, the speaker's portrait, the text, their car's health, the cop alert lamp. */
+	void draw_communicator(Renderer &r)
+	{
+		if (!comm || comm->slide >= 1)
+			return;
+		glPushMatrix();
+		glTranslatef(0, comm->slide * 160, 0);
+		overlay.element(r, "OVL_COMMUNICATOR_GLAS1");
+		if (!comm->photo.empty())
+			overlay.element(r, comm->photo);
+		overlay.element(r, "OVL_COMMUNICATOR_GLAS2");
+		overlay.element(r, "OVL_COMMUNICATOR_BODY");
+		if (comm->owner >= 0) {
+			overlay.element(r, "OVL_COMMUNICATOR_HLTH_BK");
+			overlay.element(r, "OVL_COMMUNICATOR_HLTH", 0, 1, std::clamp(owner_damage / 1100, 0.0f, 1.0f));
+		}
+		if (comm->alert_lit) {
+			overlay.element(r, "OVL_COMMUNICATOR_RED_LED");
+			overlay.element(r, "OVL_COMMUNICATOR_RED_GLOW");
+		}
+		else
+			overlay.element(r, "OVL_COMMUNICATOR_RED_LUD");
+		for (size_t i = 0; i < 4; i++)
+			overlay.string("STRING_" + std::to_string(i) + "_COMMUNICATOR", i < comm->lines.size() ? comm->lines[i] : " ");
+		glPopMatrix();
+	}
 
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
 		overlay.begin();
+		draw_communicator(r);
+		if (comm && comm->arrow) {
+			static const char *arrows[4] = { "OVL_DIRECTION_GOLEFT", "OVL_DIRECTION_GORIGHT", "OVL_DIRECTION_GOBOTH",
+				"OVL_DIRECTION_GOZIGZAG" };
+			overlay.element(r, arrows[std::clamp(comm->arrow - 2, 0, 3)]);
+		}
 		/* FLITS: the screen white for a frame or two (palette 235,235,235). */
 		if (white > 0) {
 			glDisable(GL_TEXTURE_2D);
@@ -157,6 +194,14 @@ struct Hud {
 		/* The turbo gauge: 180 degrees for a full tank. */
 		overlay.element(r, "OVL_SPEEDOMETER_TURBODIAL", turbo / 100 * 180);
 		overlay.element(r, "OVL_SPEEDOMETER_TURBODOP");
+		/* The lamps: red from 80% damage, green with the turbo nearly gone (0x489c10). */
+		bool red = damage >= 0.8f * 1100, green = turbo <= 20;
+		overlay.element(r, red ? "OVL_SPEEDOMETER_RED_LED" : "OVL_SPEEDOMETER_RED_LUD");
+		if (red)
+			overlay.element(r, "OVL_SPEEDOMETER_RED_GLOW");
+		overlay.element(r, green ? "OVL_SPEEDOMETER_GRN_LED" : "OVL_SPEEDOMETER_GRN_LUD");
+		if (green)
+			overlay.element(r, "OVL_SPEEDOMETER_GRN_GLOW");
 		overlay.element(r, "OVL_SPEEDOMETER_GLAS");
 		overlay.string("STRING_RACE_TIME_VALUE", format_time(rules.time));
 		if (time_limit > 0 && rules.phase == RaceRules::RACING)
@@ -318,6 +363,8 @@ struct Racer {
 	enum { NONE, WAITING, CHASING, GAVE_UP } police = NONE;
 	float chase_time = 0;
 	int siren = 0;
+	int was_police = NONE;  /* last frame's, for the communicator */
+	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
 	 * spot isn't the one it just crashed from. */
 	struct Safe {
@@ -774,6 +821,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	Renderer r{ textures };
 	Hud hud;
 	hud.load(data_dir, opt.car, track, meshes, textures);
+	Communicator comm;
+	if (comm.load(data_dir))
+		hud.comm = &comm;
 	const unsigned road_tex[4] = { textures.get(track.info.road_texture), textures.get(track.info.grass_texture),
 		textures.get(track.info.grass2_texture), textures.get(track.info.rail_texture) };
 	const std::vector<AnimFrame> *sky = track.animation("sky");
@@ -1070,6 +1120,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float flash_message = 0;
 	std::vector<char> flashed(radar_traps.size(), 0);
 	float arrest_time = 0;
+	int comm_chunk = -1;
+	bool comm_start_said = false, comm_finish_said = false, comm_damage_said = false;
 	Car &car = racers[0].car;
 	RaceRules &rules = racers[0].rules;
 	float cam[3] = { car.pos[0] - sinf(car.yaw) * 60, car.pos[1] + 25, car.pos[2] - cosf(car.yaw) * 60 };
@@ -1246,6 +1298,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 						knock_fx(me_, at, imp, hurt);
 						if (me_.player)
 							knock_sound(imp, false, since);
+						/* ai_racer.cpp: a racer bumped by the player has its say. */
+						if (me_.player && !other.traffic && other.police == Racer::NONE && other.entry < 5 && v > 2)
+							comm.post("~racer" + std::to_string(other.entry) + "collision", other.entry, clock);
 					}
 				}
 			}
@@ -1396,6 +1451,66 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		fx.update(frame_dt, clock);
+		/* What the communicator hears about: the road's triggers as the player reaches them
+		 * (58-61 the direction arrows, 62-68 FUN_00456050.. by the table at 0x5a3bb0), the
+		 * police setting off and giving up, rivals overtaking, heavy damage. */
+		if (car.chunk >= 0 && car.chunk != comm_chunk && rules.phase == RaceRules::RACING) {
+			comm_chunk = car.chunk;
+			const RoadChunk &rc = track.road.chunks[(size_t)car.chunk];
+			for (int t : { rc.a, rc.b }) {
+				switch (t) {
+				case 58: comm.post("SYSTEM_goleft", -1, clock); break;
+				case 59: comm.post("SYSTEM_goright", -1, clock); break;
+				case 60: comm.post("SYSTEM_gofork", -1, clock); break;
+				case 61: comm.post("SYSTEM_gozigzag", -1, clock); break;
+				case 62: {
+					char cat[32];
+					snprintf(cat, sizeof cat, "~game_position_%02d", std::clamp(position_of(me), 1, 5));
+					comm.post(cat, -1, clock);
+					break;
+				}
+				case 63: comm.post("~call_for_backup", -1, clock); break;
+				case 64: comm.post("~go_for_it", -1, clock); break;
+				case 65: comm.post("~junction_ahead_left", -1, clock); break;
+				case 66: comm.post("~junction_ahead_right", -1, clock); break;
+				case 67:
+					if (!comm_start_said)
+						comm.post("~challenge_at_start", -1, clock), comm_start_said = true;
+					break;
+				case 68:
+					if (!comm_finish_said)
+						comm.post("~challenge_at_finish", -1, clock), comm_finish_said = true;
+					break;
+				}
+			}
+		}
+		for (Racer &rc : racers) {
+			if (rc.police == Racer::CHASING && rc.was_police != Racer::CHASING) {
+				comm.post("SYSTEM_copalert", -1, clock);
+				comm.post("~warning_from_harry", -1, clock);
+				comm.post("~warning_about_harry", -1, clock);
+			}
+			if (rc.police == Racer::GAVE_UP && rc.was_police == Racer::CHASING)
+				comm.post("~police_outsmarted", -1, clock);
+			rc.was_police = rc.police;
+			/* ai_new.cpp: "~racer%dpassing" as a racer overtakes the player, "passed" as the
+			 * player overtakes it. */
+			if (!rc.player && !rc.traffic && rc.police == Racer::NONE && rc.entry < 5 &&
+				rules.phase == RaceRules::RACING) {
+				int ahead = rc.score() > me.score() ? 1 : 0;
+				float dx = rc.car.pos[0] - car.pos[0], dz = rc.car.pos[2] - car.pos[2];
+				if (rc.was_ahead >= 0 && ahead != rc.was_ahead && dx * dx + dz * dz < 300 * 300)
+					comm.post("~racer" + std::to_string(rc.entry) + (ahead ? "passing" : "passed"), rc.entry, clock);
+				rc.was_ahead = ahead;
+			}
+		}
+		if (me.damage >= 0.8f * 1100 && !comm_damage_said)
+			comm.post("~a_lotta_damage", -1, clock), comm_damage_said = true;
+		comm.update(clock, frame_dt, sound);
+		hud.owner_damage = 0;
+		for (const Racer &rc : racers)
+			if (!rc.traffic && rc.police == Racer::NONE && rc.entry == comm.owner)
+				hud.owner_damage = rc.damage;
 		light_time += frame_dt;
 		if (light_time >= light_cycle[light_step].time)
 			light_step = (light_step + 1) % 3, light_time = 0;
