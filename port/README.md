@@ -7,10 +7,10 @@ The game's own data is not included. Point the port at the original CD image, or
 ## Status
 
 Working:
-- **The menu**, built at run time from the player's own `Menu.exe` (its form resources and class tables): the main screen and Quick Race (track and character choice, with their pictures and the character's ratings). Tour mode, options, players and the result screens follow.
+- **The menu**, built at run time from the player's own `Menu.exe` (its form resources and class tables): the main screen, Quick Race (track and character choice, with their pictures and the character's ratings) and its results, and the Tour: character, each track in turn (a chase against the clock on the police tracks), the win / qualify / lose screens with the hosts' voices, and the final winner. Options and players follow.
 - **The race**: the stage with its scenery, sky and objects; the player's car from `CAR_CFG.INI` and `VDYNS.DAT` with the port's own physics (the original used the Ipion library); a countdown, laps, times, positions and the finish; five computer rivals; traffic both ways; police that wait by the road, chase, and arrest; radar traps; the original HUD from `overlay<n>.ini`; music, engine and effects.
 
-Not yet: damage, money and the garage, power-ups, the Tour, films (MPEG), the helper character, saved players.
+Not yet: damage, money and the garage, power-ups, films (MPEG), the helper character, saved players.
 
 Keys while driving: the arrow keys (or those in `game.ini` [INPUT]) steer, accelerate and brake/reverse; C changes the camera (chase, driver, two inspection views); R puts the car back on the road; Esc quits.
 
@@ -39,7 +39,7 @@ For a self-contained executable, build SDL2 statically first: `tools/build_stati
 | `--data <dir or image>` | Where the game files are (also `A2_DATA`): the CD image (`.bin` with raw 2352-byte sectors, or `.iso`), a copy of the CD, or its `Data` folder |
 | `--save <dir>` | Where options and players go. Default: the user's data folder |
 | `--scale N` | Opens the window at N × 800×600. The window can be resized freely and keeps 4:3 |
-| `--race N` | Drives stage N (0–11) straight away; `--car N` picks the car (`CAR_CFG.INI` [league0] entry). For testing: `A2_AUTOPILOT=1` drives by itself along the lanes of the stage's drive map, `A2_TRACE=1` prints the car's state every second, `A2_START=<chunk>` starts elsewhere |
+| `--race N` | Drives stage N (0–11) straight away; `--car N` picks the car (`CAR_CFG.INI` [league0] entry). For testing: `A2_AUTOPILOT=1` drives by itself along the lanes of the stage's drive map, `A2_TRACE=1` prints the car's state every second, `A2_START=<chunk>` starts elsewhere, `A2_LAPS`, `A2_RIVALS`, `A2_TRAFFIC`, `A2_POLICE` change the race, `A2_RACE_LIMIT=<s>` ends it early as finished, `A2_TOUR_START=<n>` begins the Tour at its n-th track |
 | `--race-view N` | A fly-through along stage N's road |
 | `--screenshot file.png` | Draws the main menu, saves it and exits, without a window |
 | `--script file` | Scripted input for testing: keys, text, clicks and screenshots on a timeline (see `src/platform/sys.cpp`) |
