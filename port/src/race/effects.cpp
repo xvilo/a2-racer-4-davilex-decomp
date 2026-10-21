@@ -116,8 +116,143 @@ void Effects::skid(int id, const float p[3], const float across[3], int level, f
 	}
 }
 
+namespace {
+
+enum Landing { FLY, SETTLE, BOUNCE, SPRAY, VANISH };
+
+/* Per system, from the constructors and the particles' updates. A burst has base - 307.69
+ * dt pieces; each starts at rand(-spread, spread) across the ground, flies out at that
+ * offset times out and rand(up) upwards, lives rand(life) seconds, falls with gravity and
+ * tumbles rand(tumble) radians a frame. The emitter itself moves off at 11 game units/s,
+ * slowing by carry_stop a second (MAIL: x 0.99 a frame). */
+struct SceneryKind {
+	int base;
+	float spread, out, up_lo, up_hi, life_lo, life_hi, gravity, tumble_lo, tumble_hi;
+	Landing landing;
+	float carry_stop;
+};
+
+const SceneryKind scenery_kinds[Effects::SCENERY_KINDS] = {
+	/* 0x45bfe0 */ { 40, 5, 2, 7.5f, 10, 4, 8, 9.81f, -0.1f, 0.5f, SETTLE, 100 },
+	/* 0x458f50 */ { 35, 20, 4, 20, 30, 4, 8, 0, 0, 0, FLY, 0 },
+	/* 0x45c9c0 */ { 40, 5, 1, 20, 30, 4, 8, 20, -0.05f, 0.25f, SETTLE, -1 },
+	/* 0x460bb0 */ { 35, 5, 1, 70, 100, 4, 8, 150, -0.05f, 0.25f, BOUNCE, 50 },
+	/* 0x45ef00 */ { 35, 5, 4, 20, 30, 4, 8, 9.81f, -0.05f, 0.25f, SETTLE, 150 },
+	/* 0x45a1d0 */ { 15, 0.7f, 0, 1, 2, 3, 4, 0, 0, 0, SPRAY, 50 },
+	/* 0x45a9f0 */ { 15, 2.7f, 4, 0, 0, 2, 8, 150, -0.05f, 0.25f, BOUNCE, 150 },
+	/* 0x461570 */ { 20, 0.7f, 0, 1, 2, 1, 2, 0, 0, 0, SPRAY, 50 },
+	/* 0x461dc0 */ { 25, 3.7f, 1.8f, 10, 25, 0.5f, 1.5f, 150, 0, 0, VANISH, 50 },
+};
+
+}
+
+void Effects::scenery(Scenery kind, const float p[3], const float dir[3], float speed, float dt)
+{
+	if (!particles || scenery_meshes[kind].empty())
+		return;
+	const SceneryKind &k = scenery_kinds[kind];
+	bool stream = kind == MUD || kind == MUD_BITS || kind == WATER || kind == WATER_DROPS;
+	int n;
+	if (stream) {
+		owed[kind] += std::max(0.0f, (float)k.base - 307.69f / 30) * 30 * dt;
+		n = (int)owed[kind];
+		owed[kind] -= (float)n;
+	}
+	else
+		n = std::max(0, (int)((float)k.base - std::min(dt, 0.1f) * 307.69f));
+	for (int i = 0; i < n; i++) {
+		if (pieces.size() >= 4000)
+			pieces.erase(pieces.begin());
+		Piece q;
+		q.kind = kind;
+		float ox = random(-k.spread, k.spread), oz = random(-k.spread, k.spread);
+		q.p[0] = p[0] + ox;
+		q.p[1] = p[1] + 0.12f;
+		q.p[2] = p[2] + oz;
+		q.v[0] = ox * k.out;
+		q.v[1] = kind == MUD_BITS ? 0.4f * speed * 10 * random(0.5f, 1) : random(k.up_lo, k.up_hi);
+		q.v[2] = oz * k.out;
+		if (k.landing == SPRAY)
+			q.p[1] += random(k.up_lo, k.up_hi) - k.up_lo, q.v[1] = 0;
+		for (int a = 0; a < 3; a++) {
+			q.carry[a] = dir[a] * 11;
+			q.rot[a] = random(0, 6.2832f);
+			q.scale[a] = 1;
+		}
+		if (k.landing == SPRAY) {
+			/* 0x45a680: stretched along the way by the car's speed, each frame anew. */
+			q.rot[0] = q.rot[2] = 0;
+			q.rot[1] = atan2f(dir[0], dir[2]);
+			bool water = kind == WATER;
+			q.scale[0] = std::max(0.1f, random(water ? 0.03f : 0.02f, water ? 0.05f : 0.04f) * speed);
+			q.scale[2] = std::max(0.1f, random(water ? 0.14f : 0.25f, water ? 0.18f : 0.29f) * speed);
+		}
+		q.age = 0;
+		q.life = random(k.life_lo, k.life_hi);
+		q.ground = p[1];
+		q.flap = random(0, 0.025f);
+		q.frame = (int)random(0, (float)scenery_meshes[kind].size() - 0.01f);
+		q.flap_down = random(0, 1) < 0.5f;
+		q.settled = false;
+		pieces.push_back(q);
+	}
+}
+
 void Effects::update(float dt, float time)
 {
+	/* The original stepped its particles once a frame at some 30 frames a second. */
+	const float frames = dt * 30;
+	for (Piece &q : pieces) {
+		const SceneryKind &k = scenery_kinds[q.kind];
+		q.age += dt;
+		float c = sqrtf(q.carry[0] * q.carry[0] + q.carry[2] * q.carry[2]);
+		float keep = k.carry_stop < 0 ? powf(0.99f, frames) : c > 0 ? std::max(0.0f, c - k.carry_stop * dt) / c : 0;
+		for (float &v : q.carry)
+			v *= keep;
+		for (int a = 0; a < 3; a++)
+			q.p[a] += q.carry[a] * dt;
+		if (q.kind == BIRDS) {
+			/* 0x4594a0: the wings beat through the frames and back, a frame each 25 ms. */
+			q.flap += dt;
+			if (q.flap > 0.025f) {
+				int last = (int)scenery_meshes[BIRDS].size() - 1;
+				if (!q.flap_down && q.frame >= last)
+					q.flap_down = true;
+				else if (q.flap_down && q.frame <= 0)
+					q.flap_down = false;
+				q.frame = std::clamp(q.frame + (q.flap_down ? -1 : 1), 0, last);
+				q.flap = 0;
+			}
+		}
+		if (q.settled || k.landing == SPRAY)
+			continue;
+		q.v[1] -= k.gravity * dt;
+		for (int a = 0; a < 3; a++)
+			q.p[a] += q.v[a] * dt;
+		if (k.landing != FLY && q.p[1] <= q.ground + 0.11f && q.v[1] <= 0) {
+			if (k.landing == VANISH) {
+				q.age = q.life;
+				continue;
+			}
+			/* 0x461150: a bounce while still falling fast, then it lies flat. */
+			if (k.landing == BOUNCE && q.v[1] < -3) {
+				q.p[1] = q.ground + 0.12f;
+				q.v[1] *= -random(0.5f, 0.9f);
+				q.v[0] *= 0.5f;
+				q.v[2] *= 0.5f;
+			}
+			else {
+				q.p[1] = q.ground + 0.1f;
+				q.rot[0] = q.rot[2] = 0;
+				q.settled = true;
+				continue;
+			}
+		}
+		for (float &r : q.rot)
+			r += random(k.tumble_lo, k.tumble_hi) * frames;
+	}
+	pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [](const Piece &q) { return q.age >= q.life; }),
+		pieces.end());
 	for (Spark &s : spark_list) {
 		s.v[1] -= 100 * dt;
 		for (int a = 0; a < 3; a++)
@@ -255,6 +390,19 @@ void Effects::draw(Renderer &r, const float cr[3], const float cu[3], float time
 		gl_rotate(b.rot[0], 1, 0, 0);
 		gl_rotate(b.rot[2], 0, 0, 1);
 		r.draw_mesh(*b.mesh, sfx_tex);
+		glPopMatrix();
+	}
+	for (const Piece &q : pieces) {
+		const Mesh *m = scenery_meshes[q.kind][(size_t)q.frame];
+		if (!m)
+			continue;
+		glPushMatrix();
+		glTranslatef(q.p[0], q.p[1], q.p[2]);
+		gl_rotate(q.rot[1] * 57.2958f, 0, 1, 0);
+		gl_rotate(q.rot[0] * 57.2958f, 1, 0, 0);
+		gl_rotate(q.rot[2] * 57.2958f, 0, 0, 1);
+		glScalef(q.scale[0], q.scale[1], q.scale[2]);
+		r.draw_mesh(*m, sfx_tex);
 		glPopMatrix();
 	}
 }

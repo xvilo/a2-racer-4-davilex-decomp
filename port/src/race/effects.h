@@ -28,6 +28,18 @@ public:
 	 * was below 4. id picks the mark (two per car). */
 	void skid(int id, const float p[3], const float across[3], int level, float time);
 
+	/* The scenery's particles (Par_Leafs, Par_Birds, Par_Mail, Par_Trash, Par_Paper,
+	 * Par_Dirtpieces; the systems of types 2-6 and 8-11): small meshes of s_sfx.pcx (the
+	 * animations par_Leaf, par_Bird, par_mail, par_trash, par_paper, par_dirt,
+	 * par_dirtpieces, par_water, par_waterdrops). */
+	enum Scenery { LEAVES, BIRDS, MAIL, TRASH, PAPER, MUD, MUD_BITS, WATER, WATER_DROPS, SCENERY_KINDS };
+	std::vector<const Mesh *> scenery_meshes[SCENERY_KINDS];
+	/* A burst at p (on the ground), carried off along dir (horizontal, unit length). speed:
+	 * the car's, m/s, which stretches the sprays. dt: the frame time, which makes the
+	 * original's bursts smaller (none from 0.13 s); the sprays thrown each frame (MUD,
+	 * MUD_BITS, WATER, WATER_DROPS) come at the rate the original had at 30 frames/s. */
+	void scenery(Scenery kind, const float p[3], const float dir[3], float speed, float dt);
+
 	void update(float dt, float time);
 	/* cam_right / cam_up: the view's axes, for the smoke facing the camera. */
 	void draw(Renderer &r, const float cam_right[3], const float cam_up[3], float time) const;
@@ -55,6 +67,14 @@ private:
 	std::vector<Bit> bit_list;
 	std::vector<Puff> puffs;
 	std::vector<Mark> marks;
+	struct Piece {
+		Scenery kind;
+		float p[3], v[3], carry[3], rot[3], scale[3], age, life, ground, flap;
+		int frame;
+		bool flap_down, settled;
+	};
+	std::vector<Piece> pieces;
+	float owed[SCENERY_KINDS] = {}; /* the sprays' fractions of a piece */
 	unsigned rnd = 12345;
 	float random(float lo, float hi);
 };

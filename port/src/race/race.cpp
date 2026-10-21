@@ -902,6 +902,51 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (const std::vector<AnimFrame> *f = track.animation("Par_Damage"))
 		for (const AnimFrame &af : *f)
 			fx.bits.push_back(meshes.get(af.mesh));
+	{
+		static const char *anims[Effects::SCENERY_KINDS] = { "par_Leaf", "par_Bird", "par_mail", "par_trash",
+			"par_paper", "par_dirt", "par_dirtpieces", "par_water", "par_waterdrops" };
+		for (int k = 0; k < Effects::SCENERY_KINDS; k++)
+			if (const std::vector<AnimFrame> *f = track.animation(anims[k]))
+				for (const AnimFrame &af : *f)
+					fx.scenery_meshes[k].push_back(meshes.get(af.mesh));
+	}
+	/* The objects that set off the scenery's particles (tob_main.cpp), when the player's car
+	 * touches them (0x453480: the two models' radii, across the ground): leaves (24) and
+	 * birds (23) once each time it comes by, flying up from the car and from the birds'
+	 * place; mud (27) and water (26) thrown up by the rear wheels all the while it is on
+	 * them. A rubbish bin (19), a mailbox (20) and paper (22) are knocked over in the
+	 * original (Ipion objects of 2000, 500 and 10 kg) and burst once for each knock; the
+	 * port has no physics for them, so they burst each time the car runs into them. */
+	struct SceneryTrigger {
+		const TrackObject *obj;
+		Effects::Scenery kind;
+		float radius;
+		bool touching = false;
+	};
+	auto mesh_radius = [](const Mesh *m) {
+		float r = 0;
+		if (m)
+			for (const MeshVertex &v : m->vertices)
+				r = std::max(r, v.x * v.x + v.y * v.y + v.z * v.z);
+		return sqrtf(r);
+	};
+	std::vector<SceneryTrigger> scenery_triggers;
+	for (const TrackObject &o : track.objects) {
+		Effects::Scenery kind;
+		switch (o.type) {
+		case 19: kind = Effects::TRASH; break;
+		case 20: kind = Effects::MAIL; break;
+		case 22: kind = Effects::PAPER; break;
+		case 23: kind = Effects::BIRDS; break;
+		case 24: kind = Effects::LEAVES; break;
+		case 26: kind = Effects::WATER; break;
+		case 27: kind = Effects::MUD; break;
+		default: continue;
+		}
+		const std::vector<AnimFrame> *f = track.animation(o.animation);
+		scenery_triggers.push_back({ &o, kind, f && !f->empty() ? mesh_radius(meshes.get((*f)[0].mesh)) : 10 });
+	}
+	const float car_radius = mesh_radius(racers[0].model.body);
 	/* A knock's sparks (and with damage, more and bits of car: FUN_00426880). */
 	auto knock_fx = [&](const Racer &rc, const float at[3], float imp, bool hurt) {
 		const float lo = rc.player ? rc.damage_model.min_player : rc.damage_model.min_imp;
@@ -1206,6 +1251,38 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 			if (tyre_clock >= 0.1f)
 				tyre_clock = 0;
+		}
+		{
+			float right[3], up[3], fwd[3];
+			car.axes(right, up, fwd);
+			float dir[3] = { fwd[0], 0, fwd[2] };
+			float l = sqrtf(dir[0] * dir[0] + dir[2] * dir[2]);
+			if (l > 0)
+				dir[0] /= l, dir[2] /= l;
+			float speed = sqrtf(car.vel[0] * car.vel[0] + car.vel[2] * car.vel[2]);
+			for (SceneryTrigger &t : scenery_triggers) {
+				float dx = t.obj->pos[0] - car.pos[0], dz = t.obj->pos[2] - car.pos[2];
+				float reach = t.radius + car_radius;
+				bool touching = dx * dx + dz * dz < reach * reach;
+				bool arrived = touching && !t.touching;
+				t.touching = touching;
+				if (t.kind == Effects::MUD || t.kind == Effects::WATER) {
+					if (!touching)
+						continue;
+					for (int side = 0; side < 2; side++) {
+						float p[3];
+						for (int a = 0; a < 3; a++)
+							p[a] = car.pos[a] + right[a] * (side ? 1 : -1) * car.spec.wheel_rear[0] +
+								fwd[a] * car.spec.wheel_rear[2];
+						p[1] = car.pos[1];
+						fx.scenery(t.kind, p, dir, speed, frame_dt);
+						fx.scenery(t.kind == Effects::MUD ? Effects::MUD_BITS : Effects::WATER_DROPS, p, dir, speed,
+							frame_dt);
+					}
+				}
+				else if (arrived)
+					fx.scenery(t.kind, t.kind == Effects::LEAVES ? car.pos : t.obj->pos, dir, speed, frame_dt);
+			}
 		}
 		fx.update(frame_dt, clock);
 		for (Racer &rc : racers)
