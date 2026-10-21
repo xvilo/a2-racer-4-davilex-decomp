@@ -1,4 +1,5 @@
 #include "race/race.h"
+#include "race/effects.h"
 
 #include <algorithm>
 #include <cstring>
@@ -122,6 +123,7 @@ struct Hud {
 	float time_limit = 0;
 	float turbo = 0; /* 0..100 */
 	float damage = 0; /* 0..1100 */
+	int white = 0;    /* frames of the radar's flash still to show */
 	/* A pick-up's text (PrintText), for a few seconds. */
 	std::string message;
 	float message_time = 0;
@@ -129,6 +131,20 @@ struct Hud {
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
 		overlay.begin();
+		/* FLITS: the screen white for a frame or two (palette 235,235,235). */
+		if (white > 0) {
+			glDisable(GL_TEXTURE_2D);
+			glColor4f(0.92f, 0.92f, 0.92f, 1);
+			glBegin(GL_TRIANGLE_STRIP);
+			glVertex2f(0, 0);
+			glVertex2f(640, 0);
+			glVertex2f(0, 480);
+			glVertex2f(640, 480);
+			glEnd();
+			glColor4f(1, 1, 1, 1);
+			glEnable(GL_TEXTURE_2D);
+			white--;
+		}
 		/* The speedometer: 160 degrees for 0..200 km/h. */
 		overlay.element(r, "OVL_SPEEDOMETER_BODY");
 		overlay.element(r, "OVL_SPEEDOMETER_STRIPES");
@@ -209,6 +225,7 @@ struct DamageModel {
 	float min_imp = 70000, max_imp = 90000;        /* computer cars */
 	float min_player = 50000, max_player = 90000;  /* the player's */
 	int window = 1101, lights = 1101;               /* [Damageable Cars] */
+	bool smoke_front = true;                        /* [Damage Models] last field */
 	std::vector<std::string> phases;                /* ... its phase meshes: frames 5, 6, .. */
 };
 
@@ -266,6 +283,8 @@ struct DamageTable {
 			m.max_imp = (float)atof(f[2].c_str());
 			m.min_player = (float)atof(f[3].c_str());
 			m.max_player = (float)atof(f[4].c_str());
+			if (f.size() >= 7)
+				m.smoke_front = atoi(f[6].c_str()) != 0;
 			auto c = cars.find(lower(f[5]));
 			if (c != cars.end()) {
 				m.window = atoi(c->second[1].c_str());
@@ -872,6 +891,28 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (const char *dm = getenv("A2_DAMAGE"))
 		racers[0].damage = std::clamp((float)atof(dm), 0.0f, 1098.0f);
 	std::vector<Debris> debris;
+	/* The effects (game.ini [GFX OPTIONS]). */
+	Effects fx;
+	fx.particles = gi.get_int("GFX OPTIONS", "particles", 1) != 0;
+	fx.clouds = gi.get_int("GFX OPTIONS", "clouds", 1) != 0;
+	fx.skidmarks = gi.get_int("GFX OPTIONS", "skidmarks", 1) != 0;
+	fx.fade_skidmarks = gi.get_int("GFX OPTIONS", "fade_skmarks", 1) != 0;
+	fx.sfx_tex = textures.get("s_sfx.pcx");
+	fx.smoke_tex = textures.get("L1RACER3.PCX");
+	if (const std::vector<AnimFrame> *f = track.animation("Par_Damage"))
+		for (const AnimFrame &af : *f)
+			fx.bits.push_back(meshes.get(af.mesh));
+	/* A knock's sparks (and with damage, more and bits of car: FUN_00426880). */
+	auto knock_fx = [&](const Racer &rc, const float at[3], float imp, bool hurt) {
+		const float lo = rc.player ? rc.damage_model.min_player : rc.damage_model.min_imp;
+		if (imp < lo / 3)
+			return;
+		for (int k = 0; k < (hurt ? 4 : 1); k++)
+			fx.sparks(at);
+		if (hurt)
+			fx.car_bits(at, rc.car.yaw + PI, imp, rc.car.pos[1]);
+	};
+	float smoke_clock = 0, tyre_clock = 0;
 	auto break_sound = [&]() {
 		static const char *names[4] = { "DAMAGE_GLASS", "DAMAGE_DOP", "DAMAGE_GLASS2", "DAMAGE_METALBAR" };
 		sound.effect(names[random() % 4]);
@@ -1047,6 +1088,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					float since = clock - rc.last_hit;
 					bool hurt = rc.hit(damage_table, imp, clock,
 						rc.player && (invulnerable_left > 0 || rules.phase != RaceRules::RACING));
+					float at[3] = { rc.car.pos[0], rc.car.pos[1] + 5, rc.car.pos[2] };
+					knock_fx(rc, at, imp, hurt);
 					if (rc.player && (hurt || imp > rc.damage_model.min_player / 3 || since < 0.3f))
 						knock_sound(imp, true, since);
 				}
@@ -1067,8 +1110,12 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 							continue;
 						float imp = v * 10 * std::min(other.car.spec.mass, 1666.7f);
 						float since = clock - me_.last_hit;
-						me_.hit(damage_table, imp, clock,
+						bool hurt = me_.hit(damage_table, imp, clock,
 							me_.player && (invulnerable_left > 0 || rules.phase != RaceRules::RACING));
+						float at[3];
+						for (int a = 0; a < 3; a++)
+							at[a] = (racers[i].car.pos[a] + racers[j].car.pos[a]) / 2 + (a == 1 ? 5 : 0);
+						knock_fx(me_, at, imp, hurt);
 						if (me_.player)
 							knock_sound(imp, false, since);
 					}
@@ -1090,6 +1137,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					flashes++;
 					flash_message = 3;
 					sound.effect("PHOTO");
+					hud.white = 2;
 					money = std::max(money - 50, 0); /* Flitspaal: FLITS BOETE -50 */
 					/* The nearest waiting police car comes after the player. */
 					Racer *best = nullptr;
@@ -1112,6 +1160,48 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		}
 		flash_message = std::max(0.0f, flash_message - frame_dt);
 		message_time = std::max(0.0f, message_time - frame_dt);
+		/* A wreck smokes (damage over 900, a puff each 200 ms, front or back). */
+		smoke_clock += frame_dt;
+		if (smoke_clock >= 0.2f && frame_dt < 1.0f / 12) {
+			smoke_clock = 0;
+			for (const Racer &rc : racers) {
+				if (rc.damage <= 900)
+					continue;
+				float right[3], up[3], fwd[3];
+				rc.car.axes(right, up, fwd);
+				float lx = (float)(random() % 10) - 5;
+				float lz = rc.damage_model.smoke_front ? rc.car.spec.wheel_front[2] : rc.car.spec.wheel_rear[2];
+				float p[3], v[3] = { rc.car.vel[0], 0, rc.car.vel[2] };
+				for (int a = 0; a < 3; a++)
+					p[a] = rc.car.pos[a] + right[a] * lx + up[a] * 5 + fwd[a] * lz;
+				fx.smoke(p, v, true);
+			}
+		}
+		/* The player's tyres: smoke and marks when they slide (gfx_wolk, gfx_skid). The
+		 * slide: sideways speed, and the speed with the wheels locked by the brake. */
+		{
+			float right[3], up[3], fwd[3];
+			car.axes(right, up, fwd);
+			float vl = car.vel[0] * right[0] + car.vel[2] * right[2];
+			float vf = car.vel[0] * fwd[0] + car.vel[2] * fwd[2];
+			float locked = player_in.brake > 0.5f && vf > 3 ? vf * 0.5f : 0;
+			int level = car.airborne ? 0 : std::clamp((int)sqrtf(0.25f * vl * vl + locked * locked), 0, 10);
+			tyre_clock += frame_dt;
+			for (int side = 0; side < 2; side++) {
+				float wx = (side ? 1 : -1) * car.spec.wheel_rear[0];
+				float p[3];
+				for (int a = 0; a < 3; a++)
+					p[a] = car.pos[a] + right[a] * wx + fwd[a] * car.spec.wheel_rear[2];
+				fx.skid(side, p, right, level, clock);
+				if (level > 0 && tyre_clock >= 0.1f && frame_dt < 1.0f / 12) {
+					float v[3] = { car.vel[0], 0, car.vel[2] };
+					fx.smoke(p, v, false);
+				}
+			}
+			if (tyre_clock >= 0.1f)
+				tyre_clock = 0;
+		}
+		fx.update(frame_dt, clock);
 		for (Racer &rc : racers)
 			if (!rc.pieces.empty())
 				update_pieces(rc, clock, damage_table, track, meshes, textures, world, debris,
@@ -1366,6 +1456,25 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			gl_rotate(b.def->rot[2], 0, 0, 1);
 			r.draw_mesh(*b.mesh, b.tex);
 			glPopMatrix();
+		}
+		{
+			float f[3] = { target[0] - eye[0], target[1] - eye[1], target[2] - eye[2] };
+			float cr[3] = { f[2], 0, -f[0] }, l = sqrtf(cr[0] * cr[0] + cr[2] * cr[2]);
+			if (l > 0)
+				cr[0] /= l, cr[2] /= l;
+			float fl = sqrtf(f[0] * f[0] + f[1] * f[1] + f[2] * f[2]);
+			float cu[3] = { 0, 1, 0 };
+			if (fl > 0) {
+				for (float &x : f)
+					x /= fl;
+				cu[0] = cr[1] * f[2] - cr[2] * f[1];
+				cu[1] = cr[2] * f[0] - cr[0] * f[2];
+				cu[2] = cr[0] * f[1] - cr[1] * f[0];
+				if (cu[1] < 0)
+					for (float &x : cu)
+						x = -x;
+			}
+			fx.draw(r, cr, cu, clock);
 		}
 		/* The pick-ups turn (OnInit: anglespeed 600, in 1024ths of a turn a second) and
 		 * pulse (OnFramecall: 1 + 0.3 sin(pi t)); taken, they shrink away (OnFadeout). */

@@ -33,6 +33,7 @@ add_executable(a2racer4 WIN32
 	src/game/track.cpp
 	src/race/race_view.cpp
 	src/race/race.cpp
+	src/race/effects.cpp
 	src/audio/mixer.cpp
 	src/audio/race_sound.cpp
 	src/menu/delphi.cpp
