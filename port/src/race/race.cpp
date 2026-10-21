@@ -152,7 +152,9 @@ struct Hud {
 	bool shown = true;
 	bool reset_prompt = false, wrong_way = false;
 	/* Ovl_Portraits.cpp: the racers' faces down the left in race order (game.ini
-	 * [Portraits] names each car's), the player's outlined, each one's time once in. */
+	 * [Portraits] names each car's), the player's outlined; once the player is in
+	 * (FUN_004940e0), the fastest one's time by each face, the others' "+" how much
+	 * slower, "--:--:-" for those still driving, the player's blinking. */
 	struct Face {
 		int car;
 		bool player;
@@ -162,11 +164,18 @@ struct Hud {
 	std::vector<std::string> face_names;
 	std::map<int, float> face_y; /* where each car's face is now, sliding to its place */
 
-	void draw_faces(Renderer &r, float dt)
+	float blink = 0;
+
+	void draw_faces(Renderer &r, float dt, bool finished)
 	{
 		float sx, sy0, sy1;
 		if (faces.empty() || !overlay.origin("PLAYER_0", sx, sy0) || !overlay.origin("PLAYER_1", sx, sy1))
 			return;
+		blink += dt;
+		float best = -1;
+		for (const Face &f : faces)
+			if (f.finish >= 0 && (best < 0 || f.finish < best))
+				best = f.finish;
 		for (size_t k = 0; k < faces.size(); k++) {
 			const Face &f = faces[k];
 			if (f.car < 0 || (size_t)f.car >= face_names.size())
@@ -191,10 +200,12 @@ struct Hud {
 					glPopMatrix();
 				}
 			}
-			if (f.finish >= 0) {
-				char buf[32];
-				int cs = (int)(f.finish * 10);
-				snprintf(buf, sizeof buf, "%02d:%02d:%d", cs / 600, cs / 10 % 60, cs % 10);
+			if (finished && !(f.player && fmodf(blink, 0.6f) >= 0.3f)) {
+				char buf[32] = "--:--:-";
+				if (f.finish >= 0) {
+					int ds = (int)((f.finish > best ? f.finish - best : f.finish) * 10);
+					snprintf(buf, sizeof buf, "%s%02d:%02d:%d", f.finish > best ? "+" : "", ds / 600, ds / 10 % 60, ds % 10);
+				}
 				const float green[4] = { 118 / 255.0f, 250 / 255.0f, 0, 1 };
 				overlay.text(sx + 32, y - 9, buf, 0.7f, green, false, false);
 			}
@@ -297,7 +308,7 @@ struct Hud {
 			return;
 		}
 		draw_flag(rules);
-		draw_faces(r, frame_dt);
+		draw_faces(r, frame_dt, rules.phase == RaceRules::FINISHED);
 		draw_communicator(r);
 		if (comm && comm->arrow) {
 			static const char *arrows[4] = { "OVL_DIRECTION_GOLEFT", "OVL_DIRECTION_GORIGHT", "OVL_DIRECTION_GOBOTH",
