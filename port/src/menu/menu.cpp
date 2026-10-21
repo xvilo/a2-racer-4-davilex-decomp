@@ -7,6 +7,7 @@
 
 #include "audio/mixer.h"
 #include "menu/delphi.h"
+#include "menu/savegame.h"
 #include "menu/dfm.h"
 #include "menu/forms.h"
 #include "gfx/png.h"
@@ -152,7 +153,8 @@ void save_shot(const char *path)
 
 } // namespace
 
-int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const std::string &screenshot)
+int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const std::string &screenshot,
+	const std::string &save_dir)
 {
 	std::string menu_dir = find_file_ci(data_dir, "MenuData");
 	DelphiProgram prog;
@@ -171,6 +173,9 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	static_ini.load(find_file_ci(menu_dir, "static.ini"));
 	Static info;
 	info.load(static_ini);
+	/* The player (TSaveGame): settings and Tour progress; see the Players section below. */
+	SaveGame save;
+	save.defaults(static_ini, (int)info.tour_chars.size());
 	/* The menu's font is embedded in the data module's form (MenuFont1: a length, then
 	 * the TrueType file). */
 	TrueType font;
@@ -386,8 +391,13 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	character.handlers["btnPreviousClick"] = [&]() { screen = DIFFICULTY; };
 	character.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
 	character.handlers["btnNextClick"] = [&]() {
-		/* Testing: A2_TOUR_START=<n> begins the Tour at its n-th track. */
-		tour_ix = getenv("A2_TOUR_START") ? (size_t)std::max(atoi(getenv("A2_TOUR_START")), 0) : 0;
+		/* TfrmTrack.FormShow: the character's next undriven track; once the Tour is done,
+		 * the track chosen last. Testing: A2_TOUR_START=<n> begins at the n-th track. */
+		const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		size_t n = info.tour_tracks.size();
+		tour_ix = (size_t)cr.next_track < n ? (size_t)cr.next_track : (size_t)std::clamp(save.tour_track, 0, (int)n - 1);
+		if (getenv("A2_TOUR_START"))
+			tour_ix = (size_t)std::max(atoi(getenv("A2_TOUR_START")), 0);
 		char_leave = voice.say("CCS", tour_ch()) ? 2.5f : 0.01f;
 	};
 
@@ -416,17 +426,34 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 				c->caption = at == std::string::npos ? ord : fmt.replace(at, 2, ord);
 			}
 		}
-		/* The stages driven so far, on the row of dots. */
+		/* The stages driven so far, and this one, on the row of dots. */
 		trackf.extras.clear();
+		size_t driven = (size_t)std::max(save.chars[tour_char % save.chars.size()].next_track, 0);
 		Control *d0 = trackf.get("lblAncTrackInd00"), *d1 = trackf.get("lblAncTrackInd01");
 		if (d0 && d1)
-			for (size_t k = 0; k <= tour_ix && k < info.tour_tracks.size(); k++)
-				trackf.extras.push_back({ res.image("redin_up.tga"), d0->x + (int)k * (d1->x - d0->x), d0->y });
-		for (const char *n : { "btnNextTrack", "btnPrevTrack", "lblTime", "lblRecName", "imgFocus" })
+			for (size_t k = 0; k < info.tour_tracks.size(); k++)
+				if (k < driven || k == tour_ix)
+					trackf.extras.push_back({ res.image("redin_up.tga"), d0->x + (int)k * (d1->x - d0->x), d0->y });
+		/* Earlier tracks can be driven again, later ones not yet (FUN_00499f80). */
+		size_t last = std::min(driven, info.tour_tracks.size() - 1);
+		if (Control *c = trackf.get("btnPrevTrack"))
+			c->visible = tour_ix > 0;
+		if (Control *c = trackf.get("btnNextTrack"))
+			c->visible = tour_ix < last;
+		for (const char *n : { "lblTime", "lblRecName", "imgFocus" })
 			if (Control *c = trackf.get(n))
 				c->visible = false;
 	};
 	trackf.handlers["btnPreviousClick"] = [&]() { screen = CHARACTER; };
+	trackf.handlers["btnPrevTrackClick"] = [&]() {
+		if (tour_ix > 0)
+			tour_ix--;
+		show_tour_track();
+	};
+	trackf.handlers["btnNextTrackClick"] = [&]() {
+		tour_ix++;
+		show_tour_track();
+	};
 	trackf.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
 	trackf.handlers["btnNextClick"] = [&]() { screen = TOUR_RACE; };
 
@@ -441,9 +468,12 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	win_final.load(res, "TfrmWinFinal", with({}));
 	intro.load(res, "TfrmTrackIntro", with({}));
 	float intro_leave = -1;
+	bool tour_done = false; /* the race just won finished the Tour */
 	auto advance = [&]() {
-		tour_ix++;
-		if (tour_ix >= info.tour_tracks.size()) {
+		size_t next = (size_t)save.chars[tour_char % save.chars.size()].next_track;
+		tour_ix = std::min(next, info.tour_tracks.size() - 1);
+		if (tour_done) {
+			tour_done = false;
 			int ch = tour_ch();
 			/* The original plays the winner's film (medWinner, between the anchors); until
 			 * films play, the character's winning picture stands where WinNormal has it. */
@@ -469,10 +499,24 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (!f->handlers.count("btnCloseClick"))
 			f->handlers["btnCloseClick"] = [&]() { screen = QUIT; };
 	intro.handlers["imgBackGroundClick"] = [&]() { intro_leave = 0.01f; };
+	std::function<void()> store_player;
 	auto tour_outcome = [&](const RaceResult &r) {
 		int t = tour_tr(), ch = tour_ch();
 		const Static::Track &tr = info.tracks[t];
 		int place = std::max(r.position, 1);
+		/* FillRaceResultsTour: a won or qualified race opens the next track (first
+		 * place also pays FirstPlaceBonus); the last one ends the Tour. */
+		bool through = tr.chase ? r.finished
+								: r.finished && place - 1 <= tr.qualify_position[std::clamp(difficulty, 0, 2)];
+		SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		if (through && (size_t)cr.next_track == tour_ix) {
+			cr.next_track++;
+			tour_done = (size_t)cr.next_track >= info.tour_tracks.size();
+		}
+		if (r.finished && place == 1 && !tr.chase)
+			cr.money += static_ini.get_int("GAMEVALUES", "FirstPlaceBonus", 2500);
+		save.tour_track = (int)tour_ix;
+		store_player();
 		if (tr.chase) {
 			Form &f = r.finished ? win_chase : lose_chase;
 			f.set_graphic(res, "imgTrackName", numbered("trname", t));
@@ -508,6 +552,250 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		}
 	};
 
+	/* Players (FormPlayer.pas, DataPlayer.pas): each one's save in the user's folder, the
+	 * current one remembered there in menu.ini [GENERAL] CURRENTPLAYER (the original keeps
+	 * it in the game's own menu.ini). */
+	Players players;
+	players.dir = save_dir;
+	std::string port_ini_path = save_dir + (save_dir.empty() || save_dir.back() == '/' ? "" : "/") + "menu.ini";
+	IniFile port_ini;
+	port_ini.load(port_ini_path);
+	int current = -1;
+	auto list_index = [](const std::vector<int> &list, int v, size_t def) {
+		for (size_t k = 0; k < list.size(); k++)
+			if (list[k] == v)
+				return k;
+		return def;
+	};
+	/* The menu shows the save's choices. */
+	auto apply_player = [&]() {
+		difficulty = std::clamp(save.difficulty, 0, 2);
+		size_t nc = info.tour_chars.size();
+		tour_char = save.tour_char >= 0 && (size_t)save.tour_char < nc ? (size_t)save.tour_char : 0;
+		if (save.quick_char >= 0 && (size_t)save.quick_char < info.quick_chars.size())
+			char_ix = (size_t)save.quick_char;
+		if (save.quick_track >= 0 && (size_t)save.quick_track < info.quick_tracks.size())
+			track_ix = (size_t)save.quick_track;
+		show_difficulty();
+		show_character();
+		show_track();
+	};
+	store_player = [&]() {
+		if (current < 0)
+			return;
+		save.difficulty = difficulty;
+		save.tour_char = (int)tour_char;
+		save.quick_char = (int)char_ix;
+		save.quick_track = (int)track_ix;
+		if (!save.save(players.path(current)))
+			fprintf(stderr, "menu: cannot save %s\n", players.path(current).c_str());
+		port_ini.set_int("GENERAL", "CURRENTPLAYER", current);
+		port_ini.save(port_ini_path);
+	};
+	auto load_player = [&](int n) {
+		if (!save.load(players.path(n), (int)info.tour_chars.size()))
+			return false;
+		current = n;
+		apply_player();
+		return true;
+	};
+	auto new_player = [&](const std::string &name) {
+		int n = players.free_slot();
+		if (n < 0)
+			return false;
+		store_player();
+		save.defaults(static_ini, (int)info.tour_chars.size());
+		save.name = name.substr(0, SaveGame::NAME_MAX);
+		save.tour_char = (int)list_index(info.tour_chars, info.tour_default_char, 0);
+		save.quick_char = (int)list_index(info.quick_chars, info.quick_default_char, 0);
+		current = n;
+		apply_player();
+		store_player();
+		return true;
+	};
+
+	/* Dialogs over the screen: the name of a new player, the list of players, deleting. */
+	Form *dialog = nullptr;
+	Form newp, playerf, deletep;
+	newp.load(res, "TfrmNewPlayer", with({}));
+	playerf.load(res, "TfrmPlayer", with({ { "gdfBtnDeletePlayer", "delet" }, { "defEmpty", "butp1" } }));
+	deletep.load(res, "TfrmDeletePlayer", with({}));
+	auto open_dialog = [&](Form &d) {
+		dialog = &d;
+		sys_text_input(&d == &newp);
+	};
+	auto close_dialog = [&]() {
+		dialog = nullptr;
+		sys_text_input(false);
+	};
+	auto set_look = [&](Control &c, const std::string &prefix) {
+		static const char *states[5] = { "_up", "_hi", "_do", "_fo", "_di" };
+		for (int k = 0; k < 5; k++)
+			c.look[k] = res.image(prefix + states[k] + ".tga");
+		c.region = res.image(prefix + "_re.bmp");
+		if (c.look[0]) {
+			c.w = c.look[0]->width;
+			c.h = c.look[0]->height;
+		}
+	};
+	/* TfrmPlayer.UpdateScreen: the current player first, then the others, then an empty
+	 * place for a new one. The buttons' Tag is the player's number (-1: new). */
+	std::map<std::string, int> slot_player;
+	bool newp_from_players = false; /* the new player's name was asked from the list */
+	auto show_players = [&]() {
+		std::vector<int> others;
+		for (int n : players.list())
+			if (n != current)
+				others.push_back(n);
+		for (int b = 0; b < 5; b++) {
+			std::string bn = "btn" + std::to_string(b);
+			Control *c = playerf.get(bn);
+			if (!c)
+				continue;
+			int who = b == 0 ? current : (size_t)(b - 1) < others.size() ? others[(size_t)b - 1] : -2;
+			if (b > 0 && who == -2 && (size_t)(b - 1) == others.size() && players.free_slot() >= 0)
+				who = -1;
+			slot_player[bn] = who;
+			c->visible = who != -2;
+			c->show_caption = true;
+			c->font_px = 16;
+			if (who == -1) {
+				set_look(*c, "butp1");
+				c->caption = "";
+			}
+			else if (who >= 0) {
+				std::string nm;
+				int pc = 0;
+				if (who == current) {
+					nm = save.name;
+					pc = (int)tour_char;
+				}
+				else
+					SaveGame::peek(players.path(who), nm, pc);
+				int ch = info.tour_chars.empty() ? 0 : info.tour_chars[(size_t)std::max(pc, 0) % info.tour_chars.size()];
+				set_look(*c, numbered("PCH", ch, ""));
+				c->caption = nm;
+			}
+		}
+		if (Control *c = playerf.get("btnDeletePlayer"))
+			c->enabled = !others.empty();
+	};
+	/* InitDlg backs up every save; Annuleren puts them back (ReplaceFiles). */
+	std::map<int, std::vector<uint8_t>> backup;
+	int backup_current = -1;
+	auto read_all = [](const std::string &path, std::vector<uint8_t> &out) {
+		FILE *f = fopen(path.c_str(), "rb");
+		if (!f)
+			return false;
+		int ch;
+		while ((ch = fgetc(f)) != EOF)
+			out.push_back((uint8_t)ch);
+		fclose(f);
+		return true;
+	};
+	auto open_players = [&]() {
+		store_player();
+		backup.clear();
+		backup_current = current;
+		for (int n : players.list())
+			read_all(players.path(n), backup[n]);
+		show_players();
+		open_dialog(playerf);
+	};
+	main.handlers["btnPlayerClick"] = open_players;
+	auto pick = [&](const std::string &bn) {
+		int who = slot_player.count(bn) ? slot_player[bn] : -2;
+		if (who == -1) {
+			newp_from_players = true;
+			newp.text().clear();
+			open_dialog(newp);
+		}
+		else if (who >= 0 && who != current) {
+			store_player();
+			load_player(who);
+			show_players();
+		}
+	};
+	for (int b = 1; b < 5; b++) {
+		std::string bn = "btn" + std::to_string(b);
+		playerf.handlers[bn] = [&, bn]() { pick(bn); };
+	}
+	/* The buttons all name btn1Click: the Form calls the OnClick handler; route by name. */
+	for (Control &c : playerf.controls)
+		if (c.on_click == "btn1Click")
+			c.on_click.clear();
+	playerf.handlers["btnOk1"] = [&]() { close_dialog(); };
+	for (const char *b : { "btnCancel", "btnClose" })
+		playerf.handlers[b] = [&]() {
+			for (int n : players.list())
+				if (!backup.count(n))
+					remove(players.path(n).c_str());
+			for (auto &[n, bytes] : backup) {
+				if (FILE *f = fopen(players.path(n).c_str(), "wb")) {
+					fwrite(bytes.data(), 1, bytes.size(), f);
+					fclose(f);
+				}
+			}
+			current = -1;
+			if (backup_current >= 0)
+				load_player(backup_current);
+			store_player();
+			close_dialog();
+		};
+	playerf.handlers["btnDeletePlayerClick"] = [&]() {
+		if (Control *c = deletep.get("lblSure")) {
+			std::string fmt = menu_ini.get("MENUSTRINGS", "4", "%s?");
+			size_t at = fmt.find("%s");
+			c->caption = at == std::string::npos ? fmt : fmt.replace(at, 2, save.name);
+			c->wrap = true;
+		}
+		open_dialog(deletep);
+	};
+	deletep.handlers["btnOk1"] = [&]() {
+		remove(players.path(current).c_str());
+		current = -1;
+		std::vector<int> left = players.list();
+		if (!left.empty())
+			load_player(left[0]);
+		show_players();
+		open_dialog(playerf);
+	};
+	for (const char *b : { "btnCancel", "btnClose" })
+		deletep.handlers[b] = [&]() { open_dialog(playerf); };
+	/* TfrmNewPlayer: a name of up to 12 letters; Enter or OK makes the player. Without
+	 * any player yet the menu can't go on: cancelling quits. */
+	auto newp_done = [&](bool ok) {
+		std::string nm = newp.text();
+		while (!nm.empty() && nm.back() == ' ')
+			nm.pop_back();
+		if (ok && nm.empty())
+			return;
+		if (ok)
+			new_player(nm);
+		if (current < 0) {
+			screen = QUIT;
+			close_dialog();
+		}
+		else if (newp_from_players) {
+			show_players();
+			open_dialog(playerf);
+		}
+		else
+			close_dialog();
+	};
+	newp.handlers["btnOk1"] = [&]() { newp_done(true); };
+	for (const char *b : { "btnCancel", "btnClose" })
+		newp.handlers[b] = [&]() { newp_done(false); };
+
+	int wanted = port_ini.get_int("GENERAL", "CURRENTPLAYER", -1);
+	if (!(wanted >= 0 && load_player(wanted))) {
+		std::vector<int> have = players.list();
+		if (!have.empty())
+			load_player(have[0]);
+	}
+	if (current < 0 && screenshot.empty())
+		open_dialog(newp);
+
 	if (!screenshot.empty()) {
 		/* Testing: "quick:<file>" shows the Quick Race screen. */
 		Form &f = screenshot.rfind("quick:", 0) == 0 ? qr : main;
@@ -537,6 +825,20 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		}
 		Form &f = *fp;
 		float dt = 0.01f;
+		if (dialog) {
+			Form *d = dialog;
+			d->input(in);
+			if (dialog == d && in.key == KEY_ESCAPE && d->handlers.count("btnCancel"))
+				d->handlers["btnCancel"]();
+			else if (dialog == d && in.key == KEY_ENTER && d == &newp)
+				newp.handlers["btnOk1"](); /* txtNameKeyDown */
+			f.draw(cv, res);
+			if (dialog)
+				dialog->draw(cv, res);
+			sys_present(cv.px.data());
+			sys_sleep(10);
+			continue;
+		}
 		if (in.key == KEY_ESCAPE)
 			screen = screen == MAIN ? QUIT : MAIN;
 		f.input(in);
@@ -612,5 +914,6 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		sys_present(cv.px.data());
 		sys_sleep(10);
 	}
+	store_player();
 	return 0;
 }

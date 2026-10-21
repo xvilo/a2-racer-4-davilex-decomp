@@ -51,12 +51,42 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 	if (!dfm)
 		return false;
 	std::string short_name = lower(klass.substr(klass.size() > 4 ? 4 : 0)).substr(0, 8);
+	/* Dialogs (TfrmCoolDialog.virtual_0e4) name their picture the same way but take a
+	 * .tga, some a shared one, and take its size. */
+	static const std::map<std::string, std::string> dialog_pictures = {
+		{ "TfrmDeletePlayer", "popempty" }, { "TfrmDoubleKeys", "popempty" }, { "TfrmInternetDlg", "popempty" },
+	};
+	auto dp = dialog_pictures.find(klass);
+	std::shared_ptr<Image> picture = res.image((dp != dialog_pictures.end() ? dp->second : short_name) + ".tga");
 	background = res.image(short_name + ".bmp");
-	std::vector<DfmObject *> all;
-	dfm->walk(all);
+	/* Every component with its place on the form: a panel's children are placed in it. */
+	std::vector<std::pair<DfmObject *, std::pair<int, int>>> all;
+	std::function<void(DfmObject *, int, int)> walk = [&](DfmObject *o, int ox, int oy) {
+		all.push_back({ o, { ox, oy } });
+		bool box = o != dfm.get() && (o->cls == "TPanel" || o->cls == "TGroupBox");
+		for (auto &c : o->children)
+			walk(c.get(), box ? ox + o->get_int("Left") : ox, box ? oy + o->get_int("Top") : oy);
+	};
+	walk(dfm.get(), 0, 0);
+	std::vector<std::pair<int, int>> offset;
+	w = dfm->get_int("ClientWidth", 800);
+	h = dfm->get_int("ClientHeight", 600);
+	/* Dialogs are the TfrmCoolDialog family (TBalloonForm's too); screens fill it. */
+	dialog = false;
+	for (std::string k = klass; !k.empty() && !dialog; k = res.prog->parent(k))
+		dialog = k == "TfrmCoolDialog" || k == "TBalloonForm";
+	if (dialog && picture) {
+		background = picture;
+		w = picture->width;
+		h = picture->height;
+	}
+	if (dialog) {
+		x = (800 - w) / 2;
+		y = (600 - h) / 2;
+	}
 	/* Button definitions (TGDIButtonDefinition) of this form and of the data module. */
 	std::map<std::string, std::string> defs = prefixes;
-	for (DfmObject *o : all) {
+	for (auto &[o, at] : all) {
 		Control c;
 		c.name = o->name;
 		c.cls = o->cls;
@@ -74,6 +104,8 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 			c.kind = Control::CHECK;
 		else if (o->cls == "TGDIGraphic")
 			c.kind = Control::GRAPHIC;
+		else if (o->cls == "TEdit")
+			c.kind = Control::EDIT;
 		else
 			continue;
 		c.x = o->get_int("Left");
@@ -90,6 +122,14 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 		if (dot != std::string::npos)
 			c.definition = c.definition.substr(dot + 1);
 		c.on_click = o->get_str("OnClick");
+		c.max_length = o->get_int("MaxLength", 0);
+		if (const DfmValue *bc = o->prop("Color"); bc && bc->kind == DfmValue::INT)
+			c.back = colorref(bc->i);
+		if (c.kind == Control::EDIT) {
+			c.caption.clear();
+			c.font_px = 14;
+			c.colour = rgba(0, 0, 0);
+		}
 		int fh = o->get_int("Font.Height", -13);
 		c.font_px = (float)std::abs(fh);
 		if (const DfmValue *fc = o->prop("Font.Color"))
@@ -101,6 +141,7 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 		if (c.kind == Control::LABEL && (c.caption == c.name || c.name.rfind("lblAnc", 0) == 0))
 			c.caption.clear();
 		controls.push_back(c);
+		offset.push_back(at);
 	}
 	/* MenuCaps.ini: [DEFAULT] then [<form class>] <control>.<property>. */
 	if (res.caps) {
@@ -124,6 +165,15 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 			if (ini.has(cls, key("FontColor")))
 				c.colour = colorref(strtoll(ini.get(cls, key("FontColor")).c_str(), nullptr, 0));
 		}
+	}
+	/* A dialog's OK button without a definition gets the plain OK one when shown
+	 * (TGDIButton.SetDefinition with the data module's). */
+	for (Control &c : controls)
+		if (dialog && c.name == "btnOk1" && c.definition.empty())
+			c.definition = "gdfBtnOkDlg";
+	for (size_t i = 0; i < controls.size(); i++) {
+		controls[i].x += x + offset[i].first;
+		controls[i].y += y + offset[i].second;
 	}
 	for (Control &c : controls) {
 		auto p = defs.find(c.definition);
@@ -172,9 +222,10 @@ bool Form::hit(const Control &c, int x, int y) const
 
 void Form::draw(Canvas &cv, const MenuResources &res) const
 {
-	cv.clear(rgba(0, 0, 0));
+	if (!dialog)
+		cv.clear(rgba(0, 0, 0));
 	if (background)
-		cv.blit(*background, 0, 0);
+		cv.blit(*background, x, y);
 	for (size_t i = 0; i < controls.size(); i++) {
 		const Control &c = controls[i];
 		if (!c.visible)
@@ -192,6 +243,9 @@ void Form::draw(Canvas &cv, const MenuResources &res) const
 			const Image *img = c.look[s] ? c.look[s].get() : c.look[0].get();
 			if (img)
 				cv.blit(*img, c.x, c.y);
+			if (c.show_caption && res.font && !c.caption.empty())
+				res.font->draw(cv, c.x + (int)((c.w - res.font->width(c.caption, c.font_px)) / 2), c.y + c.h - (int)c.font_px - 12,
+					c.caption, c.font_px, c.colour);
 			break;
 		}
 		case Control::LABEL:
@@ -207,6 +261,13 @@ void Form::draw(Canvas &cv, const MenuResources &res) const
 				}
 			}
 			break;
+		case Control::EDIT: {
+			cv.fill(c.x, c.y, c.w, c.h, c.back);
+			std::string t = c.caption + ((sys_ticks() / 500) % 2 ? "_" : "");
+			if (res.font)
+				res.font->draw(cv, c.x + 3, c.y + (c.h - (int)c.font_px) / 2, t, c.font_px, c.colour);
+			break;
+		}
 		default:
 			break;
 		}
@@ -217,8 +278,29 @@ void Form::draw(Canvas &cv, const MenuResources &res) const
 	}
 }
 
+std::string &Form::text()
+{
+	for (Control &c : controls) {
+		if (c.kind == Control::EDIT)
+			return c.caption;
+	}
+	static std::string none;
+	return none;
+}
+
 void Form::input(const SysInput &in)
 {
+	for (Control &c : controls) {
+		if (c.kind != Control::EDIT || !c.visible)
+			continue;
+		for (int k = 0; k < in.backspaces && !c.caption.empty(); k++)
+			c.caption.pop_back();
+		for (char ch : in.text) {
+			if ((unsigned char)ch >= 32 && (c.max_length == 0 || (int)c.caption.size() < c.max_length))
+				c.caption += ch;
+		}
+		break;
+	}
 	hover = -1;
 	for (int i = (int)controls.size() - 1; i >= 0; i--) {
 		const Control &c = controls[(size_t)i];

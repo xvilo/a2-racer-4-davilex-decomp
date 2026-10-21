@@ -224,7 +224,7 @@ int main(int argc, char **argv)
 	NamedArchive rcs;
 	if (!rcs.open(game, "rcs"))
 		return fatal("Cannot read the race's archive (rcs.IND/.IMG) in " + game + ".");
-	int r = menu_main(game, rcs, args.screenshot);
+	int r = menu_main(game, rcs, args.screenshot, args.save.empty() ? pref_dir() : args.save);
 	sys_shutdown();
 	return r;
 }

@@ -32,7 +32,7 @@ struct MenuResources {
 };
 
 struct Control {
-	enum Kind { OTHER, IMAGE, LABEL, BUTTON, RADIO, CHECK, GRAPHIC } kind = OTHER;
+	enum Kind { OTHER, IMAGE, LABEL, BUTTON, RADIO, CHECK, GRAPHIC, EDIT } kind = OTHER;
 	std::string name, cls;
 	int x = 0, y = 0, w = 0, h = 0;
 	bool visible = true, enabled = true, checked = false;
@@ -40,7 +40,10 @@ struct Control {
 	float font_px = 16;
 	uint32_t colour = 0xffffffff;
 	bool centre = false, wrap = false;
+	bool show_caption = false; /* a button's caption, set by the program, along its bottom */
 	std::string definition, on_click;
+	int max_length = 0;       /* a TEdit's MaxLength (0: any) */
+	uint32_t back = 0xffffffff; /* a TEdit's Color */
 	/* Graphics: up, hover, down, focus, disabled; and the click region. */
 	std::shared_ptr<Image> look[5], region, picture;
 };
@@ -58,6 +61,10 @@ public:
 	};
 	std::vector<Extra> extras;
 	bool closed = false;
+	/* A dialog (TfrmCoolDialog and its kind) is drawn centred over the screen behind
+	 * it; (x, y) is its top left. Its controls' places are on the screen already. */
+	bool dialog = false;
+	int x = 0, y = 0, w = 800, h = 600;
 
 	/* Builds the form of class cls; button definitions get the graphic prefixes given
 	 * (definition name -> prefix), as the forms' FormCreate code assigns them. */
@@ -67,6 +74,8 @@ public:
 	void draw(Canvas &cv, const MenuResources &res) const;
 	/* Mouse and keys: hovering, pressing, clicking (runs the control's handler). */
 	void input(const SysInput &in);
+	/* The text field's text (the form's first TEdit). */
+	std::string &text();
 
 private:
 	int hover = -1, pressed = -1;
