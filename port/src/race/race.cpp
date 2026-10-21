@@ -447,6 +447,9 @@ struct Racer {
 	CopPlan plan;
 	float caught_time = 0; /* a racer's: how long stopped with a cop beside */
 	bool arrested = false; /* a computer racer the police took off the road */
+	/* ai_supercop.cpp: D.T. Harry's humvee (TrackObject type 28), after the player from
+	 * the moment it sees it to the end. */
+	bool supercop = false;
 	int was_police = NONE;  /* last frame's, for the communicator */
 	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
@@ -794,6 +797,21 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	int difficulty = std::clamp(opt.difficulty >= 0 ? opt.difficulty : gi.get_int("OPTIONS", "Difficulty", 1), 0, 2);
 	PoliceRules police_rules;
 	police_rules.load(data_dir, opt.stage, difficulty);
+	int supercop_front = 12, supercop_rear = 8, supercop_cheat_far = 10, supercop_cheat_put = 4;
+	bool supercop_cheat = true;
+	{
+		IniFile bi;
+		std::string bp = find_file_ci(data_dir, "behavior.ini");
+		if (!bp.empty() && bi.load(bp)) {
+			std::string b = bi.get("Track " + std::to_string(opt.stage) + " Behaviors", "Supercop0", "Default");
+			auto get = [&](const char *k, int def) { return bi.get_int(b, k, bi.get_int("Default", k, def)); };
+			supercop_front = get("FrontVisibilityRange", 12);
+			supercop_rear = get("RearVisibilityRange", 8);
+			supercop_cheat = get("Cheat", 1) != 0;
+			supercop_cheat_far = get("CheatThreshHoldDistance", 10);
+			supercop_cheat_put = get("CheatReplaceDistance", 4);
+		}
+	}
 	unsigned cop_rnd = 777;
 	/* Testing: A2_RIVALS=0 races alone. */
 	int rivals = field - 1;
@@ -1023,7 +1041,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	for (const TrackObject &o : police_on ? track.objects : std::vector<TrackObject>()) {
 		if (o.type == 7)
 			radar_traps.push_back(&o);
-		if (o.type != 9)
+		if (o.type != 9 && o.type != 28)
 			continue;
 		IniFile cfg;
 		std::string cp = find_file_ci(data_dir, "CAR_CFG.INI");
@@ -1039,6 +1057,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (entry < 0 || !cop.car.spec.load(data_dir, "traffic", entry, 0, 0).empty())
 			continue;
 		cop.police = Racer::WAITING;
+		cop.supercop = o.type == 28;
 		cop.model = load_model(track, meshes, textures, cop.car.spec.animation);
 		cop.car.place_at(world, o.pos, o.rot[1] * PI / 180);
 		cop.rules.phase = RaceRules::RACING;
@@ -1758,7 +1777,31 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (Racer &rc : racers) {
 			if (rc.police == Racer::NONE)
 				continue;
-			if (rc.police == Racer::WAITING && rules.phase == RaceRules::RACING) {
+			/* behavior.ini: the Supercop sees the player within FrontVisibilityRange chunks
+			 * ahead of it, RearVisibilityRange behind. */
+			if (rc.supercop && rc.police == Racer::WAITING && rules.phase == RaceRules::RACING) {
+				int ahead = ((car.chunk - rc.car.chunk) % n + n) % n;
+				if (ahead <= supercop_front || n - ahead <= supercop_rear) {
+					rc.police = Racer::CHASING;
+					rc.target = 0;
+					rc.plan.begin(police_rules, police_rules.for_kind("supercop"), cop_rnd);
+					comm.post("SYSTEM_copalert", -1, clock);
+					comm.post("~attack", -1, clock);
+				}
+			}
+			if (rc.supercop && rc.police == Racer::CHASING) {
+				/* Cheat: left CheatThreshHoldDistance chunks behind, it is put back
+				 * CheatReplaceDistance behind the player; wrecked, it is out (knock_out). */
+				int behind = ((car.chunk - rc.car.chunk) % n + n) % n;
+				if (supercop_cheat && behind > supercop_cheat_far && behind < n / 2)
+					rc.car.place(world, track, ((car.chunk - supercop_cheat_put) % n + n) % n, 0);
+				if (rc.damage >= 1100) {
+					rc.police = Racer::GAVE_UP;
+					comm.post("~knock_out", -1, clock);
+				}
+				rc.chase_time = 0;
+			}
+			if (rc.police == Racer::WAITING && !rc.supercop && rules.phase == RaceRules::RACING) {
 				for (size_t i = 0; i < racers.size(); i++) {
 					const Racer &t = racers[i];
 					if (!t.racing() || t.arrested || t.rules.phase != RaceRules::RACING)
@@ -1779,8 +1822,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			if (rc.police == Racer::CHASING) {
 				rc.chase_time += frame_dt;
 				int behind = ((t.car.chunk - rc.car.chunk) % n + n) % n;
-				if (d > 3000 || rules.phase != RaceRules::RACING || t.arrested || t.rules.phase != RaceRules::RACING ||
-					rc.chase_time > police_rules.chase_time || (behind > police_rules.give_up_chunks && behind < n / 2))
+				bool lost = !rc.supercop && (d > 3000 || rc.chase_time > police_rules.chase_time ||
+					(behind > police_rules.give_up_chunks && behind < n / 2));
+				if (lost || rules.phase != RaceRules::RACING || t.arrested || t.rules.phase != RaceRules::RACING)
 					rc.police = Racer::GAVE_UP;
 			}
 			/* MEGAPHONE: a call as the step begins (MEGA_0..3), from where the cop is. */
@@ -1997,7 +2041,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (int k = -25; k <= 25; k++)
 			r.draw_chunk(track.road.chunks[(size_t)(((c + k) % n + n) % n)], road_tex);
 		for (const TrackObject &o : track.objects) {
-			if ((police_on && o.type == 9) || o.type == 25 || loose.loose(&o))
+			if ((police_on && (o.type == 9 || o.type == 28)) || o.type == 25 || loose.loose(&o))
 				continue; /* drawn as cars, as pick-ups, and where they were knocked to */
 			int d = ((o.chunk - c) % n + n) % n;
 			if (d > 25 && d < n - 25)

@@ -23,6 +23,7 @@ struct AiDriver {
 	float skill = 0.9f;   /* fraction of the top speed it aims for */
 	int node = -1;        /* the drive map node it is heading for */
 	float stuck = 0, reverse = 0;
+	float patrol_speed = 30; /* km/h, a chasing cop's when far ahead of its target */
 	/* For a racer: which drive map nodes' lanes run the race's way. Lost, it takes one of
 	 * those (and turns round to it), not whatever lane it happens to face. */
 	const std::vector<char> *race_lanes = nullptr;

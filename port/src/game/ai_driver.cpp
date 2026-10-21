@@ -178,11 +178,14 @@ CarInput AiDriver::chase(const Track &track, const Car &car, const Car &target, 
 {
 	float dx = target.pos[0] - car.pos[0], dz = target.pos[2] - car.pos[2];
 	float dist = sqrtf(dx * dx + dz * dz);
-	/* Far away: follow the lanes to catch up, like a racer. */
+	/* Far away: follow the lanes to catch up, like a racer; ahead of it, slowly, for
+	 * it to come by (behavior.ini PatrolSpeed). */
 	if (dist > 400) {
 		CarInput in = drive(track, car, dt);
-		in.throttle = 1;
-		in.brake = 0;
+		bool ahead = -(dx * sinf(target.yaw) + dz * cosf(target.yaw)) > 0;
+		float sp = car.speed_kmh();
+		in.throttle = !ahead || sp < patrol_speed ? 1.0f : 0.0f;
+		in.brake = ahead && sp > patrol_speed + 10 ? 1.0f : 0.0f;
 		return in;
 	}
 	CarInput in;
