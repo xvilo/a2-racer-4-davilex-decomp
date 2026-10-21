@@ -1627,6 +1627,12 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.car = info.chars[tour_ch()].car;
 			ro.difficulty = difficulty;
 			player_race(ro);
+			{
+				int ms;
+				std::string who;
+				if (record(t, ms, who))
+					ro.record_lap = ms / 1000.0f;
+			}
 			ro.laps = info.tracks[t].laps;
 			const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
 			ro.motor = cr.upgrades[0];
@@ -1667,6 +1673,12 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.car = info.quick_chars.empty() ? 0 : info.chars[info.quick_chars[char_ix]].car;
 			ro.difficulty = difficulty;
 			player_race(ro);
+			if (!info.quick_tracks.empty()) {
+				int ms;
+				std::string who;
+				if (record(info.quick_tracks[track_ix], ms, who))
+					ro.record_lap = ms / 1000.0f;
+			}
 			last = RaceResult();
 			stop_music();
 			race_main(data_dir, race_rcs, ro, &last);

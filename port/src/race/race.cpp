@@ -142,6 +142,9 @@ struct Hud {
 	float owner_damage = 0; /* the speaking racer's, 0..1100 */
 	int money = 0;
 	std::string warning; /* the police's warning, while it shows */
+	/* After each lap, for a few seconds: RONDE INFO, its time, the record. */
+	float lap_info_time = 0, lap_info_lap = 0, lap_info_record = 0;
+	bool lap_info_new = false;
 	/* Ovl_Requestors.cpp: 1 paused (P), 2 asking whether to quit (Esc). */
 	int requestor = 0;
 	bool reset_prompt = false, wrong_way = false;
@@ -367,6 +370,15 @@ struct Hud {
 		}
 		else if (!warning.empty()) {
 			overlay.string("STRING_GAME_TEXT", warning);
+		}
+		else if (lap_info_time > 0 && rules.phase == RaceRules::RACING) {
+			overlay.string("STRING_GAME_TEXT", lang.get(lap_info_new ? TXT_NEW_LAP_RECORD : TXT_LAP_INFO,
+				lap_info_new ? "NIEUW RONDE RECORD" : "RONDE INFO"));
+			const float green[4] = { 118 / 255.0f, 250 / 255.0f, 0, 1 };
+			overlay.text(320, 175, lang.get(TXT_TIME, "TIJD") + " " + format_time(lap_info_lap), 0.8f, green, true, false);
+			if (lap_info_record > 0)
+				overlay.text(320, 197, lang.get(TXT_RECORD, "RECORD") + " " + format_time(lap_info_record), 0.8f, green,
+					true, false);
 		}
 		else if (flash > 0) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FLASH_FINE, "FLITS BOETE  -50 EURO"));
@@ -1423,6 +1435,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float flash_message = 0;
 	std::vector<char> flashed(radar_traps.size(), 0), trap_down(radar_traps.size(), 0);
 	int catches = 0;
+	size_t laps_seen = 0;
+	float lap_record = opt.record_lap;
 	bool pad_turbo = false;
 	int horn_voice = 0;
 	float warning_left = 0;     /* the warning's interlude, s */
@@ -2099,6 +2113,18 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		hud.reset_prompt = stuck_time > reset_wait;
 		hud.wrong_way = wrong_time > 1.5f;
 		hud.frame_dt = frame_dt;
+		/* A lap done (Tr_finis.cpp): its time against the track's record. */
+		if (rules.lap_times.size() > laps_seen) {
+			laps_seen = rules.lap_times.size();
+			float lap = rules.lap_times.back();
+			hud.lap_info_new = rules.circuit && (lap_record <= 0 || lap < lap_record);
+			if (hud.lap_info_new)
+				lap_record = lap;
+			hud.lap_info_lap = lap;
+			hud.lap_info_record = lap_record;
+			hud.lap_info_time = rules.circuit && rules.phase == RaceRules::RACING ? 4 : 0;
+		}
+		hud.lap_info_time = std::max(0.0f, hud.lap_info_time - frame_dt);
 		hud.warning = warning_left > 0 ? hud.lang.get(catches == 1 ? TXT_WARNING_1 : TXT_WARNING_2,
 			catches == 1 ? "EERSTE WAARSCHUWING" : "LAATSTE WAARSCHUWING") : "";
 		hud.money = money;

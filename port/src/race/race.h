@@ -21,6 +21,8 @@ struct RaceOptions {
 	/* The controller (the menu's CONTROLTYPE: 0 keyboard, 1 joystick, 2 joypad, 3 wheel)
 	 * and its sensitivity (0..100; -1: game.ini [INPUT] SENSITIVITY). */
 	int device = 0, sensitivity = -1;
+	/* The track's lap record (s; 0: none), for the race's NIEUW RONDE RECORD. */
+	float record_lap = 0;
 	float music_volume = -1, sfx_volume = -1;
 	/* game.ini [PLAYER] MONEY and TURBO_AMOUNT (0..100): what the player brings. */
 	int money = 0;
