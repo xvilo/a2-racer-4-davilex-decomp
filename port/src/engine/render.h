@@ -10,6 +10,7 @@ class TextureManager;
 
 struct Renderer {
 	TextureManager &textures;
+	float eye[3] = {}; /* the camera, game coordinates */
 
 	/* Binds a texture (0: none), with alpha testing for colour-keyed ones. */
 	void bind(unsigned tex);

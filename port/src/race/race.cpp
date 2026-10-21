@@ -73,6 +73,50 @@ struct CarModel {
 	std::vector<std::pair<const Mesh *, unsigned>> frames;
 };
 
+/* car_whl.cpp: the windows (the model's third frame) take the stage's [car_reflect]
+ * sky (FUN_004370f0), the view reflected in them each frame giving where on it
+ * (FUN_00437370: u, v = the reflection's x, z halved, + 0.5), blended by the mesh's
+ * alpha; without game.ini alpha_blending they aren't drawn. */
+unsigned car_reflect_tex = 0;
+bool car_windows_on = true;
+
+void draw_windows(Renderer &r, const Mesh &w, const float right[3], const float up[3], const float fwd[3],
+	const float pos[3], const float *tint)
+{
+	r.bind(car_reflect_tex);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthMask(GL_FALSE);
+	glBegin(GL_TRIANGLES);
+	for (uint16_t i : w.indices) {
+		if (i >= w.vertices.size())
+			continue;
+		const MeshVertex &v = w.vertices[i];
+		float p[3], n[3], d[3];
+		for (int k = 0; k < 3; k++) {
+			p[k] = pos[k] + right[k] * v.x + up[k] * v.y + fwd[k] * v.z;
+			n[k] = right[k] * v.nx + up[k] * v.ny + fwd[k] * v.nz;
+			d[k] = p[k] - r.eye[k];
+		}
+		float dl = sqrtf(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
+		if (dl > 0)
+			for (float &x : d)
+				x /= dl;
+		float dn = 2 * (d[0] * n[0] + d[1] * n[1] + d[2] * n[2]);
+		const uint8_t *c = (const uint8_t *)&v.colour;
+		if (tint)
+			glColor4f(tint[0], tint[1], tint[2], c[3] / 255.0f);
+		else
+			glColor4ub(c[0], c[1], c[2], c[3]);
+		glTexCoord2f((d[0] - dn * n[0]) * 0.5f + 0.5f, (d[2] - dn * n[2]) * 0.5f + 0.5f);
+		glVertex3f(v.x, v.y, v.z);
+	}
+	glEnd();
+	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
+	glColor4f(1, 1, 1, 1);
+}
+
 /* tint: the car's light (0..1 each of R, G, B, and A), or null. */
 void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = true, int phase = 0,
 	const float *tint = nullptr)
@@ -86,8 +130,12 @@ void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = tru
 		r.draw_mesh(*m.frames[(size_t)(5 + phase)].first, m.frames[(size_t)(5 + phase)].second, tint);
 	else if (m.body)
 		r.draw_mesh(*m.body, m.body_tex, tint);
-	if (m.windows && windows)
-		r.draw_mesh(*m.windows, m.windows_tex, tint);
+	if (m.windows && windows && car_windows_on) {
+		if (car_reflect_tex)
+			draw_windows(r, *m.windows, right, up, fwd, car.pos, tint);
+		else
+			r.draw_mesh(*m.windows, m.windows_tex, tint);
+	}
 	if (m.wheel) {
 		const float *wp[2] = { car.spec.wheel_front, car.spec.wheel_rear };
 		for (int axle = 0; axle < 2; axle++) {
@@ -1099,6 +1147,10 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (comm.load(data_dir))
 		hud.comm = &comm;
 	hud.flag_on = gi.get_int("GFX OPTIONS", "finish_flag", 1) != 0;
+	car_windows_on = gi.get_int("GFX OPTIONS", "alpha_blending", 1) != 0;
+	car_reflect_tex = 0;
+	if (const std::vector<AnimFrame> *f = track.animation("car_reflect"); f && !f->empty())
+		car_reflect_tex = textures.get((*f)[0].texture);
 	const bool overlay_off = gi.get_int("GFX OPTIONS", "disable_overlay", 0) != 0;
 	int overlay_detail = gi.get_int("GFX OPTIONS", "overlay_detail", 3);
 	hud.shown = !overlay_off && overlay_detail > 0;
@@ -2535,6 +2587,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		glDisable(GL_CULL_FACE);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		gl_look_at(eye, target);
+		for (int k = 0; k < 3; k++)
+			r.eye[k] = eye[k];
 		if (sky && !sky->empty()) {
 			if (const Mesh *m = meshes.get((*sky)[0].mesh)) {
 				glPushMatrix();
