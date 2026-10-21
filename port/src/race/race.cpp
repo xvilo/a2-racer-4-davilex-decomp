@@ -920,7 +920,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 	}
 	for (const LooseObject &l : loose.list)
-		if (!l.sound3d.empty())
+		if (!l.sound3d.empty() && l.sound3d_loops)
 			ambients.push_back({ l.obj, l.sound3d, 0, &l });
 	for (const TrackObject &o : track.objects)
 		if (o.type == 12)
@@ -1585,6 +1585,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				if (rc.player) {
 					if (hit_obj->sound)
 						sound.effect(hit_obj->sound);
+					else if (!hit_obj->sound3d.empty() && !hit_obj->sound3d_loops && v > 2)
+						sound.effect(hit_obj->sound3d);
 					Effects::Scenery kind = Effects::SCENERY_KINDS;
 					switch (hit_obj->obj->type) {
 					case 19: kind = Effects::TRASH; break;
@@ -1609,6 +1611,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					knock_sound(imp, false, since);
 			}
 			loose.update(STEP, world);
+			loose.revive(car.chunk, n, 30);
 			for (LooseObject &l : loose.list)
 				if (l.fell) {
 					l.fell = false;
@@ -1673,6 +1676,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					}
 					continue;
 				}
+				if (const LooseObject *lo = loose.find(&o); lo && lo->tilt == 0)
+					trap_down[t] = 0; /* stood up again (OnRevive) */
 				float dx = o.pos[0] - car.pos[0], dz = o.pos[2] - car.pos[2];
 				bool in_range = dx * dx + dz * dz < 120 * 120;
 				if (in_range && !flashed[t] && car.speed_kmh() > 80) {

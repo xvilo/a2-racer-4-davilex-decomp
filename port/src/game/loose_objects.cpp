@@ -19,6 +19,7 @@ namespace {
 struct ScriptPhysics {
 	float mass, friction, elasticity;
 	std::string sound;
+	bool sound_loops = false;
 };
 
 std::string lower(std::string s)
@@ -31,8 +32,9 @@ std::string lower(std::string s)
 /* bonus.dso is compiled DaviScript. Each scripted object's OnInit_<animation> pushes its
  * InitPhysics arguments as double literals (the bytes 03 01 01 00 01 and the double) and
  * calls CScriptedObject's method 3 (3c 03 00); a string literal (03 01 03 00 03, a u16
- * length and the text) names the sound.ini sample of its InitSound3D, which OnFramecall
- * plays (the barrel organ). Only that much is read here. */
+ * length and the text) names the sound.ini sample of its InitSound3D: heard when it is
+ * knocked, or all the while when its OnFramecall does anything (the barrel organ's).
+ * Only that much is read here. */
 std::map<std::string, ScriptPhysics> read_scripted(const std::string &dir)
 {
 	std::map<std::string, ScriptPhysics> out;
@@ -69,8 +71,19 @@ std::map<std::string, ScriptPhysics> read_scripted(const std::string &dir)
 			if (d[k] == 0x3c && d[k + 1] == 0x03 && d[k + 2] == 0x00)
 				calls_init = true;
 		}
+		/* OnFramecall_<name>: more than the empty function's bytes. */
+		bool loops = false;
+		std::string fc = "OnFramecall_" + std::string((const char *)&d[s], e - s);
+		for (size_t k = end; k + fc.size() < d.size() && k < end + 4096; k++)
+			if (memcmp(&d[k], fc.data(), fc.size()) == 0) {
+				size_t f = k + fc.size(), g = f;
+				while (g + 2 < d.size() && !(d[g] == 'O' && d[g + 1] == 'n' && isupper(d[g + 2])))
+					g++;
+				loops = g - f > 48;
+				break;
+			}
 		if (calls_init && vals.size() >= 3)
-			out[name] = { vals[0], vals[1], vals[2], sound };
+			out[name] = { vals[0], vals[1], vals[2], sound, loops };
 		i = e;
 	}
 	return out;
@@ -116,6 +129,7 @@ void LooseObjects::build(const Track &track, MeshCache &meshes, TextureManager &
 			l.friction = it->second.friction;
 			l.elasticity = it->second.elasticity;
 			l.sound3d = it->second.sound;
+			l.sound3d_loops = it->second.sound_loops;
 			break;
 		}
 		default: continue;
@@ -266,6 +280,23 @@ void LooseObjects::update(float dt, const CollisionWorld &world)
 		}
 		else if (l.tilt_rate == 0)
 			l.moving = false, l.burst = false;
+	}
+}
+
+void LooseObjects::revive(int player_chunk, int n, int far)
+{
+	for (LooseObject &l : list) {
+		bool knocked = l.moving || l.tilt > 0 || l.yaw != 0 || l.pos[0] != l.obj->pos[0] || l.pos[2] != l.obj->pos[2];
+		if (!knocked || n <= 0)
+			continue;
+		int d = ((l.obj->chunk - player_chunk) % n + n) % n;
+		if (d < far || d > n - far)
+			continue;
+		for (int k = 0; k < 3; k++)
+			l.pos[k] = l.obj->pos[k], l.vel[k] = 0;
+		l.yaw = l.spin = l.tilt = l.tilt_rate = 0;
+		l.moving = l.burst = l.fell = false;
+		l.chunk = l.obj->chunk;
 	}
 }
 

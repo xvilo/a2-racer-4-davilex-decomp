@@ -36,7 +36,8 @@ struct LooseObject {
 	float mass = 100, friction = 1, elasticity = 0.2f;
 	bool hinged = false;
 	const char *sound = nullptr;
-	std::string sound3d; /* a scripted one's sample, sounding from it all the while */
+	std::string sound3d; /* a scripted one's sample: when knocked, or all the while */
+	bool sound3d_loops = false;
 	float radius = 5, height = 0; /* game units */
 	float pos[3] = {};
 	float vel[3] = {};       /* m/s */
@@ -63,6 +64,9 @@ public:
 	 * hardest knock's speed (m/s, 0 if none) and object. */
 	float hit(Car &car, LooseObject *&which);
 	void update(float dt, const CollisionWorld &world);
+	/* OnRevive: the ones knocked about, back in their places once out of sight (their
+	 * chunk at least `far` from the player's, of n). */
+	void revive(int player_chunk, int n, int far);
 	/* The ones within `range` chunks of chunk (of n). */
 	void draw(Renderer &r, int chunk, int n, int range) const;
 
