@@ -4,6 +4,8 @@
  * can be turned off as game.ini [GFX OPTIONS] particles, clouds, skidmarks say. */
 #pragma once
 
+#include <cstddef>
+#include <map>
 #include <vector>
 
 struct Mesh;
@@ -15,6 +17,11 @@ public:
 	unsigned sfx_tex = 0;     /* s_sfx.pcx: sparks, tyre smoke, skid marks, bits */
 	unsigned smoke_tex = 0;   /* L1RACER3.PCX: a wrecked car's smoke */
 	std::vector<const Mesh *> bits; /* Par_Damage: P_DMG0..7 */
+	/* The scenery's bursts, by the track object's type: 19 rubbish (par_trash), 20 mail
+	 * (par_mail), 22 paper (par_paper), 23 pigeons (par_bird), 24 leaves (par_leaf), 26
+	 * water drops (par_waterdrops), 27 clods of mud (par_dirtpieces). */
+	std::map<int, std::vector<const Mesh *>> scenery_meshes;
+	std::map<int, unsigned> scenery_tex;
 
 	/* Type 1: five pairs of sparks at p, thrown out to the sides. */
 	void sparks(const float p[3]);
@@ -28,6 +35,10 @@ public:
 	 * was below 4. id picks the mark (two per car). */
 	void skid(int id, const float p[3], const float across[3], int level, float time);
 
+	/* A car through a scenery object of that type at p, on the ground at ground_y; vel the
+	 * car's (m/s). */
+	void scenery(int type, const float p[3], const float vel[3], float ground_y);
+
 	void update(float dt, float time);
 	/* cam_right / cam_up: the view's axes, for the smoke facing the camera. */
 	void draw(Renderer &r, const float cam_right[3], const float cam_up[3], float time) const;
@@ -40,6 +51,13 @@ private:
 		float p[3], v[3], rot[3], spin, age, life, ground;
 		const Mesh *mesh;
 	};
+	struct Thing {
+		float p[3], v[3], rot[3], spin[3], age, life, ground, gravity, bounce;
+		bool rests, flaps;
+		int type;
+		size_t mesh;
+	};
+	std::vector<Thing> things;
 	struct Puff {
 		float p[3], v[3], age, life, size, grow;
 		bool damage;

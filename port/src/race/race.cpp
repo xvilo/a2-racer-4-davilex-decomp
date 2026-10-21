@@ -902,6 +902,33 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (const std::vector<AnimFrame> *f = track.animation("Par_Damage"))
 		for (const AnimFrame &af : *f)
 			fx.bits.push_back(meshes.get(af.mesh));
+	static const std::pair<int, const char *> scenery_anims[] = { { 19, "par_trash" }, { 20, "par_mail" },
+		{ 22, "par_paper" }, { 23, "par_bird" }, { 24, "par_leaf" }, { 26, "par_waterdrops" },
+		{ 27, "par_dirtpieces" } };
+	for (auto &[type, name] : scenery_anims) {
+		if (const std::vector<AnimFrame> *f = track.animation(name); f && !f->empty()) {
+			for (const AnimFrame &af : *f)
+				fx.scenery_meshes[type].push_back(meshes.get(af.mesh));
+			fx.scenery_tex[type] = textures.get((*f)[0].texture);
+		}
+	}
+	/* The scenery objects that throw things up when the player drives through (once on
+	 * the way in). */
+	struct Trigger {
+		const TrackObject *obj;
+		float radius;
+		bool inside;
+	};
+	std::vector<Trigger> triggers;
+	for (const TrackObject &o : track.objects) {
+		if (!fx.scenery_meshes.count(o.type))
+			continue;
+		float radius = 15;
+		if (const std::vector<AnimFrame> *f = track.animation(o.animation); f && !f->empty())
+			if (const Mesh *m = meshes.get((*f)[0].mesh))
+				radius = std::max(8.0f, std::max(m->max[0] - m->min[0], m->max[2] - m->min[2]) / 2);
+		triggers.push_back({ &o, radius, false });
+	}
 	/* A knock's sparks (and with damage, more and bits of car: FUN_00426880). */
 	auto knock_fx = [&](const Racer &rc, const float at[3], float imp, bool hurt) {
 		const float lo = rc.player ? rc.damage_model.min_player : rc.damage_model.min_imp;
@@ -1206,6 +1233,16 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 			if (tyre_clock >= 0.1f)
 				tyre_clock = 0;
+		}
+		for (Trigger &t : triggers) {
+			float dx = t.obj->pos[0] - car.pos[0], dz = t.obj->pos[2] - car.pos[2];
+			bool in = dx * dx + dz * dz < (t.radius + 10) * (t.radius + 10) && fabsf(t.obj->pos[1] - car.pos[1]) < 40;
+			if (in && !t.inside) {
+				fx.scenery(t.obj->type, t.obj->pos, car.vel, car.pos[1]);
+				if (trace)
+					printf("race: through %s (type %d) at %.1f s\n", t.obj->animation.c_str(), t.obj->type, clock);
+			}
+			t.inside = in;
 		}
 		fx.update(frame_dt, clock);
 		for (Racer &rc : racers)

@@ -116,8 +116,87 @@ void Effects::skid(int id, const float p[3], const float across[3], int level, f
 	}
 }
 
+/* Par_Main.cpp's bursts (types 2..12): count, spread, speeds (o: the random offset),
+ * gravity, bounce, life. */
+void Effects::scenery(int type, const float p[3], const float vel[3], float ground_y)
+{
+	auto m = scenery_meshes.find(type);
+	if (!particles || m == scenery_meshes.end() || m->second.empty())
+		return;
+	struct Kind {
+		int type, count;
+		float spread, out, up_lo, up_hi, gravity, bounce;
+		bool rests, flaps, by_speed;
+	};
+	static const Kind kinds[] = {
+		{ 24, 40, 5, 4, 7.5f, 10, 9.81f, 0, true, false, false },   /* leaves */
+		{ 23, 35, 20, 4, 20, 30, 0, 0, false, true, false },        /* pigeons */
+		{ 20, 40, 5, 2, 20, 30, 20, 0, true, false, false },        /* mail */
+		{ 19, 35, 5, 2, 70, 100, 150, 0.7f, true, false, false },   /* rubbish */
+		{ 22, 35, 5, 4, 20, 30, 9.81f, 0, true, false, false },     /* paper */
+		{ 27, 15, 2.7f, 4, 0.4f, 1, 150, 0.7f, true, false, true }, /* mud */
+		{ 26, 25, 3.7f, 2, 1.8f, 2.5f, 160, 0.5f, false, false, true }, /* water drops */
+	};
+	const Kind *k = nullptr;
+	for (const Kind &kk : kinds)
+		if (kk.type == type)
+			k = &kk;
+	if (!k)
+		return;
+	float speed = sqrtf(vel[0] * vel[0] + vel[2] * vel[2]) * 10;
+	for (int i = 0; i < k->count; i++) {
+		Thing t;
+		float ox = random(-k->spread, k->spread), oz = random(-k->spread, k->spread);
+		t.p[0] = p[0] + ox;
+		t.p[1] = ground_y + 0.12f;
+		t.p[2] = p[2] + oz;
+		/* Thrown along with the car a little. */
+		t.v[0] = k->out * ox + vel[0] * 3;
+		t.v[2] = k->out * oz + vel[2] * 3;
+		t.v[1] = k->by_speed ? random(k->up_lo * speed, k->up_hi * speed) * 0.25f : random(k->up_lo, k->up_hi);
+		for (int a = 0; a < 3; a++) {
+			t.rot[a] = random(0, 360);
+			t.spin[a] = random(-3, 15) * 60;
+		}
+		t.age = 0;
+		t.life = type == 26 ? random(1, 2) : type == 27 ? random(2, 8) : random(4, 8);
+		t.ground = ground_y;
+		t.gravity = k->gravity;
+		t.bounce = k->bounce;
+		t.rests = k->rests;
+		t.flaps = k->flaps;
+		t.type = type;
+		t.mesh = (size_t)random(0, (float)m->second.size() - 0.01f);
+		things.push_back(t);
+	}
+	if (things.size() > 600)
+		things.erase(things.begin(), things.begin() + (long)(things.size() - 600));
+}
+
 void Effects::update(float dt, float time)
 {
+	for (Thing &t : things) {
+		t.age += dt;
+		if (t.rests && t.v[0] == 0 && t.v[1] == 0 && t.v[2] == 0)
+			continue;
+		t.v[1] -= t.gravity * dt;
+		for (int a = 0; a < 3; a++) {
+			t.p[a] += t.v[a] * dt;
+			t.rot[a] += t.spin[a] * dt;
+		}
+		if (t.p[1] <= t.ground + 0.11f && t.v[1] < 0) {
+			t.p[1] = t.ground + 0.1f;
+			if (t.bounce > 0 && fabsf(t.v[1]) >= 3)
+				t.v[1] *= -t.bounce * random(0.7f, 1.3f);
+			else if (t.rests) {
+				/* Lying flat where it fell. */
+				t.v[0] = t.v[1] = t.v[2] = 0;
+				t.rot[0] = t.rot[2] = 0;
+			}
+		}
+	}
+	things.erase(std::remove_if(things.begin(), things.end(), [](const Thing &t) { return t.age >= t.life; }),
+		things.end());
 	for (Spark &s : spark_list) {
 		s.v[1] -= 100 * dt;
 		for (int a = 0; a < 3; a++)
@@ -244,6 +323,33 @@ void Effects::draw(Renderer &r, const float cr[3], const float cu[3], float time
 	glColor4f(1, 1, 1, 1);
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
+
+	/* The scenery's things; pigeons flap (their meshes are the wing's frames). */
+	for (const Thing &t : things) {
+		auto m = scenery_meshes.find(t.type);
+		if (m == scenery_meshes.end())
+			continue;
+		size_t frame = t.mesh;
+		if (t.flaps) {
+			size_t n = m->second.size(), step = (size_t)(t.age / 0.025f) % (2 * n - 2 > 0 ? 2 * n - 2 : 1);
+			frame = step < n ? step : 2 * n - 2 - step;
+		}
+		const Mesh *mesh = m->second[std::min(frame, m->second.size() - 1)];
+		if (!mesh)
+			continue;
+		auto tx = scenery_tex.find(t.type);
+		glPushMatrix();
+		glTranslatef(t.p[0], t.p[1], t.p[2]);
+		if (!t.flaps) {
+			gl_rotate(t.rot[1], 0, 1, 0);
+			gl_rotate(t.rot[0], 1, 0, 0);
+			gl_rotate(t.rot[2], 0, 0, 1);
+		}
+		else
+			gl_rotate(atan2f(t.v[0], t.v[2]) * 180 / 3.14159265f, 0, 1, 0);
+		r.draw_mesh(*mesh, tx == scenery_tex.end() ? sfx_tex : tx->second);
+		glPopMatrix();
+	}
 
 	/* The flying bits: small meshes of s_sfx.pcx, tumbling. */
 	for (const Bit &b : bit_list) {
