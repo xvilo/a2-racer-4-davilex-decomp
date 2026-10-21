@@ -139,7 +139,7 @@ struct Static {
 	}
 };
 
-/* The menu's voices and sounds (MenuRcs WAVs; TData's PlaySample: "<prefix><nn>_<k>.wav",
+/* The menu's voices and sounds (MenuRcs WAVs; TData's PlaySample: "<prefix><nn>_<k>.wav" or "<prefix><nn>.wav",
  * one of the variants that exist, picked at random). */
 struct MenuSound {
 	const NamedArchive *rcs = nullptr;
@@ -178,6 +178,9 @@ struct MenuSound {
 			if (rcs && rcs->has(f))
 				have.push_back(f);
 		}
+		/* Those said one way only have no variants: CDW07_04 is cdw07_04.wav. */
+		if (have.empty() && rcs && rcs->has(numbered(prefix, n, ".wav")))
+			have.push_back(numbered(prefix, n, ".wav"));
 		if (have.empty())
 			return false;
 		rnd = rnd * 1103515245u + 12345u;
