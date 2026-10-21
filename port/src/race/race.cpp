@@ -223,9 +223,53 @@ struct Hud {
 	}
 
 	float frame_dt = 0;
+	/* gfx_flag.cpp: after the finish, a chequered flag waving over the whole picture: a
+	 * 17 x 11 grid a little in front of the camera, see-through (alpha 100), its folds
+	 * lighter and darker (128..255), textured with s_sfx.pcx's 8 x 6 chequer (each square
+	 * two cells of the grid, drawn here as such); game.ini [GFX OPTIONS] finish_flag. */
+	bool flag_on = true;
+	float flag_clock = 0;
+	void draw_flag(const RaceRules &rules)
+	{
+		if (!flag_on || rules.phase != RaceRules::FINISHED || rules.finished_at > 3)
+			return;
+		flag_clock += frame_dt;
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_ALPHA_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		auto at = [&](int col, int row, float out[2], int &shade) {
+			float x = (float)col * 0.625f - 5, y = (float)row * 0.75f - 3.75f;
+			float wave = sinf(flag_clock * 5 + (float)col * 0.7f + (float)row * 0.35f);
+			float z = 5 + wave * 0.6f;
+			shade = std::clamp(256 - (int)(wave * 96 + 64), 128, 255);
+			/* As seen at 60 degrees: 2.89 high and 3.85 wide fill the picture at 5. */
+			out[0] = 320 + x * 5 / z / 3.85f * 320;
+			out[1] = 240 - y * 5 / z / 2.89f * 240;
+		};
+		glBegin(GL_QUADS);
+		for (int row = 0; row < 10; row++)
+			for (int col = 0; col < 16; col++) {
+				bool white = ((col / 2) + (row / 2)) % 2 == 0;
+				const int corner[4][2] = { { col, row }, { col + 1, row }, { col + 1, row + 1 }, { col, row + 1 } };
+				for (const auto &c : corner) {
+					float p[2];
+					int shade;
+					at(c[0], c[1], p, shade);
+					uint8_t v = (uint8_t)(white ? shade : shade / 6);
+					glColor4ub(v, v, v, 100);
+					glVertex2f(p[0], p[1]);
+				}
+			}
+		glEnd();
+		glColor4f(1, 1, 1, 1);
+		glDisable(GL_BLEND);
+		glEnable(GL_TEXTURE_2D);
+	}
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
 		overlay.begin();
+		draw_flag(rules);
 		draw_faces(r, frame_dt);
 		draw_communicator(r);
 		if (comm && comm->arrow) {
@@ -949,6 +993,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	Communicator comm;
 	if (comm.load(data_dir))
 		hud.comm = &comm;
+	hud.flag_on = gi.get_int("GFX OPTIONS", "finish_flag", 1) != 0;
 	for (int i = 0; gi.has("Portraits", std::to_string(i)); i++)
 		hud.face_names.push_back(gi.get("Portraits", std::to_string(i)));
 	const unsigned road_tex[4] = { textures.get(track.info.road_texture), textures.get(track.info.grass_texture),
