@@ -718,6 +718,29 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		float elapsed = 0;
 	};
 	std::map<const TrackObject *, Animated> animated;
+	/* The objects that play a sample (type 1, 0x4535d0): its etappe<n>.ini [Sounds] entry is
+	 * the object's flags; it sounds from where it stands, all the while the player is
+	 * near. */
+	struct Ambient {
+		const TrackObject *obj;
+		std::string file;
+		int voice = 0;
+	};
+	std::vector<Ambient> ambients;
+	{
+		IniFile si;
+		std::string sp = find_file_ci(data_dir, track.info.file + ".ini");
+		if (!sp.empty() && si.load(sp))
+			for (const TrackObject &o : track.objects) {
+				if (o.type != 1)
+					continue;
+				std::vector<std::string> f = split_fields(si.get("Sounds", std::to_string(o.flags)));
+				if (f.empty() || f[0].empty())
+					continue;
+				size_t b = f[0].find_last_of("\\/");
+				ambients.push_back({ &o, b == std::string::npos ? f[0] : f[0].substr(b + 1) });
+			}
+	}
 	for (const TrackObject &o : track.objects)
 		if (o.type == 12)
 			if (const AnimType *t = track.anim_type(o.animation); t && !t->frames.empty())
@@ -1364,6 +1387,20 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		fx.update(frame_dt, clock);
+		for (Ambient &am : ambients) {
+			float dx = am.obj->pos[0] - car.pos[0], dz = am.obj->pos[2] - car.pos[2];
+			float d = sqrtf(dx * dx + dz * dz);
+			const float reach = 600;
+			if (d < reach) {
+				if (!am.voice)
+					am.voice = sound.loop(am.file);
+				sound.set(am.voice, 1 - d / reach);
+			}
+			else if (am.voice) {
+				sound.stop_voice(am.voice);
+				am.voice = 0;
+			}
+		}
 		for (auto &[o, a] : animated) {
 			a.elapsed += std::min(frame_dt, 0.1f) * 1000;
 			if (a.elapsed >= (float)a.type->frames[a.step].second) {

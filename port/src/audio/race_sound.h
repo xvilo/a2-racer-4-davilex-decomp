@@ -28,7 +28,8 @@ public:
 	void start_music(int music);
 	/* A sample by its sound.ini name, played once. */
 	void effect(const std::string &name, float volume = 1);
-	/* A looping sample (e.g. a siren); its voice, for set() and stop_voice(). */
+	/* A looping sample (e.g. a siren; or a file, "cow.wav"); its voice, for set() and
+	 * stop_voice(). */
 	int loop(const std::string &name);
 	void set(int voice, float volume);
 	void stop_voice(int voice);

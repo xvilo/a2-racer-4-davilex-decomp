@@ -64,7 +64,8 @@ std::shared_ptr<Sample> RaceSound::sample(const std::string &name)
 		return c->second;
 	std::shared_ptr<Sample> s;
 	auto t = types.find(key);
-	std::string file = t != types.end() ? t->second.first : name + ".wav";
+	bool is_file = key.size() > 4 && key.compare(key.size() - 4, 4, ".wav") == 0;
+	std::string file = t != types.end() ? t->second.first : is_file ? key : name + ".wav";
 	std::vector<uint8_t> bytes;
 	if (rcs && rcs->read(file, bytes))
 		s = decode_wav(bytes);
