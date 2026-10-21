@@ -122,6 +122,19 @@ void Overlay::begin() const
 	glDisable(GL_FOG);
 }
 
+bool Overlay::origin(const std::string &name, float &x, float &y) const
+{
+	if (auto e = elements.find(name); e != elements.end()) {
+		x = e->second.x, y = e->second.y;
+		return true;
+	}
+	if (auto t = strings.find(name); t != strings.end()) {
+		x = t->second.x, y = t->second.y;
+		return true;
+	}
+	return false;
+}
+
 void Overlay::element(Renderer &r, const std::string &name, float angle, float zoom, float stretch) const
 {
 	auto it = elements.find(name);

@@ -39,6 +39,8 @@ public:
 	void text(float x, float y, const std::string &text, float scale, const float rgba[4], bool centre,
 		bool fixed) const;
 	bool has_element(const std::string &name) const { return elements.count(name) != 0; }
+	/* Where an element (or a string) sits; false if there is none. */
+	bool origin(const std::string &name, float &x, float &y) const;
 
 private:
 	struct Glyph {

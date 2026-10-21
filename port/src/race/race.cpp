@@ -131,6 +131,59 @@ struct Hud {
 	float message_time = 0;
 	const Communicator *comm = nullptr;
 	float owner_damage = 0; /* the speaking racer's, 0..1100 */
+	int money = 0;
+	/* Ovl_Requestors.cpp: 1 paused (P), 2 asking whether to quit (Esc). */
+	int requestor = 0;
+	bool reset_prompt = false, wrong_way = false;
+	/* Ovl_Portraits.cpp: the racers' faces down the left in race order (game.ini
+	 * [Portraits] names each car's), the player's outlined, each one's time once in. */
+	struct Face {
+		int car;
+		bool player;
+		float finish; /* < 0: still racing */
+	};
+	std::vector<Face> faces;
+	std::vector<std::string> face_names;
+	std::map<int, float> face_y; /* where each car's face is now, sliding to its place */
+
+	void draw_faces(Renderer &r, float dt)
+	{
+		float sx, sy0, sy1;
+		if (faces.empty() || !overlay.origin("PLAYER_0", sx, sy0) || !overlay.origin("PLAYER_1", sx, sy1))
+			return;
+		for (size_t k = 0; k < faces.size(); k++) {
+			const Face &f = faces[k];
+			if (f.car < 0 || (size_t)f.car >= face_names.size())
+				continue;
+			const std::string &el = face_names[(size_t)f.car];
+			float ex, ey;
+			if (!overlay.origin(el, ex, ey))
+				continue;
+			float want = sy0 + (sy1 - sy0) * (float)k;
+			float &y = face_y.try_emplace(f.car, want).first->second;
+			y += (want - y) * std::min(1.0f, dt * 6);
+			glPushMatrix();
+			glTranslatef(sx - ex, y - ey, 0);
+			overlay.element(r, el);
+			glPopMatrix();
+			if (f.player) {
+				float ox, oy;
+				if (overlay.origin("OVL_PLAYER_OUTLINE", ox, oy)) {
+					glPushMatrix();
+					glTranslatef(sx - ox, y - oy, 0);
+					overlay.element(r, "OVL_PLAYER_OUTLINE");
+					glPopMatrix();
+				}
+			}
+			if (f.finish >= 0) {
+				char buf[32];
+				int cs = (int)(f.finish * 10);
+				snprintf(buf, sizeof buf, "%02d:%02d:%d", cs / 600, cs / 10 % 60, cs % 10);
+				const float green[4] = { 118 / 255.0f, 250 / 255.0f, 0, 1 };
+				overlay.text(sx + 32, y - 9, buf, 0.7f, green, false, false);
+			}
+		}
+	}
 
 	/* The communicator (Ovl_Communicator.cpp): sliding up from below the screen for a
 	 * message, the speaker's portrait, the text, their car's health, the cop alert lamp. */
@@ -160,9 +213,11 @@ struct Hud {
 		glPopMatrix();
 	}
 
+	float frame_dt = 0;
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
 		overlay.begin();
+		draw_faces(r, frame_dt);
 		draw_communicator(r);
 		if (comm && comm->arrow) {
 			static const char *arrows[4] = { "OVL_DIRECTION_GOLEFT", "OVL_DIRECTION_GORIGHT", "OVL_DIRECTION_GOBOTH",
@@ -214,6 +269,23 @@ struct Hud {
 		}
 		snprintf(buf, sizeof buf, "%s %d/%d", lang.get(TXT_POS, "POSITIE").c_str(), position, racers);
 		overlay.string("STRING_CUR_POS", buf);
+		snprintf(buf, sizeof buf, "%06d", std::clamp(money, 0, 999999));
+		overlay.string("STRING_EURO_SIGN", "");
+		overlay.string("STRING_EURO_MONEY", buf);
+		if (wrong_way && rules.phase == RaceRules::RACING)
+			overlay.element(r, "OVL_TURNAROUND_FRAME");
+		if (requestor) {
+			overlay.element(r, "OVL_REQUESTOR_BODY");
+			bool quit = requestor == 2;
+			overlay.string(quit ? "STRING_QUIT_HEADER" : "STRING_PAUZE_HEADER",
+				lang.get(quit ? TXT_QUIT_HEADER : TXT_PAUSE_HEADER, quit ? "EINDE" : "PAUZE"));
+			float x, y;
+			if (overlay.origin(quit ? "STRING_QUIT_TEXT" : "STRING_PAUZE_TEXT", x, y)) {
+				const float green[4] = { 118 / 255.0f, 250 / 255.0f, 0, 1 };
+				overlay.text(x, y, lang.get(quit ? TXT_QUIT_1 : TXT_PAUSE_1, ""), 0.7f, green, true, false);
+				overlay.text(x, y + 18, lang.get(quit ? TXT_QUIT_2 : TXT_PAUSE_2, ""), 0.7f, green, true, false);
+			}
+		}
 		/* 3, 2, 1, go: each digit grows in during its second. */
 		if (rules.phase == RaceRules::COUNTDOWN) {
 			int n = std::clamp((int)rules.countdown + 1, 1, 3);
@@ -241,6 +313,9 @@ struct Hud {
 		}
 		else if (flash > 0) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FLASH_FINE, "FLITS BOETE  -50 EURO"));
+		}
+		else if (reset_prompt && rules.phase == RaceRules::RACING) {
+			overlay.string("STRING_GAME_TEXT", lang.get(TXT_RESET, "DRUK ENTER/RETURN VOOR RESET"));
 		}
 		else if (message_time > 0 && rules.phase == RaceRules::RACING) {
 			overlay.string("STRING_GAME_TEXT", message);
@@ -824,6 +899,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	Communicator comm;
 	if (comm.load(data_dir))
 		hud.comm = &comm;
+	for (int i = 0; gi.has("Portraits", std::to_string(i)); i++)
+		hud.face_names.push_back(gi.get("Portraits", std::to_string(i)));
 	const unsigned road_tex[4] = { textures.get(track.info.road_texture), textures.get(track.info.grass_texture),
 		textures.get(track.info.grass2_texture), textures.get(track.info.rail_texture) };
 	const std::vector<AnimFrame> *sky = track.animation("sky");
@@ -1120,6 +1197,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float flash_message = 0;
 	std::vector<char> flashed(radar_traps.size(), 0);
 	float arrest_time = 0;
+	float stuck_time = 0, wrong_time = 0;
+	const float reset_wait = (float)gi.get_int("PLAYER", "RESETWAITTIME", 10);
 	int comm_chunk = -1;
 	bool comm_start_said = false, comm_finish_said = false, comm_damage_said = false;
 	Car &car = racers[0].car;
@@ -1145,14 +1224,38 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	SysInput in;
 	while (!sys_quit_requested()) {
 		sys_poll(in);
-		if (in.key == KEY_ESCAPE)
-			break;
+		/* Gm_main.cpp: Esc asks whether to stop (J/Y yes, N no), P pauses until a key. */
+		if (hud.requestor == 2) {
+			if (in.key == 'j' || in.key == 'J' || in.key == 'y' || in.key == 'Y')
+				break;
+			if (in.key == 'n' || in.key == 'N' || in.key == KEY_ESCAPE)
+				hud.requestor = 0;
+			in.key = KEY_NONE;
+		}
+		else if (hud.requestor == 1) {
+			if (in.key != KEY_NONE)
+				hud.requestor = 0;
+			in.key = KEY_NONE;
+		}
+		else if (in.key == KEY_ESCAPE && rules.phase != RaceRules::RACING && rules.phase != RaceRules::COUNTDOWN)
+			break; /* the race is over anyway */
+		else if (in.key == KEY_ESCAPE)
+			hud.requestor = 2, in.key = KEY_NONE;
+		else if (in.key == 'p' || in.key == 'P')
+			hud.requestor = 1, in.key = KEY_NONE;
+		/* game.ini [PLAYER] RESETWAITTIME: stuck that long, Enter puts the car back. */
+		if (in.key == KEY_ENTER && hud.reset_prompt) {
+			me.respawn(world, clock, track);
+			stuck_time = 0;
+		}
 		if (in.key == 'c' || in.key == 'C')
 			camera = (camera + 1) % 4;
 		if (in.key == 'r' || in.key == 'R')
 			me.respawn(world, clock, track);
 		uint32_t now = sys_ticks();
 		float frame_dt = std::min((now - last) / 1000.0f, 0.1f);
+		if (hud.requestor)
+			frame_dt = 0;
 		acc += frame_dt;
 		last = now;
 		/* FUN_0044c950: wrecked, the race is over. */
@@ -1507,6 +1610,34 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (me.damage >= 0.8f * 1100 && !comm_damage_said)
 			comm.post("~a_lotta_damage", -1, clock), comm_damage_said = true;
 		comm.update(clock, frame_dt, sound);
+		if (rules.phase == RaceRules::RACING) {
+			stuck_time = car.speed_kmh() < 5 ? stuck_time + frame_dt : 0;
+			/* Against the road's way: the next chunk behind the car. */
+			int nc = (car.chunk + 1) % (int)track.road.chunks.size();
+			const float *a = track.road.chunks[(size_t)std::max(car.chunk, 0)].pos, *b = track.road.chunks[(size_t)nc].pos;
+			float rx = b[0] - a[0], rz = b[2] - a[2], rl = sqrtf(rx * rx + rz * rz);
+			float along = rl > 0 ? (car.vel[0] * rx + car.vel[2] * rz) / rl : 0;
+			wrong_time = along < -3 ? wrong_time + frame_dt : 0;
+		}
+		else
+			stuck_time = wrong_time = 0;
+		hud.reset_prompt = stuck_time > reset_wait;
+		hud.wrong_way = wrong_time > 1.5f;
+		hud.frame_dt = frame_dt;
+		hud.money = money;
+		hud.faces.clear();
+		{
+			std::vector<const Racer *> field;
+			for (const Racer &rc : racers)
+				if (!rc.traffic && rc.police == Racer::NONE)
+					field.push_back(&rc);
+			std::stable_sort(field.begin(), field.end(), [&](const Racer *x, const Racer *y) {
+				return position_of(*x) < position_of(*y);
+			});
+			for (const Racer *rc : field)
+				hud.faces.push_back({ rc->entry, rc->player,
+					rc->rules.phase == RaceRules::FINISHED ? rc->rules.time : -1.0f });
+		}
 		hud.owner_damage = 0;
 		for (const Racer &rc : racers)
 			if (!rc.traffic && rc.police == Racer::NONE && rc.entry == comm.owner)

@@ -17,7 +17,12 @@ struct Language {
 enum {
 	TXT_FINISHED = 17,   /* GEFINISHT */
 	TXT_POSITION = 18,   /* POSITIE: %d */
-	TXT_PAUSE = 24,
+	TXT_PAUSE_HEADER = 24, /* PAUZE */
+	TXT_PAUSE_1 = 25,
+	TXT_PAUSE_2 = 26,
+	TXT_QUIT_HEADER = 27,  /* EINDE */
+	TXT_QUIT_1 = 28,
+	TXT_QUIT_2 = 29,       /* ... (J/N) */
 	TXT_RACE_TIME = 33,  /* RACE TIJD */
 	TXT_LAP_INFO = 34,
 	TXT_TIME = 35,
@@ -32,4 +37,5 @@ enum {
 	TXT_LAST_LAP = 45,   /* LAATSTE RONDE */
 	TXT_SPEED = 54,
 	TXT_FLASH_FINE = 67, /* FLITS BOETE  -50 EURO */
+	TXT_RESET = 68,      /* DRUK ENTER/RETURN VOOR RESET */
 };
