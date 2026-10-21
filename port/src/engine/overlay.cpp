@@ -59,6 +59,8 @@ bool Overlay::load(const std::string &dir, int car, const Track &track, MeshCach
 				e.mesh = meshes.get((*f)[0].mesh);
 				e.tex = textures.get((*f)[0].texture);
 			}
+			for (const AnimFrame &af : *f)
+				e.frames.push_back({ meshes.get(af.mesh), textures.get(af.texture) });
 		}
 		elements[name] = e;
 	}
@@ -136,12 +138,16 @@ bool Overlay::origin(const std::string &name, float &x, float &y) const
 	return false;
 }
 
-void Overlay::element(Renderer &r, const std::string &name, float angle, float zoom, float stretch) const
+void Overlay::element(Renderer &r, const std::string &name, float angle, float zoom, float stretch, size_t frame) const
 {
 	auto it = elements.find(name);
 	if (it == elements.end() || !it->second.mesh)
 		return;
 	const Element &e = it->second;
+	const Mesh *mesh = e.mesh;
+	unsigned tex = e.tex;
+	if (frame > 0 && frame < e.frames.size() && e.frames[frame].first)
+		mesh = e.frames[frame].first, tex = e.frames[frame].second;
 	glPushMatrix();
 	glTranslatef(e.x, e.y, 0);
 	/* The models' y axis points up the screen. */
@@ -160,7 +166,7 @@ void Overlay::element(Renderer &r, const std::string &name, float angle, float z
 		glBlendFunc(GL_ONE, GL_ONE);
 	else
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	r.draw_mesh(*e.mesh, e.tex, e.tinted ? e.rgba : nullptr);
+	r.draw_mesh(*mesh, tex, e.tinted ? e.rgba : nullptr);
 	glDisable(GL_BLEND);
 	glPopMatrix();
 }

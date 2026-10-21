@@ -991,6 +991,51 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	Renderer r{ textures };
 	Hud hud;
 	hud.load(data_dir, opt.car, track, meshes, textures);
+	/* Ovl_WaitScreen.cpp, gfx_pbar.cpp: while the stage loads, its picture (Raser.ini
+	 * [wait_hi]) with the progress bar (its frames 0..10, [progress]). The port loads the
+	 * objects' models and textures here, so the race starts without a hitch. */
+	{
+		IniFile rs;
+		std::string rp = find_file_ci(data_dir, "Raser.ini");
+		unsigned wait_tex = 0;
+		if (!rp.empty() && rs.load(rp))
+			wait_tex = textures.get(rs.get("wait_hi", std::to_string(opt.stage)));
+		auto show_wait = [&](int step) {
+			SysInput ignored;
+			sys_poll(ignored);
+			int w, h;
+			if (!sys_gl_begin_frame(w, h))
+				return;
+			hud.overlay.begin();
+			if (wait_tex) {
+				r.bind(wait_tex);
+				glDisable(GL_ALPHA_TEST);
+				glColor4f(1, 1, 1, 1);
+				glBegin(GL_QUADS);
+				glTexCoord2f(0, 0), glVertex2f(0, 0);
+				glTexCoord2f(1, 0), glVertex2f(640, 0);
+				glTexCoord2f(1, 1), glVertex2f(640, 480);
+				glTexCoord2f(0, 1), glVertex2f(0, 480);
+				glEnd();
+			}
+			hud.overlay.element(r, "OVL_PROGRESS_BAR", 0, 1, 1, (size_t)std::clamp(step, 0, 10));
+			sys_gl_end_frame();
+		};
+		show_wait(0);
+		size_t total = track.objects.size(), done = 0;
+		int shown = 0;
+		for (const TrackObject &o : track.objects) {
+			if (const std::vector<AnimFrame> *f = track.animation(o.animation))
+				for (const AnimFrame &af : *f) {
+					meshes.get(af.mesh);
+					textures.get(af.texture);
+				}
+			int step = 1 + (int)(9 * ++done / std::max(total, (size_t)1));
+			if (step != shown)
+				show_wait(shown = step);
+		}
+		show_wait(10);
+	}
 	Communicator comm;
 	if (comm.load(data_dir))
 		hud.comm = &comm;

@@ -33,7 +33,8 @@ public:
 	void begin() const;
 	/* Draws an element, turned by angle degrees (clockwise) around its origin, scaled by
 	 * zoom (the start digits grow in), and by stretch across (a bar filling up). */
-	void element(Renderer &r, const std::string &name, float angle = 0, float zoom = 1, float stretch = 1) const;
+	void element(Renderer &r, const std::string &name, float angle = 0, float zoom = 1, float stretch = 1,
+		size_t frame = 0) const;
 	/* Draws a string element with the given text (empty: its default text). */
 	void string(const std::string &name, const std::string &text) const;
 	void text(float x, float y, const std::string &text, float scale, const float rgba[4], bool centre,
@@ -52,6 +53,7 @@ private:
 		float x = 0, y = 0;
 		const Mesh *mesh = nullptr;
 		unsigned tex = 0;
+		std::vector<std::pair<const Mesh *, unsigned>> frames; /* its animation's frames */
 		bool tinted = false;
 		float rgba[4] = { 1, 1, 1, 1 };
 	};
