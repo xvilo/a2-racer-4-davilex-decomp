@@ -1,6 +1,6 @@
 /* The stage's loose objects (tob_main.cpp): the original makes them Ipion bodies
  * (FUN_004a79d0: mass, friction, elasticity) that the cars knock about. The port gives each
- * a circle on the ground that slides, spins, bounces and tips over.
+ * a circle on the ground that slides, spins, bounces, tips over and knocks into the others.
  *
  *   type  2 pilon               10 kg, friction 1.0, elasticity 0.6, sound PION_HIT_CAR
  *         3 road works sign     50 kg, 0.9, 0.2, sound PAAL_HIT_CAR
@@ -72,4 +72,5 @@ public:
 
 private:
 	std::map<const TrackObject *, size_t> index;
+	void knock_each_other();
 };

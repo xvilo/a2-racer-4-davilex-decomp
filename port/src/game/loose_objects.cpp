@@ -282,6 +282,58 @@ void LooseObjects::update(float dt, const CollisionWorld &world)
 		else if (l.tilt_rate == 0)
 			l.moving = false, l.burst = false;
 	}
+	knock_each_other();
+}
+
+/* Ipion's bodies knock into each other too: one sliding into another pushes it away (the
+ * lighter more), sharing out the speed they met at; a lamp post hit hard enough falls. */
+void LooseObjects::knock_each_other()
+{
+	for (size_t i = 0; i < list.size(); i++) {
+		LooseObject &a = list[i];
+		if (!a.moving || a.hinged || a.tilt > 60)
+			continue;
+		for (size_t k = 0; k < list.size(); k++) {
+			LooseObject &b = list[k];
+			if (k == i || b.tilt > 60 || a.pos[1] > b.pos[1] + b.height || b.pos[1] > a.pos[1] + a.height)
+				continue;
+			float dx = b.pos[0] - a.pos[0], dz = b.pos[2] - a.pos[2], r = a.radius + b.radius;
+			float d2 = dx * dx + dz * dz;
+			if (d2 >= r * r || d2 < 1e-6f)
+				continue;
+			/* Placed overlapping (a row of pilons), they stay as they were put. */
+			float ox = b.obj->pos[0] - a.obj->pos[0], oz = b.obj->pos[2] - a.obj->pos[2];
+			if (ox * ox + oz * oz < r * r)
+				continue;
+			float d = sqrtf(d2), nx = dx / d, nz = dz / d;
+			float share = b.hinged ? 0 : a.mass / (a.mass + b.mass);
+			b.pos[0] += nx * (r - d) * share;
+			b.pos[2] += nz * (r - d) * share;
+			a.pos[0] -= nx * (r - d) * (1 - share);
+			a.pos[2] -= nz * (r - d) * (1 - share);
+			float rel = (b.vel[0] - a.vel[0]) * nx + (b.vel[2] - a.vel[2]) * nz;
+			if (rel >= 0)
+				continue;
+			float mb = b.hinged ? 300 : b.mass;
+			float e = std::min(a.elasticity, b.elasticity);
+			float j = -(1 + e) * rel / (1 / a.mass + 1 / mb);
+			a.vel[0] -= j / a.mass * nx;
+			a.vel[2] -= j / a.mass * nz;
+			float dv = j / mb;
+			if (!b.hinged) {
+				b.vel[0] += dv * nx;
+				b.vel[2] += dv * nz;
+				float side = (a.vel[0] * nz - a.vel[2] * nx) >= 0 ? 1.0f : -1.0f;
+				b.spin += side * std::min(dv * 40, 720.0f);
+			}
+			if (b.hinged ? -rel > 4 : b.height > b.radius * 1.2f && dv > 1) {
+				b.tilt_axis[0] = nz;
+				b.tilt_axis[1] = -nx;
+				b.tilt_rate = std::max(b.tilt_rate, std::min(dv * 30, 400.0f) + (b.hinged ? 40 : 0));
+			}
+			b.moving = true;
+		}
+	}
 }
 
 void LooseObjects::revive(int player_chunk, int n, int away)
