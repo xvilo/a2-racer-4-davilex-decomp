@@ -939,6 +939,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	fx.skidmarks = gi.get_int("GFX OPTIONS", "skidmarks", 1) != 0;
 	fx.fade_skidmarks = gi.get_int("GFX OPTIONS", "fade_skmarks", 1) != 0;
 	fx.sfx_tex = textures.get("s_sfx.pcx");
+	const unsigned shadow_tex = textures.get("s_shadow.pcx");
+	/* game.ini [GFX OPTIONS] alpha_blending: off, no blended shadows. */
+	const bool alpha_on = gi.get_int("GFX OPTIONS", "alpha_blending", 1) != 0;
 	fx.smoke_tex = textures.get("L1RACER3.PCX");
 	if (const std::vector<AnimFrame> *f = track.animation("Par_Damage"))
 		for (const AnimFrame &af : *f)
@@ -1608,6 +1611,41 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			gl_rotate(o.rot[2], 0, 0, 1);
 			r.draw_mesh(*m, textures.get((*frames)[fi].texture));
 			glPopMatrix();
+		}
+		/* The cars' shadows (gfx_shdw.cpp): s_shadow's square stretched over the body's
+		 * box, each corner dropped onto the ground under it, blended SRCALPHA,
+		 * INVSRCALPHA. */
+		if (shadow_tex && alpha_on) {
+			r.bind(shadow_tex);
+			glDisable(GL_ALPHA_TEST); /* bind's colour-key test would drop the half-dark */
+			glDepthMask(GL_FALSE);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glColor4f(0, 0, 0, 0.5f);
+			for (const Racer &rc : racers) {
+				int d = ((rc.car.chunk - c) % n + n) % n;
+				if ((d > 25 && d < n - 25) || !rc.model.body)
+					continue;
+				float right[3], up[3], fwd[3];
+				rc.car.axes(right, up, fwd);
+				const Mesh &b = *rc.model.body;
+				const float corner[4][2] = { { b.min[0], b.min[2] }, { b.min[0], b.max[2] }, { b.max[0], b.max[2] },
+					{ b.max[0], b.min[2] } };
+				const float uv[4][2] = { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 1, 0 } };
+				glBegin(GL_TRIANGLE_FAN);
+				for (int k = 0; k < 4; k++) {
+					float x = rc.car.pos[0] + right[0] * corner[k][0] + fwd[0] * corner[k][1];
+					float z = rc.car.pos[2] + right[2] * corner[k][0] + fwd[2] * corner[k][1];
+					GroundHit g;
+					float y = world.ground(x, z, rc.car.pos[1] + 20, rc.car.chunk, g) ? g.y : rc.car.pos[1];
+					glTexCoord2f(uv[k][0], uv[k][1]);
+					glVertex3f(x, y + 0.4f, z);
+				}
+				glEnd();
+			}
+			glColor4f(1, 1, 1, 1);
+			glDisable(GL_BLEND);
+			glDepthMask(GL_TRUE);
 		}
 		for (const Racer &rc : racers) {
 			int d = ((rc.car.chunk - c) % n + n) % n;
