@@ -156,7 +156,10 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 	const float m = spec.mass;
 	const float a = fabsf(spec.wheel_front[2]) / UNITS, b = fabsf(spec.wheel_rear[2]) / UNITS;
 	const float inertia = m * (a * a + b * b) * 0.5f;
-	const float v_top = spec.top_speed / 3.6f;
+	/* The turbo (FUN_00428c70): full throttle and a push forward. The original pushes
+	 * 12.5 + 0.625 v m/s^2 through Ipion, against Ipion's resistances; the port's car has
+	 * simpler ones, so its turbo is a stand-in: a stronger engine with a higher top. */
+	const float v_top = spec.top_speed / 3.6f * (in.turbo ? 1.4f : 1);
 	float fx = sinf(yaw), fz = cosf(yaw);   /* forward */
 	float rx = cosf(yaw), rz = -sinf(yaw);  /* right */
 	float vf = vel[0] * fx + vel[2] * fz;   /* forward speed */
@@ -184,9 +187,10 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 			rl *= 0.5f; /* handbrake-like slide */
 
 		/* Engine: full pull at low speed, none at the top speed. Brake, then reverse. */
-		if (in.throttle > 0) {
+		float throttle = in.turbo ? 1 : in.throttle;
+		if (throttle > 0) {
 			float frac = std::clamp(vf / v_top, 0.0f, 1.0f);
-			drive += in.throttle * m * 4.5f * (1 - frac * frac);
+			drive += throttle * m * (in.turbo ? 9.0f : 4.5f) * (1 - frac * frac);
 		}
 		if (in.brake > 0) {
 			if (vf > 0.5f)

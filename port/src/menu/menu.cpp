@@ -271,6 +271,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		ro.keys[1] = save.keys[1];
 		ro.keys[2] = save.keys[2];
 		ro.keys[3] = save.keys[3];
+		ro.keys[4] = save.keys[4];
+		/* Quick Race: no money, a full tank (WriteToInis). */
+		ro.money = 0;
+		ro.turbo = 100;
 		ro.music_volume = save.flags[SaveGame::MUSIC_ON] ? save.music_volume / 100.0f : 0;
 		ro.sfx_volume = save.flags[SaveGame::FX_ON] ? save.fx_volume / 100.0f : 0;
 	};
@@ -659,9 +663,13 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 								: r.finished && place - 1 <= tr.qualify_position[std::clamp(difficulty, 0, 2)];
 		SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
 		just_qualified = through;
-		/* The tune-ups last one race. */
-		if (r.finished)
+		/* The tune-ups last one race; the money and turbo oil left come back with a
+		 * finished race (TGameIni: [PLAYER] MONEY, TURBO_AMOUNT). */
+		if (r.finished) {
 			std::fill(cr.upgrades, cr.upgrades + 4, 0);
+			cr.money = r.money;
+			cr.turbo = (int)r.turbo;
+		}
 		if (through && (size_t)cr.next_track == tour_ix) {
 			cr.next_track++;
 			tour_done = (size_t)cr.next_track >= info.tour_tracks.size();
@@ -1330,6 +1338,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.tyres = cr.upgrades[1];
 			ro.abs = cr.upgrades[2];
 			ro.gearbox = cr.upgrades[3];
+			ro.money = cr.money;
+			ro.turbo = (float)cr.turbo;
 			if (info.tracks[t].chase) {
 				std::vector<int> ct = int_list(static_ini.get("TRACK" + std::to_string(t), "CHASETIME"));
 				if (!ct.empty())

@@ -1,6 +1,7 @@
 #include "race/race.h"
 
 #include <algorithm>
+#include <cstring>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -31,7 +32,7 @@ namespace {
 
 /* The keys from game.ini [INPUT] (Windows virtual-key codes). */
 struct Keys {
-	int left = 37, right = 39, up = 38, down = 40;
+	int left = 37, right = 39, up = 38, down = 40, turbo = 17;
 
 	void load(const std::string &dir)
 	{
@@ -43,6 +44,7 @@ struct Keys {
 		right = ini.get_int("INPUT", "RIGHT", right);
 		up = ini.get_int("INPUT", "UP", up);
 		down = ini.get_int("INPUT", "DOWN", down);
+		turbo = ini.get_int("INPUT", "EXTRA1", turbo);
 	}
 };
 
@@ -105,6 +107,10 @@ struct Hud {
 	float flash = 0;
 	int flashes = 0;
 	float time_limit = 0;
+	float turbo = 0; /* 0..100 */
+	/* A pick-up's text (PrintText), for a few seconds. */
+	std::string message;
+	float message_time = 0;
 
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
@@ -114,6 +120,9 @@ struct Hud {
 		overlay.element(r, "OVL_SPEEDOMETER_STRIPES");
 		overlay.element(r, "OVL_SPEEDOMETER_DIAL", std::min(car.speed_kmh(), 200.0f) / 200 * 160);
 		overlay.element(r, "OVL_SPEEDOMETER_DOP");
+		/* The turbo gauge: 180 degrees for a full tank. */
+		overlay.element(r, "OVL_SPEEDOMETER_TURBODIAL", turbo / 100 * 180);
+		overlay.element(r, "OVL_SPEEDOMETER_TURBODOP");
 		overlay.element(r, "OVL_SPEEDOMETER_GLAS");
 		overlay.string("STRING_RACE_TIME_VALUE", format_time(rules.time));
 		if (time_limit > 0 && rules.phase == RaceRules::RACING)
@@ -149,6 +158,9 @@ struct Hud {
 		}
 		else if (flash > 0) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FLASH_FINE, "FLITS BOETE  -50 EURO"));
+		}
+		else if (message_time > 0 && rules.phase == RaceRules::RACING) {
+			overlay.string("STRING_GAME_TEXT", message);
 		}
 		else if (rules.phase == RaceRules::FINISHED) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FINISHED, "GEFINISHT"));
@@ -423,8 +435,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float next_spawn = 0;
 	Keys keys;
 	keys.load(data_dir);
-	int *key_fields[4] = { &keys.up, &keys.down, &keys.left, &keys.right };
-	for (int k = 0; k < 4; k++)
+	int *key_fields[5] = { &keys.up, &keys.down, &keys.left, &keys.right, &keys.turbo };
+	for (int k = 0; k < 5; k++)
 		if (opt.keys[k] > 0)
 			*key_fields[k] = opt.keys[k];
 	RaceSound sound;
@@ -525,6 +537,66 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		cop.rules.phase = RaceRules::RACING;
 		racers.push_back(std::move(cop));
 	}
+	/* The pick-ups (TrackObject type 25, "Bonus item", run by bonus.dso's CBonus events):
+	 * money, turbo oil, repairs, freezing the others, invulnerability, fast forward. Each
+	 * is taken by driving through it (the two models' radii, across the ground), then
+	 * fades for three seconds and comes back after a while (money never). */
+	struct Bonus {
+		const TrackObject *obj;
+		const Mesh *mesh = nullptr;
+		unsigned tex = 0;
+		float radius = 10;
+		enum { WAITING, FADING, GONE } state = WAITING;
+		float taken = 0;
+	};
+	struct BonusKind {
+		const char *anim;
+		int text;          /* language.ini */
+		const char *sound; /* sound.ini */
+		float respawn;     /* seconds; < 0 never */
+		int money;
+		float turbo;
+	};
+	static const BonusKind bonus_kinds[] = {
+		{ "pw_1pts", 59, "PW_1PT", -1, 100, 0 },
+		{ "pw_5pts", 60, "PW_5PTS", -1, 500, 0 },
+		{ "pw_10pts", 61, "PW_10PTS", -1, 1000, 0 },
+		{ "pw_turbs", 64, "PW_TURBS", 15, 0, 10 },
+		{ "pw_turbb", 65, "PW_TURBB", 15, 0, 50 },
+		{ "pw_reps", 62, "PW_REPS", 15, 0, 0 },
+		{ "pw_repb", 63, "PW_REPB", 15, 0, 0 },
+		{ "pw_stop", 56, "PW_FREEZ", 15, 0, 0 },
+		{ "pw_godm", 58, "PW_INV", 5, 0, 0 },
+		{ "pw_fastf", 57, "PW_FAST", 5, 0, 0 },
+	};
+	auto bonus_kind = [](const std::string &anim) -> const BonusKind * {
+		for (const BonusKind &k : bonus_kinds)
+			if (anim.size() >= strlen(k.anim) && equal_ci(anim.substr(0, strlen(k.anim)), k.anim))
+				return &k;
+		return nullptr;
+	};
+	std::vector<Bonus> bonuses;
+	for (const TrackObject &o : track.objects) {
+		if (o.type != 25)
+			continue;
+		Bonus b;
+		b.obj = &o;
+		if (const std::vector<AnimFrame> *frames = track.animation(o.animation); frames && !frames->empty()) {
+			b.mesh = meshes.get((*frames)[0].mesh);
+			b.tex = textures.get((*frames)[0].texture);
+		}
+		if (b.mesh)
+			b.radius = std::max(b.mesh->max[0] - b.mesh->min[0], b.mesh->max[2] - b.mesh->min[2]) / 2;
+		bonuses.push_back(b);
+	}
+	int money = std::max(opt.money, 0);
+	float turbo = std::clamp(opt.turbo, 0.0f, 100.0f);
+	bool turbo_on = false;
+	int turbo_voice = 0;
+	float turbo_tick = 0;
+	float freeze_left = 0, fast_left = 0, fov = 60, fov_target = 60;
+	std::string message;
+	float message_time = 0;
 	int flashes = 0;
 	float flash_message = 0;
 	std::vector<char> flashed(radar_traps.size(), 0);
@@ -596,6 +668,34 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		player_in.steer = (keyispressed(keys.right) ? 1.0f : 0.0f) - (keyispressed(keys.left) ? 1.0f : 0.0f);
 		player_in.throttle = keyispressed(keys.up) ? 1.0f : 0.0f;
 		player_in.brake = keyispressed(keys.down) ? 1.0f : 0.0f;
+		/* The turbo (FUN_0044e970): a tenth of a unit every 100 ms while burning, so a full
+		 * tank lasts ten seconds; fast forward burns it for free. */
+		bool want_turbo = rules.phase == RaceRules::RACING && (fast_left > 0 || (!autopilot && keyispressed(keys.turbo)));
+		turbo_tick += frame_dt;
+		if (!want_turbo) {
+			turbo_on = false;
+			turbo_tick = 0;
+		}
+		else {
+			while (turbo_tick >= 0.1f) {
+				turbo_tick -= 0.1f;
+				if (fast_left > 0)
+					turbo_on = true;
+				else if (turbo >= 1) {
+					turbo -= 1;
+					turbo_on = true;
+				}
+				else
+					turbo_on = false;
+			}
+		}
+		if (turbo_on && !turbo_voice)
+			turbo_voice = sound.loop("TURBO");
+		else if (!want_turbo && turbo_voice) {
+			sound.stop_voice(turbo_voice);
+			turbo_voice = 0;
+		}
+		player_in.turbo = turbo_on;
 		while (acc >= STEP) {
 			for (Racer &rc : racers) {
 				CarInput ci;
@@ -605,6 +705,13 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					ci = rc.ai.chase(track, rc.car, car, STEP);
 				else
 					ci = rc.player && !autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
+				if (rc.player && autopilot)
+					ci.turbo = player_in.turbo;
+				/* FreezeRacers: the others stand still for a while. */
+				if (freeze_left > 0 && !rc.player && !rc.traffic && rc.police == Racer::NONE) {
+					ci.throttle = 0;
+					ci.hold = true;
+				}
 				if (!rc.racing())
 					rc.rules.phase = RaceRules::RACING;
 				/* No driving before the start; after the finish the car rolls out. */
@@ -640,6 +747,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					flashes++;
 					flash_message = 3;
 					sound.effect("PHOTO");
+					money = std::max(money - 50, 0); /* Flitspaal: FLITS BOETE -50 */
 					/* The nearest waiting police car comes after the player. */
 					Racer *best = nullptr;
 					float bd = 1e30f;
@@ -660,6 +768,44 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		flash_message = std::max(0.0f, flash_message - frame_dt);
+		message_time = std::max(0.0f, message_time - frame_dt);
+		freeze_left = std::max(0.0f, freeze_left - frame_dt);
+		if (fast_left > 0 && (fast_left -= frame_dt) <= 0)
+			fov_target = 60; /* OnTurnoff: ChangeFOV(0.375) */
+		fov += (fov_target - fov) * std::min(frame_dt / (fov_target > 60 ? 1.0f : 0.5f), 1.0f);
+		{
+			float car_r = std::max(car.spec.wheel_front[0], 8.0f) + 4;
+			for (Bonus &b : bonuses) {
+				const BonusKind *k = bonus_kind(b.obj->animation);
+				if (b.state == Bonus::WAITING && rules.phase == RaceRules::RACING) {
+					float dx = b.obj->pos[0] - car.pos[0], dz = b.obj->pos[2] - car.pos[2];
+					if (dx * dx + dz * dz < (b.radius + car_r) * (b.radius + car_r)) {
+						b.state = Bonus::FADING;
+						b.taken = clock;
+						if (k) {
+							money = std::min(money + k->money, 999999);
+							turbo = std::min(turbo + k->turbo, 100.0f);
+							if (!strcmp(k->anim, "pw_stop"))
+								freeze_left = 6;
+							if (!strcmp(k->anim, "pw_fastf")) {
+								fast_left = 4;
+								fov_target = 108; /* ChangeFOV(0.6): 0.6 pi */
+							}
+							if (trace)
+								printf("race: picked up %s at %.1f s: money %d, turbo %.0f\n", b.obj->animation.c_str(),
+									clock, money, turbo);
+							message = hud.lang.get(k->text, "");
+							message_time = 3;
+							sound.effect(k->sound);
+						}
+					}
+				}
+				else if (b.state == Bonus::FADING && clock - b.taken >= 3)
+					b.state = Bonus::GONE;
+				else if (b.state == Bonus::GONE && k && k->respawn >= 0 && clock - b.taken >= k->respawn)
+					b.state = Bonus::WAITING;
+			}
+		}
 		bool near_cop = false;
 		for (Racer &rc : racers) {
 			if (rc.police == Racer::NONE)
@@ -813,7 +959,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		int w, h;
 		if (!sys_gl_begin_frame(w, h))
 			break;
-		gl_perspective(60 * PI / 180, (float)w / (float)h, 2, 30000);
+		gl_perspective(fov * PI / 180, (float)w / (float)h, 2, 30000);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 		glDisable(GL_CULL_FACE);
@@ -834,8 +980,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (int k = -25; k <= 25; k++)
 			r.draw_chunk(track.road.chunks[(size_t)(((c + k) % n + n) % n)], road_tex);
 		for (const TrackObject &o : track.objects) {
-			if (police_on && o.type == 9)
-				continue; /* drawn as cars */
+			if ((police_on && o.type == 9) || o.type == 25)
+				continue; /* drawn as cars, and as pick-ups */
 			int d = ((o.chunk - c) % n + n) % n;
 			if (d > 25 && d < n - 25)
 				continue;
@@ -858,13 +1004,36 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			if (d <= 25 || d >= n - 25)
 				draw_car(r, rc.car, rc.model);
 		}
+		/* The pick-ups turn (OnInit: anglespeed 600, in 1024ths of a turn a second) and
+		 * pulse (OnFramecall: 1 + 0.3 sin(pi t)); taken, they shrink away (OnFadeout). */
+		for (const Bonus &b : bonuses) {
+			int d = ((b.obj->chunk - c) % n + n) % n;
+			if (!b.mesh || b.state == Bonus::GONE || (d > 25 && d < n - 25))
+				continue;
+			float pulse = 1 + (equal_ci(b.obj->animation.substr(0, 7), "pw_1pts") ? 0.2f : 0.3f) * sinf(PI * clock);
+			if (b.state == Bonus::FADING)
+				pulse *= std::max(0.0f, 1 - (clock - b.taken) / 0.5f);
+			glPushMatrix();
+			glTranslatef(b.obj->pos[0], b.obj->pos[1], b.obj->pos[2]);
+			gl_rotate(-b.obj->rot[1] + clock * 600 * 360 / 1024, 0, 1, 0);
+			glScalef(pulse, pulse, pulse);
+			r.draw_mesh(*b.mesh, b.tex);
+			glPopMatrix();
+		}
 		hud.flash = flash_message;
+		hud.turbo = turbo;
+		hud.message = message;
+		hud.message_time = message_time;
 		hud.time_limit = opt.time_limit;
 		hud.flashes = flashes;
 		hud.draw(r, rules, car, position_of(me), field_size);
 		sys_gl_end_frame();
 	}
 	sound.stop();
+	if (result) {
+		result->money = money;
+		result->turbo = turbo;
+	}
 	if (trace) {
 		for (int i = 0; i < field_size; i++) {
 			const Racer &rc = racers[(size_t)i];

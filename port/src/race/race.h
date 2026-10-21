@@ -17,8 +17,11 @@ struct RaceOptions {
 	/* The player's settings (the menu writes them to game.ini and Raser.ini in the
 	 * original): keys up, down, left, right as virtual-key codes (0: game.ini's), and
 	 * the music and effects volumes 0..1 (negative: Raser.ini's). */
-	int keys[4] = {};
-	float music_volume = -1, sfx_volume = -1; /* seconds; a chase must be finished in time (0: none) */
+	int keys[5] = {}; /* ... and the turbo (EXTRA1) */
+	float music_volume = -1, sfx_volume = -1;
+	/* game.ini [PLAYER] MONEY and TURBO_AMOUNT (0..100): what the player brings. */
+	int money = 0;
+	float turbo = 0; /* seconds; a chase must be finished in time (0: none) */
 	/* Testing: drive by itself along the drive map (also with A2_AUTOPILOT=1). */
 	bool autopilot = false;
 };
@@ -35,6 +38,8 @@ struct RaceResult {
 	std::vector<Entry> order;
 	std::vector<float> lap_times;
 	int position = 0;     /* the player's, 1.. */
+	int money = 0;        /* after pick-ups and fines */
+	float turbo = 0;      /* what is left in the tank */
 };
 
 int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOptions &opt, RaceResult *result = nullptr);

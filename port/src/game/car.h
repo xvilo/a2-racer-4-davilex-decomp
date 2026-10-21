@@ -48,6 +48,7 @@ struct CarInput {
 	float throttle = 0; /* 0..1 */
 	float brake = 0;    /* 0..1 */
 	bool hold = false;  /* held on the line (before the start) */
+	bool turbo = false; /* the turbo burning */
 };
 
 struct Car {
