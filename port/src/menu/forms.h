@@ -32,7 +32,7 @@ struct MenuResources {
 };
 
 struct Control {
-	enum Kind { OTHER, IMAGE, LABEL, BUTTON, RADIO, CHECK, GRAPHIC, EDIT } kind = OTHER;
+	enum Kind { OTHER, IMAGE, LABEL, BUTTON, RADIO, CHECK, GRAPHIC, EDIT, SLIDER } kind = OTHER;
 	std::string name, cls;
 	int x = 0, y = 0, w = 0, h = 0;
 	bool visible = true, enabled = true, checked = false;
@@ -41,8 +41,12 @@ struct Control {
 	uint32_t colour = 0xffffffff;
 	bool centre = false, wrap = false;
 	bool show_caption = false; /* a button's caption, set by the program, along its bottom */
+	bool caption_middle = false; /* ... or in its middle */
 	std::string definition, on_click;
 	int max_length = 0;       /* a TEdit's MaxLength (0: any) */
+	int value = 0;            /* a slider's position, 0..100 */
+	std::string on_change;
+	std::string group;        /* the panel it is in: radio buttons are one choice per panel */
 	uint32_t back = 0xffffffff; /* a TEdit's Color */
 	/* Graphics: up, hover, down, focus, disabled; and the click region. */
 	std::shared_ptr<Image> look[5], region, picture;
@@ -74,10 +78,14 @@ public:
 	void draw(Canvas &cv, const MenuResources &res) const;
 	/* Mouse and keys: hovering, pressing, clicking (runs the control's handler). */
 	void input(const SysInput &in);
+	/* Clicks a control as the mouse would (Delphi's Click: a label's OnClick clicks its
+	 * radio button, say). */
+	void click(const std::string &name);
 	/* The text field's text (the form's first TEdit). */
 	std::string &text();
 
 private:
-	int hover = -1, pressed = -1;
+	int hover = -1, pressed = -1, dragging = -1;
 	bool hit(const Control &c, int x, int y) const;
+	void activate(size_t i);
 };

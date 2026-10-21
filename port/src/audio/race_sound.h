@@ -23,6 +23,8 @@ struct Car;
 class RaceSound {
 public:
 	bool load(const std::string &dir, const NamedArchive &rcs, int car_sound);
+	/* The player's volumes (0..1), in place of Raser.ini's; negative keeps those. */
+	void volumes(float music, float sfx);
 	void start_music(int music);
 	/* A sample by its sound.ini name, played once. */
 	void effect(const std::string &name, float volume = 1);

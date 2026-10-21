@@ -423,8 +423,13 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	float next_spawn = 0;
 	Keys keys;
 	keys.load(data_dir);
+	int *key_fields[4] = { &keys.up, &keys.down, &keys.left, &keys.right };
+	for (int k = 0; k < 4; k++)
+		if (opt.keys[k] > 0)
+			*key_fields[k] = opt.keys[k];
 	RaceSound sound;
 	sound.load(data_dir, rcs, opt.car);
+	sound.volumes(opt.music_volume, opt.sfx_volume);
 	sound.start_music(track.info.music);
 	bool said_go = false, said_finish = false;
 	int last_count = 4;

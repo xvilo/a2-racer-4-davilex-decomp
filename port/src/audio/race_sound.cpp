@@ -72,6 +72,14 @@ std::shared_ptr<Sample> RaceSound::sample(const std::string &name)
 	return s;
 }
 
+void RaceSound::volumes(float music, float sfx)
+{
+	if (music >= 0)
+		music_volume = music;
+	if (sfx >= 0)
+		sfx_volume = sfx;
+}
+
 void RaceSound::start_music(int music)
 {
 	if (!on)

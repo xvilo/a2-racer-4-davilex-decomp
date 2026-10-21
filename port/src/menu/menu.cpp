@@ -133,6 +133,7 @@ struct Static {
 struct MenuSound {
 	const NamedArchive *rcs = nullptr;
 	int voice = 0;
+	float voices = 1, effects = 1; /* the player's volumes, 0..1 */
 	unsigned rnd = 1;
 
 	bool play(const std::string &file)
@@ -142,7 +143,7 @@ struct MenuSound {
 			return false;
 		Mixer &mx = Mixer::get();
 		mx.stop(voice);
-		voice = mx.play(decode_wav(bytes), 1.0f);
+		voice = mx.play(decode_wav(bytes), voices);
 		return voice != 0;
 	}
 
@@ -151,7 +152,7 @@ struct MenuSound {
 	{
 		std::vector<uint8_t> bytes;
 		if (rcs && rcs->read(file, bytes))
-			Mixer::get().play(decode_wav(bytes), 1.0f);
+			Mixer::get().play(decode_wav(bytes), effects);
 	}
 
 	bool say(const std::string &prefix, int n)
@@ -241,17 +242,38 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		WIN, LOSE, WIN_CHASE, LOSE_CHASE, WIN_FINAL, QUIT } screen = MAIN;
 	MenuSound voice;
 	voice.rcs = &rcs;
-	/* A dialog shown over the screen (ShowModal); typing goes to its text field. */
-	Form *dialog = nullptr;
+	/* Dialogs shown over the screen (ShowModal), the last one on top; typing goes to its
+	 * text field. A dialog may want to see every frame (a key being chosen). */
+	struct Shown {
+		Form *form;
+		bool typing;
+	};
+	std::vector<Shown> dialogs;
+	std::map<Form *, std::function<void()>> dialog_frame;
 	auto open_dialog = [&](Form &d, bool typing = false) {
-		dialog = &d;
+		dialogs.push_back({ &d, typing });
 		sys_text_input(typing);
 	};
 	auto close_dialog = [&]() {
-		dialog = nullptr;
-		sys_text_input(false);
+		if (!dialogs.empty())
+			dialogs.pop_back();
+		sys_text_input(!dialogs.empty() && dialogs.back().typing);
 	};
 	std::function<void()> show_garage;
+	auto apply_volumes = [&]() {
+		voice.voices = save.voices_volume / 100.0f;
+		voice.effects = save.flags[SaveGame::FX_ON] ? save.fx_volume / 100.0f : 0;
+	};
+	/* What the race takes from the player's settings (game.ini [INPUT], Raser.ini [SOUND]
+	 * in the original). */
+	auto player_race = [&](RaceOptions &ro) {
+		ro.keys[0] = save.keys[0];
+		ro.keys[1] = save.keys[1];
+		ro.keys[2] = save.keys[2];
+		ro.keys[3] = save.keys[3];
+		ro.music_volume = save.flags[SaveGame::MUSIC_ON] ? save.music_volume / 100.0f : 0;
+		ro.sfx_volume = save.flags[SaveGame::FX_ON] ? save.fx_volume / 100.0f : 0;
+	};
 	Mixer::get().open();
 	main.handlers["optQuickRaceClick"] = [&]() { quick = true; show_mode(); };
 	main.handlers["optTourClick"] = [&]() { quick = false; show_mode(); };
@@ -728,6 +750,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			return false;
 		current = n;
 		apply_player();
+		apply_volumes();
 		return true;
 	};
 	auto new_player = [&](const std::string &name) {
@@ -880,10 +903,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (!left.empty())
 			load_player(left[0]);
 		show_players();
-		open_dialog(playerf);
+		close_dialog();
 	};
 	for (const char *b : { "btnCancel", "btnClose" })
-		deletep.handlers[b] = [&]() { open_dialog(playerf); };
+		deletep.handlers[b] = [&]() { close_dialog(); };
 	/* TfrmNewPlayer: a name of up to 12 letters; Enter or OK makes the player. Without
 	 * any player yet the menu can't go on: cancelling quits. */
 	auto newp_done = [&](bool ok) {
@@ -896,18 +919,318 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			new_player(nm);
 		if (current < 0) {
 			screen = QUIT;
+			dialogs.clear();
+		}
+		else {
+			if (newp_from_players)
+				show_players();
 			close_dialog();
 		}
-		else if (newp_from_players) {
-			show_players();
-			open_dialog(playerf);
-		}
-		else
-			close_dialog();
 	};
 	newp.handlers["btnOk1"] = [&]() { newp_done(true); };
 	for (const char *b : { "btnCancel", "btnClose" })
 		newp.handlers[b] = [&]() { newp_done(false); };
+
+	/* Options (FormOptions.pas): a dialog working on a copy of the player's settings, given
+	 * to the player on OK. The control (keyboard, joystick, joypad, wheel; joypad has
+	 * nothing to set), whether the start info shows, the picture quality, and the music,
+	 * effects and voices volumes. */
+	Form options, keyset, joyset, wheelset, startinfo, startinfo_kb, closedlg, doublekeys;
+	options.load(res, "TfrmOptions", with({ { "gdfBtnAdvVideo", "advan" }, { "gdfBtnCtrlSettings", "setti" } }));
+	keyset.load(res, "TfrmKeySettings", with({ { "gdfBtnDefault", "defau" }, { "gdfBtnKey", "key" } }));
+	joyset.load(res, "TfrmJoyStickSettings", with({}));
+	wheelset.load(res, "TfrmWheelSettings", with({}));
+	startinfo.load(res, "TfrmStartInfo", with({}));
+	startinfo_kb.load(res, "TfrmStartInfoKeyBoard", with({}));
+	closedlg.load(res, "TfrmCloseDlg", with({ { "gdfBigRadioBtnMain", "radhm" }, { "gdfRadioBtnExit", "radex" } }));
+	doublekeys.load(res, "TfrmDoubleKeys", with({}));
+	SaveGame edit; /* the settings being changed */
+	/* Control type: 0 keyboard, 1 joystick, 2 joypad, 3 wheel. */
+	static const char *control_radio[4] = { "optKeyboard", "optJoystick", "optJoyPad", "optWheel" };
+	static const char *control_picture[4] = { "OPT_KEYB.bmp", "OPT_JOYS.bmp", "OPT_GPAD.bmp", "OPT_WHEE.bmp" };
+	auto set_control = [&](int t) {
+		edit.control_type = t;
+		options.set_graphic(res, "imgControl", control_picture[t & 3]);
+		if (Control *c = options.get("btnControls"))
+			c->enabled = t != 2;
+	};
+	for (int t = 0; t < 4; t++) {
+		Control *c = options.get(control_radio[t]);
+		if (c)
+			options.handlers[c->on_click] = [&, t]() { set_control(t); };
+	}
+	for (auto [lbl, radio] : { std::pair<const char *, const char *>{ "lblKeyboardClick", "optKeyboard" },
+			 { "lblJoystickClick", "optJoystick" }, { "lblJoypadClick", "optJoyPad" }, { "lblWheelClick", "optWheel" },
+			 { "lblVideoLowClick", "optVideoLow" }, { "lblVideoMediumClick", "optVideoMedium" },
+			 { "lblVideoHighClick", "optVideoHigh" } }) {
+		std::string r = radio;
+		options.handlers[lbl] = [&, r]() { options.click(r); };
+	}
+	options.handlers["lblClickAreaClick"] = [&]() { options.click("chkStartInfoOn"); };
+	options.handlers["lblVideo3dClick"] = [&]() { options.click("chkVideo3d"); };
+	/* Picture quality (CopySettingsToControls / CopyControlsToSettings): Resolution is an
+	 * index into the original's mode table; low 0 or 6, medium 1 or 3, high 4 (3D: 3..9). */
+	auto checked = [&](Form &f, const char *n) {
+		Control *c = f.get(n);
+		return c && c->checked;
+	};
+	auto set_checked = [&](Form &f, const char *n, bool on) {
+		if (Control *c = f.get(n))
+			c->checked = on;
+	};
+	auto show_video = [&]() {
+		bool d3 = checked(options, "chkVideo3d");
+		if (Control *c = options.get("optVideoLow"))
+			c->enabled = !d3;
+		if (Control *c = options.get("optVideoHigh"))
+			c->enabled = d3;
+		if ((!d3 && checked(options, "optVideoHigh")) || (d3 && checked(options, "optVideoLow")))
+			options.click("optVideoMedium");
+		const char *pic = checked(options, "optVideoLow") ? "OPT_LOWR.bmp"
+						  : checked(options, "optVideoHigh") ? "OPT_HIGR.bmp" : "OPT_MIDR.bmp";
+		options.set_graphic(res, "imgVideo", pic);
+		if (Control *c = options.get("imgVideo3d"))
+			c->visible = d3;
+	};
+	options.set_graphic(res, "imgVideo3d", "opt_3dfx.tga");
+	options.set_graphic(res, "imgSound", "opt_soun.bmp");
+	for (const char *h : { "optVideoLowClick", "optVideoMediumClick", "optVideoHighClick", "chkVideo3dClick" })
+		options.handlers[h] = [&]() { show_video(); };
+	auto slider = [&](const char *n) -> int & {
+		static int none;
+		Control *c = options.get(n);
+		return c ? c->value : none;
+	};
+	auto open_options = [&]() {
+		edit = save;
+		for (int t = 0; t < 4; t++)
+			set_checked(options, control_radio[t], t == (edit.control_type & 3));
+		set_control(edit.control_type & 3);
+		set_checked(options, "chkStartInfoOn", edit.flags[SaveGame::SHOW_START_INFO] != 0);
+		bool d3 = edit.resolution >= 3 && edit.resolution != 5;
+		set_checked(options, "chkVideo3d", d3);
+		int r = edit.resolution;
+		set_checked(options, "optVideoLow", r == 0 || r == 6);
+		set_checked(options, "optVideoMedium", r == 1 || r == 3);
+		set_checked(options, "optVideoHigh", !(r == 0 || r == 6 || r == 1 || r == 3));
+		show_video();
+		slider("sldrMusic") = edit.flags[SaveGame::MUSIC_ON] ? edit.music_volume : 0;
+		slider("sldrSound") = edit.flags[SaveGame::FX_ON] ? edit.fx_volume : 0;
+		slider("sldrVoice") = edit.voices_volume;
+		open_dialog(options);
+	};
+	main.handlers["btnOptionsClick"] = open_options;
+	/* The sliders let one hear the volume (wavIrritatingAsHell). */
+	options.handlers["sldrSoundChange"] = [&]() {
+		voice.effects = slider("sldrSound") / 100.0f;
+		voice.effect("peep.wav");
+	};
+	options.handlers["sldrVoiceChange"] = [&]() {
+		voice.effects = slider("sldrSound") / 100.0f;
+		voice.effect("peep.wav");
+	};
+	options.handlers["btnOkClick"] = [&]() {
+		edit.flags[SaveGame::SHOW_START_INFO] = checked(options, "chkStartInfoOn");
+		bool d3 = checked(options, "chkVideo3d");
+		int r = edit.resolution;
+		bool custom = !(r == 0 || r == 6 || r == 1 || r == 3 || r == 4);
+		if (!custom)
+			edit.resolution = checked(options, "optVideoLow") ? (d3 ? 6 : 0)
+							  : checked(options, "optVideoMedium") ? (d3 ? 3 : 1) : 4;
+		edit.music_volume = slider("sldrMusic");
+		edit.fx_volume = slider("sldrSound");
+		edit.voices_volume = slider("sldrVoice");
+		edit.flags[SaveGame::MUSIC_ON] = edit.music_volume > 0;
+		edit.flags[SaveGame::FX_ON] = edit.fx_volume > 0;
+		/* Only the settings: the Tour went on meanwhile in nothing, but keep it as is. */
+		std::vector<SaveGame::CharResult> chars = save.chars;
+		save = edit;
+		save.chars = chars;
+		store_player();
+		apply_volumes();
+		close_dialog();
+	};
+	for (const char *b : { "btnCancelClick", "btnClose" })
+		options.handlers[b] = [&]() {
+			apply_volumes();
+			close_dialog();
+		};
+	options.handlers["btnVideoAdvancedClick"] = [&]() {}; /* TfrmDisplaySettings: DirectDraw's */
+	if (Control *c = options.get("btnVideoAdvanced"))
+		c->enabled = false;
+
+	/* The keys (TfrmKeySettings): click a key's button, then press the key; the names are
+	 * menu.ini [CONTROLKEYS] (VK,name). Two actions on one key are refused (TfrmDoubleKeys). */
+	std::vector<std::pair<int, std::string>> key_names;
+	for (int i = 0; i < menu_ini.get_int("CONTROLKEYS", "count", 0) + 1; i++) {
+		std::vector<std::string> f = split_fields(menu_ini.get("CONTROLKEYS", std::to_string(i)));
+		if (f.size() >= 2)
+			key_names.push_back({ atoi(f[0].c_str()), f[1] });
+	}
+	auto key_name = [&](int vk) {
+		for (auto &[k, n] : key_names)
+			if (k == vk)
+				return n;
+		return std::string();
+	};
+	static const char *key_buttons[7] = { "btnGas", "btnBreak", "btnLeft", "btnRight", "btnTurbo", "btnParkingBrake",
+		"btnHorn" };
+	int key_edit[7] = {};
+	int capturing = -1;
+	auto show_keys = [&]() {
+		for (int k = 0; k < 7; k++) {
+			if (Control *c = keyset.get(key_buttons[k])) {
+				c->caption = k == capturing ? "" : key_name(key_edit[k]);
+				c->show_caption = c->caption_middle = true;
+				c->font_px = 13;
+				c->colour = rgba(0, 0, 0);
+				c->enabled = k != capturing;
+			}
+		}
+		if (Control *c = keyset.get("txtKey"))
+			c->visible = false;
+	};
+	for (Control &c : keyset.controls)
+		if (c.on_click == "btnClick")
+			c.on_click.clear();
+	for (int k = 0; k < 7; k++)
+		keyset.handlers[key_buttons[k]] = [&, k]() {
+			capturing = k;
+			show_keys();
+		};
+	dialog_frame[&keyset] = [&]() {
+		if (capturing < 0)
+			return;
+		for (auto &[vk, n] : key_names) {
+			if (vk > 0 && keyispressed(vk)) {
+				key_edit[capturing] = vk;
+				capturing = -1;
+				show_keys();
+				return;
+			}
+		}
+	};
+	keyset.handlers["btnDefaultsClick"] = [&]() {
+		SaveGame d;
+		d.defaults(static_ini, 0);
+		std::copy(d.keys, d.keys + 7, key_edit);
+		capturing = -1;
+		show_keys();
+	};
+	keyset.handlers["btnOkClick"] = [&]() {
+		if (capturing >= 0)
+			return;
+		int twice = 0;
+		for (int i = 0; i < 6; i++)
+			for (int j = i + 1; j < 7; j++)
+				if (key_edit[i] == key_edit[j])
+					twice = key_edit[i];
+		if (twice) {
+			if (Control *c = doublekeys.get("lblDouble")) {
+				std::string fmt = menu_ini.get("MENUSTRINGS", "6", "%s");
+				size_t at = fmt.find("%s");
+				c->caption = at == std::string::npos ? fmt : fmt.replace(at, 2, key_name(twice));
+				c->wrap = true;
+			}
+			open_dialog(doublekeys);
+			return;
+		}
+		std::copy(key_edit, key_edit + 7, edit.keys);
+		close_dialog();
+	};
+	for (const char *b : { "btnCancel", "btnClose" })
+		keyset.handlers[b] = [&]() {
+			capturing = -1;
+			close_dialog();
+		};
+	doublekeys.handlers["btnOk1"] = [&]() { close_dialog(); };
+	for (const char *b : { "btnHelp", "btnClose" })
+		if (Control *c = doublekeys.get(b))
+			c->visible = false;
+	/* The joystick's and the wheel's sensitivity. */
+	auto sensitivity = [&](Form &f, int &field) {
+		if (Control *c = f.get("sldrSensitivity"))
+			c->value = field;
+		f.handlers["btnOk1"] = [&f, &field, close_dialog]() mutable {
+			if (Control *c = f.get("sldrSensitivity"))
+				field = c->value;
+			close_dialog();
+		};
+		for (const char *b : { "btnCancel", "btnClose" })
+			f.handlers[b] = [close_dialog]() mutable { close_dialog(); };
+		open_dialog(f);
+	};
+	options.handlers["btnControlsClick"] = [&]() {
+		switch (edit.control_type) {
+		case 0:
+			std::copy(edit.keys, edit.keys + 7, key_edit);
+			capturing = -1;
+			show_keys();
+			open_dialog(keyset);
+			break;
+		case 1: sensitivity(joyset, edit.joy_sensitivity); break;
+		case 3: sensitivity(wheelset, edit.wheel_sensitivity); break;
+		default: break;
+		}
+	};
+
+	/* Before a race, with SHOWSTARTINFO: how to drive (POPSTRT0 with the keys for the
+	 * keyboard; POPSTRT2 joystick, POPSTRT1 joypad, POPSTRT3 wheel). OK races, and takes
+	 * the box "show this again"; Annuleren stays. */
+	std::function<void()> start_race;
+	auto race_with_info = [&](std::function<void()> go) {
+		if (!save.flags[SaveGame::SHOW_START_INFO]) {
+			go();
+			return;
+		}
+		start_race = go;
+		Form &f = save.control_type == 0 ? startinfo_kb : startinfo;
+		static const char *pics[4] = { "popstrt0.tga", "popstrt2.tga", "popstrt1.tga", "popstrt3.tga" };
+		if (std::shared_ptr<Image> p = res.image(pics[save.control_type & 3]))
+			f.background = p;
+		set_checked(f, "chkStartInfo", true);
+		static const char *labels[7] = { "lblSetGas", "lblSetBrake", "lblSetLeft", "lblSetRight", "lblSetTurbo",
+			"lblSetParkingBrake", "lblSetHorn" };
+		for (int k = 0; k < 7; k++)
+			if (Control *c = f.get(labels[k])) {
+				c->caption = key_name(save.keys[k]);
+				c->centre = true;
+			}
+		for (const char *b : { "btnHelp", "btnClose" })
+			if (Control *c = f.get(b))
+				c->visible = false;
+		open_dialog(f);
+	};
+	for (Form *f : { &startinfo, &startinfo_kb }) {
+		f->handlers["lblClickAreaClick"] = [f]() { f->click("chkStartInfo"); };
+		f->handlers["btnOkClick"] = [&, f]() {
+			save.flags[SaveGame::SHOW_START_INFO] = checked(*f, "chkStartInfo");
+			store_player();
+			close_dialog();
+			if (start_race)
+				start_race();
+		};
+		f->handlers["btnCancel"] = [&]() { close_dialog(); };
+	}
+
+	/* Einde (TfrmCloseDlg): back to the main screen, or stop playing. */
+	auto ask_close = [&]() {
+		set_checked(closedlg, "optMainScreen", true);
+		set_checked(closedlg, "optQuit", false);
+		open_dialog(closedlg);
+	};
+	closedlg.handlers["btnOk1Click"] = [&]() {
+		close_dialog();
+		screen = checked(closedlg, "optQuit") ? QUIT : MAIN;
+	};
+	for (const char *b : { "btnExit", "btnClose" })
+		closedlg.handlers[b] = [&]() { close_dialog(); };
+
+	qr.handlers["btnNextClick"] = [&]() { race_with_info([&]() { screen = RACE; }); };
+	garage.handlers["btnNextClick"] = [&]() { race_with_info([&]() { screen = TOUR_RACE; }); };
+	for (Form *f : { &main, &diff, &qr, &results, &character, &trackf, &garage, &qualify, &win, &lose, &win_chase,
+			 &lose_chase, &win_final, &intro })
+		f->handlers["btnCloseClick"] = ask_close;
 
 	int wanted = port_ini.get_int("GENERAL", "CURRENTPLAYER", -1);
 	if (!(wanted >= 0 && load_player(wanted))) {
@@ -948,22 +1271,31 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		}
 		Form &f = *fp;
 		float dt = 0.01f;
-		if (dialog) {
-			Form *d = dialog;
-			d->input(in);
-			if (dialog == d && in.key == KEY_ESCAPE && d->handlers.count("btnCancel"))
-				d->handlers["btnCancel"]();
-			else if (dialog == d && in.key == KEY_ENTER && d == &newp)
-				newp.handlers["btnOk1"](); /* txtNameKeyDown */
+		if (!dialogs.empty()) {
+			Form *d = dialogs.back().form;
+			auto top = [&]() { return !dialogs.empty() && dialogs.back().form == d; };
+			auto fr = dialog_frame.find(d);
+			if (fr != dialog_frame.end() && fr->second)
+				fr->second();
+			if (top())
+				d->input(in);
+			/* Escape is the dialog's Cancel (or its cross), Enter its OK (Default). */
+			if (top() && in.key == KEY_ESCAPE) {
+				d->click("btnCancel");
+				if (top())
+					d->click("btnClose");
+			}
+			else if (top() && in.key == KEY_ENTER)
+				d->click("btnOk1");
 			f.draw(cv, res);
-			if (dialog)
-				dialog->draw(cv, res);
+			for (const Shown &sh : dialogs)
+				sh.form->draw(cv, res);
 			sys_present(cv.px.data());
 			sys_sleep(10);
 			continue;
 		}
 		if (in.key == KEY_ESCAPE)
-			screen = screen == MAIN ? QUIT : MAIN;
+			ask_close();
 		f.input(in);
 		if (screen == DIFFICULTY)
 			show_difficulty();
@@ -991,6 +1323,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.stage = info.tracks[t].stage;
 			ro.car = info.chars[tour_ch()].car;
 			ro.difficulty = difficulty;
+			player_race(ro);
 			ro.laps = info.tracks[t].laps;
 			const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
 			ro.motor = cr.upgrades[0];
@@ -1024,6 +1357,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.stage = info.quick_tracks.empty() ? 0 : info.tracks[info.quick_tracks[track_ix]].stage;
 			ro.car = info.quick_chars.empty() ? 0 : info.chars[info.quick_chars[char_ix]].car;
 			ro.difficulty = difficulty;
+			player_race(ro);
 			last = RaceResult();
 			race_main(data_dir, race_rcs, ro, &last);
 			if (last.quit || last.order.empty()) {

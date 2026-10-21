@@ -5,7 +5,7 @@
  *             VOICESON, SHOWSTARTINFO, AlphaBlending, BilinearFiltering, WaitVbl,
  *             Mipmapping; i32 gamma, texture memory, driver, render focus
  *   controls  7 x i32 keys (up, down, left, right, turbo, handbrake, horn), i32 control
- *             type, joystick and wheel sensitivity
+ *             type (0 keyboard, 1 joystick, 2 joypad, 3 wheel), joystick and wheel sensitivity
  *   tour      i32 character, track ([TOURRACE] list indices); per tour character
  *             i32 next undriven track, money, turbo amount, 5 x u8 upgrades
  *   quick     i32 character, track, u8 unlock popup shown

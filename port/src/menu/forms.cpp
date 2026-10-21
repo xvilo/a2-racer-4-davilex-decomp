@@ -60,14 +60,20 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 	std::shared_ptr<Image> picture = res.image((dp != dialog_pictures.end() ? dp->second : short_name) + ".tga");
 	background = res.image(short_name + ".bmp");
 	/* Every component with its place on the form: a panel's children are placed in it. */
-	std::vector<std::pair<DfmObject *, std::pair<int, int>>> all;
-	std::function<void(DfmObject *, int, int)> walk = [&](DfmObject *o, int ox, int oy) {
-		all.push_back({ o, { ox, oy } });
+	struct Placed {
+		DfmObject *o;
+		int ox, oy;
+		std::string group;
+	};
+	std::vector<Placed> all;
+	std::function<void(DfmObject *, int, int, const std::string &)> walk = [&](DfmObject *o, int ox, int oy,
+																			const std::string &group) {
+		all.push_back({ o, ox, oy, group });
 		bool box = o != dfm.get() && (o->cls == "TPanel" || o->cls == "TGroupBox");
 		for (auto &c : o->children)
-			walk(c.get(), box ? ox + o->get_int("Left") : ox, box ? oy + o->get_int("Top") : oy);
+			walk(c.get(), box ? ox + o->get_int("Left") : ox, box ? oy + o->get_int("Top") : oy, box ? o->name : group);
 	};
-	walk(dfm.get(), 0, 0);
+	walk(dfm.get(), 0, 0, "");
 	std::vector<std::pair<int, int>> offset;
 	w = dfm->get_int("ClientWidth", 800);
 	h = dfm->get_int("ClientHeight", 600);
@@ -86,8 +92,10 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 	}
 	/* Button definitions (TGDIButtonDefinition) of this form and of the data module. */
 	std::map<std::string, std::string> defs = prefixes;
-	for (auto &[o, at] : all) {
+	for (const Placed &p : all) {
+		DfmObject *o = p.o;
 		Control c;
+		c.group = p.group;
 		c.name = o->name;
 		c.cls = o->cls;
 		if (o == dfm.get())
@@ -106,6 +114,8 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 			c.kind = Control::GRAPHIC;
 		else if (o->cls == "TEdit")
 			c.kind = Control::EDIT;
+		else if (o->cls == "TDaviGraphicSlider")
+			c.kind = Control::SLIDER;
 		else
 			continue;
 		c.x = o->get_int("Left");
@@ -123,6 +133,13 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 			c.definition = c.definition.substr(dot + 1);
 		c.on_click = o->get_str("OnClick");
 		c.max_length = o->get_int("MaxLength", 0);
+		c.on_change = o->get_str("OnChange");
+		/* A slider's track is a picture in its DFM (BackImage): the same as MenuRcs's
+		 * short and long ones; the thumb is the data module's defSlider (slider.bmp). */
+		if (c.kind == Control::SLIDER) {
+			c.picture = res.image(c.w > 150 ? "slidelon.bmp" : "slidesho.bmp");
+			c.look[0] = res.image("slider.bmp");
+		}
 		if (const DfmValue *bc = o->prop("Color"); bc && bc->kind == DfmValue::INT)
 			c.back = colorref(bc->i);
 		if (c.kind == Control::EDIT) {
@@ -141,7 +158,7 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 		if (c.kind == Control::LABEL && (c.caption == c.name || c.name.rfind("lblAnc", 0) == 0))
 			c.caption.clear();
 		controls.push_back(c);
-		offset.push_back(at);
+		offset.push_back({ p.ox, p.oy });
 	}
 	/* MenuCaps.ini: [DEFAULT] then [<form class>] <control>.<property>. */
 	if (res.caps) {
@@ -244,7 +261,8 @@ void Form::draw(Canvas &cv, const MenuResources &res) const
 			if (img)
 				cv.blit(*img, c.x, c.y);
 			if (c.show_caption && res.font && !c.caption.empty())
-				res.font->draw(cv, c.x + (int)((c.w - res.font->width(c.caption, c.font_px)) / 2), c.y + c.h - (int)c.font_px - 12,
+				res.font->draw(cv, c.x + (int)((c.w - res.font->width(c.caption, c.font_px)) / 2),
+					c.caption_middle ? c.y + (c.h - (int)c.font_px) / 2 : c.y + c.h - (int)c.font_px - 12,
 					c.caption, c.font_px, c.colour);
 			break;
 		}
@@ -259,6 +277,14 @@ void Form::draw(Canvas &cv, const MenuResources &res) const
 						lx += (int)((c.w - res.font->width(lines[l], c.font_px)) / 2);
 					res.font->draw(cv, lx, c.y + (int)(l * lh), lines[l], c.font_px, c.colour);
 				}
+			}
+			break;
+		case Control::SLIDER:
+			if (c.picture)
+				cv.blit(*c.picture, c.x, c.y);
+			if (c.look[0]) {
+				int tw = c.look[0]->width;
+				cv.blit(*c.look[0], c.x + (c.w - tw) * std::clamp(c.value, 0, 100) / 100, c.y);
 			}
 			break;
 		case Control::EDIT: {
@@ -301,11 +327,36 @@ void Form::input(const SysInput &in)
 		}
 		break;
 	}
+	/* Sliders: the thumb follows the mouse while the button is held on the track. */
+	if (in.mouse_pressed) {
+		dragging = -1;
+		for (size_t i = 0; i < controls.size(); i++) {
+			const Control &c = controls[i];
+			if (c.kind == Control::SLIDER && c.visible && in.mouse_x >= c.x && in.mouse_x < c.x + c.w &&
+				in.mouse_y >= c.y && in.mouse_y < c.y + c.h)
+				dragging = (int)i;
+		}
+	}
+	if (dragging >= 0 && (in.mouse_down || in.mouse_pressed || in.mouse_clicked)) {
+		Control &c = controls[(size_t)dragging];
+		int tw = c.look[0] ? c.look[0]->width : 6;
+		int v = c.w > tw ? (in.mouse_x - c.x - tw / 2) * 100 / (c.w - tw) : 0;
+		v = std::clamp(v, 0, 100);
+		if (v != c.value) {
+			c.value = v;
+			auto h = handlers.find(c.on_change);
+			if (h != handlers.end())
+				h->second();
+		}
+	}
+	if (!in.mouse_down)
+		dragging = -1;
 	hover = -1;
 	for (int i = (int)controls.size() - 1; i >= 0; i--) {
 		const Control &c = controls[(size_t)i];
-		if ((c.kind == Control::BUTTON || c.kind == Control::RADIO || c.kind == Control::CHECK) &&
-			hit(c, in.mouse_x, in.mouse_y)) {
+		bool clickable = c.kind == Control::BUTTON || c.kind == Control::RADIO || c.kind == Control::CHECK ||
+						 (c.kind == Control::LABEL && !c.on_click.empty());
+		if (clickable && hit(c, in.mouse_x, in.mouse_y)) {
 			hover = i;
 			break;
 		}
@@ -316,24 +367,38 @@ void Form::input(const SysInput &in)
 		printf("menu: click at %d,%d on %s (pressed %d)\n", in.mouse_x, in.mouse_y,
 			hover >= 0 ? controls[(size_t)hover].name.c_str() : "nothing", pressed);
 	if (in.mouse_clicked) {
-		if (pressed >= 0 && pressed == hover) {
-			Control &c = controls[(size_t)pressed];
-			if (c.kind == Control::RADIO) {
-				for (Control &o : controls) {
-					if (o.kind == Control::RADIO)
-						o.checked = false;
-				}
-				c.checked = true;
-			}
-			else if (c.kind == Control::CHECK)
-				c.checked = !c.checked;
-			auto h = handlers.find(c.on_click.empty() ? c.name : c.on_click);
-			if (getenv("A2_MENU_TRACE"))
-				printf("menu: %s clicked %s (%s)%s\n", cls.c_str(), c.name.c_str(), c.on_click.c_str(),
-					h == handlers.end() ? ": no handler" : "");
-			if (h != handlers.end())
-				h->second();
-		}
+		if (pressed >= 0 && pressed == hover)
+			activate((size_t)pressed);
 		pressed = -1;
 	}
+}
+
+void Form::click(const std::string &name)
+{
+	for (size_t i = 0; i < controls.size(); i++) {
+		if (controls[i].name == name && controls[i].visible && controls[i].enabled) {
+			activate(i);
+			return;
+		}
+	}
+}
+
+void Form::activate(size_t i)
+{
+	Control &c = controls[i];
+	if (c.kind == Control::RADIO) {
+		for (Control &o : controls) {
+			if (o.kind == Control::RADIO && o.group == c.group)
+				o.checked = false;
+		}
+		c.checked = true;
+	}
+	else if (c.kind == Control::CHECK)
+		c.checked = !c.checked;
+	auto h = handlers.find(c.on_click.empty() ? c.name : c.on_click);
+	if (getenv("A2_MENU_TRACE"))
+		printf("menu: %s clicked %s (%s)%s\n", cls.c_str(), c.name.c_str(), c.on_click.c_str(),
+			h == handlers.end() ? ": no handler" : "");
+	if (h != handlers.end())
+		h->second();
 }

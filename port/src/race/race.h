@@ -13,7 +13,12 @@ struct RaceOptions {
 	int motor = 0, gearbox = 0, tyres = 0, abs = 0; /* the garage's upgrades (0 or 1) */
 	int difficulty = -1; /* 0 easy, 1 normal, 2 hard; -1: game.ini [OPTIONS] Difficulty */
 	int laps = 0;         /* 0: game.ini [OPTIONS] Nrlaps */
-	float time_limit = 0; /* seconds; a chase must be finished in time (0: none) */
+	float time_limit = 0;
+	/* The player's settings (the menu writes them to game.ini and Raser.ini in the
+	 * original): keys up, down, left, right as virtual-key codes (0: game.ini's), and
+	 * the music and effects volumes 0..1 (negative: Raser.ini's). */
+	int keys[4] = {};
+	float music_volume = -1, sfx_volume = -1; /* seconds; a chase must be finished in time (0: none) */
 	/* Testing: drive by itself along the drive map (also with A2_AUTOPILOT=1). */
 	bool autopilot = false;
 };
