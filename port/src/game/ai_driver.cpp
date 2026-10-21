@@ -27,7 +27,11 @@ void AiDriver::find_lane(const Track &track, const Car &car)
 		if (n.next < 0 || n.next >= (int)track.drive.size())
 			continue;
 		const float *nx = track.drive[(size_t)n.next].pos;
-		if ((nx[0] - n.pos[0]) * fx + (nx[2] - n.pos[2]) * fz <= 0)
+		if (race_lanes && i < race_lanes->size()) {
+			if (!(*race_lanes)[i])
+				continue;
+		}
+		else if ((nx[0] - n.pos[0]) * fx + (nx[2] - n.pos[2]) * fz <= 0)
 			continue;
 		float dx = n.pos[0] - car.pos[0], dz = n.pos[2] - car.pos[2];
 		/* Prefer nodes ahead of the car. */

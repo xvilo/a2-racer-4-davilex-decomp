@@ -8,7 +8,7 @@
 
 struct RaceRules {
 	/* ARRESTED: stopped by the police (GEARRESTEERD), the race is over. */
-	enum Phase { COUNTDOWN, RACING, FINISHED, ARRESTED, TIME_UP };
+	enum Phase { COUNTDOWN, RACING, FINISHED, ARRESTED, TIME_UP, TOTAL_LOSS };
 	Phase phase = COUNTDOWN;
 	float countdown = 3;      /* seconds until the start */
 	float time = 0;           /* race time, seconds */

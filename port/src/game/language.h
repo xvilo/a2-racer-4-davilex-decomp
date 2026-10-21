@@ -25,6 +25,7 @@ enum {
 	TXT_LAST = 37,
 	TXT_POS = 38,
 	TXT_LAP = 39,        /* RONDE */
+	TXT_TOTAL_LOSS = 40, /* TOTAL LOSS */
 	TXT_TIME_UP = 41,    /* TIJD IS OM */
 	TXT_ARRESTED = 42,   /* GEARRESTEERD */
 	TXT_RACE_OVER = 43,

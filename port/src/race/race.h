@@ -29,7 +29,7 @@ struct RaceOptions {
 /* How the race went, for the menu: the field in finishing order. Racers still on the road
  * when the player finished get a time from their pace so far. */
 struct RaceResult {
-	bool finished = false, arrested = false, time_up = false, quit = false;
+	bool finished = false, arrested = false, time_up = false, total_loss = false, quit = false;
 	struct Entry {
 		int car = 0;      /* CAR_CFG.INI racer, also the character's number */
 		float time = 0;   /* seconds */

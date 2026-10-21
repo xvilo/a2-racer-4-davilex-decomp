@@ -32,8 +32,8 @@ public:
 	/* Sets up the 640x480 projection; call before drawing. */
 	void begin() const;
 	/* Draws an element, turned by angle degrees (clockwise) around its origin, scaled by
-	 * zoom (the start digits grow in). */
-	void element(Renderer &r, const std::string &name, float angle = 0, float zoom = 1) const;
+	 * zoom (the start digits grow in), and by stretch across (a bar filling up). */
+	void element(Renderer &r, const std::string &name, float angle = 0, float zoom = 1, float stretch = 1) const;
 	/* Draws a string element with the given text (empty: its default text). */
 	void string(const std::string &name, const std::string &text) const;
 	void text(float x, float y, const std::string &text, float scale, const float rgba[4], bool centre,

@@ -4,6 +4,8 @@
  * NORMAL, SKILLED) sets how close to its car's top speed it drives. */
 #pragma once
 
+#include <vector>
+
 #include "game/car.h"
 
 struct Track;
@@ -13,6 +15,9 @@ struct AiDriver {
 	float skill = 0.9f;   /* fraction of the top speed it aims for */
 	int node = -1;        /* the drive map node it is heading for */
 	float stuck = 0, reverse = 0;
+	/* For a racer: which drive map nodes' lanes run the race's way. Lost, it takes one of
+	 * those (and turns round to it), not whatever lane it happens to face. */
+	const std::vector<char> *race_lanes = nullptr;
 
 	/* What to do this frame. */
 	CarInput drive(const Track &track, const Car &car, float dt);

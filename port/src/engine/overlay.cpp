@@ -122,7 +122,7 @@ void Overlay::begin() const
 	glDisable(GL_FOG);
 }
 
-void Overlay::element(Renderer &r, const std::string &name, float angle, float zoom) const
+void Overlay::element(Renderer &r, const std::string &name, float angle, float zoom, float stretch) const
 {
 	auto it = elements.find(name);
 	if (it == elements.end() || !it->second.mesh)
@@ -131,7 +131,7 @@ void Overlay::element(Renderer &r, const std::string &name, float angle, float z
 	glPushMatrix();
 	glTranslatef(e.x, e.y, 0);
 	/* The models' y axis points up the screen. */
-	glScalef(zoom, -zoom, zoom);
+	glScalef(zoom * stretch, -zoom, zoom);
 	if (angle != 0)
 		gl_rotate(-angle, 0, 0, 1);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

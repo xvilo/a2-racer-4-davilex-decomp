@@ -30,6 +30,13 @@ static const float STEP = 0.01f;
 
 namespace {
 
+std::string lower(std::string s)
+{
+	for (char &c : s)
+		c = (char)tolower((unsigned char)c);
+	return s;
+}
+
 /* The keys from game.ini [INPUT] (Windows virtual-key codes). */
 struct Keys {
 	int left = 37, right = 39, up = 38, down = 40, turbo = 17;
@@ -53,7 +60,7 @@ struct CarModel {
 	unsigned body_tex = 0, wheel_tex = 0, windows_tex = 0;
 };
 
-void draw_car(Renderer &r, const Car &car, const CarModel &m)
+void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = true)
 {
 	float right[3], up[3], fwd[3];
 	car.axes(right, up, fwd);
@@ -61,7 +68,7 @@ void draw_car(Renderer &r, const Car &car, const CarModel &m)
 	gl_mult_world(right, up, fwd, car.pos);
 	if (m.body)
 		r.draw_mesh(*m.body, m.body_tex);
-	if (m.windows)
+	if (m.windows && windows)
 		r.draw_mesh(*m.windows, m.windows_tex);
 	if (m.wheel) {
 		const float *wp[2] = { car.spec.wheel_front, car.spec.wheel_rear };
@@ -108,6 +115,7 @@ struct Hud {
 	int flashes = 0;
 	float time_limit = 0;
 	float turbo = 0; /* 0..100 */
+	float damage = 0; /* 0..1100 */
 	/* A pick-up's text (PrintText), for a few seconds. */
 	std::string message;
 	float message_time = 0;
@@ -120,6 +128,9 @@ struct Hud {
 		overlay.element(r, "OVL_SPEEDOMETER_STRIPES");
 		overlay.element(r, "OVL_SPEEDOMETER_DIAL", std::min(car.speed_kmh(), 200.0f) / 200 * 160);
 		overlay.element(r, "OVL_SPEEDOMETER_DOP");
+		/* The damage bar fills across (Ovl_Communicator: x scale damage / 1100). */
+		overlay.element(r, "OVL_SPEEDOMETER_HLTH_BK");
+		overlay.element(r, "OVL_SPEEDOMETER_HLTH", 0, 1, std::clamp(damage / 1100, 0.0f, 1.0f));
 		/* The turbo gauge: 180 degrees for a full tank. */
 		overlay.element(r, "OVL_SPEEDOMETER_TURBODIAL", turbo / 100 * 180);
 		overlay.element(r, "OVL_SPEEDOMETER_TURBODOP");
@@ -152,6 +163,10 @@ struct Hud {
 			overlay.string("STRING_TIME_UP", "");
 			overlay.string("STRING_FINISH_TEXT", "");
 		}
+		else if (rules.phase == RaceRules::TOTAL_LOSS) {
+			overlay.string("STRING_TOTAL_LOSS", lang.get(TXT_TOTAL_LOSS, "TOTAL LOSS"));
+			overlay.string("STRING_FINISH_TEXT", "");
+		}
 		else if (rules.phase == RaceRules::ARRESTED) {
 			overlay.string("STRING_ARRESTED", lang.get(TXT_ARRESTED, "GEARRESTEERD"));
 			overlay.string("STRING_FINISH_TEXT", "");
@@ -180,6 +195,58 @@ struct Hud {
 	}
 };
 
+/* Damage (car_dmg.cpp, damage.ini): each knock past a car's threshold costs 25..45
+ * points of 1100, by the impulse (impact speed in game units/s times a mass: the other
+ * car's, or half its own against a wall). It only shows: the windows go, then the
+ * lights; 1099 is a total loss. Damage changes nothing in how the car drives. */
+struct DamageModel {
+	float min_imp = 70000, max_imp = 90000;        /* computer cars */
+	float min_player = 50000, max_player = 90000;  /* the player's */
+	int window = 1101, lights = 1101;               /* [Damageable Cars] */
+};
+
+struct DamageTable {
+	int min_points = 25, max_points = 45;
+	std::map<std::string, DamageModel> models;
+
+	void load(const std::string &dir)
+	{
+		IniFile ini;
+		std::string p = find_file_ci(dir, "damage.ini");
+		if (p.empty() || !ini.load(p))
+			return;
+		min_points = ini.get_int("Damage Limits", "min", min_points);
+		max_points = ini.get_int("Damage Limits", "max", max_points);
+		std::map<std::string, std::pair<int, int>> cars;
+		for (int i = 0; i < ini.get_int("Damageable Cars", "count", 0); i++) {
+			std::vector<std::string> f = split_fields(ini.get("Damageable Cars", std::to_string(i)));
+			if (f.size() >= 3)
+				cars[lower(f[0])] = { atoi(f[1].c_str()), atoi(f[2].c_str()) };
+		}
+		for (int i = 0; i < ini.get_int("Damage Models", "count", 0); i++) {
+			std::vector<std::string> f = split_fields(ini.get("Damage Models", std::to_string(i)));
+			if (f.size() < 6)
+				continue;
+			DamageModel m;
+			m.min_imp = (float)atof(f[1].c_str());
+			m.max_imp = (float)atof(f[2].c_str());
+			m.min_player = (float)atof(f[3].c_str());
+			m.max_player = (float)atof(f[4].c_str());
+			auto c = cars.find(lower(f[5]));
+			if (c != cars.end()) {
+				m.window = c->second.first;
+				m.lights = c->second.second;
+			}
+			models[lower(f[0])] = m;
+		}
+	}
+	DamageModel get(const std::string &set) const
+	{
+		auto m = models.find(lower(set));
+		return m == models.end() ? DamageModel() : m->second;
+	}
+};
+
 /* One car in the race, with its driver (the player or the computer). */
 struct Racer {
 	Car car;
@@ -201,9 +268,57 @@ struct Racer {
 	};
 	std::vector<Safe> safe;
 	float stuck = 0;
+	DamageModel damage_model;
+	float damage = 0;       /* 0..1100 */
+	float last_hit = -1;    /* clock of the last knock: 60 ms between two */
 
-	void respawn(const CollisionWorld &world, float clock)
+	/* FUN_00425310: one knock with impulse imp; true if it did damage. */
+	bool hit(const DamageTable &t, float imp, float clock, bool invulnerable)
 	{
+		bool soon = clock - last_hit < 0.06f;
+		last_hit = clock;
+		float lo = player ? damage_model.min_player : damage_model.min_imp;
+		float hi = player ? damage_model.max_player : damage_model.max_imp;
+		if (soon || imp <= lo || invulnerable || hi <= lo)
+			return false;
+		imp = std::min(imp, hi);
+		damage = std::min(floorf(damage + (float)t.min_points + (imp - lo) * (float)(t.max_points - t.min_points) / (hi - lo)),
+			1100.0f);
+		return true;
+	}
+
+	float last_respawn = -100;
+
+	void respawn(const CollisionWorld &world, float clock, const Track &track)
+	{
+		/* Put back twice in a short while (the safe spot leads straight back into the
+		 * water): onto a lane of the drive map that runs the race's way, near where it is,
+		 * facing along it. */
+		bool again = clock - last_respawn < 20;
+		last_respawn = clock;
+		if ((again || safe.empty()) && ai.race_lanes) {
+			int best_node = -1;
+			float bd = 1e30f;
+			for (size_t i = 0; i < track.drive.size() && i < ai.race_lanes->size(); i++) {
+				const DriveNode &dn = track.drive[i];
+				if (!(*ai.race_lanes)[i] || dn.next < 0 || dn.next >= (int)track.drive.size())
+					continue;
+				float dx = dn.pos[0] - car.pos[0], dz = dn.pos[2] - car.pos[2], d = dx * dx + dz * dz;
+				if (d < bd) {
+					bd = d;
+					best_node = (int)i;
+				}
+			}
+			if (best_node >= 0) {
+				const DriveNode &dn = track.drive[(size_t)best_node];
+				const float *q = track.drive[(size_t)dn.next].pos;
+				float yaw = atan2f(q[0] - dn.pos[0], q[2] - dn.pos[2]);
+				car.place_at(world, dn.pos, yaw);
+				safe.assign(1, { { dn.pos[0], dn.pos[1], dn.pos[2] }, yaw, clock - 2 });
+				ai.node = dn.next;
+				return;
+			}
+		}
 		if (safe.empty())
 			return;
 		const Safe *best = &safe.front();
@@ -239,7 +354,8 @@ struct Racer {
 
 /* Two cars touching: pushed apart, the speed along the line between them shared out as
  * a slightly bouncy collision of their masses. Each car is two circles, front and back. */
-void collide(Car &a, Car &b)
+/* Pushes two cars apart; the speed they met at (m/s), 0 if they didn't. */
+float collide(Car &a, Car &b)
 {
 	auto circles = [](const Car &c, float out[2][2]) {
 		float fx = sinf(c.yaw), fz = cosf(c.yaw);
@@ -250,7 +366,7 @@ void collide(Car &a, Car &b)
 		out[1][1] = c.pos[2] - fz * ra;
 	};
 	if (fabsf(a.pos[1] - b.pos[1]) > 15)
-		return;
+		return 0;
 	float ca[2][2], cb[2][2];
 	circles(a, ca);
 	circles(b, cb);
@@ -275,9 +391,10 @@ void collide(Car &a, Car &b)
 				b.vel[0] += j / b.spec.mass * nx;
 				b.vel[2] += j / b.spec.mass * nz;
 			}
-			return;
+			return std::max(-rel, 0.0f);
 		}
 	}
+	return 0;
 }
 
 /* The stage's traffic (traffic.ini [Traffic Track <n>]: vehicles from CAR_CFG.INI
@@ -473,6 +590,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		start = atoi(st) + 2;
 	const int n = (int)track.road.chunks.size();
 	for (size_t i = 0; i < racers.size(); i++) {
+		racers[i].ai.race_lanes = &node_with;
 		size_t slot = racers.size() - 1 - i; /* player (0) in the last slot */
 		int row = (int)slot / 2;
 		int grid_chunk = ((start - 2 - row * 2) % n + n) % n;
@@ -507,6 +625,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			racers[i].car.yaw, 0 });
 	}
 	const int field_size = (int)racers.size();
+	DamageTable damage_table;
+	damage_table.load(data_dir);
 	/* The police cars by the road (game.ini [OPTIONS] Police; A2_POLICE=0 for testing):
 	 * CAR_CFG.INI [traffic] has a car for each police animation. */
 	bool police_on = gi.get_int("OPTIONS", "Police", 1) != 0;
@@ -556,18 +676,19 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		float respawn;     /* seconds; < 0 never */
 		int money;
 		float turbo;
+		float repair;
 	};
 	static const BonusKind bonus_kinds[] = {
-		{ "pw_1pts", 59, "PW_1PT", -1, 100, 0 },
-		{ "pw_5pts", 60, "PW_5PTS", -1, 500, 0 },
-		{ "pw_10pts", 61, "PW_10PTS", -1, 1000, 0 },
-		{ "pw_turbs", 64, "PW_TURBS", 15, 0, 10 },
-		{ "pw_turbb", 65, "PW_TURBB", 15, 0, 50 },
-		{ "pw_reps", 62, "PW_REPS", 15, 0, 0 },
-		{ "pw_repb", 63, "PW_REPB", 15, 0, 0 },
-		{ "pw_stop", 56, "PW_FREEZ", 15, 0, 0 },
-		{ "pw_godm", 58, "PW_INV", 5, 0, 0 },
-		{ "pw_fastf", 57, "PW_FAST", 5, 0, 0 },
+		{ "pw_1pts", 59, "PW_1PT", -1, 100, 0, 0 },
+		{ "pw_5pts", 60, "PW_5PTS", -1, 500, 0, 0 },
+		{ "pw_10pts", 61, "PW_10PTS", -1, 1000, 0, 0 },
+		{ "pw_turbs", 64, "PW_TURBS", 15, 0, 10, 0 },
+		{ "pw_turbb", 65, "PW_TURBB", 15, 0, 50, 0 },
+		{ "pw_reps", 62, "PW_REPS", 15, 0, 0, 100 },
+		{ "pw_repb", 63, "PW_REPB", 15, 0, 0, 300 },
+		{ "pw_stop", 56, "PW_FREEZ", 15, 0, 0, 0 },
+		{ "pw_godm", 58, "PW_INV", 5, 0, 0, 0 },
+		{ "pw_fastf", 57, "PW_FAST", 5, 0, 0, 0 },
 	};
 	auto bonus_kind = [](const std::string &anim) -> const BonusKind * {
 		for (const BonusKind &k : bonus_kinds)
@@ -589,6 +710,26 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			b.radius = std::max(b.mesh->max[0] - b.mesh->min[0], b.mesh->max[2] - b.mesh->min[2]) / 2;
 		bonuses.push_back(b);
 	}
+	for (Racer &rc : racers)
+		rc.damage_model = damage_table.get(rc.car.spec.damage_set);
+	float invulnerable_left = 0;
+	/* The knock's sound (FUN_00427400), by its impulse against the player's threshold. */
+	auto knock_sound = [&](float imp, bool wall, float since_last) {
+		const DamageModel &m = racers[0].damage_model;
+		static unsigned rnd = 1;
+		rnd = rnd * 1103515245u + 12345u;
+		const char *two = (rnd >> 16) & 1 ? "2" : "1";
+		if (wall && imp < m.min_player / 3 && since_last < 0.3f)
+			sound.effect("SCHUUR");
+		if (imp < m.min_player / 3)
+			return;
+		if (imp < m.min_player)
+			sound.effect(std::string("SOFT_CAR_HIT") + two);
+		else if (imp < m.min_player + (m.min_player + m.max_player) / 2)
+			sound.effect(std::string("MID_CAR_HIT") + two);
+		else
+			sound.effect(std::string("HARD_CAR_HIT") + two);
+	};
 	int money = std::max(opt.money, 0);
 	float turbo = std::clamp(opt.turbo, 0.0f, 100.0f);
 	bool turbo_on = false;
@@ -629,11 +770,16 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		if (in.key == 'c' || in.key == 'C')
 			camera = (camera + 1) % 4;
 		if (in.key == 'r' || in.key == 'R')
-			me.respawn(world, clock);
+			me.respawn(world, clock, track);
 		uint32_t now = sys_ticks();
 		float frame_dt = std::min((now - last) / 1000.0f, 0.1f);
 		acc += frame_dt;
 		last = now;
+		/* FUN_0044c950: wrecked, the race is over. */
+		if (racers[0].damage >= 1099 && rules.phase == RaceRules::RACING) {
+			rules.phase = RaceRules::TOTAL_LOSS;
+			rules.finished_at = 0;
+		}
 		/* A chase has to be finished in time. */
 		if (opt.time_limit > 0 && rules.time > opt.time_limit && rules.phase == RaceRules::RACING) {
 			rules.phase = RaceRules::TIME_UP;
@@ -646,7 +792,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		}
 		/* "DRUK 'SPATIE' OM VERDER TE GAAN" */
 		if ((rules.phase == RaceRules::FINISHED || rules.phase == RaceRules::ARRESTED ||
-				rules.phase == RaceRules::TIME_UP) &&
+				rules.phase == RaceRules::TIME_UP || rules.phase == RaceRules::TOTAL_LOSS) &&
 			(rules.finished_at > 15 || in.key == KEY_SPACE || in.key == KEY_ENTER))
 			break;
 
@@ -707,6 +853,11 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					ci = rc.player && !autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
 				if (rc.player && autopilot)
 					ci.turbo = player_in.turbo;
+				/* STATE_TOTAL_LOSS: a wrecked computer car lets go of everything. */
+				if (!rc.player && rc.damage >= 1100) {
+					ci.throttle = ci.brake = ci.steer = 0;
+					ci.turbo = false;
+				}
 				/* FreezeRacers: the others stand still for a while. */
 				if (freeze_left > 0 && !rc.player && !rc.traffic && rc.police == Racer::NONE) {
 					ci.throttle = 0;
@@ -723,13 +874,41 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 						ci.steer = 0;
 					rc.ai.stuck = 0;
 				}
+				rc.car.wall_hit = 0;
 				rc.car.step(world, ci, STEP);
+				if (rc.car.wall_hit > 0 && !rc.traffic) {
+					/* Against the world: speed (game units/s) x half its mass x how upright
+					 * the face is (the port's walls all are). */
+					float imp = rc.car.wall_hit * 10 * rc.car.spec.mass / 2;
+					float since = clock - rc.last_hit;
+					bool hurt = rc.hit(damage_table, imp, clock,
+						rc.player && (invulnerable_left > 0 || rules.phase != RaceRules::RACING));
+					if (rc.player && (hurt || imp > rc.damage_model.min_player / 3 || since < 0.3f))
+						knock_sound(imp, true, since);
+				}
 				if (rc.racing())
 					rc.rules.update(STEP, rc.car.chunk);
 			}
 			for (size_t i = 0; i < racers.size(); i++) {
 				for (size_t j = i + 1; j < racers.size(); j++)
-					collide(racers[i].car, racers[j].car);
+				{
+					float v = collide(racers[i].car, racers[j].car);
+					if (v <= 0)
+						continue;
+					/* Car against car: speed x the other's mass (at most 1666.7). */
+					for (int side = 0; side < 2; side++) {
+						Racer &me_ = side ? racers[j] : racers[i];
+						const Racer &other = side ? racers[i] : racers[j];
+						if (me_.traffic)
+							continue;
+						float imp = v * 10 * std::min(other.car.spec.mass, 1666.7f);
+						float since = clock - me_.last_hit;
+						me_.hit(damage_table, imp, clock,
+							me_.player && (invulnerable_left > 0 || rules.phase != RaceRules::RACING));
+						if (me_.player)
+							knock_sound(imp, false, since);
+					}
+				}
 			}
 			acc -= STEP;
 			clock += STEP;
@@ -770,6 +949,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		flash_message = std::max(0.0f, flash_message - frame_dt);
 		message_time = std::max(0.0f, message_time - frame_dt);
 		freeze_left = std::max(0.0f, freeze_left - frame_dt);
+		invulnerable_left = std::max(0.0f, invulnerable_left - frame_dt);
 		if (fast_left > 0 && (fast_left -= frame_dt) <= 0)
 			fov_target = 60; /* OnTurnoff: ChangeFOV(0.375) */
 		fov += (fov_target - fov) * std::min(frame_dt / (fov_target > 60 ? 1.0f : 0.5f), 1.0f);
@@ -785,6 +965,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 						if (k) {
 							money = std::min(money + k->money, 999999);
 							turbo = std::min(turbo + k->turbo, 100.0f);
+							racers[0].damage = std::max(racers[0].damage - k->repair, 0.0f);
+							if (!strcmp(k->anim, "pw_godm"))
+								invulnerable_left = 20; /* MakeInvulnerable(20) */
 							if (!strcmp(k->anim, "pw_stop"))
 								freeze_left = 6;
 							if (!strcmp(k->anim, "pw_fastf")) {
@@ -899,10 +1082,10 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (Racer &rc : racers) {
 			/* Fallen off the world, or stuck for long: back on the road. */
 			if (rc.car.airborne && rc.car.vel[1] < -40)
-				rc.respawn(world, clock);
+				rc.respawn(world, clock, track);
 			rc.stuck = rc.car.speed_kmh() < 3 && rc.rules.phase == RaceRules::RACING ? rc.stuck + frame_dt : 0;
 			if (rc.stuck > (rc.player && !autopilot ? 1e9f : 8.0f)) {
-				rc.respawn(world, clock);
+				rc.respawn(world, clock, track);
 				rc.stuck = 0;
 			}
 			rc.remember(clock);
@@ -919,8 +1102,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					nearest = std::min(nearest, sqrtf(dx * dx + dz * dz));
 				}
 			}
-			printf("t %4.0f s  chunk %3d  %5.1f km/h  gear %d  lap %d  pos %d  traffic %d  police %d/%d", clock, car.chunk,
-				car.speed_kmh(), car.gear, rules.lap, position_of(me), cars, chasing, cops);
+			printf("t %4.0f s  chunk %3d  %5.1f km/h  gear %d  lap %d  pos %d  traffic %d  police %d/%d  damage %.0f", clock,
+				car.chunk, car.speed_kmh(), car.gear, rules.lap, position_of(me), cars, chasing, cops, me.damage);
 			if (chasing)
 				printf(" (%.0f away)", nearest);
 			printf("%s%s%s\n", car.on_grass ? "  grass" : "", car.airborne ? "  air" : "", car.touching_wall ? "  WALL" : "");
@@ -1002,7 +1185,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (const Racer &rc : racers) {
 			int d = ((rc.car.chunk - c) % n + n) % n;
 			if (d <= 25 || d >= n - 25)
-				draw_car(r, rc.car, rc.model);
+				draw_car(r, rc.car, rc.model, rc.damage <= rc.damage_model.window);
 		}
 		/* The pick-ups turn (OnInit: anglespeed 600, in 1024ths of a turn a second) and
 		 * pulse (OnFramecall: 1 + 0.3 sin(pi t)); taken, they shrink away (OnFadeout). */
@@ -1022,6 +1205,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		}
 		hud.flash = flash_message;
 		hud.turbo = turbo;
+		hud.damage = racers[0].damage;
 		hud.message = message;
 		hud.message_time = message_time;
 		hud.time_limit = opt.time_limit;
@@ -1045,7 +1229,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		result->finished = rules.phase == RaceRules::FINISHED;
 		result->arrested = rules.phase == RaceRules::ARRESTED;
 		result->time_up = rules.phase == RaceRules::TIME_UP;
-		result->quit = !result->finished && !result->arrested && !result->time_up;
+		result->total_loss = rules.phase == RaceRules::TOTAL_LOSS;
+		result->quit = !result->finished && !result->arrested && !result->time_up && !result->total_loss;
 		result->lap_times = rules.lap_times;
 		result->order.clear();
 		float distance = (float)std::max(rules.distance(), 1);

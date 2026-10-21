@@ -23,7 +23,7 @@ class IniFile;
 struct Track;
 
 struct CarSpec {
-	std::string name, animation, driver, sound;
+	std::string name, animation, driver, sound, damage_set; /* damage_set: damage.ini [Damage Models] */
 	int type = 0, dynamics = 0;
 	float wheel_front[3] = { 7.5f, 0, 13 }, wheel_rear[3] = { 7.5f, 0, -15 };
 	float mass = 600;
@@ -65,6 +65,8 @@ struct Car {
 	float rpm = 0;
 	int chunk = -1;         /* where on the road it is */
 	bool on_grass = false;
+	/* The hardest knock into a wall since it was last cleared: the speed into it, m/s. */
+	float wall_hit = 0;
 	bool airborne = false;
 	bool touching_wall = false;
 

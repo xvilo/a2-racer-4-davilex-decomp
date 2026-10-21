@@ -40,6 +40,7 @@ std::string CarSpec::load(const std::string &dir, const std::string &section, in
 	sound = f[3];
 	type = atoi(f[5].c_str());
 	dynamics = atoi(f[7].c_str());
+	damage_set = f[8];
 	for (const char *key : { "wheel_positions" }) {
 		std::vector<std::string> w = split_fields(cfg.get(key, std::to_string(type)));
 		if (w.size() >= 6) {
@@ -249,6 +250,7 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 				n[0] /= nl;
 				n[1] /= nl;
 				float into = vel[0] * n[0] + vel[2] * n[1];
+				wall_hit = std::max(wall_hit, -into);
 				if (into < 0) {
 					/* Lose the speed into the wall; a real hit costs some along it too. */
 					vel[0] -= n[0] * into * 1.3f;
