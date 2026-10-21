@@ -293,9 +293,32 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			c->visible = true;
 		}
 	};
+	/* TDaviSoundBuffer_LoadMusic: MenuData/menumsc.wav over the menu, looping, at the
+	 * player's music volume. */
+	std::shared_ptr<Sample> menu_music;
+	int music_voice = 0;
+	auto start_music = [&]() {
+		if (!menu_music) {
+			std::vector<uint8_t> bytes;
+			if (read_file_ci(data_dir, "MenuData/menumsc.wav", bytes))
+				menu_music = decode_wav(bytes);
+		}
+		float v = save.flags[SaveGame::MUSIC_ON] ? save.music_volume / 100.0f : 0;
+		if (music_voice && Mixer::get().playing(music_voice))
+			Mixer::get().set(music_voice, v, 1);
+		else if (menu_music && v > 0)
+			music_voice = Mixer::get().play(menu_music, v, true);
+	};
+	auto stop_music = [&]() {
+		if (music_voice)
+			Mixer::get().stop(music_voice), music_voice = 0;
+	};
+	bool music_on = false; /* not before the intro film */
 	auto apply_volumes = [&]() {
 		voice.voices = save.voices_volume / 100.0f;
 		voice.effects = save.flags[SaveGame::FX_ON] ? save.fx_volume / 100.0f : 0;
+		if (music_on)
+			start_music();
 	};
 	/* What the race takes from the player's settings (game.ini [INPUT], Raser.ini [SOUND]
 	 * in the original). */
@@ -1502,6 +1525,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (!path.empty())
 			play_mpeg(path, cv);
 	}
+	music_on = true;
+	start_music();
 	if (current < 0 && screenshot.empty())
 		open_dialog(newp, true);
 
@@ -1616,9 +1641,11 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 					ro.time_limit = ct[(size_t)std::clamp(difficulty, 0, (int)ct.size() - 1)] / 1000.0f;
 			}
 			Mixer::get().stop(voice.voice);
+			stop_music();
 			RaceResult r;
 			race_main(data_dir, race_rcs, ro, &r);
 			Mixer::get().open();
+			start_music();
 			if (r.quit) {
 				show_tour_track();
 				screen = TRACK;
@@ -1641,7 +1668,10 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.difficulty = difficulty;
 			player_race(ro);
 			last = RaceResult();
+			stop_music();
 			race_main(data_dir, race_rcs, ro, &last);
+			Mixer::get().open();
+			start_music();
 			if (last.quit || last.order.empty()) {
 				screen = QUICK;
 				continue;

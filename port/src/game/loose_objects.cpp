@@ -217,6 +217,7 @@ void LooseObjects::update(float dt, const CollisionWorld &world)
 			if (l.tilt >= 90) {
 				l.tilt = 90;
 				l.tilt_rate = 0;
+				l.fell = true;
 			}
 		}
 		if (!l.hinged) {

@@ -32,6 +32,8 @@ bool RaceSound::load(const std::string &dir, const NamedArchive &archive, int ca
 		std::string sec = "Car" + std::to_string(car_sound);
 		rpm_name = car.get(sec, "GearA", "cmrpm");
 		idle_name = car.get(sec, "Stat", "cmstat");
+		start_name = car.get(sec, "Start", "");
+		gear_name = car.get(sec, "SwitchGear", "SWITCH_GEAR");
 		min_rpm = (float)car.get_int(sec, "MinRpm", 800);
 		max_rpm = (float)car.get_int(sec, "MaxRpm", 5800);
 	}

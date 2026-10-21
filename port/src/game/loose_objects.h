@@ -43,6 +43,7 @@ struct LooseObject {
 	float tilt = 0, tilt_rate = 0, tilt_axis[2] = { 1, 0 }; /* degrees about a level axis */
 	bool moving = false;
 	bool burst = false; /* its particles came out since it was last at rest */
+	bool fell = false;  /* it has just come to lie on the ground (cleared by the race) */
 	int chunk = 0;
 };
 

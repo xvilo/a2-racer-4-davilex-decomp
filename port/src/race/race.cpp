@@ -980,7 +980,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	sound.load(data_dir, rcs, opt.car);
 	sound.volumes(opt.music_volume, opt.sfx_volume);
 	sound.start_music(track.info.music);
-	bool said_go = false, said_finish = false;
+	bool said_go = false, said_finish = false, said_engines = false;
+	int last_gear = 1, slip_voice = 0;
 	int last_count = 4;
 	int laps = opt.laps > 0 ? opt.laps : gi.get_int("OPTIONS", "Nrlaps", 2);
 	/* Testing: A2_LAPS=<n> overrides the number of laps. */
@@ -1395,7 +1396,14 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			(rules.finished_at > 15 || in.key == KEY_SPACE || in.key == KEY_ENTER))
 			break;
 
-		/* The countdown's beeps and the start. */
+		/* The engines starting with the countdown (0x43c380: START_ENGINES; car_snd.ini
+		 * Start), its beeps, the start. */
+		if (rules.phase == RaceRules::COUNTDOWN && !said_engines) {
+			said_engines = true;
+			sound.effect("START_ENGINES");
+			if (!sound.start_name.empty())
+				sound.effect(sound.start_name);
+		}
 		if (rules.phase == RaceRules::COUNTDOWN && (int)rules.countdown + 1 < last_count) {
 			last_count = (int)rules.countdown + 1;
 			sound.effect("POSITION_SWITCH");
@@ -1553,6 +1561,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 						knock_fx(me_, at, imp, hurt);
 						if (me_.player)
 							knock_sound(imp, false, since);
+						if (me_.player && !other.traffic && v > 2)
+							sound.effect("RACER_COLLISION", 0.6f);
 						/* ai_racer.cpp: a racer bumped by the player has its say. */
 						if (me_.player && !other.traffic && other.police == Racer::NONE && other.entry < 5 && v > 2)
 							comm.post("~racer" + std::to_string(other.entry) + "collision", other.entry, clock);
@@ -1595,10 +1605,22 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					knock_sound(imp, false, since);
 			}
 			loose.update(STEP, world);
+			for (LooseObject &l : loose.list)
+				if (l.fell) {
+					l.fell = false;
+					float dx = l.pos[0] - car.pos[0], dz = l.pos[2] - car.pos[2], d = sqrtf(dx * dx + dz * dz);
+					if (l.obj->type == 3 && d < 500)
+						sound.effect("PAAL_HIT_GROUND", 1 - d / 500);
+				}
 			acc -= STEP;
 			clock += STEP;
 		}
 		sound.engine(car, autopilot ? 1.0f : player_in.throttle);
+		if (car.gear != last_gear) {
+			if (car.gear > 0 && last_gear > 0)
+				sound.effect(sound.gear_name, 0.8f);
+			last_gear = car.gear;
+		}
 		/* The police: a waiting car sets off when the player passes close by fast, or when
 		 * a radar trap flashes nearby (Flitspaal, TrackObject type 7, over 80 km/h). */
 		if (rules.phase == RaceRules::RACING) {
@@ -1678,6 +1700,15 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 			if (tyre_clock >= 0.1f)
 				tyre_clock = 0;
+			/* plr_car.cpp SLIP: the tyres squealing, louder the harder they slide (on the
+			 * road, not the grass). */
+			bool slip = level > 3 && !car.on_grass && rules.phase == RaceRules::RACING;
+			if (slip && !slip_voice)
+				slip_voice = sound.loop("SLIP");
+			if (slip_voice)
+				sound.set(slip_voice, slip ? std::min(1.0f, (float)(level - 3) / 5) : 0);
+			if (!slip && slip_voice)
+				sound.stop_voice(slip_voice), slip_voice = 0;
 		}
 		{
 			float right[3], up[3], fwd[3];

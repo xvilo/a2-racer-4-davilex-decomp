@@ -3,7 +3,7 @@
  *   sound.ini [SndTypes] n=  name, file, ..., volume (%), ..., group; the game refers to
  *                            samples by name (cmrpm -> cmrpmm.wav)
  *   car_snd.ini [Car<n>]     a car's engine: GearA (the engine at speed), Stat (idling),
- *                            Start, MinRpm/MaxRpm
+ *                            Start, SwitchGear, MinRpm/MaxRpm
  *   Raser.ini [MUSIC]        the tunes; a stage's line in [MAPS] picks one; [SOUND] the
  *                            music and effects volumes (%)
  *
@@ -44,6 +44,10 @@ private:
 	std::map<std::string, std::shared_ptr<Sample>> cache;
 	std::map<int, std::string> music_names;
 	std::string rpm_name, idle_name;
+public:
+	/* car_snd.ini Start (the engine starting) and SwitchGear (a gear change). */
+	std::string start_name, gear_name;
+private:
 	float min_rpm = 800, max_rpm = 5800;
 	float music_volume = 0.9f, sfx_volume = 0.9f;
 	int idle_voice = 0, rpm_voice = 0, music_voice = 0;
