@@ -27,6 +27,9 @@ struct AiDriver {
 	/* For a racer: which drive map nodes' lanes run the race's way. Lost, it takes one of
 	 * those (and turns round to it), not whatever lane it happens to face. */
 	const std::vector<char> *race_lanes = nullptr;
+	/* Traffic only: true while the traffic lights are red or orange; it stops before a
+	 * drive map node with trigger 10 (Stoplicht, ai_nwtrf.cpp RED_LIGHT). */
+	const bool *red_light = nullptr;
 	/* What it steers round: whatever stands in its way to the point it aims at. */
 	const std::vector<AiObstacle> *obstacles = nullptr;
 

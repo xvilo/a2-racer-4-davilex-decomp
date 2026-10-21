@@ -893,6 +893,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	 * green (0) for 5 s, orange (1) for 0.5 s. */
 	static const struct { int frame; float time; } light_cycle[3] = { { 2, 5 }, { 0, 5 }, { 1, 0.5f } };
 	int light_step = 0;
+	bool lights_red = false;
 	float light_time = 0;
 	/* The objects that play a sample (type 1, 0x4535d0): its etappe<n>.ini [Sounds] entry is
 	 * the object's flags; it sounds from where it stands, all the while the player is
@@ -1482,10 +1483,12 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			if (l.mass >= 250 && l.tilt < 60)
 				obstacles.push_back(obstacle_of(*l.mesh, l.pos, l.obj->rot[1] + l.yaw));
 		while (acc >= STEP) {
+			lights_red = light_cycle[light_step].frame != 0;
 			for (Racer &rc : racers) {
 				if (rc.hidden || rc.on_path)
 					continue;
 				rc.ai.obstacles = &obstacles;
+				rc.ai.red_light = rc.traffic ? &lights_red : nullptr;
 				CarInput ci;
 				if (rc.police == Racer::WAITING)
 					ci.hold = true;

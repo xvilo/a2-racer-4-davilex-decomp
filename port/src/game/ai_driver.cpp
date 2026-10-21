@@ -151,11 +151,25 @@ CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 	float target = std::min(v_top, v_bend);
 	if (swerve && close)
 		target = std::min(target, 15.0f);
+	/* A stop line ahead with the lights red: slow down to stand before it. */
+	if (red_light && *red_light) {
+		int k = node;
+		for (int i = 0; i < 4 && k >= 0; i++, k = dn[(size_t)k].next) {
+			if (dn[(size_t)k].trigger != 10)
+				continue;
+			const float *sp = dn[(size_t)k].pos;
+			float sx = sp[0] - car.pos[0], sz = sp[2] - car.pos[2];
+			float ahead = sx * sinf(car.yaw) + sz * cosf(car.yaw);
+			if (ahead > 5 && ahead < 150)
+				target = std::min(target, std::max(0.0f, (ahead - 15) * 0.15f));
+			break;
+		}
+	}
 	in.throttle = speed < target ? 1.0f : 0.0f;
-	in.brake = speed > target + 3 ? 1.0f : 0.0f;
+	in.brake = speed > target + 3 || (target < 0.5f && speed > 0.3f) ? 1.0f : 0.0f;
 
-	/* Stuck: back out, steering the other way. */
-	if (speed < 1)
+	/* Stuck (not waiting at a light): back out, steering the other way. */
+	if (speed < 1 && target > 1)
 		stuck += dt;
 	else if (reverse <= 0)
 		stuck = 0;
