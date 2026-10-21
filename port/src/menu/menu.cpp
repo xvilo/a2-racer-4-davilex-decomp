@@ -250,7 +250,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		main.set_graphic(res, "imgItem", quick ? "quick.tga" : "tour.tga");
 	};
 	show_mode();
-	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, CHARACTER, TRACK, GARAGE, TRACK_INTRO, TOUR_RACE, QUALIFY,
+	enum Screen { MAIN, DIFFICULTY, QUICK, RACE, RESULTS, CHARACTER, CURRENT_CHAR, TRACK, GARAGE, TRACK_INTRO, TOUR_RACE, QUALIFY,
 		WIN, LOSE, WIN_CHASE, LOSE_CHASE, WIN_FINAL, QUIT } screen = MAIN;
 	MenuSound voice;
 	voice.rcs = &rcs;
@@ -376,7 +376,18 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	diff.handlers["optHardClick"] = [&]() { difficulty = 2; show_difficulty(); };
 	diff.handlers["btnPreviousClick"] = [&]() { screen = MAIN; };
 	diff.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
-	diff.handlers["btnNextClick"] = [&]() { screen = quick ? QUICK : CHARACTER; };
+	/* TfrmDifficulty's FlowToNext: the character the player has once they have chosen
+	 * one (TfrmCurrentChar), else the choice. */
+	bool char_chosen = false;
+	std::function<void()> show_current;
+	diff.handlers["btnNextClick"] = [&]() {
+		if (quick)
+			screen = QUICK;
+		else if (char_chosen)
+			show_current();
+		else
+			screen = CHARACTER;
+	};
 
 	/* Quick Race (TfrmQuickRace): a track and a character, each with its pictures; the
 	 * track's preview pictures cycle every two seconds (timCycler). */
@@ -559,24 +570,57 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	show_character();
 	character.handlers["btnNextCharClick"] = [&]() { step(tour_char, info.tour_chars.size(), 1); show_character(); };
 	character.handlers["btnPrevCharClick"] = [&]() { step(tour_char, info.tour_chars.size(), -1); show_character(); };
-	character.handlers["btnPreviousClick"] = [&]() { screen = DIFFICULTY; };
+	character.handlers["btnPreviousClick"] = [&]() { show_current(); };
 	character.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
-	character.handlers["btnNextClick"] = [&]() {
-		/* TfrmTrack.FormShow: the character's next undriven track; once the Tour is done,
-		 * the track chosen last. Testing: A2_TOUR_START=<n> begins at the n-th track. */
+	/* TfrmTrack.FormShow: the character's next undriven track; once the Tour is done, the
+	 * track chosen last. Testing: A2_TOUR_START=<n> begins at the n-th track. */
+	auto choose_tour_track = [&]() {
 		const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
 		size_t n = info.tour_tracks.size();
 		tour_ix = (size_t)cr.next_track < n ? (size_t)cr.next_track : (size_t)std::clamp(save.tour_track, 0, (int)n - 1);
 		if (getenv("A2_TOUR_START"))
 			tour_ix = (size_t)std::max(atoi(getenv("A2_TOUR_START")), 0);
+	};
+	character.handlers["btnNextClick"] = [&]() {
+		choose_tour_track();
 		char_leave = voice.say("CCS", tour_ch()) ? 2.5f : 0.01f;
+	};
+
+	/* The character so far (TfrmCurrentChar): portrait, name, money and the Tour's tracks
+	 * driven (butbigci), with "Kies ander karakter" (newch) back to the choice. */
+	Form currentf;
+	currentf.load(res, "TfrmCurrentChar", with({ { "gdfBtnChoose", "newch" } }));
+	std::function<void()> show_tour_track;
+	show_current = [&]() {
+		int ch = tour_ch();
+		const SaveGame::CharResult &cr = save.chars[tour_char % save.chars.size()];
+		currentf.set_graphic(res, "imgItemName", numbered("chara_", ch));
+		currentf.set_graphic(res, "imgItem", numbered("ch_", ch));
+		if (Control *c = currentf.get("lblPoints"))
+			c->caption = std::to_string(cr.money);
+		currentf.extras.clear();
+		Control *d0 = currentf.get("lblAncTrackInd00"), *d1 = currentf.get("lblAncTrackInd01");
+		if (d0 && d1)
+			for (int k = 0; k < std::min(cr.next_track, (int)info.tour_tracks.size()); k++)
+				currentf.extras.push_back({ res.image("butbigci.tga"), d0->x + k * (d1->x - d0->x), d0->y });
+		voice.say("aud", 3) || voice.play("aud3.wav");
+		screen = CURRENT_CHAR;
+	};
+	currentf.handlers["btnPreviousClick"] = [&]() { screen = DIFFICULTY; };
+	currentf.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
+	currentf.handlers["btnChooseCharClick"] = [&]() { show_character(); screen = CHARACTER; };
+	currentf.handlers["btnNextClick"] = [&]() {
+		choose_tour_track();
+		show_tour_track();
+		voice.say("CTI07_", tour_tr()) || voice.say("CTI08_", tour_tr());
+		screen = TRACK;
 	};
 
 	/* The next track (TfrmTrack): its name, preview pictures and story, with Miss
 	 * Honeybunny telling about it (CTI07_<track>). */
 	Form trackf;
 	trackf.load(res, "TfrmTrack", with({}));
-	auto show_tour_track = [&]() {
+	show_tour_track = [&]() {
 		int t = tour_tr();
 		trackf.set_graphic(res, "imgTrackName", numbered("trname", t));
 		trackf.set_graphic(res, "imgTrack1", numbered("ttc", t, "") + numbered("_", cycle));
@@ -615,7 +659,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (Control *c = trackf.get("imgFocus"))
 			c->visible = false;
 	};
-	trackf.handlers["btnPreviousClick"] = [&]() { screen = CHARACTER; };
+	trackf.handlers["btnPreviousClick"] = [&]() { show_current(); };
 	trackf.handlers["btnPrevTrackClick"] = [&]() {
 		if (tour_ix > 0)
 			tour_ix--;
@@ -854,6 +898,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	};
 	/* The menu shows the save's choices. */
 	auto apply_player = [&]() {
+		char_chosen = false;
 		difficulty = std::clamp(save.difficulty, 0, 2);
 		size_t nc = info.tour_chars.size();
 		tour_char = save.tour_char >= 0 && (size_t)save.tour_char < nc ? (size_t)save.tour_char : 0;
@@ -1601,6 +1646,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		case RESULTS: fp = &results; break;
 		case DIFFICULTY: fp = &diff; break;
 		case CHARACTER: fp = &character; break;
+		case CURRENT_CHAR: fp = &currentf; break;
 		case TRACK: fp = &trackf; break;
 		case GARAGE: fp = &garage; break;
 		case TRACK_INTRO: fp = &intro; break;
@@ -1652,6 +1698,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		f.input(in);
 		if (screen == DIFFICULTY)
 			show_difficulty();
+		if (screen == CHARACTER)
+			char_chosen = true;
 		/* The character's words, then the track. */
 		if (char_leave > 0 && (char_leave -= dt) <= 0) {
 			char_leave = -1;
