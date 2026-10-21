@@ -19,7 +19,7 @@
 class IniFile;
 
 struct SaveGame {
-	static constexpr int NAME_MAX = 12; /* TfrmNewPlayer's txtName.MaxLength */
+	static constexpr int NAME_LENGTH = 12; /* TfrmNewPlayer's txtName.MaxLength */
 
 	std::string name;
 	int portrait_char = 0;

@@ -20,7 +20,7 @@
 #include <vector>
 
 class MeshCache;
-class Renderer;
+struct Renderer;
 class TextureManager;
 struct Mesh;
 struct Track;

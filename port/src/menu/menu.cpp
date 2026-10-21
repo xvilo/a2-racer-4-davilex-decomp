@@ -736,7 +736,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			return false;
 		store_player();
 		save.defaults(static_ini, (int)info.tour_chars.size());
-		save.name = name.substr(0, SaveGame::NAME_MAX);
+		save.name = name.substr(0, SaveGame::NAME_LENGTH);
 		save.tour_char = (int)list_index(info.tour_chars, info.tour_default_char, 0);
 		save.quick_char = (int)list_index(info.quick_chars, info.quick_default_char, 0);
 		current = n;

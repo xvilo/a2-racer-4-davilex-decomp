@@ -137,7 +137,7 @@ bool SaveGame::load(const std::string &path, int tour_chars)
 bool SaveGame::save(const std::string &path) const
 {
 	Writer w;
-	std::string n = name.substr(0, NAME_MAX);
+	std::string n = name.substr(0, NAME_LENGTH);
 	w.u8((uint8_t)n.size());
 	for (size_t k = 0; k < 32; k++)
 		w.u8(k < n.size() ? (uint8_t)n[k] : 0);
