@@ -14,6 +14,8 @@
  *   etappe<n>.pmp        each chunk's two values a and b are trigger numbers (etappe<n>.ini
  *                        [triggers]); the race starts at the chunk with 13 (StartPosition)
  *                        and runs towards higher chunk numbers (Tr_finis.cpp)
+ *   anmtypes.ini         [typeN] AnimNames=<animation>,...; FrameK=<frame>,<ms>: the frames
+ *                        the objects of type 12 (animated object) cycle through
  *   etappe<n>.omp        int32 count; then 68-byte records { int32 chunk, type; float
  *                        x, y, z; float rotation x, y, z (degrees); char animation[32];
  *                        int32 flags }; rotation y turns the model's +z towards +x
@@ -45,6 +47,12 @@ struct AnimFrame {
 	std::string mesh, texture;
 };
 
+/* A frame sequence of anmtypes.ini (anm_type.cpp). */
+struct AnimType {
+	std::vector<std::string> names; /* lower case */
+	std::vector<std::pair<int, int>> frames; /* animation frame, milliseconds */
+};
+
 struct TrackObject {
 	int chunk = 0, type = 0;
 	float pos[3] = {}, rot[3] = {};
@@ -68,6 +76,7 @@ struct Track {
 	/* Animation name (lower case) -> frames. */
 	std::map<std::string, std::vector<AnimFrame>> animations;
 	std::vector<TrackObject> objects;
+	std::vector<AnimType> anim_types;
 	std::vector<DriveNode> drive;
 
 	/* Loads stage n (0-based, Raser.ini [MAPS]) from the data folder; an error message, or
@@ -80,6 +89,8 @@ struct Track {
 	void road_centre(int chunk, float out[3]) const;
 	/* The frames of an animation; null if it isn't defined. */
 	const std::vector<AnimFrame> *animation(const std::string &name) const;
+	/* The frame sequence for an animation; null if it has none. */
+	const AnimType *anim_type(const std::string &name) const;
 };
 
 /* Meshes from rcs, loaded once. */

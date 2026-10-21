@@ -1,5 +1,6 @@
 #include "game/track.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 
@@ -84,6 +85,24 @@ std::string Track::load(const std::string &dir, int stage, int league)
 		}
 	}
 
+	anim_types.clear();
+	IniFile at;
+	std::string at_path = find_file_ci(dir, "anmtypes.ini");
+	if (!at_path.empty() && at.load(at_path)) {
+		for (int i = 0, n = at.get_int("general", "NrAnims"); i < n; i++) {
+			std::string sec = "type" + std::to_string(i);
+			AnimType t;
+			for (const std::string &a : split_fields(at.get(sec, "AnimNames")))
+				t.names.push_back(lower(a));
+			for (int k = 0, m = at.get_int(sec, "NrFrames"); k < m; k++) {
+				std::vector<std::string> f = split_fields(at.get(sec, "Frame" + std::to_string(k)));
+				if (f.size() >= 2)
+					t.frames.push_back({ atoi(f[0].c_str()), std::max(1, atoi(f[1].c_str())) });
+			}
+			anim_types.push_back(std::move(t));
+		}
+	}
+
 	drive.clear();
 	std::vector<uint8_t> dmp;
 	if (read_file_ci(dir, info.file + ".dmp", dmp) && dmp.size() >= 4) {
@@ -142,6 +161,16 @@ const std::vector<AnimFrame> *Track::animation(const std::string &name) const
 {
 	auto it = animations.find(lower(name));
 	return it == animations.end() ? nullptr : &it->second;
+}
+
+const AnimType *Track::anim_type(const std::string &name) const
+{
+	std::string key = lower(name);
+	for (const AnimType &t : anim_types)
+		for (const std::string &n : t.names)
+			if (n == key)
+				return &t;
+	return nullptr;
 }
 
 const Mesh *MeshCache::get(const std::string &name)

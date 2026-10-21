@@ -710,6 +710,18 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	}
 	LooseObjects loose;
 	loose.build(track, meshes, textures, data_dir);
+	/* The animated objects (type 12, 0x469c60): each steps through its anmtypes.ini
+	 * frames, so many ms each, over and over. */
+	struct Animated {
+		const AnimType *type;
+		size_t step = 0;
+		float elapsed = 0;
+	};
+	std::map<const TrackObject *, Animated> animated;
+	for (const TrackObject &o : track.objects)
+		if (o.type == 12)
+			if (const AnimType *t = track.anim_type(o.animation); t && !t->frames.empty())
+				animated[&o] = { t };
 	/* What the computer drivers steer round: the solid objects (not the buildings beside
 	 * the road), and the heavy loose ones still standing. */
 	auto obstacle_of = [](const Mesh &m, const float pos[3], float yaw_deg) {
@@ -1349,6 +1361,13 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		fx.update(frame_dt, clock);
+		for (auto &[o, a] : animated) {
+			a.elapsed += std::min(frame_dt, 0.1f) * 1000;
+			if (a.elapsed >= (float)a.type->frames[a.step].second) {
+				a.step = (a.step + 1) % a.type->frames.size();
+				a.elapsed = 0;
+			}
+		}
 		for (Racer &rc : racers)
 			if (!rc.pieces.empty())
 				update_pieces(rc, clock, damage_table, track, meshes, textures, world, debris,
@@ -1576,7 +1595,10 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			const std::vector<AnimFrame> *frames = track.animation(o.animation);
 			if (!frames || frames->empty())
 				continue;
-			const Mesh *m = meshes.get((*frames)[0].mesh);
+			size_t fi = 0;
+			if (auto a = animated.find(&o); a != animated.end())
+				fi = (size_t)std::clamp(a->second.type->frames[a->second.step].first, 0, (int)frames->size() - 1);
+			const Mesh *m = meshes.get((*frames)[fi].mesh);
 			if (!m)
 				continue;
 			glPushMatrix();
@@ -1584,7 +1606,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			gl_rotate(o.rot[1], 0, 1, 0);
 			gl_rotate(o.rot[0], 1, 0, 0);
 			gl_rotate(o.rot[2], 0, 0, 1);
-			r.draw_mesh(*m, textures.get((*frames)[0].texture));
+			r.draw_mesh(*m, textures.get((*frames)[fi].texture));
 			glPopMatrix();
 		}
 		for (const Racer &rc : racers) {
