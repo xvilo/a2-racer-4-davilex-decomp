@@ -93,6 +93,23 @@ void RaceSound::effect(const std::string &name, float volume)
 	Mixer::get().play(sample(name), v * volume * sfx_volume);
 }
 
+int RaceSound::loop(const std::string &name)
+{
+	if (!on)
+		return 0;
+	return Mixer::get().play(sample(name), 0, true);
+}
+
+void RaceSound::set(int voice, float volume)
+{
+	Mixer::get().set(voice, volume * sfx_volume * 0.7f, 1);
+}
+
+void RaceSound::stop_voice(int voice)
+{
+	Mixer::get().stop(voice);
+}
+
 void RaceSound::engine(const Car &car, float throttle)
 {
 	if (!on)

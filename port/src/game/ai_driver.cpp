@@ -114,3 +114,42 @@ CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 	}
 	return in;
 }
+
+CarInput AiDriver::chase(const Track &track, const Car &car, const Car &target, float dt)
+{
+	float dx = target.pos[0] - car.pos[0], dz = target.pos[2] - car.pos[2];
+	float dist = sqrtf(dx * dx + dz * dz);
+	/* Far away: follow the lanes to catch up, like a racer. */
+	if (dist > 400) {
+		CarInput in = drive(track, car, dt);
+		in.throttle = 1;
+		in.brake = 0;
+		return in;
+	}
+	CarInput in;
+	float lead = std::min(dist / 300.0f, 1.0f) * 0.8f;
+	float tx = target.pos[0] + target.vel[0] * 10 * lead, tz = target.pos[2] + target.vel[2] * 10 * lead;
+	float want = atan2f(tx - car.pos[0], tz - car.pos[2]);
+	float d = remainderf(want - car.yaw, 2 * PI);
+	in.steer = std::clamp(d * 2.5f, -1.0f, 1.0f);
+	float speed = car.speed_kmh(), their = target.speed_kmh();
+	/* Behind it: faster than it; alongside: a bit faster, to push in. */
+	float aim = dist > 60 ? car.spec.top_speed : their + 12;
+	in.throttle = speed < aim && fabsf(d) < 1.2f ? 1.0f : 0.0f;
+	in.brake = fabsf(d) > 1.6f && speed > 40 ? 1.0f : 0.0f;
+	if (speed < 1)
+		stuck += dt;
+	else if (reverse <= 0)
+		stuck = 0;
+	if (stuck > 1.5f && reverse <= 0)
+		reverse = 1.0f;
+	if (reverse > 0) {
+		reverse -= dt;
+		in.throttle = 0;
+		in.brake = 1;
+		in.steer = -in.steer;
+		if (reverse <= 0)
+			stuck = 0;
+	}
+	return in;
+}

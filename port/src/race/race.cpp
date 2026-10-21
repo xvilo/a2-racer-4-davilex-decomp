@@ -102,6 +102,9 @@ struct Hud {
 	}
 
 	/* The race's information over the 3D picture, laid out by overlay<car>.ini. */
+	float flash = 0;
+	int flashes = 0;
+
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
 		overlay.begin();
@@ -133,6 +136,13 @@ struct Hud {
 			rules.time - rules.lap_start < 3) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_LAST_LAP, "LAATSTE RONDE"));
 		}
+		else if (rules.phase == RaceRules::ARRESTED) {
+			overlay.string("STRING_ARRESTED", lang.get(TXT_ARRESTED, "GEARRESTEERD"));
+			overlay.string("STRING_FINISH_TEXT", "");
+		}
+		else if (flash > 0) {
+			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FLASH_FINE, "FLITS BOETE  -50 EURO"));
+		}
 		else if (rules.phase == RaceRules::FINISHED) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FINISHED, "GEFINISHT"));
 			std::string pos = lang.get(TXT_POSITION, "POSITIE: %d");
@@ -159,6 +169,11 @@ struct Racer {
 	RaceRules rules;
 	bool player = false;
 	bool traffic = false;
+	/* The police (TrackObject type 9): waiting by the road until a racer comes by, then
+	 * after it; it gives up when left far behind. */
+	enum { NONE, WAITING, CHASING, GAVE_UP } police = NONE;
+	float chase_time = 0;
+	int siren = 0;
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
 	 * spot isn't the one it just crashed from. */
 	struct Safe {
@@ -192,6 +207,8 @@ struct Racer {
 				safe.erase(safe.begin());
 		}
 	}
+
+	bool racing() const { return !traffic && police == NONE; }
 
 	/* Ranking: finished first, by time; then by distance driven. */
 	float score() const
@@ -433,6 +450,40 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			racers[i].car.yaw, 0 });
 	}
 	const int field_size = (int)racers.size();
+	/* The police cars by the road (game.ini [OPTIONS] Police; A2_POLICE=0 for testing):
+	 * CAR_CFG.INI [traffic] has a car for each police animation. */
+	bool police_on = gi.get_int("OPTIONS", "Police", 1) != 0;
+	if (const char *pe = getenv("A2_POLICE"))
+		police_on = police_on && *pe != '0';
+	std::vector<const TrackObject *> radar_traps;
+	for (const TrackObject &o : police_on ? track.objects : std::vector<TrackObject>()) {
+		if (o.type == 7)
+			radar_traps.push_back(&o);
+		if (o.type != 9)
+			continue;
+		IniFile cfg;
+		std::string cp = find_file_ci(data_dir, "CAR_CFG.INI");
+		int entry = -1;
+		if (!cp.empty() && cfg.load(cp)) {
+			for (int i = 0; i < cfg.get_int("traffic", "Count", 0) && entry < 0; i++) {
+				std::vector<std::string> f = split_fields(cfg.get("traffic", std::to_string(i)));
+				if (f.size() > 1 && equal_ci(f[1], o.animation))
+					entry = i;
+			}
+		}
+		Racer cop;
+		if (entry < 0 || !cop.car.spec.load(data_dir, "traffic", entry, 0, 0).empty())
+			continue;
+		cop.police = Racer::WAITING;
+		cop.model = load_model(track, meshes, textures, cop.car.spec.animation);
+		cop.car.place_at(world, o.pos, -o.rot[1] * PI / 180);
+		cop.rules.phase = RaceRules::RACING;
+		racers.push_back(std::move(cop));
+	}
+	int flashes = 0;
+	float flash_message = 0;
+	std::vector<char> flashed(radar_traps.size(), 0);
+	float arrest_time = 0;
 	Car &car = racers[0].car;
 	RaceRules &rules = racers[0].rules;
 	float cam[3] = { car.pos[0] - sinf(car.yaw) * 60, car.pos[1] + 25, car.pos[2] - cosf(car.yaw) * 60 };
@@ -447,7 +498,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	auto position_of = [&](const Racer &who) {
 		int p = 1;
 		for (const Racer &o : racers) {
-			if (&o != &who && !o.traffic && o.score() > who.score())
+			if (&o != &who && o.racing() && o.score() > who.score())
 				p++;
 		}
 		return p;
@@ -466,7 +517,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		acc += frame_dt;
 		last = now;
 		/* "DRUK 'SPATIE' OM VERDER TE GAAN" */
-		if (rules.phase == RaceRules::FINISHED && (rules.finished_at > 15 || in.key == KEY_SPACE || in.key == KEY_ENTER))
+		if ((rules.phase == RaceRules::FINISHED || rules.phase == RaceRules::ARRESTED) &&
+			(rules.finished_at > 15 || in.key == KEY_SPACE || in.key == KEY_ENTER))
 			break;
 
 		/* The countdown's beeps and the start. */
@@ -489,11 +541,17 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		player_in.brake = keyispressed(keys.down) ? 1.0f : 0.0f;
 		while (acc >= STEP) {
 			for (Racer &rc : racers) {
-				CarInput ci = rc.player && !opt.autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
-				if (rc.traffic)
+				CarInput ci;
+				if (rc.police == Racer::WAITING)
+					ci.hold = true;
+				else if (rc.police == Racer::CHASING)
+					ci = rc.ai.chase(track, rc.car, car, STEP);
+				else
+					ci = rc.player && !opt.autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
+				if (!rc.racing())
 					rc.rules.phase = RaceRules::RACING;
 				/* No driving before the start; after the finish the car rolls out. */
-				if (rc.rules.phase != RaceRules::RACING) {
+				if (rc.rules.phase != RaceRules::RACING || (rc.police && rules.phase == RaceRules::COUNTDOWN)) {
 					ci.throttle = 0;
 					ci.brake = 0.3f;
 					ci.hold = rc.rules.phase == RaceRules::COUNTDOWN;
@@ -502,7 +560,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					rc.ai.stuck = 0;
 				}
 				rc.car.step(world, ci, STEP);
-				if (!rc.traffic)
+				if (rc.racing())
 					rc.rules.update(STEP, rc.car.chunk);
 			}
 			for (size_t i = 0; i < racers.size(); i++) {
@@ -513,6 +571,74 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			clock += STEP;
 		}
 		sound.engine(car, opt.autopilot ? 1.0f : player_in.throttle);
+		/* The police: a waiting car sets off when the player passes close by fast, or when
+		 * a radar trap flashes nearby (Flitspaal, TrackObject type 7, over 80 km/h). */
+		if (rules.phase == RaceRules::RACING) {
+			for (size_t t = 0; t < radar_traps.size(); t++) {
+				const TrackObject &o = *radar_traps[t];
+				float dx = o.pos[0] - car.pos[0], dz = o.pos[2] - car.pos[2];
+				bool near = dx * dx + dz * dz < 120 * 120;
+				if (near && !flashed[t] && car.speed_kmh() > 80) {
+					flashed[t] = 1;
+					flashes++;
+					flash_message = 3;
+					sound.effect("PHOTO");
+					/* The nearest waiting police car comes after the player. */
+					Racer *best = nullptr;
+					float bd = 1e30f;
+					for (Racer &rc : racers) {
+						if (rc.police != Racer::WAITING)
+							continue;
+						float ex = rc.car.pos[0] - car.pos[0], ez = rc.car.pos[2] - car.pos[2], e = ex * ex + ez * ez;
+						if (e < bd) {
+							bd = e;
+							best = &rc;
+						}
+					}
+					if (best && bd < 3000.0f * 3000.0f)
+						best->police = Racer::CHASING;
+				}
+				if (!near)
+					flashed[t] = flashed[t] && dx * dx + dz * dz < 400 * 400;
+			}
+		}
+		flash_message = std::max(0.0f, flash_message - frame_dt);
+		bool near_cop = false;
+		for (Racer &rc : racers) {
+			if (rc.police == Racer::NONE)
+				continue;
+			float dx = rc.car.pos[0] - car.pos[0], dz = rc.car.pos[2] - car.pos[2], d = sqrtf(dx * dx + dz * dz);
+			if (rc.police == Racer::WAITING && rules.phase == RaceRules::RACING && d < 150 && car.speed_kmh() > 60)
+				rc.police = Racer::CHASING;
+			if (rc.police == Racer::CHASING) {
+				rc.chase_time += frame_dt;
+				if (d > 3000 || rules.phase != RaceRules::RACING)
+					rc.police = Racer::GAVE_UP;
+				if (d < 45)
+					near_cop = true;
+			}
+			/* The siren, louder the closer the car. */
+			if (rc.police == Racer::CHASING) {
+				float v = std::clamp(1 - d / 1500, 0.0f, 1.0f);
+				if (!rc.siren)
+					rc.siren = sound.loop("POLITIE_SIRENE");
+				sound.set(rc.siren, v);
+			}
+			else if (rc.siren) {
+				sound.stop_voice(rc.siren);
+				rc.siren = 0;
+			}
+		}
+		/* Stopped with a police car beside: arrested, the race is over. */
+		arrest_time = near_cop && car.speed_kmh() < 8 ? arrest_time + frame_dt : 0;
+		if (arrest_time > 3 && rules.phase == RaceRules::RACING) {
+			rules.phase = RaceRules::ARRESTED;
+			rules.finished_at = 0;
+		}
+		for (Racer &rc : racers) {
+			if (rc.police == Racer::GAVE_UP)
+				rc.ai.skill = 0.4f;
+		}
 		/* Traffic: new cars out of sight, old ones gone when far behind. */
 		if (!traffic.kinds.empty() && clock >= next_spawn) {
 			next_spawn = clock + 0.5f;
@@ -579,9 +705,22 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			rc.remember(clock);
 		}
 		if (trace && clock >= next_trace) {
-			printf("t %4.0f s  chunk %3d  %5.1f km/h  gear %d  lap %d  pos %d%s%s%s\n", clock, car.chunk, car.speed_kmh(),
-				car.gear, rules.lap, position_of(me), car.on_grass ? "  grass" : "", car.airborne ? "  air" : "",
-				car.touching_wall ? "  WALL" : "");
+			int cops = 0, chasing = 0, cars = 0;
+			float nearest = 1e9f;
+			for (const Racer &rc : racers) {
+				cars += rc.traffic;
+				cops += rc.police != Racer::NONE;
+				if (rc.police == Racer::CHASING) {
+					chasing++;
+					float dx = rc.car.pos[0] - car.pos[0], dz = rc.car.pos[2] - car.pos[2];
+					nearest = std::min(nearest, sqrtf(dx * dx + dz * dz));
+				}
+			}
+			printf("t %4.0f s  chunk %3d  %5.1f km/h  gear %d  lap %d  pos %d  traffic %d  police %d/%d", clock, car.chunk,
+				car.speed_kmh(), car.gear, rules.lap, position_of(me), cars, chasing, cops);
+			if (chasing)
+				printf(" (%.0f away)", nearest);
+			printf("%s%s%s\n", car.on_grass ? "  grass" : "", car.airborne ? "  air" : "", car.touching_wall ? "  WALL" : "");
 			fflush(stdout);
 			next_trace += trace_env[0] == '2' ? 0.2f : 1;
 		}
@@ -638,6 +777,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (int k = -25; k <= 25; k++)
 			r.draw_chunk(track.road.chunks[(size_t)(((c + k) % n + n) % n)], road_tex);
 		for (const TrackObject &o : track.objects) {
+			if (police_on && o.type == 9)
+				continue; /* drawn as cars */
 			int d = ((o.chunk - c) % n + n) % n;
 			if (d > 25 && d < n - 25)
 				continue;
@@ -660,11 +801,14 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			if (d <= 25 || d >= n - 25)
 				draw_car(r, rc.car, rc.model);
 		}
+		hud.flash = flash_message;
+		hud.flashes = flashes;
 		hud.draw(r, rules, car, position_of(me), field_size);
 		sys_gl_end_frame();
 	}
 	sound.stop();
-	printf("race: %s, position %d of %d, time %s", rules.phase == RaceRules::FINISHED ? "finished" : "not finished",
+	printf("race: %s, position %d of %d, time %s",
+		rules.phase == RaceRules::FINISHED ? "finished" : rules.phase == RaceRules::ARRESTED ? "arrested" : "not finished",
 		position_of(racers[0]), field_size, format_time(rules.time).c_str());
 	for (size_t i = 0; i < rules.lap_times.size(); i++)
 		printf("%s lap %zu %s", i ? "," : ";", i + 1, format_time(rules.lap_times[i]).c_str());

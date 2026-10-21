@@ -16,6 +16,9 @@ struct AiDriver {
 
 	/* What to do this frame. */
 	CarInput drive(const Track &track, const Car &car, float dt);
+	/* A police car after its target: drives at it (a little ahead of where it is going),
+	 * flat out until close, then matching its speed and leaning into it. */
+	CarInput chase(const Track &track, const Car &car, const Car &target, float dt);
 	/* Picks the lane node nearest to the car that runs its way. */
 	void find_lane(const Track &track, const Car &car);
 };

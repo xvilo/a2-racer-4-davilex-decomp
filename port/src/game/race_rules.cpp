@@ -54,6 +54,7 @@ void RaceRules::update(float dt, int car_chunk)
 		}
 		break;
 	case FINISHED:
+	case ARRESTED:
 		finished_at += dt;
 		break;
 	}
