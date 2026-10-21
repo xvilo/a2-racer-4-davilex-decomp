@@ -557,7 +557,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	};
 
 	/* The character (TfrmCharacter): portrait with car, name, story and ratings; Verder
-	 * plays the character's own words (CCS<nn>_<k>) and moves on when they end. */
+	 * plays the character's own words (CCS<nn>_<k>) and moves on two seconds later (timSelection). */
 	Form character;
 	character.load(res, "TfrmCharacter", with({}));
 	float char_leave = -1;
@@ -584,7 +584,8 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	};
 	character.handlers["btnNextClick"] = [&]() {
 		choose_tour_track();
-		char_leave = voice.say("CCS", tour_ch()) ? 2.5f : 0.01f;
+		voice.say("CCS", tour_ch());
+		char_leave = 2;
 	};
 
 	/* The character so far (TfrmCurrentChar): portrait, name, money and the Tour's tracks
@@ -805,7 +806,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			screen = WIN_FINAL;
 		}
 		else {
-			intro_leave = 4;
+			intro_leave = 3.5f;
 			voice.play("nexttr.wav");
 			screen = TRACK_INTRO;
 		}
@@ -1648,6 +1649,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		return 0;
 	}
 	SysInput in;
+	uint32_t last_tick = sys_ticks();
 	while (screen != QUIT && !sys_quit_requested()) {
 		sys_poll(in);
 		Form *fp = &main;
@@ -1669,7 +1671,9 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		default: break;
 		}
 		Form &f = *fp;
-		float dt = 0.01f;
+		uint32_t now = sys_ticks();
+		float dt = std::min((float)(now - last_tick) / 1000, 0.1f);
+		last_tick = now;
 		if (!balloon.open)
 			agent.hide();
 		agent.update(dt);
