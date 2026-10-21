@@ -28,7 +28,7 @@ void CollisionWorld::build(const Road &road)
 						p[k][1] = v.y;
 						p[k][2] = v.z;
 					}
-					add_triangle((int)i, p[0], p[1], p[2], l);
+					add_triangle((int)i, p[0], p[1], p[2], l, q.v[q.tri[t * 3 + 2]].colour);
 				}
 	}
 }
@@ -64,7 +64,8 @@ void CollisionWorld::add_mesh(const Mesh &m, const float pos[3], const float rot
 		add_triangle(chunk, &world[m.indices[i] * 3u], &world[m.indices[i + 1] * 3u], &world[m.indices[i + 2] * 3u], 3);
 }
 
-void CollisionWorld::add_triangle(int chunk, const float a[3], const float b[3], const float c3[3], int list)
+void CollisionWorld::add_triangle(int chunk, const float a[3], const float b[3], const float c3[3], int list,
+	uint32_t colour)
 {
 	Chunk &c = chunks[(size_t)chunk];
 	Tri tr;
@@ -95,6 +96,7 @@ void CollisionWorld::add_triangle(int chunk, const float a[3], const float b[3],
 		for (int k = 0; k < 3; k++)
 			tr.normal[k] = n[k];
 		tr.list = list;
+		tr.colour = colour;
 		c.ground.push_back(tr);
 		return;
 	}
@@ -199,6 +201,7 @@ bool CollisionWorld::ground(float x, float z, float y_max, int chunk, GroundHit 
 				for (int i = 0; i < 3; i++)
 					hit.normal[i] = t.normal[i];
 				hit.list = t.list;
+				hit.colour = t.colour;
 				found = true;
 			}
 		}

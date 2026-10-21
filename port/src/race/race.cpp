@@ -72,7 +72,9 @@ struct CarModel {
 	std::vector<std::pair<const Mesh *, unsigned>> frames;
 };
 
-void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = true, int phase = 0)
+/* tint: the car's light (0..1 each of R, G, B, and A), or null. */
+void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = true, int phase = 0,
+	const float *tint = nullptr)
 {
 	float right[3], up[3], fwd[3];
 	car.axes(right, up, fwd);
@@ -80,11 +82,11 @@ void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = tru
 	gl_mult_world(right, up, fwd, car.pos);
 	/* A damageable car shows its phase's frame (5, 6, ..) for its body. */
 	if ((size_t)(5 + phase) < m.frames.size() && m.frames[(size_t)(5 + phase)].first)
-		r.draw_mesh(*m.frames[(size_t)(5 + phase)].first, m.frames[(size_t)(5 + phase)].second);
+		r.draw_mesh(*m.frames[(size_t)(5 + phase)].first, m.frames[(size_t)(5 + phase)].second, tint);
 	else if (m.body)
-		r.draw_mesh(*m.body, m.body_tex);
+		r.draw_mesh(*m.body, m.body_tex, tint);
 	if (m.windows && windows)
-		r.draw_mesh(*m.windows, m.windows_tex);
+		r.draw_mesh(*m.windows, m.windows_tex, tint);
 	if (m.wheel) {
 		const float *wp[2] = { car.spec.wheel_front, car.spec.wheel_rear };
 		for (int axle = 0; axle < 2; axle++) {
@@ -96,7 +98,7 @@ void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = tru
 				if (side < 0)
 					gl_rotate(180, 0, 1, 0);
 				gl_rotate((side < 0 ? -1 : 1) * car.wheel_spin * 180 / PI, 1, 0, 0);
-				r.draw_mesh(*m.wheel, m.wheel_tex);
+				r.draw_mesh(*m.wheel, m.wheel_tex, tint);
 				glPopMatrix();
 			}
 		}
@@ -460,6 +462,9 @@ struct Racer {
 	const Path *path = nullptr;
 	bool hidden = false, on_path = false;
 	float path_f = 0;
+	/* FUN_004a8200: lit as the road under it (its colour's light), following it the
+	 * faster the faster it goes. */
+	float light = 255;
 	int was_police = NONE;  /* last frame's, for the communicator */
 	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
@@ -1707,6 +1712,14 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		fx.update(frame_dt, clock);
+		for (Racer &rc : racers) {
+			GroundHit g;
+			if (!rc.hidden && world.ground(rc.car.pos[0], rc.car.pos[2], rc.car.pos[1] + 10, rc.car.chunk, g)) {
+				float want = (float)((g.colour >> 16) & 0xff);
+				float speed = sqrtf(rc.car.vel[0] * rc.car.vel[0] + rc.car.vel[2] * rc.car.vel[2]) * 10;
+				rc.light += (want - rc.light) * std::min(1.0f, (speed * 0.1f + 1) * frame_dt);
+			}
+		}
 		/* The paths come into play as the player reaches their first chunk (pth_main.cpp),
 		 * once each time it passes. */
 		auto in_window = [&](const Path &pa) {
@@ -2274,7 +2287,11 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			int d = ((rc.car.chunk - c) % n + n) % n;
 			if ((d <= 25 || d >= n - 25) && !rc.hidden)
 			{
-				draw_car(r, rc.car, rc.model, rc.damage <= rc.damage_model.window, rc.phase);
+				float tint[4];
+				for (int k = 0; k < 3; k++)
+					tint[k] = std::min(rc.light + (float)track.info.ambient[k], 255.0f) / 255;
+				tint[3] = 1;
+				draw_car(r, rc.car, rc.model, rc.damage <= rc.damage_model.window, rc.phase, tint);
 				draw_pieces(r, rc);
 			}
 		}

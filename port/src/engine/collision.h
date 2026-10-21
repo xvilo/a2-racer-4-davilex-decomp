@@ -5,6 +5,7 @@
  * bridge sides) are walls. */
 #pragma once
 
+#include <cstdint>
 #include <vector>
 
 #include "engine/road.h"
@@ -17,6 +18,8 @@ struct GroundHit {
 	/* Where the triangle came from: the road's lists 0 road, 1 grass, 2 second grass, 3
 	 * rails; 3 also for objects. */
 	int list = 0;
+	/* The road's colour there (RGBA bytes in memory): its light, lighting the cars. */
+	uint32_t colour = 0xffffffffu;
 };
 
 class CollisionWorld {
@@ -40,6 +43,7 @@ private:
 		float a[3], b[3], c[3];
 		float normal[3];
 		int list;
+		uint32_t colour;
 	};
 	/* An upright triangle, seen from the side: its base edge in the ground plane, and its
 	 * three corners as (distance along that edge, height), so the wall's height can be
@@ -62,5 +66,6 @@ private:
 	};
 	std::vector<Chunk> chunks;
 	/* Sorts a triangle into the chunk's ground or walls; list: where it came from. */
-	void add_triangle(int chunk, const float a[3], const float b[3], const float c[3], int list);
+	void add_triangle(int chunk, const float a[3], const float b[3], const float c[3], int list,
+		uint32_t colour = 0xffffffffu);
 };
