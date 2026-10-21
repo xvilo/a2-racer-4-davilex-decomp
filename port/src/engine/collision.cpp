@@ -5,6 +5,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include "engine/mesh.h"
+
 /* Chunks searched either side of the given one. */
 static const int NEAR = 2;
 
@@ -14,87 +16,125 @@ void CollisionWorld::build(const Road &road)
 	chunks.resize(road.chunks.size());
 	for (size_t i = 0; i < road.chunks.size(); i++) {
 		const RoadChunk &rc = road.chunks[i];
-		Chunk &c = chunks[i];
 		for (int k = 0; k < 3; k++)
-			c.pos[k] = rc.pos[k];
-		for (int l = 0; l < 4; l++) {
-			for (const RoadQuad &q : rc.lists[l]) {
+			chunks[i].pos[k] = rc.pos[k];
+		for (int l = 0; l < 4; l++)
+			for (const RoadQuad &q : rc.lists[l])
 				for (int t = 0; t < 2; t++) {
-					const RoadVertex *v[3] = { &q.v[q.tri[t * 3]], &q.v[q.tri[t * 3 + 1]], &q.v[q.tri[t * 3 + 2]] };
-					Tri tr;
-					float *dst[3] = { tr.a, tr.b, tr.c };
+					float p[3][3];
 					for (int k = 0; k < 3; k++) {
-						dst[k][0] = v[k]->x;
-						dst[k][1] = v[k]->y;
-						dst[k][2] = v[k]->z;
+						const RoadVertex &v = q.v[q.tri[t * 3 + k]];
+						p[k][0] = v.x;
+						p[k][1] = v.y;
+						p[k][2] = v.z;
 					}
-					float u[3], w[3];
-					for (int k = 0; k < 3; k++) {
-						u[k] = tr.b[k] - tr.a[k];
-						w[k] = tr.c[k] - tr.a[k];
-					}
-					float n[3] = { u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0] };
-					float len = sqrtf(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]);
-					if (len < 1e-6f)
-						continue;
-					for (float &x : n)
-						x /= len;
-					const float raw[3] = { n[0], n[1], n[2] };
-					if (n[1] < 0) {
-						/* Ground faces point up; a downward one is ground seen from below
-						 * (an underpass ceiling): it still counts, turned over. */
-						for (float &x : n)
-							x = -x;
-					}
-					if (n[1] > 0.75f) {
-						for (int k = 0; k < 3; k++)
-							tr.normal[k] = n[k];
-						tr.list = l;
-						c.ground.push_back(tr);
-					}
-					else if (n[1] <= 0.75f) {
-						/* An upright or steep face (over ~40 degrees): its longest
-						 * horizontal edge is the wall. */
-						const float *e[3][2] = { { tr.a, tr.b }, { tr.b, tr.c }, { tr.c, tr.a } };
-						int best = 0;
-						float bl = -1;
-						for (int k = 0; k < 3; k++) {
-							float dx = e[k][1][0] - e[k][0][0], dz = e[k][1][2] - e[k][0][2];
-							float l2 = dx * dx + dz * dz;
-							if (l2 > bl) {
-								bl = l2;
-								best = k;
-							}
-						}
-						if (bl < 1)
-							continue;
-						Wall wl;
-						wl.x0 = e[best][0][0];
-						wl.z0 = e[best][0][2];
-						wl.x1 = e[best][1][0];
-						wl.z1 = e[best][1][2];
-						wl.ymin = std::min({ tr.a[1], tr.b[1], tr.c[1] });
-						wl.ymax = std::max({ tr.a[1], tr.b[1], tr.c[1] });
-						float hl = sqrtf(raw[0] * raw[0] + raw[2] * raw[2]);
-						if (hl < 1e-6f)
-							continue;
-						wl.nx = raw[0] / hl;
-						wl.nz = raw[2] / hl;
-						const float *pt[3] = { tr.a, tr.b, tr.c };
-						float ex = wl.x1 - wl.x0, ez = wl.z1 - wl.z0;
-						for (int k = 0; k < 3; k++) {
-							wl.s[k] = ((pt[k][0] - wl.x0) * ex + (pt[k][2] - wl.z0) * ez) / bl;
-							wl.y[k] = pt[k][1];
-						}
-						/* Low edges (kerbs) are driven over. */
-						if (wl.ymax - wl.ymin < 4)
-							continue;
-						c.walls.push_back(wl);
-					}
+					add_triangle((int)i, p[0], p[1], p[2], l);
 				}
-			}
+	}
+}
+
+/* gl_rotate's rotation of v about a unit axis. */
+static void rotate(float v[3], float deg, float x, float y, float z)
+{
+	float a = deg * 3.14159265f / 180, c = cosf(a), s = sinf(a), t = 1 - c;
+	const float m[9] = { t * x * x + c, t * x * y + s * z, t * x * z - s * y, t * x * y - s * z, t * y * y + c,
+		t * y * z + s * x, t * x * z + s * y, t * y * z - s * x, t * z * z + c };
+	float r[3];
+	for (int i = 0; i < 3; i++)
+		r[i] = m[i] * v[0] + m[3 + i] * v[1] + m[6 + i] * v[2];
+	for (int i = 0; i < 3; i++)
+		v[i] = r[i];
+}
+
+void CollisionWorld::add_mesh(const Mesh &m, const float pos[3], const float rot[3], int chunk)
+{
+	if (chunks.empty())
+		return;
+	chunk = ((chunk % (int)chunks.size()) + (int)chunks.size()) % (int)chunks.size();
+	std::vector<float> world(m.vertices.size() * 3);
+	for (size_t i = 0; i < m.vertices.size(); i++) {
+		float v[3] = { m.vertices[i].x, m.vertices[i].y, m.vertices[i].z };
+		rotate(v, rot[2], 0, 0, 1);
+		rotate(v, rot[0], 1, 0, 0);
+		rotate(v, rot[1], 0, 1, 0);
+		for (int k = 0; k < 3; k++)
+			world[i * 3 + k] = v[k] + pos[k];
+	}
+	for (size_t i = 0; i + 2 < m.indices.size(); i += 3)
+		add_triangle(chunk, &world[m.indices[i] * 3u], &world[m.indices[i + 1] * 3u], &world[m.indices[i + 2] * 3u], 3);
+}
+
+void CollisionWorld::add_triangle(int chunk, const float a[3], const float b[3], const float c3[3], int list)
+{
+	Chunk &c = chunks[(size_t)chunk];
+	Tri tr;
+	for (int k = 0; k < 3; k++) {
+		tr.a[k] = a[k];
+		tr.b[k] = b[k];
+		tr.c[k] = c3[k];
+	}
+	float u[3], w[3];
+	for (int k = 0; k < 3; k++) {
+		u[k] = tr.b[k] - tr.a[k];
+		w[k] = tr.c[k] - tr.a[k];
+	}
+	float n[3] = { u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0] };
+	float len = sqrtf(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]);
+	if (len < 1e-6f)
+		return;
+	for (float &x : n)
+		x /= len;
+	const float raw[3] = { n[0], n[1], n[2] };
+	if (n[1] < 0) {
+		/* Ground faces point up; a downward one is ground seen from below (an underpass
+		 * ceiling): it still counts, turned over. */
+		for (float &x : n)
+			x = -x;
+	}
+	if (n[1] > 0.75f) {
+		for (int k = 0; k < 3; k++)
+			tr.normal[k] = n[k];
+		tr.list = list;
+		c.ground.push_back(tr);
+		return;
+	}
+	/* An upright or steep face (over ~40 degrees): its longest horizontal edge is the
+	 * wall. */
+	const float *e[3][2] = { { tr.a, tr.b }, { tr.b, tr.c }, { tr.c, tr.a } };
+	int best = 0;
+	float bl = -1;
+	for (int k = 0; k < 3; k++) {
+		float dx = e[k][1][0] - e[k][0][0], dz = e[k][1][2] - e[k][0][2];
+		float l2 = dx * dx + dz * dz;
+		if (l2 > bl) {
+			bl = l2;
+			best = k;
 		}
 	}
+	if (bl < 1)
+		return;
+	Wall wl;
+	wl.x0 = e[best][0][0];
+	wl.z0 = e[best][0][2];
+	wl.x1 = e[best][1][0];
+	wl.z1 = e[best][1][2];
+	wl.ymin = std::min({ tr.a[1], tr.b[1], tr.c[1] });
+	wl.ymax = std::max({ tr.a[1], tr.b[1], tr.c[1] });
+	float hl = sqrtf(raw[0] * raw[0] + raw[2] * raw[2]);
+	if (hl < 1e-6f)
+		return;
+	wl.nx = raw[0] / hl;
+	wl.nz = raw[2] / hl;
+	const float *pt[3] = { tr.a, tr.b, tr.c };
+	float ex = wl.x1 - wl.x0, ez = wl.z1 - wl.z0;
+	for (int k = 0; k < 3; k++) {
+		wl.s[k] = ((pt[k][0] - wl.x0) * ex + (pt[k][2] - wl.z0) * ez) / bl;
+		wl.y[k] = pt[k][1];
+	}
+	/* Low edges (kerbs) are driven over. */
+	if (wl.ymax - wl.ymin < 4)
+		return;
+	c.walls.push_back(wl);
 }
 
 int CollisionWorld::nearest_chunk(float x, float z, int hint) const

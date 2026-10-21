@@ -30,6 +30,7 @@ add_executable(a2racer4 WIN32
 	src/game/race_rules.cpp
 	src/engine/font.cpp
 	src/engine/overlay.cpp
+	src/game/loose_objects.cpp
 	src/game/track.cpp
 	src/race/race_view.cpp
 	src/race/race.cpp

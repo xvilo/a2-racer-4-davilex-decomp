@@ -9,15 +9,22 @@
 
 #include "engine/road.h"
 
+struct Mesh;
+
 struct GroundHit {
 	float y = 0;
 	float normal[3] = { 0, 1, 0 };
-	int list = 0; /* the road list the triangle came from: 0 road, 1 grass, 2 second grass */
+	/* Where the triangle came from: the road's lists 0 road, 1 grass, 2 second grass, 3
+	 * rails; 3 also for objects. */
+	int list = 0;
 };
 
 class CollisionWorld {
 public:
 	void build(const Road &road);
+	/* Adds a solid object (a model placed like the stage's objects: at pos, turned by rot
+	 * in degrees) to a chunk's ground and walls. */
+	void add_mesh(const Mesh &m, const float pos[3], const float rot[3], int chunk);
 	/* The chunk nearest to (x, z), searching outwards from hint along the ring. */
 	int nearest_chunk(float x, float z, int hint) const;
 	/* The highest ground at (x, z) no higher than y_max, in the chunks around chunk; false if
@@ -54,4 +61,6 @@ private:
 		std::vector<Wall> walls;
 	};
 	std::vector<Chunk> chunks;
+	/* Sorts a triangle into the chunk's ground or walls; list: where it came from. */
+	void add_triangle(int chunk, const float a[3], const float b[3], const float c[3], int list);
 };

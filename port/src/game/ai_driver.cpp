@@ -43,6 +43,56 @@ void AiDriver::find_lane(const Track &track, const Car &car)
 	}
 }
 
+bool AiDriver::avoid(const Car &car, float aim[2], bool &close) const
+{
+	close = false;
+	if (!obstacles)
+		return false;
+	float fx = aim[0] - car.pos[0], fz = aim[1] - car.pos[2];
+	float len = sqrtf(fx * fx + fz * fz);
+	if (len < 1)
+		return false;
+	fx /= len;
+	fz /= len;
+	/* Look as far as it gets in some 1.5 s, at least past the point aimed at; sx, sz: to
+	 * the right. */
+	float reach = std::max(len + 40, 100 + car.speed_kmh() / 3.6f * 15), sx = fz, sz = -fx;
+	float half = std::max(car.spec.wheel_front[0], car.spec.wheel_rear[0]) + 3.5f + 6;
+	float nearest = reach, far_end = 0, shift = 0;
+	for (const AiObstacle &o : *obstacles) {
+		float ox = o.x - car.pos[0], oz = o.z - car.pos[2];
+		float r = o.hx + o.hz;
+		float along = ox * fx + oz * fz;
+		if (along + r < 0 || along - r > reach)
+			continue;
+		/* The box's corners in the car's way: along it and across it. */
+		float cy = cosf(o.yaw), sy = sinf(o.yaw);
+		float a0 = 1e9f, a1 = -1e9f, l0 = 1e9f, l1 = -1e9f;
+		for (int k = 0; k < 4; k++) {
+			float lx = (k & 1 ? 1 : -1) * o.hx, lz = (k & 2 ? 1 : -1) * o.hz;
+			float wx = ox + lx * cy + lz * sy, wz = oz - lx * sy + lz * cy;
+			float a = wx * fx + wz * fz, l = wx * sx + wz * sz;
+			a0 = std::min(a0, a), a1 = std::max(a1, a);
+			l0 = std::min(l0, l), l1 = std::max(l1, l);
+		}
+		if (a1 < 0 || a0 > reach || l1 < -half || l0 > half || a0 >= nearest)
+			continue;
+		/* Past it on the side needing the smaller turn. */
+		float right = l1 + half, left = l0 - half;
+		nearest = std::max(a0, 0.0f);
+		far_end = a1;
+		shift = fabsf(right) < fabsf(left) ? right : left;
+	}
+	if (nearest >= reach)
+		return false;
+	close = nearest < 150;
+	/* Towards its near end, then alongside it to beyond the far one. */
+	float at = nearest > 30 ? nearest : far_end + 20;
+	aim[0] = car.pos[0] + fx * at + sx * shift;
+	aim[1] = car.pos[2] + fz * at + sz * shift;
+	return true;
+}
+
 CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 {
 	CarInput in;
@@ -74,7 +124,10 @@ CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 	for (int k = 0; k < ahead && dn[(size_t)t].next >= 0; k++)
 		t = dn[(size_t)t].next;
 	const float *tp = dn[(size_t)t].pos;
-	float want = atan2f(tp[0] - car.pos[0], tp[2] - car.pos[2]);
+	float aim[2] = { tp[0], tp[2] };
+	bool close;
+	bool swerve = avoid(car, aim, close);
+	float want = atan2f(aim[0] - car.pos[0], aim[1] - car.pos[2]);
 	float d = remainderf(want - car.yaw, 2 * PI);
 	in.steer = std::clamp(d * 2.5f, -1.0f, 1.0f);
 
@@ -96,6 +149,8 @@ CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 	float v_top = car.spec.top_speed / 3.6f * fabsf(skill);
 	float v_bend = 10 + 30 / (1 + turn * 2.5f);
 	float target = std::min(v_top, v_bend);
+	if (swerve && close)
+		target = std::min(target, 15.0f);
 	in.throttle = speed < target ? 1.0f : 0.0f;
 	in.brake = speed > target + 3 ? 1.0f : 0.0f;
 

@@ -19,6 +19,7 @@
 #include "game/ai_driver.h"
 #include "game/car.h"
 #include "game/language.h"
+#include "game/loose_objects.h"
 #include "game/race_rules.h"
 #include "game/track.h"
 #include "platform/gl.h"
@@ -698,6 +699,34 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	world.build(track.road);
 	TextureManager textures(rcs);
 	MeshCache meshes(rcs);
+	/* The objects with unmovable physics (tob_main.cpp FUN_004541c0: types 5 collision
+	 * physics, 14 and 15 with collision, 17 cached with collision) are solid. */
+	for (const TrackObject &o : track.objects) {
+		if (o.type != 5 && o.type != 14 && o.type != 15 && o.type != 17)
+			continue;
+		if (const std::vector<AnimFrame> *f = track.animation(o.animation); f && !f->empty())
+			if (const Mesh *m = meshes.get((*f)[0].mesh))
+				world.add_mesh(*m, o.pos, o.rot, o.chunk);
+	}
+	LooseObjects loose;
+	loose.build(track, meshes, textures, data_dir);
+	/* What the computer drivers steer round: the solid objects (not the buildings beside
+	 * the road), and the heavy loose ones still standing. */
+	auto obstacle_of = [](const Mesh &m, const float pos[3], float yaw_deg) {
+		float yaw = yaw_deg * PI / 180, cy = cosf(yaw), sy = sinf(yaw);
+		float cx = (m.min[0] + m.max[0]) / 2, cz = (m.min[2] + m.max[2]) / 2;
+		return AiObstacle{ pos[0] + cx * cy + cz * sy, pos[2] - cx * sy + cz * cy, yaw, (m.max[0] - m.min[0]) / 2,
+			(m.max[2] - m.min[2]) / 2 };
+	};
+	std::vector<AiObstacle> solid_obstacles, obstacles;
+	for (const TrackObject &o : track.objects) {
+		if (o.type != 5 && o.type != 14 && o.type != 15 && o.type != 17)
+			continue;
+		const std::vector<AnimFrame> *f = track.animation(o.animation);
+		const Mesh *m = f && !f->empty() ? meshes.get((*f)[0].mesh) : nullptr;
+		if (m && m->max[0] - m->min[0] < 400 && m->max[2] - m->min[2] < 400)
+			solid_obstacles.push_back(obstacle_of(*m, o.pos, o.rot[1]));
+	}
 	Renderer r{ textures };
 	Hud hud;
 	hud.load(data_dir, opt.car, track, meshes, textures);
@@ -914,9 +943,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	 * touches them (0x453480: the two models' radii, across the ground): leaves (24) and
 	 * birds (23) once each time it comes by, flying up from the car and from the birds'
 	 * place; mud (27) and water (26) thrown up by the rear wheels all the while it is on
-	 * them. A rubbish bin (19), a mailbox (20) and paper (22) are knocked over in the
-	 * original (Ipion objects of 2000, 500 and 10 kg) and burst once for each knock; the
-	 * port has no physics for them, so they burst each time the car runs into them. */
+	 * them. A rubbish bin (19), a mailbox (20) and paper (22) burst when knocked (their
+	 * state machines, e.g. 0x4532b0: once for each knock, again after they came to rest). */
 	struct SceneryTrigger {
 		const TrackObject *obj;
 		Effects::Scenery kind;
@@ -934,9 +962,6 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	for (const TrackObject &o : track.objects) {
 		Effects::Scenery kind;
 		switch (o.type) {
-		case 19: kind = Effects::TRASH; break;
-		case 20: kind = Effects::MAIL; break;
-		case 22: kind = Effects::PAPER; break;
 		case 23: kind = Effects::BIRDS; break;
 		case 24: kind = Effects::LEAVES; break;
 		case 26: kind = Effects::WATER; break;
@@ -1098,8 +1123,13 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			turbo_voice = 0;
 		}
 		player_in.turbo = turbo_on;
+		obstacles = solid_obstacles;
+		for (const LooseObject &l : loose.list)
+			if (l.mass >= 250 && l.tilt < 60)
+				obstacles.push_back(obstacle_of(*l.mesh, l.pos, l.obj->rot[1] + l.yaw));
 		while (acc >= STEP) {
 			for (Racer &rc : racers) {
+				rc.ai.obstacles = &obstacles;
 				CarInput ci;
 				if (rc.police == Racer::WAITING)
 					ci.hold = true;
@@ -1172,6 +1202,40 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					}
 				}
 			}
+			/* Knocking the loose objects about: a heavy one hurts like a car of its
+			 * mass; mailboxes, bins and paper burst once each time they are set going. */
+			for (Racer &rc : racers) {
+				LooseObject *hit_obj = nullptr;
+				float v = loose.hit(rc.car, hit_obj);
+				if (!hit_obj || v < 0.5f)
+					continue;
+				if (rc.player) {
+					if (hit_obj->sound)
+						sound.effect(hit_obj->sound);
+					Effects::Scenery kind = Effects::SCENERY_KINDS;
+					switch (hit_obj->obj->type) {
+					case 19: kind = Effects::TRASH; break;
+					case 20: kind = Effects::MAIL; break;
+					case 22: kind = Effects::PAPER; break;
+					}
+					if (kind != Effects::SCENERY_KINDS && !hit_obj->burst) {
+						float dir[3] = { sinf(rc.car.yaw), 0, cosf(rc.car.yaw) };
+						fx.scenery(kind, hit_obj->pos, dir, v, frame_dt);
+						hit_obj->burst = true;
+					}
+				}
+				if (rc.traffic || hit_obj->mass < 100)
+					continue;
+				float imp = v * 10 * std::min(hit_obj->hinged ? 300.0f : hit_obj->mass, 1666.7f);
+				float since = clock - rc.last_hit;
+				bool hurt = rc.hit(damage_table, imp, clock,
+					rc.player && (invulnerable_left > 0 || rules.phase != RaceRules::RACING));
+				float at[3] = { hit_obj->pos[0], rc.car.pos[1] + 5, hit_obj->pos[2] };
+				knock_fx(rc, at, imp, hurt);
+				if (rc.player)
+					knock_sound(imp, false, since);
+			}
+			loose.update(STEP, world);
 			acc -= STEP;
 			clock += STEP;
 		}
@@ -1504,8 +1568,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (int k = -25; k <= 25; k++)
 			r.draw_chunk(track.road.chunks[(size_t)(((c + k) % n + n) % n)], road_tex);
 		for (const TrackObject &o : track.objects) {
-			if ((police_on && o.type == 9) || o.type == 25)
-				continue; /* drawn as cars, and as pick-ups */
+			if ((police_on && o.type == 9) || o.type == 25 || loose.loose(&o))
+				continue; /* drawn as cars, as pick-ups, and where they were knocked to */
 			int d = ((o.chunk - c) % n + n) % n;
 			if (d > 25 && d < n - 25)
 				continue;
@@ -1531,6 +1595,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				draw_pieces(r, rc);
 			}
 		}
+		loose.draw(r, c, n, 25);
 		for (const Debris &b : debris) {
 			glPushMatrix();
 			glTranslatef(b.pos[0], b.pos[1], b.pos[2]);
