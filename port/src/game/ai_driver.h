@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "game/car.h"
+#include "game/police.h"
 
 struct Track;
 class CollisionWorld;
@@ -30,9 +31,11 @@ struct AiDriver {
 
 	/* What to do this frame. */
 	CarInput drive(const Track &track, const Car &car, float dt);
-	/* A police car after its target: drives at it (a little ahead of where it is going),
-	 * flat out until close, then matching its speed and leaning into it. */
-	CarInput chase(const Track &track, const Car &car, const Car &target, float dt);
+	/* A police car after its target, doing its tactic's step (police.h): far off it
+	 * follows the lanes flat out; near, it rams the target, keeps level with it on one
+	 * side, or gets ahead of it and maybe brakes across its way. */
+	CarInput chase(const Track &track, const Car &car, const Car &target, float dt,
+		CopAction action = CopAction::INTO, int side = 1);
 	/* Picks the lane node nearest to the car that runs its way. */
 	void find_lane(const Track &track, const Car &car);
 	/* Moves the point aimed at past the nearest obstacle in the way; false if none is.

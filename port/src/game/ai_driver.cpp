@@ -174,7 +174,7 @@ CarInput AiDriver::drive(const Track &track, const Car &car, float dt)
 	return in;
 }
 
-CarInput AiDriver::chase(const Track &track, const Car &car, const Car &target, float dt)
+CarInput AiDriver::chase(const Track &track, const Car &car, const Car &target, float dt, CopAction action, int side)
 {
 	float dx = target.pos[0] - car.pos[0], dz = target.pos[2] - car.pos[2];
 	float dist = sqrtf(dx * dx + dz * dz);
@@ -186,21 +186,65 @@ CarInput AiDriver::chase(const Track &track, const Car &car, const Car &target, 
 		return in;
 	}
 	CarInput in;
+	float tf[2] = { sinf(target.yaw), cosf(target.yaw) }, tr[2] = { tf[1], -tf[0] };
+	/* Where the cop is, seen from the target: ahead of it (along) and to its right. */
+	float along = -(dx * tf[0] + dz * tf[1]), across = -(dx * tr[0] + dz * tr[1]);
 	float lead = std::min(dist / 300.0f, 1.0f) * 0.8f;
 	float tx = target.pos[0] + target.vel[0] * 10 * lead, tz = target.pos[2] + target.vel[2] * 10 * lead;
+	float speed = car.speed_kmh(), their = target.speed_kmh();
+	float aim_speed = car.spec.top_speed;
+	bool block = false;
+	switch (action) {
+	case CopAction::INTO:
+		/* Behind it: faster than it; alongside: a bit faster, to push in. */
+		aim_speed = dist > 60 ? car.spec.top_speed : their + 12;
+		break;
+	case CopAction::BESIDE:
+	case CopAction::MEGAPHONE:
+		/* Level with it, a car's width to the side. */
+		tx += tr[0] * side * 28;
+		tz += tr[1] * side * 28;
+		aim_speed = their + std::clamp(-along * 0.3f, -15.0f, 25.0f);
+		break;
+	case CopAction::FRONT:
+	case CopAction::HANDBRAKE:
+		/* Some way ahead of it, in its way. */
+		tx += tf[0] * 70;
+		tz += tf[1] * 70;
+		aim_speed = their + std::clamp((70 - along) * 0.4f, -20.0f, 30.0f);
+		block = action == CopAction::HANDBRAKE && along > 30 && fabsf(across) < 30;
+		break;
+	}
+	/* STATE_STOP_RACER, INIT_ARREST: the target (nearly) stopped, it pulls up beside it
+	 * and stops there. */
+	bool arrest = their < 20 && dist < 200;
+	if (arrest) {
+		tx = target.pos[0] + tr[0] * side * 24;
+		tz = target.pos[2] + tr[1] * side * 24;
+		float ax = tx - car.pos[0], az = tz - car.pos[2], ad = sqrtf(ax * ax + az * az);
+		aim_speed = std::clamp(ad * 0.6f, 0.0f, 60.0f);
+		block = false;
+		if (ad < 12) {
+			in.brake = 1;
+			return in;
+		}
+	}
 	float want = atan2f(tx - car.pos[0], tz - car.pos[2]);
 	float d = remainderf(want - car.yaw, 2 * PI);
 	in.steer = std::clamp(d * 2.5f, -1.0f, 1.0f);
-	float speed = car.speed_kmh(), their = target.speed_kmh();
-	/* Behind it: faster than it; alongside: a bit faster, to push in. */
-	float aim = dist > 60 ? car.spec.top_speed : their + 12;
-	in.throttle = speed < aim && fabsf(d) < 1.2f ? 1.0f : 0.0f;
-	in.brake = fabsf(d) > 1.6f && speed > 40 ? 1.0f : 0.0f;
+	in.throttle = speed < aim_speed && (fabsf(d) < 1.2f || (arrest && speed < 25)) ? 1.0f : 0.0f;
+	in.brake = (fabsf(d) > 1.6f && speed > 40) || speed > aim_speed + 15 ? 1.0f : 0.0f;
+	if (block) {
+		/* Across its way: full brake, the wheels turned. */
+		in.throttle = 0;
+		in.brake = 1;
+		in.steer = (float)side;
+	}
 	if (speed < 1)
 		stuck += dt;
 	else if (reverse <= 0)
 		stuck = 0;
-	if (stuck > 1.5f && reverse <= 0)
+	if (stuck > 1.5f && reverse <= 0 && !block)
 		reverse = 1.0f;
 	if (reverse > 0) {
 		reverse -= dt;

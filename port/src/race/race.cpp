@@ -21,6 +21,7 @@
 #include "game/car.h"
 #include "game/language.h"
 #include "game/loose_objects.h"
+#include "game/police.h"
 #include "game/race_rules.h"
 #include "game/track.h"
 #include "platform/gl.h"
@@ -132,6 +133,7 @@ struct Hud {
 	const Communicator *comm = nullptr;
 	float owner_damage = 0; /* the speaking racer's, 0..1100 */
 	int money = 0;
+	std::string warning; /* the police's warning, while it shows */
 	/* Ovl_Requestors.cpp: 1 paused (P), 2 asking whether to quit (Esc). */
 	int requestor = 0;
 	bool reset_prompt = false, wrong_way = false;
@@ -311,6 +313,9 @@ struct Hud {
 			overlay.string("STRING_ARRESTED", lang.get(TXT_ARRESTED, "GEARRESTEERD"));
 			overlay.string("STRING_FINISH_TEXT", "");
 		}
+		else if (!warning.empty()) {
+			overlay.string("STRING_GAME_TEXT", warning);
+		}
 		else if (flash > 0) {
 			overlay.string("STRING_GAME_TEXT", lang.get(TXT_FLASH_FINE, "FLITS BOETE  -50 EURO"));
 		}
@@ -438,6 +443,10 @@ struct Racer {
 	enum { NONE, WAITING, CHASING, GAVE_UP } police = NONE;
 	float chase_time = 0;
 	int siren = 0;
+	size_t target = 0;   /* a chasing cop's: whom (racers[]) */
+	CopPlan plan;
+	float caught_time = 0; /* a racer's: how long stopped with a cop beside */
+	bool arrested = false; /* a computer racer the police took off the road */
 	int was_police = NONE;  /* last frame's, for the communicator */
 	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
@@ -783,6 +792,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			opp.load(op);
 	}
 	int difficulty = std::clamp(opt.difficulty >= 0 ? opt.difficulty : gi.get_int("OPTIONS", "Difficulty", 1), 0, 2);
+	PoliceRules police_rules;
+	police_rules.load(data_dir, opt.stage, difficulty);
+	unsigned cop_rnd = 777;
 	/* Testing: A2_RIVALS=0 races alone. */
 	int rivals = field - 1;
 	if (const char *rv = getenv("A2_RIVALS"))
@@ -814,6 +826,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	bool autopilot = opt.autopilot;
 	if (const char *ap = getenv("A2_AUTOPILOT"))
 		autopilot = autopilot || (*ap && *ap != '0');
+	/* Testing: A2_AUTOPILOT=<seconds> (over 1) lets go of the car after that long. */
+	const float autopilot_until = getenv("A2_AUTOPILOT") && atof(getenv("A2_AUTOPILOT")) > 1
+		? (float)atof(getenv("A2_AUTOPILOT")) : 1e30f;
 	printf("race: stage %d (%s), car %s (%s): %.0f kg, top speed %.0f km/h, %d gears; %zu rivals\n", opt.stage,
 		track.info.name.c_str(), me.car.spec.name.c_str(), me.car.spec.animation.c_str(), me.car.spec.mass,
 		me.car.spec.top_speed, me.car.spec.gear_count, racers.size() - 1);
@@ -1196,7 +1211,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	int flashes = 0;
 	float flash_message = 0;
 	std::vector<char> flashed(radar_traps.size(), 0);
-	float arrest_time = 0;
+	int catches = 0;
+	float warning_left = 0;     /* the warning's interlude, s */
+	const Racer *warning_cop = nullptr;
 	float stuck_time = 0, wrong_time = 0;
 	const float reset_wait = (float)gi.get_int("PLAYER", "RESETWAITTIME", 10);
 	int comm_chunk = -1;
@@ -1252,8 +1269,14 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			camera = (camera + 1) % 4;
 		if (in.key == 'r' || in.key == 'R')
 			me.respawn(world, clock, track);
+		if (autopilot && clock > autopilot_until)
+			autopilot = false;
 		uint32_t now = sys_ticks();
 		float frame_dt = std::min((now - last) / 1000.0f, 0.1f);
+		if (warning_left > 0 && !hud.requestor) {
+			warning_left -= frame_dt;
+			frame_dt = 0;
+		}
 		if (hud.requestor)
 			frame_dt = 0;
 		acc += frame_dt;
@@ -1335,8 +1358,13 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				CarInput ci;
 				if (rc.police == Racer::WAITING)
 					ci.hold = true;
-				else if (rc.police == Racer::CHASING)
-					ci = rc.ai.chase(track, rc.car, car, STEP);
+				else if (rc.police == Racer::CHASING) {
+					const std::vector<int> &choice = police_rules.for_kind(rc.car.spec.name);
+					CopAction act = rc.plan.action(police_rules, choice, STEP, cop_rnd);
+					ci = rc.ai.chase(track, rc.car, racers[rc.target].car, STEP, act, rc.plan.side);
+				}
+				else if (rc.arrested)
+					ci.hold = true;
 				else
 					ci = rc.player && !autopilot ? player_in : rc.ai.drive(track, rc.car, STEP);
 				if (rc.player && autopilot)
@@ -1471,8 +1499,12 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 							best = &rc;
 						}
 					}
-					if (best && bd < 3000.0f * 3000.0f)
+					if (best && bd < 3000.0f * 3000.0f) {
 						best->police = Racer::CHASING;
+						best->target = 0;
+						best->chase_time = 0;
+						best->plan.begin(police_rules, police_rules.for_kind(best->car.spec.name), cop_rnd);
+					}
 				}
 				if (!in_range)
 					flashed[t] = flashed[t] && dx * dx + dz * dz < 400 * 400;
@@ -1624,6 +1656,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		hud.reset_prompt = stuck_time > reset_wait;
 		hud.wrong_way = wrong_time > 1.5f;
 		hud.frame_dt = frame_dt;
+		hud.warning = warning_left > 0 ? hud.lang.get(catches == 1 ? TXT_WARNING_1 : TXT_WARNING_2,
+			catches == 1 ? "EERSTE WAARSCHUWING" : "LAATSTE WAARSCHUWING") : "";
 		hud.money = money;
 		hud.faces.clear();
 		{
@@ -1712,23 +1746,59 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					b.state = Bonus::WAITING;
 			}
 		}
-		bool near_cop = false;
+		/* The police (ai_cops.cpp): a waiting car sets off after a racer coming by fast
+		 * (at most CopsPerPlayer after the player, CopsPerRacer after each computer racer);
+		 * it gives up after ChaseTime, left GiveUpDist chunks behind, or far off. */
+		auto chasing = [&](size_t who) {
+			int k = 0;
+			for (const Racer &c : racers)
+				k += c.police == Racer::CHASING && c.target == who;
+			return k;
+		};
 		for (Racer &rc : racers) {
 			if (rc.police == Racer::NONE)
 				continue;
-			float dx = rc.car.pos[0] - car.pos[0], dz = rc.car.pos[2] - car.pos[2], d = sqrtf(dx * dx + dz * dz);
-			if (rc.police == Racer::WAITING && rules.phase == RaceRules::RACING && d < 150 && car.speed_kmh() > 60)
-				rc.police = Racer::CHASING;
+			if (rc.police == Racer::WAITING && rules.phase == RaceRules::RACING) {
+				for (size_t i = 0; i < racers.size(); i++) {
+					const Racer &t = racers[i];
+					if (!t.racing() || t.arrested || t.rules.phase != RaceRules::RACING)
+						continue;
+					float ex = rc.car.pos[0] - t.car.pos[0], ez = rc.car.pos[2] - t.car.pos[2];
+					int limit = t.player ? police_rules.cops_per_player : police_rules.cops_per_racer;
+					if (ex * ex + ez * ez < 150 * 150 && t.car.speed_kmh() > 60 && chasing(i) < limit) {
+						rc.police = Racer::CHASING;
+						rc.target = i;
+						rc.chase_time = 0;
+						rc.plan.begin(police_rules, police_rules.for_kind(rc.car.spec.name), cop_rnd);
+						break;
+					}
+				}
+			}
+			const Racer &t = racers[rc.target];
+			float dx = rc.car.pos[0] - t.car.pos[0], dz = rc.car.pos[2] - t.car.pos[2], d = sqrtf(dx * dx + dz * dz);
 			if (rc.police == Racer::CHASING) {
 				rc.chase_time += frame_dt;
-				if (d > 3000 || rules.phase != RaceRules::RACING)
+				int behind = ((t.car.chunk - rc.car.chunk) % n + n) % n;
+				if (d > 3000 || rules.phase != RaceRules::RACING || t.arrested || t.rules.phase != RaceRules::RACING ||
+					rc.chase_time > police_rules.chase_time || (behind > police_rules.give_up_chunks && behind < n / 2))
 					rc.police = Racer::GAVE_UP;
-				if (d < 45)
-					near_cop = true;
 			}
-			/* The siren, louder the closer the car. */
+			/* MEGAPHONE: a call as the step begins (MEGA_0..3), from where the cop is. */
+			if (rc.police == Racer::CHASING && rc.plan.tactic >= 0 && !rc.plan.step_started) {
+				rc.plan.step_started = true;
+				const CopTactic &ct = police_rules.tactics[(size_t)rc.plan.tactic];
+				if (ct.steps[rc.plan.step].first == CopAction::MEGAPHONE) {
+					float pd = sqrtf((rc.car.pos[0] - car.pos[0]) * (rc.car.pos[0] - car.pos[0]) +
+						(rc.car.pos[2] - car.pos[2]) * (rc.car.pos[2] - car.pos[2]));
+					if (pd < 500)
+						sound.effect("MEGA_" + std::to_string(random() % 4), 1 - pd / 500);
+				}
+			}
+			/* The siren, louder the closer the car to the player. */
 			if (rc.police == Racer::CHASING) {
-				float v = std::clamp(1 - d / 1500, 0.0f, 1.0f);
+				float pd = sqrtf((rc.car.pos[0] - car.pos[0]) * (rc.car.pos[0] - car.pos[0]) +
+					(rc.car.pos[2] - car.pos[2]) * (rc.car.pos[2] - car.pos[2]));
+				float v = std::clamp(1 - pd / 1500, 0.0f, 1.0f);
 				if (!rc.siren)
 					rc.siren = sound.loop("POLITIE_SIRENE");
 				sound.set(rc.siren, v);
@@ -1738,11 +1808,43 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				rc.siren = 0;
 			}
 		}
-		/* Stopped with a police car beside: arrested, the race is over. */
-		arrest_time = near_cop && car.speed_kmh() < 8 ? arrest_time + frame_dt : 0;
-		if (arrest_time > 3 && rules.phase == RaceRules::RACING) {
-			rules.phase = RaceRules::ARRESTED;
-			rules.finished_at = 0;
+		/* Caught: stopped (under StopSpeed) with a chasing cop beside (within 60) for 3 s. A computer
+		 * racer is taken off the road; the player gets two warnings (ev_cops.cpp
+		 * 0x43a910: 4 s seen from beside the cop, ARREST_1A/B, ARREST_2A) and the third
+		 * time is arrested (ARREST_3A/B), the race over. */
+		for (size_t i = 0; i < racers.size(); i++) {
+			Racer &t = racers[i];
+			if (!t.racing() || t.arrested || t.rules.phase != RaceRules::RACING)
+				continue;
+			Racer *cop = nullptr;
+			for (Racer &c : racers) {
+				float ex = c.car.pos[0] - t.car.pos[0], ez = c.car.pos[2] - t.car.pos[2];
+				if (c.police == Racer::CHASING && c.target == i && ex * ex + ez * ez < 60 * 60)
+					cop = &c;
+			}
+			t.caught_time = cop && t.car.speed_kmh() < police_rules.stop_speed + 1 ? t.caught_time + frame_dt : 0;
+			if (t.caught_time <= 3 || !cop)
+				continue;
+			t.caught_time = 0;
+			if (!t.player) {
+				t.arrested = true;
+				t.rules.phase = RaceRules::ARRESTED;
+				cop->police = Racer::GAVE_UP;
+				continue;
+			}
+			catches++;
+			static const char *voices[3][2] = { { "ARREST_1A", "ARREST_1B" }, { "ARREST_2A", "ARREST_2A" },
+				{ "ARREST_3A", "ARREST_3B" } };
+			sound.effect(voices[std::min(catches, 3) - 1][random() % 2]);
+			if (catches >= 3) {
+				rules.phase = RaceRules::ARRESTED;
+				rules.finished_at = 0;
+			}
+			else {
+				warning_left = 4;
+				warning_cop = cop;
+				cop->police = Racer::GAVE_UP;
+			}
 		}
 		for (Racer &rc : racers) {
 			if (rc.police == Racer::GAVE_UP)
@@ -1838,7 +1940,16 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		float right[3], up[3], fwd[3];
 		car.axes(right, up, fwd);
 		float eye[3], target[3];
-		if (camera >= 2) {
+		if (warning_left > 0 && warning_cop) {
+			/* 0x43a690: from 40 beyond the cop, 30 up, at the player. */
+			float wx = warning_cop->car.pos[0] - car.pos[0], wz = warning_cop->car.pos[2] - car.pos[2];
+			float wl = std::max(sqrtf(wx * wx + wz * wz), 1.0f);
+			eye[0] = warning_cop->car.pos[0] + wx / wl * 40;
+			eye[1] = warning_cop->car.pos[1] + 30;
+			eye[2] = warning_cop->car.pos[2] + wz / wl * 40;
+			target[0] = car.pos[0], target[1] = car.pos[1] + 8, target[2] = car.pos[2];
+		}
+		else if (camera >= 2) {
 			const float *dir = camera == 2 ? right : fwd;
 			for (int i = 0; i < 3; i++) {
 				eye[i] = car.pos[i] + dir[i] * 45 + up[i] * 12;
