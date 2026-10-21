@@ -1756,11 +1756,9 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 			ro.gearbox = cr.upgrades[3];
 			ro.money = cr.money;
 			ro.turbo = (float)cr.turbo;
-			if (info.tracks[t].chase) {
-				std::vector<int> ct = int_list(static_ini.get("TRACK" + std::to_string(t), "CHASETIME"));
-				if (!ct.empty())
-					ro.time_limit = ct[(size_t)std::clamp(difficulty, 0, (int)ct.size() - 1)] / 1000.0f;
-			}
+			if (info.tracks[t].chase)
+				ro.checkpoint_speed = static_ini.get_int("CHECKPOINTTIME",
+					"Difficulty" + std::to_string(std::clamp(difficulty, 0, 2)), 110);
 			Mixer::get().stop(voice.voice);
 			stop_music();
 			RaceResult r;

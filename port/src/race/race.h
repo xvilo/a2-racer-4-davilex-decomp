@@ -13,7 +13,10 @@ struct RaceOptions {
 	int motor = 0, gearbox = 0, tyres = 0, abs = 0; /* the garage's upgrades (0 or 1) */
 	int difficulty = -1; /* 0 easy, 1 normal, 2 hard; -1: game.ini [OPTIONS] Difficulty */
 	int laps = 0;         /* 0: game.ini [OPTIONS] Nrlaps */
-	float time_limit = 0;
+	/* A chase's clock (Gm_ini.cpp: timer 11): game.ini [PLAYER] checkpoint_value times
+	 * CHECKPOINT_SPEED ms (the menu's static.ini [CHECKPOINTTIME] for the difficulty), and
+	 * as much again at each TIME_CHECK on the road. 0: no clock. */
+	int checkpoint_speed = 0;
 	/* The player's settings (the menu writes them to game.ini and Raser.ini in the
 	 * original): keys up, down, left, right as virtual-key codes (0: game.ini's), and
 	 * the music and effects volumes 0..1 (negative: Raser.ini's). */

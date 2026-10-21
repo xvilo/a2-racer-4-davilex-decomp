@@ -1420,7 +1420,18 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	};
 	float invulnerable_left = 0;
 	bool cheat_invincible = false;
-	float time_limit = opt.time_limit;
+	/* init_etappe_timer; 0x457da0 at a TIME_CHECK (trigger 45). */
+	float time_limit = 0, checkpoint_time = 0;
+	/* Testing: A2_CHECKPOINT_SPEED=<ms> gives --race the chase's clock. */
+	int checkpoint_speed = opt.checkpoint_speed;
+	if (checkpoint_speed <= 0 && getenv("A2_CHECKPOINT_SPEED"))
+		checkpoint_speed = atoi(getenv("A2_CHECKPOINT_SPEED"));
+	if (checkpoint_speed > 0) {
+		int value = std::max(gi.get_int("PLAYER", "checkpoint_value", 1000), 1);
+		checkpoint_time = (float)value * (float)checkpoint_speed / 1000;
+		time_limit = checkpoint_time;
+	}
+	int ticked = -1;
 	/* The knock's sound (FUN_00427400), by its impulse against the player's threshold. */
 	auto knock_sound = [&](float imp, bool wall, float since_last) {
 		const DamageModel &m = racers[0].damage_model;
@@ -1507,10 +1518,10 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			me.respawn(world, clock, track);
 			stuck_time = 0;
 		}
-		/* Gm_main.cpp's cheats: Ctrl + Space with T, 100 s more on the clock (EXTRA TIJD);
+		/* Gm_main.cpp's cheats: Ctrl + Space with T, 100 s on the clock (EXTRA TIJD);
 		 * with I, invincible (INVINCIBLE) or not. */
 		if (keyispressed(17) && keyispressed(32) && (in.key == 't' || in.key == 'T') && time_limit > 0) {
-			time_limit += 100;
+			time_limit = rules.time + 100;
 			message = hud.lang.get(TXT_EXTRA_TIME, "EXTRA TIJD");
 			message_time = 3;
 			in.key = KEY_NONE;
@@ -1547,7 +1558,14 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			rules.phase = RaceRules::TOTAL_LOSS;
 			rules.finished_at = 0;
 		}
-		/* A chase has to be finished in time. */
+		/* A chase has to be finished in time; FUN_0044c8c0 ticks its last five seconds. */
+		if (time_limit > 0 && rules.phase == RaceRules::RACING) {
+			int left = (int)(time_limit - rules.time);
+			if (left < 6 && left != ticked && rules.time < time_limit) {
+				ticked = left;
+				sound.effect("TIME_TICK");
+			}
+		}
 		if (time_limit > 0 && rules.time > time_limit && rules.phase == RaceRules::RACING) {
 			rules.phase = RaceRules::TIME_UP;
 			rules.finished_at = 0;
@@ -2053,6 +2071,13 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				case 59: comm.post("SYSTEM_goright", -1, clock); break;
 				case 60: comm.post("SYSTEM_gofork", -1, clock); break;
 				case 61: comm.post("SYSTEM_gozigzag", -1, clock); break;
+				case 45:
+					if (checkpoint_time > 0) {
+						time_limit += checkpoint_time;
+						ticked = -1;
+						sound.effect("CHECKPOINT");
+					}
+					break;
 				case 62: {
 					char cat[32];
 					snprintf(cat, sizeof cat, "~game_position_%02d", std::clamp(position_of(me), 1, 5));
