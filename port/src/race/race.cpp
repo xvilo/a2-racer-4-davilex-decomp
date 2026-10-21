@@ -1392,6 +1392,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		sound.effect(names[random() % 4]);
 	};
 	float invulnerable_left = 0;
+	bool cheat_invincible = false;
+	float time_limit = opt.time_limit;
 	/* The knock's sound (FUN_00427400), by its impulse against the player's threshold. */
 	auto knock_sound = [&](float imp, bool wall, float since_last) {
 		const DamageModel &m = racers[0].damage_model;
@@ -1476,6 +1478,22 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			me.respawn(world, clock, track);
 			stuck_time = 0;
 		}
+		/* Gm_main.cpp's cheats: Ctrl + Space with T, 100 s more on the clock (EXTRA TIJD);
+		 * with I, invincible (INVINCIBLE) or not. */
+		if (keyispressed(17) && keyispressed(32) && (in.key == 't' || in.key == 'T') && time_limit > 0) {
+			time_limit += 100;
+			message = hud.lang.get(TXT_EXTRA_TIME, "EXTRA TIJD");
+			message_time = 3;
+			in.key = KEY_NONE;
+		}
+		if (keyispressed(17) && keyispressed(32) && (in.key == 'i' || in.key == 'I')) {
+			cheat_invincible = !cheat_invincible;
+			if (cheat_invincible) {
+				message = hud.lang.get(TXT_INVINCIBLE, "INVINCIBLE");
+				message_time = 3;
+			}
+			in.key = KEY_NONE;
+		}
 		if (in.key == 'c' || in.key == 'C')
 			camera = (camera + 1) % 4;
 		if (in.key == 'r' || in.key == 'R')
@@ -1498,7 +1516,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			rules.finished_at = 0;
 		}
 		/* A chase has to be finished in time. */
-		if (opt.time_limit > 0 && rules.time > opt.time_limit && rules.phase == RaceRules::RACING) {
+		if (time_limit > 0 && rules.time > time_limit && rules.phase == RaceRules::RACING) {
 			rules.phase = RaceRules::TIME_UP;
 			rules.finished_at = 0;
 		}
@@ -2132,6 +2150,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					rc.player ? std::function<void()>(break_sound) : std::function<void()>([]() {}));
 		freeze_left = std::max(0.0f, freeze_left - frame_dt);
 		invulnerable_left = std::max(0.0f, invulnerable_left - frame_dt);
+		if (cheat_invincible)
+			invulnerable_left = std::max(invulnerable_left, 0.5f);
 		if (fast_left > 0 && (fast_left -= frame_dt) <= 0)
 			fov_target = 60; /* OnTurnoff: ChangeFOV(0.375) */
 		fov += (fov_target - fov) * std::min(frame_dt / (fov_target > 60 ? 1.0f : 0.5f), 1.0f);
@@ -2646,7 +2666,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		hud.damage = racers[0].damage;
 		hud.message = message;
 		hud.message_time = message_time;
-		hud.time_limit = opt.time_limit;
+		hud.time_limit = time_limit;
 		hud.flashes = flashes;
 		hud.draw(r, rules, car, position_of(me), field_size);
 		sys_gl_end_frame();
