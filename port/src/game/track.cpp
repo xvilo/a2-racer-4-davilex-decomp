@@ -69,6 +69,28 @@ std::string Track::load(const std::string &dir, int stage, int league)
 	read_animations(dir, raser.get("3D Anims", std::to_string(stage)), animations);
 	read_animations(dir, raser.get("3D Anims", "league" + std::to_string(league)), animations);
 
+	drive.clear();
+	std::vector<uint8_t> dmp;
+	if (read_file_ci(dir, info.file + ".dmp", dmp) && dmp.size() >= 4) {
+		auto i32 = [&](size_t p) {
+			return (int32_t)(dmp[p] | dmp[p + 1] << 8 | dmp[p + 2] << 16 | (uint32_t)dmp[p + 3] << 24);
+		};
+		int32_t n = i32(0);
+		for (int32_t i = 0; i < n && 4 + (size_t)(i + 1) * 36 <= dmp.size(); i++) {
+			size_t p = 4 + (size_t)i * 36;
+			DriveNode d;
+			d.flags = i32(p);
+			d.trigger = i32(p + 4);
+			for (int k = 0; k < 3; k++)
+				std::memcpy(&d.pos[k], &dmp[p + 8 + 4 * k], 4);
+			d.next = i32(p + 20);
+			d.left = i32(p + 24);
+			d.right = i32(p + 28);
+			d.prev = i32(p + 32);
+			drive.push_back(d);
+		}
+	}
+
 	objects.clear();
 	std::vector<uint8_t> omp;
 	if (read_file_ci(dir, info.file + ".omp", omp) && omp.size() >= 4) {
@@ -123,4 +145,31 @@ const Mesh *MeshCache::get(const std::string &name)
 	const Mesh *r = m.get();
 	meshes[key] = std::move(m);
 	return r;
+}
+
+int Track::find_trigger(int trigger) const
+{
+	for (size_t i = 0; i < road.chunks.size(); i++) {
+		if (road.chunks[i].a == trigger || road.chunks[i].b == trigger)
+			return (int)i;
+	}
+	return -1;
+}
+
+void Track::road_centre(int chunk, float out[3]) const
+{
+	int n = (int)road.chunks.size();
+	const RoadChunk &c = road.chunks[(size_t)(((chunk % n) + n) % n)];
+	float sum[3] = {};
+	int k = 0;
+	for (const RoadQuad &q : c.lists[0]) {
+		for (const RoadVertex &v : q.v) {
+			sum[0] += v.x;
+			sum[1] += v.y;
+			sum[2] += v.z;
+			k++;
+		}
+	}
+	for (int i = 0; i < 3; i++)
+		out[i] = k ? sum[i] / (float)k : c.pos[i];
 }

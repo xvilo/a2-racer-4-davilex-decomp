@@ -6,7 +6,9 @@ The game's own data is not included. Point the port at the original CD image, or
 
 ## Status
 
-Early: the window, the CD image and the resource archives work, and the main menu's background shows. The menu (a Delphi program in the original) and the race follow.
+Early. Working: the CD image, the resource archives, the stage files, and driving: `--race <stage>` puts the player's car (Checker cab, from `CAR_CFG.INI` and `VDYNS.DAT`) on the start line of a stage, with road collision (ground, walls, ramps), automatic gears and a chase camera. Not yet: other cars, police, race rules (laps, timing, finish), HUD, sound, and the menu (a Delphi program in the original).
+
+Keys while driving: the arrow keys (or those in `game.ini` [INPUT]) steer, accelerate and brake/reverse; C changes the camera (chase, driver, two inspection views); R puts the car back on the road; Esc quits.
 
 ## Download
 
@@ -33,6 +35,8 @@ For a self-contained executable, build SDL2 statically first: `tools/build_stati
 | `--data <dir or image>` | Where the game files are (also `A2_DATA`): the CD image (`.bin` with raw 2352-byte sectors, or `.iso`), a copy of the CD, or its `Data` folder |
 | `--save <dir>` | Where options and players go. Default: the user's data folder |
 | `--scale N` | Opens the window at N × 800×600. The window can be resized freely and keeps 4:3 |
+| `--race N` | Drives stage N (0–11) straight away; `--car N` picks the car (`CAR_CFG.INI` [league0] entry). For testing: `A2_AUTOPILOT=1` drives by itself along the lanes of the stage's drive map, `A2_TRACE=1` prints the car's state every second, `A2_START=<chunk>` starts elsewhere |
+| `--race-view N` | A fly-through along stage N's road |
 | `--screenshot file.png` | Draws the main menu, saves it and exits, without a window |
 | `--script file` | Scripted input for testing: keys, text, clicks and screenshots on a timeline (see `src/platform/sys.cpp`) |
 
@@ -44,3 +48,7 @@ For a self-contained executable, build SDL2 statically first: `tools/build_stati
 | `src/platform/` | SDL2: window, presenting the screen, OpenGL, input, time |
 | `src/res/` | The CD image, the resource archives and the picture formats (TGA, BMP, PCX) |
 | `src/gfx/` | PNG writer (screenshots) |
+| `src/engine/` | The 3D engine's parts: models (`.d3d`), road chunks, textures, drawing, collision |
+| `src/game/` | Stage description (`Raser.ini`, animations, objects, drive map), cars |
+| `src/race/` | The race loop and the fly-through view |
+| `src/xvga/` | INI files |

@@ -27,7 +27,7 @@ struct RoadQuad {
 
 struct RoadChunk {
 	float pos[3] = {};
-	int a = 0, b = 0;
+	int a = 0, b = 0; /* trigger numbers (etappe<n>.ini [triggers]) */
 	std::vector<int> links[3];
 	std::vector<RoadQuad> lists[4];
 };

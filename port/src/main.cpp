@@ -13,6 +13,7 @@
 
 #include "gfx/png.h"
 #include "platform/sys.h"
+#include "race/race.h"
 #include "race/race_view.h"
 #include "res/archive.h"
 #include "res/discimage.h"
@@ -47,6 +48,8 @@ static int usage()
 		"  --save <dir>         where options and players go (default: user data folder)\n"
 		"  --scale <n>          window size as a multiple of 800x600\n"
 		"  --screenshot <file>  draw the main menu, save it as PNG and exit\n"
+		"  --race <stage>       drive a stage (0..11) straight away\n"
+		"  --car <n>            the car for --race (CAR_CFG.INI [league<n>] entry)\n"
 		"  --race-view <stage>  fly along a stage's road (0..11; tests the 3D code)\n"
 		"  --league <n>         the league (0..2) for --race-view\n"
 		"  --script <file>      scripted input for testing (see platform/sys.cpp)\n"
@@ -130,7 +133,7 @@ static std::string find_data()
 struct Args {
 	std::string data, save, script, screenshot;
 	int scale = 1;
-	int race_view = -1, league = 0;
+	int race_view = -1, race = -1, league = 0, car = 0;
 };
 
 static bool parse_args(int argc, char **argv, Args &a)
@@ -151,6 +154,10 @@ static bool parse_args(int argc, char **argv, Args &a)
 			a.screenshot = v;
 		else if (opt == "--scale" && (v = value()))
 			a.scale = atoi(v);
+		else if (opt == "--race" && (v = value()))
+			a.race = atoi(v);
+		else if (opt == "--car" && (v = value()))
+			a.car = atoi(v);
 		else if (opt == "--race-view" && (v = value()))
 			a.race_view = atoi(v);
 		else if (opt == "--league" && (v = value()))
@@ -199,11 +206,24 @@ int main(int argc, char **argv)
 		return fatal(std::string("Cannot open the window: ") + SDL_GetError());
 	sys_set_screenshot(save_screen);
 
-	if (args.race_view >= 0) {
+	if (args.race_view >= 0 || args.race >= 0) {
 		NamedArchive rcs;
 		if (!rcs.open(game, "rcs"))
 			return fatal("Cannot read the race's archive (rcs.IND/.IMG) in " + game + ".");
-		int r = race_view(game, rcs, args.race_view, args.league);
+		int r;
+		if (args.race >= 0) {
+			RaceOptions ro;
+			ro.stage = args.race;
+			ro.league = args.league;
+			ro.car = args.car;
+			/* Testing: A2_AUTOPILOT=1 drives by itself. */
+			const char *ap = getenv("A2_AUTOPILOT");
+			ro.autopilot = ap && *ap && *ap != '0';
+			r = race_main(game, rcs, ro);
+		}
+		else {
+			r = race_view(game, rcs, args.race_view, args.league);
+		}
 		sys_shutdown();
 		return r;
 	}

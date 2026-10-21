@@ -186,6 +186,10 @@ bool sys_init(const char *title, const SysOptions &opt)
 	SDL_StopTextInput(); /* only while an edit box is open */
 	if (gl_context) {
 		SDL_GL_SetSwapInterval(1);
+		int depth = 0;
+		SDL_GL_GetAttribute(SDL_GL_DEPTH_SIZE, &depth);
+		if (depth < 16)
+			SDL_Log("OpenGL: only a %d-bit depth buffer", depth);
 		glGenTextures(1, &screen_texture);
 		glBindTexture(GL_TEXTURE_2D, screen_texture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

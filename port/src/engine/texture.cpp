@@ -1,5 +1,6 @@
 #include "engine/texture.h"
 
+#include <algorithm>
 #include <vector>
 
 #include "platform/gl.h"
@@ -36,6 +37,15 @@ unsigned TextureManager::get(const std::string &name)
 	bool ok = (rcs.read(base + ".tga", bytes) && decode_tga(bytes, img)) ||
 		(rcs.read(base + ".pcx", bytes) && decode_pcx(bytes, img));
 	if (ok && img.width > 0 && img.height > 0) {
+		/* A 768x512 TGA holds the 512x512 texture with its smaller mipmaps to the right:
+		 * the texture is the square on the left. */
+		if (img.width == img.height * 3 / 2) {
+			std::vector<uint32_t> sq((size_t)img.height * img.height);
+			for (int y = 0; y < img.height; y++)
+				std::copy_n(&img.pixels[(size_t)y * img.width], img.height, &sq[(size_t)y * img.height]);
+			img.pixels.swap(sq);
+			img.width = img.height;
+		}
 		bool any = false;
 		const uint32_t key = rgba(255, 0, 127);
 		for (uint32_t &p : img.pixels) {
