@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <functional>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -58,15 +59,20 @@ struct Keys {
 struct CarModel {
 	const Mesh *body = nullptr, *wheel = nullptr, *windows = nullptr;
 	unsigned body_tex = 0, wheel_tex = 0, windows_tex = 0;
+	/* All the animation's frames: 5 on are the damage phases' bodies. */
+	std::vector<std::pair<const Mesh *, unsigned>> frames;
 };
 
-void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = true)
+void draw_car(Renderer &r, const Car &car, const CarModel &m, bool windows = true, int phase = 0)
 {
 	float right[3], up[3], fwd[3];
 	car.axes(right, up, fwd);
 	glPushMatrix();
 	gl_mult_world(right, up, fwd, car.pos);
-	if (m.body)
+	/* A damageable car shows its phase's frame (5, 6, ..) for its body. */
+	if ((size_t)(5 + phase) < m.frames.size() && m.frames[(size_t)(5 + phase)].first)
+		r.draw_mesh(*m.frames[(size_t)(5 + phase)].first, m.frames[(size_t)(5 + phase)].second);
+	else if (m.body)
 		r.draw_mesh(*m.body, m.body_tex);
 	if (m.windows && windows)
 		r.draw_mesh(*m.windows, m.windows_tex);
@@ -203,11 +209,23 @@ struct DamageModel {
 	float min_imp = 70000, max_imp = 90000;        /* computer cars */
 	float min_player = 50000, max_player = 90000;  /* the player's */
 	int window = 1101, lights = 1101;               /* [Damageable Cars] */
+	std::vector<std::string> phases;                /* ... its phase meshes: frames 5, 6, .. */
+};
+
+/* [Damageable Car Objects]: the pieces drawn on a car (over its body) in one phase:
+ * attached at pos (its own pivot, y 1 lower), past `damaged` bent to pos2 turned by rot
+ * (degrees), and past `detached` (4 s on at least) off: gone, or lying on the road. */
+struct DamagePart {
+	std::string anim;
+	float pos[3] = {}, pos2[3] = {}, rot[3] = {};
+	int damaged = 1101, detached = 1101;
+	bool remove = false;
 };
 
 struct DamageTable {
 	int min_points = 25, max_points = 45;
 	std::map<std::string, DamageModel> models;
+	std::map<std::string, std::vector<DamagePart>> parts; /* by phase mesh name */
 
 	void load(const std::string &dir)
 	{
@@ -217,11 +235,27 @@ struct DamageTable {
 			return;
 		min_points = ini.get_int("Damage Limits", "min", min_points);
 		max_points = ini.get_int("Damage Limits", "max", max_points);
-		std::map<std::string, std::pair<int, int>> cars;
+		std::map<std::string, std::vector<std::string>> cars;
 		for (int i = 0; i < ini.get_int("Damageable Cars", "count", 0); i++) {
 			std::vector<std::string> f = split_fields(ini.get("Damageable Cars", std::to_string(i)));
 			if (f.size() >= 3)
-				cars[lower(f[0])] = { atoi(f[1].c_str()), atoi(f[2].c_str()) };
+				cars[lower(f[0])] = f;
+		}
+		for (const std::string &k : ini.keys("Damageable Car Objects")) {
+			std::vector<std::string> f = split_fields(ini.get("Damageable Car Objects", k));
+			if (f.size() < 14 || !isdigit((unsigned char)k[0]))
+				continue;
+			DamagePart part;
+			part.anim = f[1];
+			for (int a = 0; a < 3; a++) {
+				part.pos[a] = (float)atof(f[2 + a].c_str());
+				part.pos2[a] = (float)atof(f[5 + a].c_str());
+				part.rot[a] = (float)atof(f[8 + a].c_str());
+			}
+			part.damaged = atoi(f[11].c_str());
+			part.detached = atoi(f[12].c_str());
+			part.remove = atoi(f[13].c_str()) != 0;
+			parts[lower(f[0])].push_back(part);
 		}
 		for (int i = 0; i < ini.get_int("Damage Models", "count", 0); i++) {
 			std::vector<std::string> f = split_fields(ini.get("Damage Models", std::to_string(i)));
@@ -234,8 +268,11 @@ struct DamageTable {
 			m.max_player = (float)atof(f[4].c_str());
 			auto c = cars.find(lower(f[5]));
 			if (c != cars.end()) {
-				m.window = c->second.first;
-				m.lights = c->second.second;
+				m.window = atoi(c->second[1].c_str());
+				m.lights = atoi(c->second[2].c_str());
+				for (size_t k = 3; k < c->second.size(); k++)
+					if (!c->second[k].empty())
+						m.phases.push_back(lower(c->second[k]));
 			}
 			models[lower(f[0])] = m;
 		}
@@ -270,6 +307,16 @@ struct Racer {
 	float stuck = 0;
 	DamageModel damage_model;
 	float damage = 0;       /* 0..1100 */
+	/* The pieces of the current damage phase (FUN_00425490..FUN_00425be0). */
+	struct Piece {
+		const DamagePart *def;
+		const Mesh *mesh = nullptr;
+		unsigned tex = 0;
+		enum { ON, BENT, OFF } state = ON;
+		float bent_at = 0;
+	};
+	std::vector<Piece> pieces;
+	int phase = 0;
 	float last_hit = -1;    /* clock of the last knock: 60 ms between two */
 
 	/* FUN_00425310: one knock with impulse imp; true if it did damage. */
@@ -351,6 +398,110 @@ struct Racer {
 		return rules.phase == RaceRules::FINISHED ? 1e9f - rules.time : rules.progress;
 	}
 };
+
+/* A piece come off a car, lying where it fell (FUN_00425850: an Ipion body let go at
+ * rest; the port lays it on the ground). It stays for the race. */
+struct Debris {
+	float pos[3];
+	float yaw;
+	const DamagePart *def;
+	const Mesh *mesh;
+	unsigned tex;
+};
+
+/* A damage phase's pieces on the car, all attached. */
+void set_phase(Racer &rc, int phase, const DamageTable &t, const Track &track, MeshCache &meshes,
+	TextureManager &textures)
+{
+	rc.phase = phase;
+	rc.pieces.clear();
+	if ((size_t)phase >= rc.damage_model.phases.size())
+		return;
+	auto it = t.parts.find(rc.damage_model.phases[(size_t)phase]);
+	if (it == t.parts.end())
+		return;
+	for (const DamagePart &d : it->second) {
+		if (d.damaged <= 0)
+			continue;
+		Racer::Piece p;
+		p.def = &d;
+		if (const std::vector<AnimFrame> *f = track.animation(d.anim); f && !f->empty()) {
+			p.mesh = meshes.get((*f)[0].mesh);
+			p.tex = textures.get((*f)[0].texture);
+		}
+		rc.pieces.push_back(p);
+	}
+}
+
+/* After the damage changed: pieces bend, come off (sound, a piece on the road unless it
+ * just goes), and with all of a phase's off the next phase's body and pieces come. */
+template <typename Sound>
+void update_pieces(Racer &rc, float clock, const DamageTable &t, const Track &track, MeshCache &meshes,
+	TextureManager &textures, const CollisionWorld &world, std::vector<Debris> &debris, Sound sound)
+{
+	bool all_off = !rc.pieces.empty();
+	for (Racer::Piece &p : rc.pieces) {
+		const DamagePart &d = *p.def;
+		if (d.damaged >= 1101)
+			continue;
+		if (p.state == Racer::Piece::ON && rc.damage > (float)d.damaged) {
+			p.state = Racer::Piece::BENT;
+			p.bent_at = clock;
+		}
+		if (p.state == Racer::Piece::BENT && clock - p.bent_at >= 4 && rc.damage > (float)d.detached) {
+			p.state = Racer::Piece::OFF;
+			sound();
+			if (!d.remove && p.mesh) {
+				float right[3], up[3], fwd[3];
+				rc.car.axes(right, up, fwd);
+				Debris b;
+				for (int a = 0; a < 3; a++)
+					b.pos[a] = rc.car.pos[a] + right[a] * d.pos2[0] + up[a] * d.pos2[1] + fwd[a] * d.pos2[2];
+				GroundHit g;
+				if (world.ground(b.pos[0], b.pos[2], b.pos[1] + 20, rc.car.chunk, g))
+					b.pos[1] = g.y;
+				b.yaw = rc.car.yaw;
+				b.def = &d;
+				b.mesh = p.mesh;
+				b.tex = p.tex;
+				debris.push_back(b);
+			}
+		}
+		all_off = all_off && p.state == Racer::Piece::OFF;
+	}
+	if (all_off && (size_t)rc.phase + 1 < rc.damage_model.phases.size() &&
+		(size_t)(5 + rc.phase + 1) < rc.model.frames.size())
+		set_phase(rc, rc.phase + 1, t, track, meshes, textures);
+}
+
+/* The pieces in the car's frame: attached at pos (1 lower), bent at pos2 turned by rot
+ * (FUN_004a5a40: z, then x, then y). */
+void draw_pieces(Renderer &r, const Racer &rc)
+{
+	if (rc.pieces.empty())
+		return;
+	float right[3], up[3], fwd[3];
+	rc.car.axes(right, up, fwd);
+	glPushMatrix();
+	gl_mult_world(right, up, fwd, rc.car.pos);
+	for (const Racer::Piece &p : rc.pieces) {
+		if (!p.mesh || p.state == Racer::Piece::OFF)
+			continue;
+		const DamagePart &d = *p.def;
+		glPushMatrix();
+		if (p.state == Racer::Piece::BENT) {
+			glTranslatef(d.pos2[0], d.pos2[1], d.pos2[2]);
+			gl_rotate(d.rot[1], 0, 1, 0);
+			gl_rotate(d.rot[0], 1, 0, 0);
+			gl_rotate(d.rot[2], 0, 0, 1);
+		}
+		else
+			glTranslatef(d.pos[0], d.pos[1] - 1, d.pos[2]);
+		r.draw_mesh(*p.mesh, p.tex);
+		glPopMatrix();
+	}
+	glPopMatrix();
+}
 
 /* Two cars touching: pushed apart, the speed along the line between them shared out as
  * a slightly bouncy collision of their masses. Each car is two circles, front and back. */
@@ -458,6 +609,8 @@ CarModel load_model(const Track &track, MeshCache &meshes, TextureManager &textu
 				tex = textures.get((*f)[i].texture);
 			}
 		};
+		for (const AnimFrame &af : *f)
+			model.frames.push_back({ meshes.get(af.mesh), textures.get(af.texture) });
 		frame(0, model.body, model.body_tex);
 		frame(1, model.wheel, model.wheel_tex);
 		frame(2, model.windows, model.windows_tex);
@@ -710,8 +863,19 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			b.radius = std::max(b.mesh->max[0] - b.mesh->min[0], b.mesh->max[2] - b.mesh->min[2]) / 2;
 		bonuses.push_back(b);
 	}
-	for (Racer &rc : racers)
+	for (Racer &rc : racers) {
 		rc.damage_model = damage_table.get(rc.car.spec.damage_set);
+		if (rc.model.frames.size() > 5)
+			set_phase(rc, 0, damage_table, track, meshes, textures);
+	}
+	/* Testing: A2_DAMAGE=<n> starts the player's car damaged. */
+	if (const char *dm = getenv("A2_DAMAGE"))
+		racers[0].damage = std::clamp((float)atof(dm), 0.0f, 1098.0f);
+	std::vector<Debris> debris;
+	auto break_sound = [&]() {
+		static const char *names[4] = { "DAMAGE_GLASS", "DAMAGE_DOP", "DAMAGE_GLASS2", "DAMAGE_METALBAR" };
+		sound.effect(names[random() % 4]);
+	};
 	float invulnerable_left = 0;
 	/* The knock's sound (FUN_00427400), by its impulse against the player's threshold. */
 	auto knock_sound = [&](float imp, bool wall, float since_last) {
@@ -948,6 +1112,10 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		}
 		flash_message = std::max(0.0f, flash_message - frame_dt);
 		message_time = std::max(0.0f, message_time - frame_dt);
+		for (Racer &rc : racers)
+			if (!rc.pieces.empty())
+				update_pieces(rc, clock, damage_table, track, meshes, textures, world, debris,
+					rc.player ? std::function<void()>(break_sound) : std::function<void()>([]() {}));
 		freeze_left = std::max(0.0f, freeze_left - frame_dt);
 		invulnerable_left = std::max(0.0f, invulnerable_left - frame_dt);
 		if (fast_left > 0 && (fast_left -= frame_dt) <= 0)
@@ -1185,7 +1353,19 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		for (const Racer &rc : racers) {
 			int d = ((rc.car.chunk - c) % n + n) % n;
 			if (d <= 25 || d >= n - 25)
-				draw_car(r, rc.car, rc.model, rc.damage <= rc.damage_model.window);
+			{
+				draw_car(r, rc.car, rc.model, rc.damage <= rc.damage_model.window, rc.phase);
+				draw_pieces(r, rc);
+			}
+		}
+		for (const Debris &b : debris) {
+			glPushMatrix();
+			glTranslatef(b.pos[0], b.pos[1], b.pos[2]);
+			gl_rotate(-b.yaw * 180 / PI, 0, 1, 0);
+			gl_rotate(b.def->rot[0], 1, 0, 0);
+			gl_rotate(b.def->rot[2], 0, 0, 1);
+			r.draw_mesh(*b.mesh, b.tex);
+			glPopMatrix();
 		}
 		/* The pick-ups turn (OnInit: anglespeed 600, in 1024ths of a turn a second) and
 		 * pulse (OnFramecall: 1 + 0.3 sin(pi t)); taken, they shrink away (OnFadeout). */
