@@ -21,6 +21,7 @@
 #include "game/car.h"
 #include "game/language.h"
 #include "game/loose_objects.h"
+#include "game/paths.h"
 #include "game/police.h"
 #include "game/race_rules.h"
 #include "game/track.h"
@@ -450,6 +451,11 @@ struct Racer {
 	/* ai_supercop.cpp: D.T. Harry's humvee (TrackObject type 28), after the player from
 	 * the moment it sees it to the end. */
 	bool supercop = false;
+	/* A police car of a path (paths.h): out of sight until the player comes by, then
+	 * driving out along it. */
+	const Path *path = nullptr;
+	bool hidden = false, on_path = false;
+	float path_f = 0;
 	int was_police = NONE;  /* last frame's, for the communicator */
 	int was_ahead = -1;     /* ahead of the player last frame (1), behind (0), unknown */
 	/* Where it last drove on the road, for putting it back: a few seconds' worth, so the
@@ -1038,7 +1044,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (const char *pe = getenv("A2_POLICE"))
 		police_on = police_on && *pe != '0';
 	std::vector<const TrackObject *> radar_traps;
-	for (const TrackObject &o : police_on ? track.objects : std::vector<TrackObject>()) {
+	for (const TrackObject &o : track.objects) {
+		if (!police_on)
+			break;
 		if (o.type == 7)
 			radar_traps.push_back(&o);
 		if (o.type != 9 && o.type != 28)
@@ -1062,6 +1070,61 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		cop.car.place_at(world, o.pos, o.rot[1] * PI / 180);
 		cop.rules.phase = RaceRules::RACING;
 		racers.push_back(std::move(cop));
+	}
+	/* The paths (etappe<n>.pth): police cars pulling out (CAR_CFG.INI [traffic] COP0 for
+	 * PCOP, COP1 for GPCOP), and the vehicles that go by (paths.h). */
+	std::vector<Path> paths = load_paths(data_dir, track.info.file);
+	for (const Path &pa : paths) {
+		if (!police_on || !pa.police() || pa.points.empty())
+			continue;
+		int entry = CarSpec::find(data_dir, "traffic", pa.type >= Path::GPCOP_DEADEND ? "COP1" : "COP0");
+		Racer cop;
+		if (entry < 0 || !cop.car.spec.load(data_dir, "traffic", entry, 0, 0).empty())
+			continue;
+		cop.police = Racer::WAITING;
+		cop.model = load_model(track, meshes, textures, cop.car.spec.animation);
+		float p0[3], yaw0;
+		cop.path = &pa;
+		cop.path->at(0, p0, yaw0);
+		cop.car.place_at(world, p0, yaw0);
+		cop.hidden = true;
+		cop.rules.phase = RaceRules::RACING;
+		racers.push_back(std::move(cop));
+	}
+	struct PathVehicle {
+		const Path *path;
+		CarModel model;
+		const Mesh *mesh = nullptr, *rotor = nullptr;
+		unsigned tex = 0, rotor_tex = 0;
+		const char *sound = nullptr;
+		int voice = 0;
+		bool active = false, armed = true;
+		float f = 0;
+	};
+	std::vector<PathVehicle> vehicles;
+	for (const Path &pa : paths) {
+		PathVehicle v;
+		v.path = &pa;
+		const char *anim = nullptr;
+		switch (pa.type) {
+		case Path::BOAT: anim = "e00_rond"; break;
+		case Path::TRAIN: anim = "C_TREIN", v.sound = "TRAIN"; break;
+		case Path::HELICOPTER: anim = "C_HELI"; break;
+		case Path::PLANE: anim = "a_VLIEGT", v.sound = "PLANE"; break;
+		case Path::RANDOM_TRAFFIC: break;
+		default: continue;
+		}
+		if (anim) {
+			const std::vector<AnimFrame> *f = track.animation(anim);
+			if (!f || f->empty())
+				continue;
+			v.mesh = meshes.get((*f)[0].mesh);
+			v.tex = textures.get((*f)[0].texture);
+			if (pa.type == Path::HELICOPTER)
+				if (const std::vector<AnimFrame> *r = track.animation("C_LBLADE"); r && !r->empty())
+					v.rotor = meshes.get((*r)[0].mesh), v.rotor_tex = textures.get((*r)[0].texture);
+		}
+		vehicles.push_back(std::move(v));
 	}
 	/* The pick-ups (TrackObject type 25, "Bonus item", run by bonus.dso's CBonus events):
 	 * money, turbo oil, repairs, freezing the others, invulnerability, fast forward. Each
@@ -1373,6 +1436,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 				obstacles.push_back(obstacle_of(*l.mesh, l.pos, l.obj->rot[1] + l.yaw));
 		while (acc >= STEP) {
 			for (Racer &rc : racers) {
+				if (rc.hidden || rc.on_path)
+					continue;
 				rc.ai.obstacles = &obstacles;
 				CarInput ci;
 				if (rc.police == Racer::WAITING)
@@ -1429,6 +1494,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			for (size_t i = 0; i < racers.size(); i++) {
 				for (size_t j = i + 1; j < racers.size(); j++)
 				{
+					if (racers[i].hidden || racers[j].hidden)
+						continue;
 					float v = collide(racers[i].car, racers[j].car);
 					if (v <= 0)
 						continue;
@@ -1457,6 +1524,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			/* Knocking the loose objects about: a heavy one hurts like a car of its
 			 * mass; mailboxes, bins and paper burst once each time they are set going. */
 			for (Racer &rc : racers) {
+				if (rc.hidden)
+					continue;
 				LooseObject *hit_obj = nullptr;
 				float v = loose.hit(rc.car, hit_obj);
 				if (!hit_obj || v < 0.5f)
@@ -1605,6 +1674,74 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		fx.update(frame_dt, clock);
+		/* The paths come into play as the player reaches their first chunk (pth_main.cpp),
+		 * once each time it passes. */
+		auto in_window = [&](const Path &pa) {
+			int span = ((pa.end - pa.start) % n + n) % n, at = ((car.chunk - pa.start) % n + n) % n;
+			return car.chunk >= 0 && at <= std::max(span, 1);
+		};
+		for (Racer &rc : racers) {
+			if (!rc.path || rules.phase != RaceRules::RACING)
+				continue;
+			if (rc.hidden && !rc.on_path && rc.path_f == 0 && in_window(*rc.path)) {
+				rc.hidden = false;
+				rc.on_path = true;
+			}
+			if (!rc.on_path)
+				continue;
+			float before[3] = { rc.car.pos[0], rc.car.pos[1], rc.car.pos[2] };
+			rc.path_f = std::min(1.0f, rc.path_f + frame_dt / rc.path->time);
+			float p[3], yaw;
+			rc.path->at(rc.path_f, p, yaw);
+			GroundHit g;
+			rc.car.chunk = world.nearest_chunk(p[0], p[2], rc.car.chunk);
+			if (world.ground(p[0], p[2], p[1] + 30, rc.car.chunk, g))
+				p[1] = g.y;
+			std::copy(p, p + 3, rc.car.pos);
+			rc.car.yaw = yaw;
+			for (int a = 0; a < 3; a += 2)
+				rc.car.vel[a] = frame_dt > 0 ? (p[a] - before[a]) / frame_dt / 10 : 0;
+			if (rc.path_f >= 1) {
+				rc.on_path = false;
+				rc.car.vel[0] = rc.car.vel[2] = 0;
+				int t = rc.path->type;
+				if (t == Path::PCOP_DEADEND || t == Path::GPCOP_DEADEND)
+					rc.hidden = true;
+				else if (t == Path::PCOP_WAYPOINT || t == Path::GPCOP_WAYPOINT) {
+					rc.police = Racer::CHASING;
+					rc.target = 0;
+					rc.plan.begin(police_rules, police_rules.for_kind(rc.car.spec.name), cop_rnd);
+				}
+			}
+		}
+		for (PathVehicle &v : vehicles) {
+			bool inside = in_window(*v.path);
+			if (inside && v.armed && !v.active && rules.phase == RaceRules::RACING) {
+				v.active = true, v.armed = false, v.f = 0;
+				if (v.path->type == Path::RANDOM_TRAFFIC && !traffic.kinds.empty()) {
+					const CarSpec *spec = traffic.pick(random());
+					v.model = models[spec->animation];
+				}
+			}
+			if (!inside)
+				v.armed = true;
+			if (!v.active)
+				continue;
+			v.f += frame_dt / v.path->time;
+			float p[3], yaw;
+			v.path->at(std::min(v.f, 1.0f), p, yaw);
+			float dx = p[0] - car.pos[0], dz = p[2] - car.pos[2], d = sqrtf(dx * dx + dz * dz);
+			if (v.sound) {
+				if (!v.voice)
+					v.voice = sound.loop(v.sound);
+				sound.set(v.voice, std::clamp(1 - d / 2000, 0.0f, 1.0f));
+			}
+			if (v.f >= 1) {
+				v.active = false;
+				if (v.voice)
+					sound.stop_voice(v.voice), v.voice = 0;
+			}
+		}
 		/* What the communicator hears about: the road's triggers as the player reaches them
 		 * (58-61 the direction arrows, 62-68 FUN_00456050.. by the table at 0x5a3bb0), the
 		 * police setting off and giving up, rivals overtaking, heavy damage. */
@@ -1775,7 +1912,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			return k;
 		};
 		for (Racer &rc : racers) {
-			if (rc.police == Racer::NONE)
+			if (rc.police == Racer::NONE || rc.hidden || rc.on_path)
 				continue;
 			/* behavior.ini: the Supercop sees the player within FrontVisibilityRange chunks
 			 * ahead of it, RearVisibilityRange behind. */
@@ -2077,7 +2214,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			glColor4f(0, 0, 0, 0.5f);
 			for (const Racer &rc : racers) {
 				int d = ((rc.car.chunk - c) % n + n) % n;
-				if ((d > 25 && d < n - 25) || !rc.model.body)
+				if ((d > 25 && d < n - 25) || !rc.model.body || rc.hidden)
 					continue;
 				float right[3], up[3], fwd[3];
 				rc.car.axes(right, up, fwd);
@@ -2102,13 +2239,40 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		}
 		for (const Racer &rc : racers) {
 			int d = ((rc.car.chunk - c) % n + n) % n;
-			if (d <= 25 || d >= n - 25)
+			if ((d <= 25 || d >= n - 25) && !rc.hidden)
 			{
 				draw_car(r, rc.car, rc.model, rc.damage <= rc.damage_model.window, rc.phase);
 				draw_pieces(r, rc);
 			}
 		}
 		loose.draw(r, c, n, 25);
+		for (const PathVehicle &v : vehicles) {
+			if (!v.active)
+				continue;
+			float p[3], yaw;
+			v.path->at(std::min(v.f, 1.0f), p, yaw);
+			if (v.path->type == Path::RANDOM_TRAFFIC) {
+				Car shown;
+				std::copy(p, p + 3, shown.pos);
+				shown.yaw = yaw;
+				GroundHit g;
+				if (world.ground(p[0], p[2], p[1] + 30, world.nearest_chunk(p[0], p[2], c), g))
+					shown.pos[1] = g.y;
+				draw_car(r, shown, v.model);
+				continue;
+			}
+			if (!v.mesh)
+				continue;
+			glPushMatrix();
+			glTranslatef(p[0], p[1], p[2]);
+			gl_rotate(yaw * 180 / PI, 0, 1, 0);
+			r.draw_mesh(*v.mesh, v.tex);
+			if (v.rotor) {
+				gl_rotate(clock * 1440, 0, 1, 0);
+				r.draw_mesh(*v.rotor, v.rotor_tex);
+			}
+			glPopMatrix();
+		}
 		for (const Debris &b : debris) {
 			glPushMatrix();
 			glTranslatef(b.pos[0], b.pos[1], b.pos[2]);
@@ -2146,7 +2310,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
 			for (const Racer &rc : racers) {
 				int d = ((rc.car.chunk - c) % n + n) % n;
-				if (d > 12 && d < n - 12)
+				if ((d > 12 && d < n - 12) || rc.hidden)
 					continue;
 				float rr[3], uu[3], ff[3];
 				rc.car.axes(rr, uu, ff);

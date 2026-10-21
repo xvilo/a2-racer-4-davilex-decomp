@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 
+#include "engine/mesh.h"
 #include "engine/render.h"
 #include "engine/texture.h"
 #include "game/track.h"
@@ -147,6 +148,10 @@ void Overlay::element(Renderer &r, const std::string &name, float angle, float z
 	glScalef(zoom * stretch, -zoom, zoom);
 	if (angle != 0)
 		gl_rotate(-angle, 0, 0, 1);
+	/* The direction arrows and the turn-around sign are signs modelled lying down (x, z):
+	 * stood up, z runs down the screen. */
+	if (name.compare(0, 14, "OVL_DIRECTION_") == 0 || name == "OVL_TURNAROUND_FRAME")
+		gl_rotate(90, 1, 0, 0);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	/* The dashboard is see-through (its vertices' alpha), the glass over it more so; the
 	 * lamps' glows are alpha maps (black where clear), added on. */
