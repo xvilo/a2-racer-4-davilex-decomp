@@ -31,7 +31,7 @@ std::shared_ptr<Image> MenuResources::image(const std::string &name)
 		return it->second;
 	std::shared_ptr<Image> img;
 	std::vector<uint8_t> bytes;
-	if (rcs && rcs->read(key, bytes)) {
+	if ((rcs && rcs->read(key, bytes)) || (!dir.empty() && read_file_ci(dir, key, bytes))) {
 		img = std::make_shared<Image>();
 		if (!decode_image(key.c_str(), bytes, *img))
 			img.reset();

@@ -62,7 +62,7 @@ struct Static {
 		bool chase = false;                     /* CHASETIME set: escape the police */
 	};
 	struct Character {
-		std::string name, story, win;
+		std::string name, story, win, locked;
 		int car = 0; /* indexingame: the CAR_CFG.INI racer */
 		int accel = 3, speed = 3, handling = 3, brakes = 3;
 	};
@@ -70,6 +70,10 @@ struct Static {
 	std::map<int, Character> chars;
 	std::vector<int> quick_tracks, quick_chars, tour_tracks, tour_chars;
 	int quick_default_char = 0, tour_default_char = 0;
+	/* [QUICKRACE] the places in CHARIX of the character to download (DOWNLOADCHARIX)
+	 * and of the one the Tour unlocks (LOCKEDCHARIX: D.T. Harry). */
+	int quick_download_ix = -1, quick_locked_ix = -1;
+	std::string download_section;
 	/* [TUNEUPS] SPECS<n>= name, price, and what it adds to speed, acceleration, brakes,
 	 * handling; TEXT<n>. 0 motor, 1 tyres, 2 ABS, 3 gearbox, 4 turbo oil. */
 	struct TuneUp {
@@ -104,6 +108,7 @@ struct Static {
 			c.name = ini.get(sec, "name");
 			c.story = ini.get(sec, "story");
 			c.win = ini.get(sec, "winracetext");
+			c.locked = ini.get(sec, "lockedtext");
 			c.car = ini.get_int(sec, "indexingame", i);
 			c.accel = ini.get_int(sec, "accell", 3);
 			c.speed = ini.get_int(sec, "speed", 3);
@@ -117,6 +122,9 @@ struct Static {
 		tour_chars = int_list(ini.get("TOURRACE", "CHARIX"));
 		quick_default_char = ini.get_int("QUICKRACE", "DEFAULTCHAR", 0);
 		tour_default_char = ini.get_int("TOURRACE", "DEFAULTCHAR", 0);
+		quick_download_ix = ini.get_int("QUICKRACE", "DOWNLOADCHARIX", 7);
+		quick_locked_ix = ini.get_int("QUICKRACE", "LOCKEDCHARIX", 5);
+		download_section = ini.get("QUICKRACE", "DOWNLOADSECTION", "DOWNLOADCAR");
 		for (int i = 0; ini.has("TUNEUPS", "SPECS" + std::to_string(i)); i++) {
 			std::vector<std::string> f = split_fields(ini.get("TUNEUPS", "SPECS" + std::to_string(i)));
 			TuneUp u;
@@ -134,6 +142,7 @@ struct Static {
  * one of the variants that exist, picked at random). */
 struct MenuSound {
 	const NamedArchive *rcs = nullptr;
+	std::string dir; /* MenuData, for the sounds beside the archive (unlock.wav) */
 	int voice = 0;
 	float voices = 1, effects = 1; /* the player's volumes, 0..1 */
 	unsigned rnd = 1;
@@ -141,7 +150,7 @@ struct MenuSound {
 	bool play(const std::string &file)
 	{
 		std::vector<uint8_t> bytes;
-		if (!rcs || !rcs->read(file, bytes))
+		if (!(rcs && rcs->read(file, bytes)) && !(!dir.empty() && read_file_ci(dir, file, bytes)))
 			return false;
 		Mixer &mx = Mixer::get();
 		mx.stop(voice);
@@ -217,6 +226,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	MenuResources res;
 	res.prog = &prog;
 	res.rcs = &rcs;
+	res.dir = menu_dir;
 	res.caps = &caps;
 	res.font = &font;
 	Canvas cv;
@@ -244,6 +254,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		WIN, LOSE, WIN_CHASE, LOSE_CHASE, WIN_FINAL, QUIT } screen = MAIN;
 	MenuSound voice;
 	voice.rcs = &rcs;
+	voice.dir = menu_dir;
 	/* Dialogs shown over the screen (ShowModal), the last one on top; typing goes to its
 	 * text field. A dialog may want to see every frame (a key being chosen). */
 	struct Shown {
@@ -378,6 +389,38 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	}
 	int cycle = 0;
 	uint32_t next_cycle = 0;
+	/* What is locked (FUN_0049c78c, FUN_0049ca08): a track whose stage files are not all
+	 * there (the download race), a chase until the player's Tour has got to it; the
+	 * character to download until L0_ANIM.INI has it, D.T. Harry until the Tour is won. */
+	auto track_open = [&](size_t ix) {
+		const Static::Track &tr = info.tracks[info.quick_tracks[ix]];
+		for (const char *ext : { ".cmp", ".dmp", ".ini", ".omp", ".pmp", ".pth", ".rmp" })
+			if (find_file_ci(data_dir, "etappe" + std::to_string(tr.stage) + ext).empty())
+				return false;
+		if (!tr.chase)
+			return true;
+		size_t at = 0;
+		while (at < info.tour_tracks.size() && info.tour_tracks[at] != info.quick_tracks[ix])
+			at++;
+		for (const SaveGame::CharResult &cr : save.chars)
+			if ((size_t)cr.next_track >= at)
+				return true;
+		return false;
+	};
+	IniFile anim_ini;
+	anim_ini.load(find_file_ci(data_dir, "L0_anim.ini"));
+	auto char_open = [&](size_t ix) {
+		if ((int)ix == info.quick_download_ix)
+			return anim_ini.get_int(info.download_section, "Count", 0) > 0;
+		if ((int)ix == info.quick_locked_ix)
+			return save.unlock_popup_shown != 0;
+		return true;
+	};
+	auto update_next = [&]() {
+		if (Control *c = qr.get("btnNext"))
+			c->enabled = !info.quick_tracks.empty() && !info.quick_chars.empty() &&
+				track_open(track_ix % info.quick_tracks.size()) && char_open(char_ix % info.quick_chars.size());
+	};
 	auto show_track = [&]() {
 		if (info.quick_tracks.empty())
 			return;
@@ -387,8 +430,11 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (Control *c = qr.get("lblType"))
 			c->caption = tr.type;
 		show_record(qr, t);
-		if (Control *c = qr.get("lblLocked"))
-			c->visible = false;
+		if (Control *c = qr.get("lblLocked")) {
+			c->visible = !track_open(track_ix % info.quick_tracks.size());
+			c->caption = menu_ini.get("MENUSTRINGS", tr.chase ? "7" : "2");
+		}
+		update_next();
 		qr.set_graphic(res, "imgTrack1", numbered("qtc", t, "") + numbered("_", cycle));
 		if (Control *c = qr.get("imgTrack2"))
 			c->visible = false;
@@ -411,8 +457,11 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 					qr.extras.push_back({ res.image("redin_up.tga"), a00->x + k * (a01->x - a00->x),
 						a00->y + row * (a10->y - a00->y) });
 		}
-		if (Control *c = qr.get("lblCharLocked"))
-			c->visible = false;
+		if (Control *c = qr.get("lblCharLocked")) {
+			c->visible = !char_open(char_ix % info.quick_chars.size());
+			c->caption = cc.locked;
+		}
+		update_next();
 	};
 	show_track();
 	show_char();
@@ -424,6 +473,9 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	qr.handlers["btnPreviousClick"] = [&]() { screen = DIFFICULTY; };
 	qr.handlers["btnCloseClick"] = [&]() { screen = QUIT; };
 	qr.handlers["btnNextClick"] = [&]() { screen = RACE; };
+	Form unlockf;
+	unlockf.load(res, "TfrmUnlock", with({}));
+	unlockf.handlers["btnOk1"] = [&]() { close_dialog(); };
 
 	/* The results (TfrmResults): the field in finishing order, portraits and times
 	 * (the winner's, then the others' differences), the player's row highlighted, the
@@ -679,6 +731,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 	intro.load(res, "TfrmTrackIntro", with({}));
 	float intro_leave = -1;
 	bool tour_done = false; /* the race just won finished the Tour */
+	bool unlock_due = false; /* ... and the next Quick Race unlocks D.T. Harry */
 	CinepakFilm final_film;
 	bool final_film_on = false;
 	uint32_t final_film_start = 0;
@@ -742,6 +795,7 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 		if (through && (size_t)cr.next_track == tour_ix) {
 			cr.next_track++;
 			tour_done = (size_t)cr.next_track >= info.tour_tracks.size();
+			unlock_due = unlock_due || (tour_done && tr.chase);
 		}
 		if (r.finished && place == 1 && !tr.chase)
 			cr.money += static_ini.get_int("GAMEVALUES", "FirstPlaceBonus", 2500);
@@ -1661,6 +1715,19 @@ int menu_main(const std::string &data_dir, const NamedArchive &race_rcs, const s
 				check_record(t, r);
 			}
 			continue;
+		}
+		/* TfrmQuickRace's OnShown (0x49c6a0): D.T. Harry chosen, with unlock.wav and
+		 * TfrmUnlock (unlock.tga) over the screen. */
+		if (screen == QUICK && unlock_due && !save.unlock_popup_shown) {
+			unlock_due = false;
+			save.unlock_popup_shown = 1;
+			if (info.quick_locked_ix >= 0 && (size_t)info.quick_locked_ix < info.quick_chars.size()) {
+				char_ix = (size_t)info.quick_locked_ix;
+				show_char();
+			}
+			store_player();
+			voice.play("unlock.wav");
+			open_dialog(unlockf);
 		}
 		if (screen == QUICK && sys_ticks() >= next_cycle) {
 			next_cycle = sys_ticks() + 2000;

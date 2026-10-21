@@ -26,8 +26,9 @@ struct MenuResources {
 	const NamedArchive *rcs = nullptr;
 	const IniFile *caps = nullptr;
 	const TrueType *font = nullptr;
+	std::string dir; /* MenuData: the pictures kept beside the archive (SL_EXTERNAL) */
 	std::map<std::string, std::shared_ptr<Image>> cache;
-	/* A picture from MenuRcs (name with extension); null if missing. */
+	/* A picture from MenuRcs or MenuData (name with extension); null if missing. */
 	std::shared_ptr<Image> image(const std::string &name);
 };
 
