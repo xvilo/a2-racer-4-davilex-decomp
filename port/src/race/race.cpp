@@ -147,6 +147,9 @@ struct Hud {
 	bool lap_info_new = false;
 	/* Ovl_Requestors.cpp: 1 paused (P), 2 asking whether to quit (Esc). */
 	int requestor = 0;
+	/* game.ini [GFX OPTIONS] overlay_detail, toggled with D (CM_KEYB_D); with it off only
+	 * the requestors show. */
+	bool shown = true;
 	bool reset_prompt = false, wrong_way = false;
 	/* Ovl_Portraits.cpp: the racers' faces down the left in race order (game.ini
 	 * [Portraits] names each car's), the player's outlined, each one's time once in. */
@@ -270,9 +273,29 @@ struct Hud {
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
 	}
+	void draw_requestor(Renderer &r)
+	{
+		if (!requestor)
+			return;
+		overlay.element(r, "OVL_REQUESTOR_BODY");
+		bool quit = requestor == 2;
+		overlay.string(quit ? "STRING_QUIT_HEADER" : "STRING_PAUZE_HEADER",
+			lang.get(quit ? TXT_QUIT_HEADER : TXT_PAUSE_HEADER, quit ? "EINDE" : "PAUZE"));
+		float x, y;
+		if (overlay.origin(quit ? "STRING_QUIT_TEXT" : "STRING_PAUZE_TEXT", x, y)) {
+			const float green[4] = { 118 / 255.0f, 250 / 255.0f, 0, 1 };
+			overlay.text(x, y, lang.get(quit ? TXT_QUIT_1 : TXT_PAUSE_1, ""), 0.7f, green, true, false);
+			overlay.text(x, y + 18, lang.get(quit ? TXT_QUIT_2 : TXT_PAUSE_2, ""), 0.7f, green, true, false);
+		}
+	}
+
 	void draw(Renderer &r, const RaceRules &rules, const Car &car, int position, int racers)
 	{
 		overlay.begin();
+		if (!shown) {
+			draw_requestor(r);
+			return;
+		}
 		draw_flag(rules);
 		draw_faces(r, frame_dt);
 		draw_communicator(r);
@@ -331,18 +354,7 @@ struct Hud {
 		overlay.string("STRING_EURO_MONEY", buf);
 		if (wrong_way && rules.phase == RaceRules::RACING)
 			overlay.element(r, "OVL_TURNAROUND_FRAME");
-		if (requestor) {
-			overlay.element(r, "OVL_REQUESTOR_BODY");
-			bool quit = requestor == 2;
-			overlay.string(quit ? "STRING_QUIT_HEADER" : "STRING_PAUZE_HEADER",
-				lang.get(quit ? TXT_QUIT_HEADER : TXT_PAUSE_HEADER, quit ? "EINDE" : "PAUZE"));
-			float x, y;
-			if (overlay.origin(quit ? "STRING_QUIT_TEXT" : "STRING_PAUZE_TEXT", x, y)) {
-				const float green[4] = { 118 / 255.0f, 250 / 255.0f, 0, 1 };
-				overlay.text(x, y, lang.get(quit ? TXT_QUIT_1 : TXT_PAUSE_1, ""), 0.7f, green, true, false);
-				overlay.text(x, y + 18, lang.get(quit ? TXT_QUIT_2 : TXT_PAUSE_2, ""), 0.7f, green, true, false);
-			}
-		}
+		draw_requestor(r);
 		/* 3, 2, 1, go: each digit grows in during its second. */
 		if (rules.phase == RaceRules::COUNTDOWN) {
 			int n = std::clamp((int)rules.countdown + 1, 1, 3);
@@ -1076,6 +1088,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 	if (comm.load(data_dir))
 		hud.comm = &comm;
 	hud.flag_on = gi.get_int("GFX OPTIONS", "finish_flag", 1) != 0;
+	const bool overlay_off = gi.get_int("GFX OPTIONS", "disable_overlay", 0) != 0;
+	int overlay_detail = gi.get_int("GFX OPTIONS", "overlay_detail", 3);
+	hud.shown = !overlay_off && overlay_detail > 0;
 	for (int i = 0; gi.has("Portraits", std::to_string(i)); i++)
 		hud.face_names.push_back(gi.get("Portraits", std::to_string(i)));
 	const unsigned road_tex[4] = { textures.get(track.info.road_texture), textures.get(track.info.grass_texture),
@@ -1510,6 +1525,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		}
 		if (in.key == 'c' || in.key == 'C')
 			camera = (camera + 1) % 4;
+		if ((in.key == 'd' || in.key == 'D') && ++overlay_detail > 1)
+			overlay_detail = 0;
+		hud.shown = !overlay_off && overlay_detail > 0;
 		if (in.key == 'r' || in.key == 'R')
 			me.respawn(world, clock, track);
 		if (autopilot && clock > autopilot_until)
