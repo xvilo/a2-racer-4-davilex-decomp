@@ -125,8 +125,11 @@ jobs:
   # Every push to main replaces the "latest" pre-release with these builds, so they can
   # be downloaded without a GitHub account. A version tag (pushed, made with a release,
   # or given to a run started by hand) gets its builds attached to its own release.
+  # Older tags may not build everywhere (v0.4.0-v0.7.0 don't compile on Windows): their
+  # releases get the builds that did succeed.
   release:
     if: >-
+      !cancelled() && needs.linux.result == 'success' &&
       github.event_name != 'pull_request' &&
       (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || inputs.tag != '')
     needs: [linux, macos, windows]
@@ -167,7 +170,7 @@ jobs:
             assets=$(gh release view "$tag" --json assets --jq '.assets | length' 2> /dev/null || echo none)
             [ "$assets" = 0 ] || [ "$assets" = none ] || continue
             sha=$(gh api "repos/$GH_REPO/commits/$tag" --jq .sha)
-            run=$(gh run list --workflow build.yml --commit "$sha" --status success --limit 20 \
+            run=$(gh run list --workflow build.yml --commit "$sha" --status completed --limit 20 \
               --json databaseId,event --jq '[.[] | select(.event == "push")][0].databaseId // empty')
             rm -rf "backfill/$tag"
             if [ -z "$run" ] || ! gh run download "$run" -D "backfill/$tag"; then
@@ -176,6 +179,11 @@ jobs:
               continue
             fi
             files=$(find "backfill/$tag" -type f \( -name '*.zip' -o -name '*.tar.gz' \))
+            if [ -z "$files" ]; then
+              echo "$tag: run $run has no builds, starting a build of the tag"
+              gh workflow run build.yml --ref main -f tag="$tag"
+              continue
+            fi
             echo "$tag: attaching" $files "from run $run"
             if [ "$assets" = none ]; then
               gh release create "$tag" $files --verify-tag --title "$tag" --generate-notes

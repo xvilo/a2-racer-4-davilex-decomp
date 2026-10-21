@@ -628,8 +628,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			for (size_t t = 0; t < radar_traps.size(); t++) {
 				const TrackObject &o = *radar_traps[t];
 				float dx = o.pos[0] - car.pos[0], dz = o.pos[2] - car.pos[2];
-				bool near = dx * dx + dz * dz < 120 * 120;
-				if (near && !flashed[t] && car.speed_kmh() > 80) {
+				bool in_range = dx * dx + dz * dz < 120 * 120;
+				if (in_range && !flashed[t] && car.speed_kmh() > 80) {
 					flashed[t] = 1;
 					flashes++;
 					flash_message = 3;
@@ -649,7 +649,7 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 					if (best && bd < 3000.0f * 3000.0f)
 						best->police = Racer::CHASING;
 				}
-				if (!near)
+				if (!in_range)
 					flashed[t] = flashed[t] && dx * dx + dz * dz < 400 * 400;
 			}
 		}
