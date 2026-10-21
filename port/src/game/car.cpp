@@ -173,7 +173,7 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 		if (in.brake > 0) {
 			if (vf > 0.5f)
 				drive -= in.brake * m * 9.0f;
-			else if (vf > -25 / 3.6f)
+			else if (vf > -25 / 3.6f && in.brake > 0.5f)
 				drive -= in.brake * m * 3.0f;
 		}
 		/* Rolling resistance (more off the road) and air drag. */
@@ -182,6 +182,11 @@ void Car::step(const CollisionWorld &world, const CarInput &in, float dt)
 		drive -= vf * fabsf(vf) * 0.3f;
 	}
 
+	if (in.hold && !airborne) {
+		vf = vl = 0;
+		yaw_rate = 0;
+		drive = fl = rl = 0;
+	}
 	/* Integrate in the car's frame. */
 	float af = drive / m + vl * yaw_rate;
 	float al = (fl * cosf(steer) + rl) / m - vf * yaw_rate;

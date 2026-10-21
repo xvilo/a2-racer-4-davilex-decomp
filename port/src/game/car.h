@@ -41,6 +41,7 @@ struct CarInput {
 	float steer = 0;    /* -1 left .. 1 right */
 	float throttle = 0; /* 0..1 */
 	float brake = 0;    /* 0..1 */
+	bool hold = false;  /* held on the line (before the start) */
 };
 
 struct Car {

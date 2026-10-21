@@ -13,7 +13,8 @@ struct Renderer {
 
 	/* Binds a texture (0: none), with alpha testing for colour-keyed ones. */
 	void bind(unsigned tex);
-	void draw_mesh(const Mesh &m, unsigned tex);
+	/* tint: a colour for the whole model in place of its vertex colours. */
+	void draw_mesh(const Mesh &m, unsigned tex, const float *tint = nullptr);
 	/* A chunk's four lists with the stage's road, grass, second grass and rail textures. */
 	void draw_chunk(const RoadChunk &c, const unsigned tex[4]);
 };

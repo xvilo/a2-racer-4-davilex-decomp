@@ -38,6 +38,7 @@
 	X(void, Color4ub, (GLubyte r, GLubyte g, GLubyte b, GLubyte a)) \
 	X(void, Vertex3f, (GLfloat x, GLfloat y, GLfloat z)) \
 	X(void, Translatef, (GLfloat x, GLfloat y, GLfloat z)) \
+	X(void, Scalef, (GLfloat x, GLfloat y, GLfloat z)) \
 	X(void, PushMatrix, (void)) \
 	X(void, PopMatrix, (void)) \
 	X(void, ColorPointer, (GLint size, GLenum type, GLsizei stride, const void *ptr)) \
@@ -97,6 +98,7 @@ A2_GL_FUNCS(A2_GL_DECLARE)
 #define glColor4ub a2_glColor4ub
 #define glVertex3f a2_glVertex3f
 #define glTranslatef a2_glTranslatef
+#define glScalef a2_glScalef
 #define glPushMatrix a2_glPushMatrix
 #define glPopMatrix a2_glPopMatrix
 #define glColorPointer a2_glColorPointer

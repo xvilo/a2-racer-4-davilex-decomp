@@ -25,20 +25,25 @@ void Renderer::bind(unsigned tex)
 	}
 }
 
-void Renderer::draw_mesh(const Mesh &m, unsigned tex)
+void Renderer::draw_mesh(const Mesh &m, unsigned tex, const float *tint)
 {
 	if (m.indices.empty())
 		return;
 	bind(tex);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
 	const MeshVertex *v = m.vertices.data();
+	if (tint)
+		glColor4f(tint[0], tint[1], tint[2], tint[3]);
+	else {
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(MeshVertex), &v->colour);
+	}
 	glVertexPointer(3, GL_FLOAT, sizeof(MeshVertex), &v->x);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(MeshVertex), &v->u);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(MeshVertex), &v->colour);
 	glDrawElements(GL_TRIANGLES, (GLsizei)m.indices.size(), GL_UNSIGNED_SHORT, m.indices.data());
 	glDisableClientState(GL_COLOR_ARRAY);
+	glColor4f(1, 1, 1, 1);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }

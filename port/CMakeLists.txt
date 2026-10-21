@@ -25,9 +25,16 @@ add_executable(a2racer4 WIN32
 	src/engine/render.cpp
 	src/engine/collision.cpp
 	src/game/car.cpp
+	src/game/ai_driver.cpp
+	src/game/language.cpp
+	src/game/race_rules.cpp
+	src/engine/font.cpp
+	src/engine/overlay.cpp
 	src/game/track.cpp
 	src/race/race_view.cpp
 	src/race/race.cpp
+	src/audio/mixer.cpp
+	src/audio/race_sound.cpp
 )
 target_include_directories(a2racer4 PRIVATE src)
 # SDL2main (WinMain -> main) has to come before SDL2 for MinGW's linker.
