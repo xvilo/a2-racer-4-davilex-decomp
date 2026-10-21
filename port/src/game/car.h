@@ -26,6 +26,7 @@ struct CarSpec {
 	std::string name, animation, driver, sound, damage_set; /* damage_set: damage.ini [Damage Models] */
 	int type = 0, dynamics = 0;
 	float wheel_front[3] = { 7.5f, 0, 13 }, wheel_rear[3] = { 7.5f, 0, -15 };
+	float light_front[3] = { 6, 8, 20 }, light_rear[3] = { 6, 8, -20 }; /* the left ones */
 	float mass = 600;
 	float top_speed = 100;        /* km/h */
 	float grip = 0.7f, grip_shape = 3.8f;

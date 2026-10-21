@@ -41,6 +41,15 @@ std::string CarSpec::load(const std::string &dir, const std::string &section, in
 	type = atoi(f[5].c_str());
 	dynamics = atoi(f[7].c_str());
 	damage_set = f[8];
+	{
+		std::vector<std::string> w = split_fields(cfg.get("light_positions", std::to_string(type)));
+		if (w.size() >= 6) {
+			for (int k = 0; k < 3; k++) {
+				light_front[k] = (float)atof(w[k].c_str());
+				light_rear[k] = (float)atof(w[3 + k].c_str());
+			}
+		}
+	}
 	for (const char *key : { "wheel_positions" }) {
 		std::vector<std::string> w = split_fields(cfg.get(key, std::to_string(type)));
 		if (w.size() >= 6) {

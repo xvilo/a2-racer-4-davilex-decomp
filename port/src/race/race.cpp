@@ -913,6 +913,12 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			fx.car_bits(at, rc.car.yaw + PI, imp, rc.car.pos[1]);
 	};
 	float smoke_clock = 0, tyre_clock = 0;
+	const Mesh *beacon = nullptr;
+	unsigned beacon_tex = 0;
+	if (const std::vector<AnimFrame> *f = track.animation("coplights"); f && !f->empty()) {
+		beacon = meshes.get((*f)[0].mesh);
+		beacon_tex = textures.get((*f)[0].texture);
+	}
 	auto break_sound = [&]() {
 		static const char *names[4] = { "DAMAGE_GLASS", "DAMAGE_DOP", "DAMAGE_GLASS2", "DAMAGE_METALBAR" };
 		sound.effect(names[random() % 4]);
@@ -1475,6 +1481,54 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 						x = -x;
 			}
 			fx.draw(r, cr, cu, clock);
+			/* The lights' glows (car_whl.cpp): frames 3 (front) and 4 (back) of a car's
+			 * animation at its light_positions, both sides, brighter the more they face
+			 * the camera, turning as they brighten; blended as a soft add (ONE,
+			 * ONE_MINUS_SRC_COLOR). Gone with the lights' damage. A chasing police car's
+			 * blue lights turn on its roof. */
+			glDepthMask(GL_FALSE);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
+			for (const Racer &rc : racers) {
+				int d = ((rc.car.chunk - c) % n + n) % n;
+				if (d > 12 && d < n - 12)
+					continue;
+				float rr[3], uu[3], ff[3];
+				rc.car.axes(rr, uu, ff);
+				float dot = f[0] * ff[0] + f[1] * ff[1] + f[2] * ff[2];
+				auto glow = [&](size_t frame, const float at[3], float bright) {
+					if (bright <= 0 || frame >= rc.model.frames.size() || !rc.model.frames[frame].first)
+						return;
+					for (int side = -1; side <= 1; side += 2) {
+						glPushMatrix();
+						gl_mult_world(rr, uu, ff, rc.car.pos);
+						glTranslatef(at[0] * (float)side, at[1], at[2]);
+						gl_rotate(bright * 1500 * 360 / 1024, 0, 0, 1);
+						glScalef(bright, bright, bright);
+						r.draw_mesh(*rc.model.frames[frame].first, rc.model.frames[frame].second);
+						glPopMatrix();
+					}
+				};
+				if (rc.damage <= (float)rc.damage_model.lights) {
+					glow(3, rc.car.spec.light_front, std::max(0.0f, (fabsf(std::min(0.0f, dot)) - 0.6f) * 3.5f));
+					glow(4, rc.car.spec.light_rear, std::max(0.0f, (fabsf(std::min(0.0f, -dot)) - 0.6f) * 3.5f));
+				}
+				if (rc.siren && beacon) {
+					float sc = std::max(0.0f, (fabsf(dot) - 0.6f) * 12);
+					for (int side = -1; side <= 1 && sc > 0; side += 2) {
+						glPushMatrix();
+						gl_mult_world(rr, uu, ff, rc.car.pos);
+						glTranslatef(3.2f * (float)side, 15, -2.8f);
+						gl_rotate(clock * 6000 * 360 / 1024 * (float)side, 0, 1, 0);
+						glScalef(sc, sc, sc);
+						r.draw_mesh(*beacon, beacon_tex);
+						glPopMatrix();
+					}
+				}
+			}
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glDisable(GL_BLEND);
+			glDepthMask(GL_TRUE);
 		}
 		/* The pick-ups turn (OnInit: anglespeed 600, in 1024ths of a turn a second) and
 		 * pulse (OnFramecall: 1 + 0.3 sin(pi t)); taken, they shrink away (OnFadeout). */
