@@ -51,6 +51,12 @@ public:
 	std::shared_ptr<Image> background;
 	std::vector<Control> controls;
 	std::map<std::string, std::function<void()>> handlers;
+	/* Pictures the screen's code places itself (status indicators and the like). */
+	struct Extra {
+		std::shared_ptr<Image> img;
+		int x, y;
+	};
+	std::vector<Extra> extras;
 	bool closed = false;
 
 	/* Builds the form of class cls; button definitions get the graphic prefixes given

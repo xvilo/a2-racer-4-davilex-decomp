@@ -6,7 +6,11 @@ The game's own data is not included. Point the port at the original CD image, or
 
 ## Status
 
-Early. Working: the CD image, the resource archives, the stage files, and driving: `--race <stage>` puts the player's car (Checker cab, from `CAR_CFG.INI` and `VDYNS.DAT`) on the start line of a stage, with road collision (ground, walls, ramps), automatic gears and a chase camera. Not yet: other cars, police, race rules (laps, timing, finish), HUD, sound, and the menu (a Delphi program in the original).
+Working:
+- **The menu**, built at run time from the player's own `Menu.exe` (its form resources and class tables): the main screen and Quick Race (track and character choice, with their pictures and the character's ratings). Tour mode, options, players and the result screens follow.
+- **The race**: the stage with its scenery, sky and objects; the player's car from `CAR_CFG.INI` and `VDYNS.DAT` with the port's own physics (the original used the Ipion library); a countdown, laps, times, positions and the finish; five computer rivals; traffic both ways; police that wait by the road, chase, and arrest; radar traps; the original HUD from `overlay<n>.ini`; music, engine and effects.
+
+Not yet: damage, money and the garage, power-ups, the Tour, films (MPEG), the helper character, saved players.
 
 Keys while driving: the arrow keys (or those in `game.ini` [INPUT]) steer, accelerate and brake/reverse; C changes the camera (chase, driver, two inspection views); R puts the car back on the road; Esc quits.
 

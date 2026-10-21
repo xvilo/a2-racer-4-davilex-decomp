@@ -1,6 +1,7 @@
 #include "menu/forms.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstdlib>
 
 #include "menu/delphi.h"
@@ -95,8 +96,9 @@ bool Form::load(MenuResources &res, const std::string &klass, const std::map<std
 			c.colour = fc->kind == DfmValue::INT ? colorref(fc->i) : rgba(255, 255, 255);
 		c.wrap = o->get_bool("WordWrap", false);
 		c.centre = o->get_str("Alignment") == "taCenter";
-		/* Labels are given their text by the program: default to none. */
-		if (c.kind == Control::LABEL && c.caption == c.name)
+		/* Labels are given their text by the program: default to none. Labels named
+		 * lblAnc... only mark where the program puts things. */
+		if (c.kind == Control::LABEL && (c.caption == c.name || c.name.rfind("lblAnc", 0) == 0))
 			c.caption.clear();
 		controls.push_back(c);
 	}
@@ -158,9 +160,13 @@ bool Form::hit(const Control &c, int x, int y) const
 {
 	if (!c.visible || !c.enabled || x < c.x || y < c.y || x >= c.x + c.w || y >= c.y + c.h)
 		return false;
-	/* The region bitmap: black is outside. */
-	if (c.region && x - c.x < c.region->width && y - c.y < c.region->height)
-		return (c.region->pixels[(size_t)(y - c.y) * c.region->width + (x - c.x)] & 0xffffff) != 0;
+	/* The region bitmap: the colour of its bottom left pixel is outside (Delphi's
+	 * TransparentMode tmAuto), everything else inside. */
+	if (c.region && x - c.x < c.region->width && y - c.y < c.region->height) {
+		const Image &r = *c.region;
+		uint32_t outside = r.pixels[(size_t)(r.height - 1) * r.width] & 0xffffff;
+		return (r.pixels[(size_t)(y - c.y) * r.width + (x - c.x)] & 0xffffff) != outside;
+	}
 	return true;
 }
 
@@ -205,6 +211,10 @@ void Form::draw(Canvas &cv, const MenuResources &res) const
 			break;
 		}
 	}
+	for (const Extra &e : extras) {
+		if (e.img)
+			cv.blit(*e.img, e.x, e.y);
+	}
 }
 
 void Form::input(const SysInput &in)
@@ -220,6 +230,9 @@ void Form::input(const SysInput &in)
 	}
 	if (in.mouse_pressed)
 		pressed = hover;
+	if (in.mouse_clicked && getenv("A2_MENU_TRACE"))
+		printf("menu: click at %d,%d on %s (pressed %d)\n", in.mouse_x, in.mouse_y,
+			hover >= 0 ? controls[(size_t)hover].name.c_str() : "nothing", pressed);
 	if (in.mouse_clicked) {
 		if (pressed >= 0 && pressed == hover) {
 			Control &c = controls[(size_t)pressed];
@@ -233,6 +246,9 @@ void Form::input(const SysInput &in)
 			else if (c.kind == Control::CHECK)
 				c.checked = !c.checked;
 			auto h = handlers.find(c.on_click.empty() ? c.name : c.on_click);
+			if (getenv("A2_MENU_TRACE"))
+				printf("menu: %s clicked %s (%s)%s\n", cls.c_str(), c.name.c_str(), c.on_click.c_str(),
+					h == handlers.end() ? ": no handler" : "");
 			if (h != handlers.end())
 				h->second();
 		}
