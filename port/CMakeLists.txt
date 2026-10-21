@@ -35,8 +35,13 @@ add_executable(a2racer4 WIN32
 	src/race/race.cpp
 	src/audio/mixer.cpp
 	src/audio/race_sound.cpp
+	src/menu/delphi.cpp
+	src/menu/dfm.cpp
+	src/menu/canvas.cpp
+	src/menu/forms.cpp
+	src/menu/menu.cpp
 )
-target_include_directories(a2racer4 PRIVATE src)
+target_include_directories(a2racer4 PRIVATE src third_party)
 # SDL2main (WinMain -> main) has to come before SDL2 for MinGW's linker.
 if(TARGET SDL2::SDL2main)
 	target_link_libraries(a2racer4 PRIVATE SDL2::SDL2main)

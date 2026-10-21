@@ -13,6 +13,7 @@
 
 #include "gfx/png.h"
 #include "platform/sys.h"
+#include "menu/menu.h"
 #include "race/race.h"
 #include "race/race_view.h"
 #include "res/archive.h"
@@ -20,14 +21,6 @@
 #include "res/image.h"
 
 namespace fs = std::filesystem;
-
-/* The screen the menu draws on. */
-static std::vector<uint32_t> screen(SCREEN_W *SCREEN_H, rgba(0, 0, 0));
-
-static void save_screen(const char *path)
-{
-	png_write_rgba(path, screen.data(), SCREEN_W, SCREEN_H);
-}
 
 /* A fatal error: on the console, and on Windows (where a double-clicked game has no
  * console) in a message box. */
@@ -204,7 +197,6 @@ int main(int argc, char **argv)
 	opt.script = args.script;
 	if (!sys_init("A2 Racer 4", opt))
 		return fatal(std::string("Cannot open the window: ") + SDL_GetError());
-	sys_set_screenshot(save_screen);
 
 	if (args.race_view >= 0 || args.race >= 0) {
 		NamedArchive rcs;
@@ -228,28 +220,11 @@ int main(int argc, char **argv)
 		return r;
 	}
 
-	/* The main menu's background (Menu.exe's TfrmMainScreen). */
-	std::vector<uint8_t> bytes;
-	Image img;
-	if (menu_files.read("mainscre.bmp", bytes) && decode_bmp(bytes, img)) {
-		for (int y = 0; y < SCREEN_H && y < img.height; y++) {
-			for (int x = 0; x < SCREEN_W && x < img.width; x++)
-				screen[(size_t)y * SCREEN_W + x] = img.pixels[(size_t)y * img.width + x];
-		}
-	}
-	if (!args.screenshot.empty()) {
-		save_screen(args.screenshot.c_str());
-		sys_shutdown();
-		return 0;
-	}
-	SysInput in;
-	while (!sys_quit_requested()) {
-		sys_poll(in);
-		if (in.key == KEY_ESCAPE)
-			break;
-		sys_present(screen.data());
-		sys_sleep(10);
-	}
+	/* The menu (Menu.exe), which runs the races. */
+	NamedArchive rcs;
+	if (!rcs.open(game, "rcs"))
+		return fatal("Cannot read the race's archive (rcs.IND/.IMG) in " + game + ".");
+	int r = menu_main(game, rcs, args.screenshot);
 	sys_shutdown();
-	return 0;
+	return r;
 }
