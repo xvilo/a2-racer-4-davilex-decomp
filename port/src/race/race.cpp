@@ -718,6 +718,11 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 		float elapsed = 0;
 	};
 	std::map<const TrackObject *, Animated> animated;
+	/* The traffic lights (type 4, 0x454f70) all change together: red (frame 2) for 5 s,
+	 * green (0) for 5 s, orange (1) for 0.5 s. */
+	static const struct { int frame; float time; } light_cycle[3] = { { 2, 5 }, { 0, 5 }, { 1, 0.5f } };
+	int light_step = 0;
+	float light_time = 0;
 	/* The objects that play a sample (type 1, 0x4535d0): its etappe<n>.ini [Sounds] entry is
 	 * the object's flags; it sounds from where it stands, all the while the player is
 	 * near. */
@@ -1387,6 +1392,9 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			}
 		}
 		fx.update(frame_dt, clock);
+		light_time += frame_dt;
+		if (light_time >= light_cycle[light_step].time)
+			light_step = (light_step + 1) % 3, light_time = 0;
 		for (Ambient &am : ambients) {
 			float dx = am.obj->pos[0] - car.pos[0], dz = am.obj->pos[2] - car.pos[2];
 			float d = sqrtf(dx * dx + dz * dz);
@@ -1638,6 +1646,8 @@ int race_main(const std::string &data_dir, const NamedArchive &rcs, const RaceOp
 			size_t fi = 0;
 			if (auto a = animated.find(&o); a != animated.end())
 				fi = (size_t)std::clamp(a->second.type->frames[a->second.step].first, 0, (int)frames->size() - 1);
+			else if (o.type == 4)
+				fi = (size_t)std::min(light_cycle[light_step].frame, (int)frames->size() - 1);
 			const Mesh *m = meshes.get((*frames)[fi].mesh);
 			if (!m)
 				continue;

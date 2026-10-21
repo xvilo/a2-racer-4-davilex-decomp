@@ -3,6 +3,7 @@
  * a circle on the ground that slides, spins, bounces and tips over.
  *
  *   type  2 pilon               10 kg, friction 1.0, elasticity 0.6, sound PION_HIT_CAR
+ *         3 road works sign     50 kg, 0.9, 0.2, sound PAAL_HIT_CAR
  *        10 police blockade   2000 kg, 1.4, 0.2
  *        18 lamp post         2000 kg, 0.9, 0, hinged at its foot: it only falls over
  *        19 rubbish bin       2000 kg, 0.9, 0.2

@@ -90,6 +90,7 @@ void LooseObjects::build(const Track &track, MeshCache &meshes, TextureManager &
 		l.obj = &o;
 		switch (o.type) {
 		case 2: l.mass = 10, l.friction = 1, l.elasticity = 0.6f, l.sound = "PION_HIT_CAR"; break;
+		case 3: l.mass = 50, l.friction = 0.9f, l.sound = "PAAL_HIT_CAR"; break;
 		case 10: l.mass = 2000, l.friction = 1.4f; break;
 		case 18: l.mass = 2000, l.friction = 0.9f, l.elasticity = 0, l.hinged = true; break;
 		case 19: l.mass = 2000, l.friction = 0.9f; break;
