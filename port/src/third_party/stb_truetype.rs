@@ -51,12 +51,6 @@ use std::ops::Deref;
 
 pub use ::stb_truetype::{FontInfo, get_font_offset_for_index};
 
-// The C++ build (clang, -ffp-contract=on) fuses `a * b + c` within one expression into a
-// fused multiply-add; the same expressions use this to give the same pixels.
-#[inline]
-fn fmuladd(a: f32, b: f32, c: f32) -> f32 {
-	a.mul_add(b, c)
-}
 
 pub const STBTT_VMOVE: u8 = 1;
 pub const STBTT_VLINE: u8 = 2;
@@ -112,10 +106,10 @@ pub fn get_glyph_bitmap_box_subpixel<D: Deref<Target = [u8]>>(
 		None => (0, 0, 0, 0),
 		// move to integral bboxes (treating pixels as little squares, what pixels get touched)?
 		Some(b) => (
-			fmuladd(b.x0 as f32, scale_x, shift_x).floor() as i32,
-			fmuladd(-(b.y1 as i32) as f32, scale_y, shift_y).floor() as i32,
-			fmuladd(b.x1 as f32, scale_x, shift_x).ceil() as i32,
-			fmuladd(-(b.y0 as i32) as f32, scale_y, shift_y).ceil() as i32,
+			(b.x0 as f32 * scale_x + shift_x).floor() as i32,
+			((-(b.y1 as i32) as f32) * scale_y + shift_y).floor() as i32,
+			(b.x1 as f32 * scale_x + shift_x).ceil() as i32,
+			((-(b.y0 as i32) as f32) * scale_y + shift_y).ceil() as i32,
 		),
 	}
 }
@@ -156,7 +150,7 @@ struct ActiveEdge {
 
 fn new_active(e: &Edge, off_x: i32, start_point: f32) -> ActiveEdge {
 	let dxdy = (e.x1 - e.x0) / (e.y1 - e.y0);
-	let mut fx = fmuladd(dxdy, start_point - e.y0, e.x0);
+	let mut fx = (dxdy * (start_point - e.y0) + e.x0);
 	fx -= off_x as f32;
 	ActiveEdge {
 		fdx: dxdy,
@@ -200,11 +194,11 @@ fn handle_clipped_edge(
 	let xf = x as f32;
 	let xi = x as usize;
 	if x0 <= xf && x1 <= xf {
-		scanline[xi] = fmuladd(e.direction, y1 - y0, scanline[xi]);
+		scanline[xi] = (e.direction * (y1 - y0) + scanline[xi]);
 	} else if x0 >= (x + 1) as f32 && x1 >= (x + 1) as f32 {
 	} else {
 		// coverage = 1 - average x position
-		scanline[xi] = fmuladd(e.direction * (y1 - y0), 1.0 - ((x0 - xf) + (x1 - xf)) / 2.0, scanline[xi]);
+		scanline[xi] = ((e.direction * (y1 - y0)) * (1.0 - ((x0 - xf) + (x1 - xf)) / 2.0) + scanline[xi]);
 	}
 }
 
@@ -253,14 +247,14 @@ fn fill_active_edges_new(scanline: &mut [f32], scanline2: &mut [f32], len: i32, 
 			// line segment starts on this scanline. x0 is the intersection of the
 			// line with y_top, but that may be off the line segment.
 			if e.sy > y_top {
-				x_top = fmuladd(dx, e.sy - y_top, x0);
+				x_top = (dx * (e.sy - y_top) + x0);
 				sy0 = e.sy;
 			} else {
 				x_top = x0;
 				sy0 = y_top;
 			}
 			if e.ey < y_bottom {
-				x_bottom = fmuladd(dx, e.ey - y_top, x0);
+				x_bottom = (dx * (e.ey - y_top) + x0);
 				sy1 = e.ey;
 			} else {
 				x_bottom = xb;
@@ -292,10 +286,10 @@ fn fill_active_edges_new(scanline: &mut [f32], scanline2: &mut [f32], len: i32, 
 					let x1 = x_top as i32;
 					let x2 = x_bottom as i32;
 					// compute intersection with y axis at x1+1
-					let mut y_crossing = fmuladd(dy, (x1 + 1) as f32 - x0, y_top);
+					let mut y_crossing = (dy * ((x1 + 1) as f32 - x0) + y_top);
 
 					// compute intersection with y axis at x2
-					let mut y_final = fmuladd(dy, x2 as f32 - x0, y_top);
+					let mut y_final = (dy * (x2 as f32 - x0) + y_top);
 
 					//           x1    x_top                            x2    x_bottom
 					//     y_top  +------|-----+------------+------------+--------|---+------------+
@@ -355,14 +349,10 @@ fn fill_active_edges_new(scanline: &mut [f32], scanline2: &mut [f32], len: i32, 
 
 					// area covered in the last pixel is the rectangle from all the pixels to the left,
 					// plus the trapezoid filled by the line segment in this pixel all the way to the right edge
-					scanline[x2 as usize] += fmuladd(
-						sign,
-						position_trapezoid_area(sy1 - y_final, x2 as f32, x2 as f32 + 1.0, x_bottom, x2 as f32 + 1.0),
-						area,
-					);
+					scanline[x2 as usize] += (sign * (position_trapezoid_area(sy1 - y_final, x2 as f32, x2 as f32 + 1.0, x_bottom, x2 as f32 + 1.0)) + area);
 
 					// the rest of the line is filled based on the total height of the line segment in this pixel
-					scanline2[x2 as usize + 1] = fmuladd(sign, sy1 - sy0, scanline2[x2 as usize + 1]);
+					scanline2[x2 as usize + 1] = (sign * (sy1 - sy0) + (scanline2[x2 as usize + 1]));
 				}
 			} else {
 				// if edge goes outside of box we're drawing, we require
@@ -483,7 +473,7 @@ fn rasterize_sorted_edges(result: &mut Bitmap, e: &mut [Edge], n: usize, _vsubsa
 			for i in 0..w {
 				sum += scanline2[i];
 				let mut k = scanline[i] + sum;
-				k = fmuladd(k.abs(), 255.0, 0.5);
+				k = ((k.abs()) * 255.0 + 0.5);
 				let mut m = k as i32;
 				if m > 255 {
 					m = 255;
@@ -628,10 +618,10 @@ fn rasterize_windings(
 					a = j;
 					b = k;
 				}
-				e[n].x0 = fmuladd(p[a].x, scale_x, shift_x);
-				e[n].y0 = fmuladd(p[a].y, y_scale_inv, shift_y) * vsubsample as f32;
-				e[n].x1 = fmuladd(p[b].x, scale_x, shift_x);
-				e[n].y1 = fmuladd(p[b].y, y_scale_inv, shift_y) * vsubsample as f32;
+				e[n].x0 = (p[a].x * scale_x + shift_x);
+				e[n].y0 = (p[a].y * y_scale_inv + shift_y) * vsubsample as f32;
+				e[n].x1 = (p[b].x * scale_x + shift_x);
+				e[n].y1 = (p[b].y * y_scale_inv + shift_y) * vsubsample as f32;
 				n += 1;
 			}
 			j = k;
@@ -658,8 +648,8 @@ fn tesselate_curve(
 	n: i32,
 ) -> i32 {
 	// midpoint
-	let mx = (fmuladd(2.0, x1, x0) + x2) / 4.0;
-	let my = (fmuladd(2.0, y1, y0) + y2) / 4.0;
+	let mx = ((2.0 * x1 + x0) + x2) / 4.0;
+	let my = ((2.0 * y1 + y0) + y2) / 4.0;
 	// versus directly drawn line
 	let dx = (x0 + x2) / 2.0 - mx;
 	let dy = (y0 + y2) / 2.0 - my;
@@ -667,7 +657,7 @@ fn tesselate_curve(
 		// 65536 segments on one curve better be enough!
 		return 1;
 	}
-	if fmuladd(dx, dx, dy * dy) > objspace_flatness_squared {
+	if (dx * dx + dy * dy) > objspace_flatness_squared {
 		// half-pixel error allowed... need to be smaller if AA
 		tesselate_curve(points, x0, y0, (x0 + x1) / 2.0, (y0 + y1) / 2.0, mx, my, objspace_flatness_squared, n + 1);
 		tesselate_curve(points, mx, my, (x1 + x2) / 2.0, (y1 + y2) / 2.0, x2, y2, objspace_flatness_squared, n + 1);
@@ -699,11 +689,11 @@ fn tesselate_cubic(
 	let dy2 = y3 - y2;
 	let dx = x3 - x0;
 	let dy = y3 - y0;
-	let longlen = ((fmuladd(dx0, dx0, dy0 * dy0) as f64).sqrt()
-		+ (fmuladd(dx1, dx1, dy1 * dy1) as f64).sqrt()
-		+ (fmuladd(dx2, dx2, dy2 * dy2) as f64).sqrt()) as f32;
-	let shortlen = (fmuladd(dx, dx, dy * dy) as f64).sqrt() as f32;
-	let flatness_squared = fmuladd(longlen, longlen, -(shortlen * shortlen));
+	let longlen = (((dx0 * dx0 + dy0 * dy0) as f64).sqrt()
+		+ ((dx1 * dx1 + dy1 * dy1) as f64).sqrt()
+		+ ((dx2 * dx2 + dy2 * dy2) as f64).sqrt()) as f32;
+	let shortlen = ((dx * dx + dy * dy) as f64).sqrt() as f32;
+	let flatness_squared = (longlen * longlen + -(shortlen * shortlen));
 
 	if n > 16 {
 		// 65536 segments on one curve better be enough!

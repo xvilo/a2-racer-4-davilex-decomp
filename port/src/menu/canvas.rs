@@ -7,12 +7,6 @@ use crate::res::archive::latin1_bytes;
 use crate::res::image::Image;
 use crate::third_party::stb_truetype::{self as stbtt, FontInfo};
 
-// The C++ build (clang, -ffp-contract=on) fuses `a * b + c` within one expression into a
-// fused multiply-add; the same expressions use this to give the same pixels.
-#[inline]
-fn fmuladd(a: f32, b: f32, c: f32) -> f32 {
-	a.mul_add(b, c)
-}
 
 #[derive(Clone)]
 pub struct Canvas {
@@ -31,7 +25,7 @@ fn mix(dst: u32, src: u32, a: f32) -> u32 {
 	let mut d = dst.to_ne_bytes();
 	let s = src.to_ne_bytes();
 	for k in 0..3 {
-		d[k] = (fmuladd((s[k] as i32 - d[k] as i32) as f32, a, d[k] as f32) + 0.5) as u8;
+		d[k] = ((((s[k] as i32 - d[k] as i32) as f32) * a + d[k] as f32) + 0.5) as u8;
 	}
 	d[3] = 255;
 	u32::from_ne_bytes(d)
@@ -125,9 +119,9 @@ impl TrueType {
 		for i in 0..text.len() {
 			let c = cp1252(text[i]);
 			let adv = f.get_codepoint_h_metrics(c as u32).advance_width;
-			w = fmuladd(adv as f32, scale, w);
+			w = (adv as f32 * scale + w);
 			if i + 1 < text.len() {
-				w = fmuladd(scale, f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32, w);
+				w = (scale * (f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32) + w);
 			}
 		}
 		w
@@ -178,7 +172,7 @@ impl TrueType {
 		let text = latin1_bytes(text);
 		let scale = f.scale_for_pixel_height(px);
 		let ascent = f.get_v_metrics().ascent;
-		let base = fmuladd(ascent as f32, scale, y as f32);
+		let base = (ascent as f32 * scale + y as f32);
 		let mut pen = x as f32;
 		for i in 0..text.len() {
 			let c = cp1252(text[i]);
@@ -206,9 +200,9 @@ impl TrueType {
 					}
 				}
 			}
-			pen = fmuladd(adv as f32, scale, pen);
+			pen = (adv as f32 * scale + pen);
 			if i + 1 < text.len() {
-				pen = fmuladd(scale, f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32, pen);
+				pen = (scale * (f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32) + pen);
 			}
 		}
 	}
