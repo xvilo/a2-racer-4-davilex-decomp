@@ -2,7 +2,8 @@
 //! polygons to the Ipion physics library (Rd_chunk.cpp: one physical object per chunk,
 //! "ChunkMaterial"); the port keeps its own simple version: the road's level triangles (up
 //! to ~40 degrees) are the ground, steeper ones (guard rails, kerbs, walls, embankments,
-//! bridge sides) are walls.
+//! bridge sides) are walls; with them the stage's rails and solid objects, which block from
+//! both sides.
 
 use crate::engine::mesh::Mesh;
 use crate::engine::road::Road;
@@ -170,9 +171,27 @@ impl CollisionWorld {
 							&p[2],
 							l as i32,
 							q.v[q.tri[t * 3 + 2] as usize].colour,
+							false,
 						);
 					}
 				}
+			}
+			// The chunk's rails (Rd_chunk.cpp FUN_004abdc0): upright quads from 25 below the
+			// chunk to 100 above it.
+			for &ri in &rc.links[0] {
+				let Some(rail) = road.rails.get(ri as usize) else {
+					continue;
+				};
+				let (x0, z0) = (rail.pos[0], rail.pos[2]);
+				let (x1, z1) = (x0 + rail.dir[0], z0 + rail.dir[2]);
+				let bottom = rc.pos[1] - 25.0;
+				let top = rc.pos[1] + 100.0;
+				let a = [x0, bottom, z0];
+				let b = [x1, bottom + rail.dir[1], z1];
+				let c = [x0, top, z0];
+				let d = [x1, top + rail.dir[1], z1];
+				self.add_triangle(i as i32, &a, &b, &c, 3, 0xffffffff, true);
+				self.add_triangle(i as i32, &c, &b, &d, 3, 0xffffffff, true);
 			}
 		}
 	}
@@ -199,13 +218,25 @@ impl CollisionWorld {
 		let mut i = 0;
 		while i + 2 < m.indices.len() {
 			let (a, b, c) = (m.indices[i] as usize, m.indices[i + 1] as usize, m.indices[i + 2] as usize);
-			self.add_triangle(chunk, &world[a], &world[b], &world[c], 3, 0xffffffff);
+			self.add_triangle(chunk, &world[a], &world[b], &world[c], 3, 0xffffffff, true);
 			i += 3;
 		}
 	}
 
-	/// Sorts a triangle into the chunk's ground or walls; list: where it came from.
-	fn add_triangle(&mut self, chunk: i32, a: &[f32; 3], b: &[f32; 3], c3: &[f32; 3], list: i32, colour: u32) {
+	/// Sorts a triangle into the chunk's ground or walls; list: where it came from. A
+	/// two-sided triangle's wall blocks from both sides (a solid object's collision shape
+	/// is often one flat face).
+	#[allow(clippy::too_many_arguments)]
+	fn add_triangle(
+		&mut self,
+		chunk: i32,
+		a: &[f32; 3],
+		b: &[f32; 3],
+		c3: &[f32; 3],
+		list: i32,
+		colour: u32,
+		two_sided: bool,
+	) {
 		let c = &mut self.chunks[chunk as usize];
 		let mut tr = Tri { a: *a, b: *b, c: *c3, normal: [0.0; 3], list: 0, colour: 0 };
 		let mut u = [0f32; 3];
@@ -281,6 +312,9 @@ impl CollisionWorld {
 			return;
 		}
 		c.walls.push(wl);
+		if two_sided {
+			c.walls.push(Wall { nx: -wl.nx, nz: -wl.nz, ..wl });
+		}
 	}
 
 	/// The chunk nearest to (x, z), searching outwards from hint along the ring.
@@ -429,5 +463,54 @@ mod tests {
 		let hit = world.ground(cx, cz, 1e9, i as i32);
 		assert!(hit.is_some());
 		assert!(hit.unwrap().normal[1] > 0.75);
+	}
+
+	/// The stage's invisible rails (etappe<n>.cmp) close the road where its own polygons
+	/// don't: stage 0's road ends at x -14564 by chunk 121, with rail 214 at x -14604 before it.
+	#[test]
+	fn the_rails_keep_the_car_on_the_road() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
+			return;
+		}
+		let mut road = Road::default();
+		assert_eq!(road.load(&crate::res::archive::test_data(), "etappe0"), "");
+		let mut world = CollisionWorld::default();
+		world.build(&road);
+		for start in [-14610.0f32, -14598.0] {
+			let (mut x, mut z) = (start, 4575.0);
+			assert!(world.push_out(&mut x, &mut z, 9.5, 4.0, 12.0, 121).is_some(), "from x {start}");
+		}
+	}
+
+	/// A collision shape that is one flat face (the trees' e00_col1, the traffic lights'
+	/// 0_col6) blocks from both sides.
+	#[test]
+	fn a_flat_solid_object_blocks_from_both_sides() {
+		let mut road = Road::default();
+		road.chunks.push(Default::default());
+		let mut world = CollisionWorld::default();
+		world.build(&road);
+		let v = |x: f32, y: f32| crate::engine::mesh::MeshVertex {
+			x,
+			y,
+			z: 0.0,
+			nx: 0.0,
+			ny: 0.0,
+			nz: 0.0,
+			u: 0.0,
+			v: 0.0,
+			colour: 0,
+		};
+		let m = Mesh {
+			vertices: vec![v(-6.0, 0.0), v(6.0, 0.0), v(6.0, 95.0), v(-6.0, 95.0)],
+			indices: vec![0, 1, 2, 0, 2, 3],
+			..Default::default()
+		};
+		world.add_mesh(&m, &[0.0, 0.0, 0.0], &[0.0, 0.0, 0.0], 0);
+		for side in [-1.0f32, 1.0] {
+			let (mut x, mut z) = (0.0, 5.0 * side);
+			assert!(world.push_out(&mut x, &mut z, 9.5, 4.0, 12.0, 0).is_some(), "from side {side}");
+			assert!(z * side > 5.0, "pushed away on side {side}: z {z}");
+		}
 	}
 }

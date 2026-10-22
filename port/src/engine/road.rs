@@ -7,7 +7,11 @@
 //!                   { float x, y, z, u, v; u8 r, g, b, unused } and 6 x int32 vertex indices
 //!                   (its two triangles)
 //!   etappe<n>.pmp   int32 chunk count; then per chunk { float x, y, z; int32 a, b; three
-//!                   lists { int32 count (at most 12); int32 values[count] } }
+//!                   lists { int32 count (at most 12); int32 values[count] } }, the first
+//!                   the chunk's rails (Rd_chunk.cpp FUN_004ab6d0)
+//!   etappe<n>.cmp   int32 count; then count x { float x, y, z, dx, dy, dz }: the rails
+//!                   (rd_rail.cpp), invisible walls from (x, y, z) to (x+dx, y+dy, z+dz)
+//!                   closing the road where its polygons don't
 
 use crate::res::archive::read_file_ci;
 use crate::res::image::rgb;
@@ -30,12 +34,19 @@ pub struct RoadQuad {
 	pub tri: [i32; 6],
 }
 
+#[derive(Clone, Copy, Default, Debug)]
+pub struct RoadRail {
+	pub pos: [f32; 3],
+	pub dir: [f32; 3],
+}
+
 #[derive(Clone, Default, Debug)]
 pub struct RoadChunk {
 	pub pos: [f32; 3],
 	/// trigger numbers (etappe<n>.ini [triggers])
 	pub a: i32,
 	pub b: i32,
+	/// links[0]: the chunk's rails (indices into Road::rails)
 	pub links: [Vec<i32>; 3],
 	pub lists: [Vec<RoadQuad>; 4],
 }
@@ -43,6 +54,7 @@ pub struct RoadChunk {
 #[derive(Clone, Default, Debug)]
 pub struct Road {
 	pub chunks: Vec<RoadChunk>,
+	pub rails: Vec<RoadRail>,
 }
 
 struct Reader<'a> {
@@ -73,7 +85,7 @@ impl<'a> Reader<'a> {
 }
 
 impl Road {
-	/// Reads etappe<n>.rmp and .pmp from the data folder; an error message, or empty.
+	/// Reads etappe<n>.rmp, .pmp and .cmp from the data folder; an error message, or empty.
 	pub fn load(&mut self, dir: &str, name: &str) -> String {
 		let Some(rmp) = read_file_ci(dir, &format!("{name}.rmp")) else {
 			return format!("cannot read {name}.rmp");
@@ -129,6 +141,21 @@ impl Road {
 			}
 			if r.bad || p.bad {
 				return format!("{name}: the road files end early");
+			}
+		}
+		self.rails.clear();
+		if let Some(cmp) = read_file_ci(dir, &format!("{name}.cmp")) {
+			let mut c = Reader::new(&cmp);
+			let n = c.i32();
+			for _ in 0..n.max(0) {
+				let mut rail = RoadRail::default();
+				for x in rail.pos.iter_mut().chain(rail.dir.iter_mut()) {
+					*x = c.f32();
+				}
+				if c.bad {
+					return format!("{name}: the rails end early");
+				}
+				self.rails.push(rail);
 			}
 		}
 		String::new()

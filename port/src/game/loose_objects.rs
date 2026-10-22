@@ -799,15 +799,17 @@ mod tests {
 		}
 	}
 
-	/// The traces' FNV-1a hashes are those of the C++ port's. A2_XCHECK_DIR: where to write
-	/// the traces, to compare them line by line.
+	/// The traces' FNV-1a hashes: the C++ port's until step 1279, where the car first meets
+	/// a wall the C++ port didn't have (one of the stage's rails, or the back of a solid
+	/// object). A2_XCHECK_DIR: where to write the
+	/// traces, to compare them line by line.
 	#[test]
 	fn drives_and_knocks_on_stage_0() {
 		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
 		for (loose_mode, file, hash) in
-			[(false, "car_rust.txt", 0xb130be81c26e5b67u64), (true, "loose_rust.txt", 0x17877eb3490b08f2)]
+			[(false, "car_rust.txt", 0x4f881962535ae4b0u64), (true, "loose_rust.txt", 0x4c46d2a2e75204f3)]
 		{
 			let t = trace(loose_mode);
 			if let Ok(dir) = std::env::var("A2_XCHECK_DIR") {
