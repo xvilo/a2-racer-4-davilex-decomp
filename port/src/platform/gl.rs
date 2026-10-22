@@ -198,6 +198,7 @@ gl_funcs! {
 	fn GetString(name: GLenum) -> *const GLubyte;
 }
 
+#[allow(unused_imports)]
 pub use f::{
 	AlphaFunc as glAlphaFunc, Begin as glBegin, BindTexture as glBindTexture, BlendFunc as glBlendFunc,
 	Clear as glClear, ClearColor as glClearColor, ClearDepth as glClearDepth, Color4f as glColor4f,

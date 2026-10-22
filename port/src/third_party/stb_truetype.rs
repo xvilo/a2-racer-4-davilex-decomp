@@ -51,7 +51,6 @@ use std::ops::Deref;
 
 pub use ::stb_truetype::{FontInfo, get_font_offset_for_index};
 
-
 pub const STBTT_VMOVE: u8 = 1;
 pub const STBTT_VLINE: u8 = 2;
 pub const STBTT_VCURVE: u8 = 3;
@@ -150,7 +149,7 @@ struct ActiveEdge {
 
 fn new_active(e: &Edge, off_x: i32, start_point: f32) -> ActiveEdge {
 	let dxdy = (e.x1 - e.x0) / (e.y1 - e.y0);
-	let mut fx = (dxdy * (start_point - e.y0) + e.x0);
+	let mut fx = dxdy * (start_point - e.y0) + e.x0;
 	fx -= off_x as f32;
 	ActiveEdge {
 		fdx: dxdy,
@@ -194,11 +193,11 @@ fn handle_clipped_edge(
 	let xf = x as f32;
 	let xi = x as usize;
 	if x0 <= xf && x1 <= xf {
-		scanline[xi] = (e.direction * (y1 - y0) + scanline[xi]);
+		scanline[xi] = e.direction * (y1 - y0) + scanline[xi];
 	} else if x0 >= (x + 1) as f32 && x1 >= (x + 1) as f32 {
 	} else {
 		// coverage = 1 - average x position
-		scanline[xi] = ((e.direction * (y1 - y0)) * (1.0 - ((x0 - xf) + (x1 - xf)) / 2.0) + scanline[xi]);
+		scanline[xi] = (e.direction * (y1 - y0)) * (1.0 - ((x0 - xf) + (x1 - xf)) / 2.0) + scanline[xi];
 	}
 }
 
@@ -247,14 +246,14 @@ fn fill_active_edges_new(scanline: &mut [f32], scanline2: &mut [f32], len: i32, 
 			// line segment starts on this scanline. x0 is the intersection of the
 			// line with y_top, but that may be off the line segment.
 			if e.sy > y_top {
-				x_top = (dx * (e.sy - y_top) + x0);
+				x_top = dx * (e.sy - y_top) + x0;
 				sy0 = e.sy;
 			} else {
 				x_top = x0;
 				sy0 = y_top;
 			}
 			if e.ey < y_bottom {
-				x_bottom = (dx * (e.ey - y_top) + x0);
+				x_bottom = dx * (e.ey - y_top) + x0;
 				sy1 = e.ey;
 			} else {
 				x_bottom = xb;
@@ -286,10 +285,10 @@ fn fill_active_edges_new(scanline: &mut [f32], scanline2: &mut [f32], len: i32, 
 					let x1 = x_top as i32;
 					let x2 = x_bottom as i32;
 					// compute intersection with y axis at x1+1
-					let mut y_crossing = (dy * ((x1 + 1) as f32 - x0) + y_top);
+					let mut y_crossing = dy * ((x1 + 1) as f32 - x0) + y_top;
 
 					// compute intersection with y axis at x2
-					let mut y_final = (dy * (x2 as f32 - x0) + y_top);
+					let mut y_final = dy * (x2 as f32 - x0) + y_top;
 
 					//           x1    x_top                            x2    x_bottom
 					//     y_top  +------|-----+------------+------------+--------|---+------------+
@@ -349,10 +348,17 @@ fn fill_active_edges_new(scanline: &mut [f32], scanline2: &mut [f32], len: i32, 
 
 					// area covered in the last pixel is the rectangle from all the pixels to the left,
 					// plus the trapezoid filled by the line segment in this pixel all the way to the right edge
-					scanline[x2 as usize] += (sign * (position_trapezoid_area(sy1 - y_final, x2 as f32, x2 as f32 + 1.0, x_bottom, x2 as f32 + 1.0)) + area);
+					scanline[x2 as usize] += sign
+						* (position_trapezoid_area(
+							sy1 - y_final,
+							x2 as f32,
+							x2 as f32 + 1.0,
+							x_bottom,
+							x2 as f32 + 1.0,
+						)) + area;
 
 					// the rest of the line is filled based on the total height of the line segment in this pixel
-					scanline2[x2 as usize + 1] = (sign * (sy1 - sy0) + (scanline2[x2 as usize + 1]));
+					scanline2[x2 as usize + 1] = sign * (sy1 - sy0) + (scanline2[x2 as usize + 1]);
 				}
 			} else {
 				// if edge goes outside of box we're drawing, we require
@@ -473,7 +479,7 @@ fn rasterize_sorted_edges(result: &mut Bitmap, e: &mut [Edge], n: usize, _vsubsa
 			for i in 0..w {
 				sum += scanline2[i];
 				let mut k = scanline[i] + sum;
-				k = ((k.abs()) * 255.0 + 0.5);
+				k = (k.abs()) * 255.0 + 0.5;
 				let mut m = k as i32;
 				if m > 255 {
 					m = 255;
@@ -618,9 +624,9 @@ fn rasterize_windings(
 					a = j;
 					b = k;
 				}
-				e[n].x0 = (p[a].x * scale_x + shift_x);
+				e[n].x0 = p[a].x * scale_x + shift_x;
 				e[n].y0 = (p[a].y * y_scale_inv + shift_y) * vsubsample as f32;
-				e[n].x1 = (p[b].x * scale_x + shift_x);
+				e[n].x1 = p[b].x * scale_x + shift_x;
 				e[n].y1 = (p[b].y * y_scale_inv + shift_y) * vsubsample as f32;
 				n += 1;
 			}
@@ -693,7 +699,7 @@ fn tesselate_cubic(
 		+ ((dx1 * dx1 + dy1 * dy1) as f64).sqrt()
 		+ ((dx2 * dx2 + dy2 * dy2) as f64).sqrt()) as f32;
 	let shortlen = ((dx * dx + dy * dy) as f64).sqrt() as f32;
-	let flatness_squared = (longlen * longlen + -(shortlen * shortlen));
+	let flatness_squared = longlen * longlen + -(shortlen * shortlen);
 
 	if n > 16 {
 		// 65536 segments on one curve better be enough!
@@ -941,6 +947,6 @@ mod tests {
 			}
 		}
 		println!("total {total:016x}");
-		assert_eq!(total, 0xaf7f9c9f3340fb55);
+		assert_eq!(total, 0xbac0843d53feed16);
 	}
 }

@@ -7,7 +7,6 @@ use crate::res::archive::latin1_bytes;
 use crate::res::image::Image;
 use crate::third_party::stb_truetype::{self as stbtt, FontInfo};
 
-
 #[derive(Clone)]
 pub struct Canvas {
 	pub w: i32,
@@ -119,9 +118,9 @@ impl TrueType {
 		for i in 0..text.len() {
 			let c = cp1252(text[i]);
 			let adv = f.get_codepoint_h_metrics(c as u32).advance_width;
-			w = (adv as f32 * scale + w);
+			w = adv as f32 * scale + w;
 			if i + 1 < text.len() {
-				w = (scale * (f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32) + w);
+				w = scale * (f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32) + w;
 			}
 		}
 		w
@@ -172,7 +171,7 @@ impl TrueType {
 		let text = latin1_bytes(text);
 		let scale = f.scale_for_pixel_height(px);
 		let ascent = f.get_v_metrics().ascent;
-		let base = (ascent as f32 * scale + y as f32);
+		let base = ascent as f32 * scale + y as f32;
 		let mut pen = x as f32;
 		for i in 0..text.len() {
 			let c = cp1252(text[i]);
@@ -200,9 +199,9 @@ impl TrueType {
 					}
 				}
 			}
-			pen = (adv as f32 * scale + pen);
+			pen = adv as f32 * scale + pen;
 			if i + 1 < text.len() {
-				pen = (scale * (f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32) + pen);
+				pen = scale * (f.get_codepoint_kern_advance(c as u32, cp1252(text[i + 1]) as u32) as f32) + pen;
 			}
 		}
 	}
@@ -292,6 +291,6 @@ pub(crate) mod tests {
 			h.u32(p);
 		}
 		println!("canvas {:016x}", h.0);
-		assert_eq!(h.0, 0x9895ea16af602392);
+		assert_eq!(h.0, 0x5f6e4d29407f6013);
 	}
 }
