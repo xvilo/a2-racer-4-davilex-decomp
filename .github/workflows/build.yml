@@ -26,6 +26,11 @@ concurrency:
   group: build-${{ inputs.tag || github.ref }}
   cancel-in-progress: false
 
+# The SDL that sdl2-sys builds asks for CMake 2.8 compatibility, which CMake 4 (the macOS
+# runners') refuses without this.
+env:
+  CMAKE_POLICY_VERSION_MINIMUM: '3.5'
+
 jobs:
   linux:
     runs-on: ubuntu-22.04
