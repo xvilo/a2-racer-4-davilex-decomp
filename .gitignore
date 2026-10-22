@@ -17,3 +17,7 @@ build-*/
 *.IMG
 disc/
 .playwright-mcp/
+
+# Cargo
+target/
+!Cargo.lock
