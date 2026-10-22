@@ -893,7 +893,7 @@ mod tests {
 	}
 
 	/// Every Windows-1252 glyph of the menu font at the menu's sizes and some subpixel shifts,
-	/// hashed like a C program on stb_truetype.h v1.26 (clang, arm64) does.
+	/// hashed like a C program on stb_truetype.h v1.26 built with -ffp-contract=off does.
 	#[test]
 	fn glyphs_match_c() {
 		let Some(ttf) = menu_font() else {

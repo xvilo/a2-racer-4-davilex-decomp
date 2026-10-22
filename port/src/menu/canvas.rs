@@ -238,7 +238,7 @@ pub(crate) mod tests {
 		}
 	}
 
-	/// The same drawing as a C++ program built on canvas.cpp (clang, arm64), whose canvas hash
+	/// The same drawing as the C++ port's canvas.cpp (built with -ffp-contract=off), whose canvas hash
 	/// this must give.
 	#[test]
 	fn canvas_matches_cpp() {

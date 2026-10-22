@@ -941,7 +941,7 @@ struct Racer {
 	/// ai_supercop.cpp: D.T. Harry's humvee (TrackObject type 28), after the player from
 	/// the moment it sees it to the end.
 	supercop: bool,
-	/// A police car of a path (paths.h; its index in the paths): out of sight until the
+	/// A police car of a path (game/paths.rs; its index in the paths): out of sight until the
 	/// player comes by, then driving out along it.
 	path: Option<usize>,
 	hidden: bool,
@@ -2026,7 +2026,7 @@ pub fn race_main(data_dir: &str, rcs: &Rc<NamedArchive>, opt: &RaceOptions, resu
 		racers.push(cop);
 	}
 	// The paths (etappe<n>.pth): police cars pulling out (CAR_CFG.INI [traffic] COP0 for
-	// PCOP, COP1 for GPCOP), and the vehicles that go by (paths.h).
+	// PCOP, COP1 for GPCOP), and the vehicles that go by (game/paths.rs).
 	let paths: Vec<Path> = load_paths(data_dir, &track.info.file);
 	for (pi, pa) in paths.iter().enumerate() {
 		if !police_on || !pa.police() || pa.points.is_empty() {

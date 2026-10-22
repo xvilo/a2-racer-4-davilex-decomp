@@ -294,7 +294,7 @@ impl AiDriver {
 		inp
 	}
 
-	/// A police car after its target, doing its tactic's step (police.h): far off it
+	/// A police car after its target, doing its tactic's step (game/police.rs): far off it
 	/// follows the lanes flat out; near, it rams the target, keeps level with it on one
 	/// side, or gets ahead of it and maybe brakes across its way.
 	pub fn chase(&mut self, track: &Track, car: &Car, target: &Car, dt: f32, action: CopAction, side: i32) -> CarInput {

@@ -630,7 +630,7 @@ mod tests {
 	}
 
 	/// A car driven through stage 0 (and, with loose_mode, through objects put on the road),
-	/// printed bit for bit: the same as a C++ build of car.cpp and loose_objects.cpp prints.
+	/// printed bit for bit: the same as the C++ port's car.cpp and loose_objects.cpp printed (built with -ffp-contract=off).
 	fn trace(loose_mode: bool) -> String {
 		let mut out = String::new();
 		let mut rcs = NamedArchive::default();
@@ -799,19 +799,22 @@ mod tests {
 		}
 	}
 
-	/// A2_XCHECK_DIR: where to write the traces, to compare with the C++ ones.
+	/// The traces' FNV-1a hashes are those of the C++ port's. A2_XCHECK_DIR: where to write
+	/// the traces, to compare them line by line.
 	#[test]
 	fn drives_and_knocks_on_stage_0() {
 		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
-		for (loose_mode, file) in [(false, "car_rust.txt"), (true, "loose_rust.txt")] {
+		for (loose_mode, file, hash) in
+			[(false, "car_rust.txt", 0xb130be81c26e5b67u64), (true, "loose_rust.txt", 0x17877eb3490b08f2)]
+		{
 			let t = trace(loose_mode);
-			assert!(t.starts_with("spec '' "));
-			assert!(t.lines().count() > 3000);
 			if let Ok(dir) = std::env::var("A2_XCHECK_DIR") {
-				std::fs::write(std::path::Path::new(&dir).join(file), t).unwrap();
+				std::fs::write(std::path::Path::new(&dir).join(file), &t).unwrap();
 			}
+			let h = t.bytes().fold(0xcbf29ce484222325u64, |h, b| (h ^ b as u64).wrapping_mul(0x100000001b3));
+			assert_eq!(h, hash, "{file}");
 		}
 	}
 }
