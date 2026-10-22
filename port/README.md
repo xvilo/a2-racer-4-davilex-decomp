@@ -36,7 +36,7 @@ cargo build --release
 target/release/a2racer4 --data /path/to/A2RACER4.bin
 ```
 
-For a self-contained executable, `cargo build --release --no-default-features --features static` builds SDL2 from source (it needs CMake and a C compiler) and links it in (what the releases do). `cargo test` checks the decoders and the physics against the game's own files when `../A2Racer4-dump/disc` holds them.
+For a self-contained executable, `cargo build --release --no-default-features --features static` builds SDL2 from source (it needs CMake and a C compiler) and links it in (what the releases do). `cargo test` checks the decoders and the physics against the game's own files: a copy of the CD in `A2Racer4-dump/disc` next to the repository, or wherever `A2_TEST_DATA` points (without them those tests are skipped).
 
 | Option | Does |
 |---|---|
