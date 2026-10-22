@@ -16,8 +16,8 @@ on:
         required: false
         default: ''
 
-# The port is C++ (port/CMakeLists.txt). Release builds carry SDL2 inside, built from
-# source as a static library (tools/build_static_sdl.sh), so the executables need nothing
+# The port is Rust (port/Cargo.toml). Release builds carry SDL2 inside, built from source
+# as a static library by sdl2-sys (the `static` feature), so the executables need nothing
 # beyond the system (on Linux SDL opens X11/Wayland, the sound server and OpenGL at run
 # time).
 
@@ -36,26 +36,27 @@ jobs:
       - name: Dependencies (SDL's video, sound and input back ends)
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
+          sudo apt-get install -y cmake libx11-dev libxext-dev libxrandr-dev libxcursor-dev \
             libxfixes-dev libxi-dev libxss-dev libxkbcommon-dev libwayland-dev wayland-protocols \
             libdecor-0-dev libegl1-mesa-dev libgl1-mesa-dev libasound2-dev libpulse-dev \
             libpipewire-0.3-dev libudev-dev libdbus-1-dev
-      - name: SDL2, static
-        run: tools/build_static_sdl.sh deps -G Ninja
       - name: Build
+        working-directory: port
         run: |
-          cmake -S port -B port/build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$PWD/deps
-          cmake --build port/build 2>&1 | tee build.log
+          cargo build --release --no-default-features --features static 2>&1 | tee ../build.log
           exit ${PIPESTATUS[0]}
       - name: Report compiler errors
         if: failure()
-        run: grep -E "error|undefined reference|multiple definition" build.log | head -40 | sed 's/^/::error::/' || true
+        run: grep -E "^error|undefined reference|multiple definition" build.log | head -40 | sed 's/^/::error::/' || true
+      - name: Test
+        working-directory: port
+        run: cargo test --release --no-default-features --features static
       - name: Package
         run: |
-          ldd port/build/a2racer4
-          if ldd port/build/a2racer4 | grep -iE "sdl"; then echo "::error::links SDL dynamically"; exit 1; fi
+          ldd port/target/release/a2racer4
+          if ldd port/target/release/a2racer4 | grep -iE "sdl"; then echo "::error::links SDL dynamically"; exit 1; fi
           mkdir -p dist/a2racer4
-          cp port/build/a2racer4 port/README.md dist/a2racer4/
+          cp port/target/release/a2racer4 port/README.md dist/a2racer4/
           tar -C dist -czf a2racer4-linux-x86_64.tar.gz a2racer4
       - uses: actions/upload-artifact@v4
         with:
@@ -68,24 +69,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.tag || github.ref }}
-      - name: SDL2, static and universal
-        run: tools/build_static_sdl.sh deps "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
-      - name: Build (Apple Silicon and Intel in one)
+      - name: Build (Apple Silicon and Intel, joined into one)
+        working-directory: port
+        env:
+          MACOSX_DEPLOYMENT_TARGET: '11.0'
         run: |
-          cmake -S port -B port/build -DCMAKE_BUILD_TYPE=Release "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" \
-            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -DCMAKE_PREFIX_PATH=$PWD/deps
-          cmake --build port/build -j 4 2>&1 | tee build.log
-          exit ${PIPESTATUS[0]}
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+          for t in aarch64-apple-darwin x86_64-apple-darwin; do
+            cargo build --release --no-default-features --features static --target $t 2>&1 | tee -a ../build.log
+            [ ${PIPESTATUS[0]} = 0 ] || exit 1
+          done
+          lipo -create -output target/a2racer4 target/aarch64-apple-darwin/release/a2racer4 \
+            target/x86_64-apple-darwin/release/a2racer4
       - name: Report compiler errors
         if: failure()
-        run: grep -E "error|Undefined" build.log | head -40 | sed 's/^/::error::/' || true
+        run: grep -E "^error|Undefined" build.log | head -40 | sed 's/^/::error::/' || true
+      - name: Test
+        working-directory: port
+        run: cargo test --release --no-default-features --features static --target aarch64-apple-darwin
       - name: Package
         run: |
-          otool -L port/build/a2racer4
-          if otool -L port/build/a2racer4 | grep -E "SDL|/opt/homebrew|/usr/local"; then echo "::error::links a non-system library"; exit 1; fi
-          lipo -info port/build/a2racer4
+          otool -L port/target/a2racer4
+          if otool -L port/target/a2racer4 | grep -E "SDL|/opt/homebrew|/usr/local"; then echo "::error::links a non-system library"; exit 1; fi
+          lipo -info port/target/a2racer4
           mkdir -p dist/a2racer4
-          cp port/build/a2racer4 port/README.md dist/a2racer4/
+          cp port/target/a2racer4 port/README.md dist/a2racer4/
           codesign --force --sign - dist/a2racer4/a2racer4
           (cd dist && zip -r ../a2racer4-macos-universal.zip a2racer4)
       - uses: actions/upload-artifact@v4
@@ -102,20 +110,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.tag || github.ref }}
-      - name: SDL2, static (with the static C runtime)
-        run: tools/build_static_sdl.sh deps
+      # The static C runtime comes from port/.cargo/config.toml (crt-static), for SDL too.
       - name: Build
+        working-directory: port
         run: |
-          cmake -S port -B port/build -DCMAKE_PREFIX_PATH=$PWD/deps
-          cmake --build port/build --config Release 2>&1 | tee build.log
+          cargo build --release --no-default-features --features static 2>&1 | tee ../build.log
           exit ${PIPESTATUS[0]}
       - name: Report compiler errors
         if: failure()
-        run: grep -E "error|unresolved" build.log | head -40 | sed 's/^/::error::/' || true
+        run: grep -E "^error|unresolved" build.log | head -40 | sed 's/^/::error::/' || true
+      - name: Test
+        working-directory: port
+        run: cargo test --release --no-default-features --features static
       - name: Package
         run: |
           mkdir -p dist/a2racer4
-          cp port/build/Release/a2racer4.exe port/README.md dist/a2racer4/
+          cp port/target/release/a2racer4.exe port/README.md dist/a2racer4/
           (cd dist && 7z a -tzip ../a2racer4-windows-x86_64.zip a2racer4)
       - uses: actions/upload-artifact@v4
         with:
@@ -136,11 +146,12 @@ jobs:
           version: 6.0.13
       - name: Build
         run: |
+          rustup target add wasm32-unknown-emscripten --toolchain $(sed -n 's/^channel = "\(.*\)"/\1/p' port/rust-toolchain.toml)
           port/web/build.sh 2>&1 | tee build.log
           exit ${PIPESTATUS[0]}
       - name: Report compiler errors
         if: failure()
-        run: grep -E "error|undefined symbol" build.log | head -40 | sed 's/^/::error::/' || true
+        run: grep -E "^error|undefined symbol" build.log | head -40 | sed 's/^/::error::/' || true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: port/build-web/web
