@@ -696,7 +696,7 @@ mod tests {
 		let Some(prog) = test_program() else {
 			return;
 		};
-		let dir = crate::res::archive::find_file_ci("/Users/xvilo/projects/A2Racer4-dump/disc/Data", "MenuData");
+		let dir = crate::res::archive::find_file_ci(&crate::res::archive::test_data(), "MenuData");
 		let mut rcs = NamedArchive::default();
 		assert!(rcs.open(&dir, "MenuRcs"));
 		let mut caps = IniFile::default();

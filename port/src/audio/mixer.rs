@@ -266,14 +266,12 @@ mod tests {
 	use super::*;
 	use crate::res::archive::read_file_ci;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn decodes_the_menu_music() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
-		let bytes = read_file_ci(DATA, "MenuData/menumsc.wav").expect("menumsc.wav");
+		let bytes = read_file_ci(&crate::res::archive::test_data(), "MenuData/menumsc.wav").expect("menumsc.wav");
 		let s = decode_wav(&bytes).expect("a WAV");
 		assert!(s.rate >= 8000 && s.rate <= 44100);
 		assert!(!s.data.is_empty());

@@ -133,8 +133,6 @@ fn sample(points: &[PathPoint], f: f32) -> [f32; 3] {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn spline_runs_through_the_points() {
 		let path = Path {
@@ -157,15 +155,15 @@ mod tests {
 
 	#[test]
 	fn loads_stage_paths() {
-		if !std::path::Path::new(DATA).exists() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).exists() {
 			return;
 		}
-		let paths = load_paths(DATA, "etappe0");
+		let paths = load_paths(&crate::res::archive::test_data(), "etappe0");
 		assert!(!paths.is_empty());
 		for p in &paths {
 			assert!(p.time >= 0.1);
 			assert!(!p.points.is_empty());
 		}
-		assert!(load_paths(DATA, "no_such_stage").is_empty());
+		assert!(load_paths(&crate::res::archive::test_data(), "no_such_stage").is_empty());
 	}
 }

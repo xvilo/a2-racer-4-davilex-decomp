@@ -412,15 +412,13 @@ impl CollisionWorld {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn the_road_is_ground_under_its_chunks() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
 		let mut road = Road::default();
-		assert_eq!(road.load(DATA, "etappe0"), "");
+		assert_eq!(road.load(&crate::res::archive::test_data(), "etappe0"), "");
 		let mut world = CollisionWorld::default();
 		world.build(&road);
 		assert_eq!(world.chunk_count() as usize, road.chunks.len());

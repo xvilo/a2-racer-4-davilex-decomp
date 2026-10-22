@@ -1,6 +1,6 @@
 # A2 Racer 4 port
 
-A C++ rewrite of **A2 Racer: De politie slaat terug!** (Davilex, 2000) on SDL2 and OpenGL, for Windows, Linux and macOS. It is written from the decompiled programs in `../decompiled/`; names follow the original sources (`Hud_Manager.cpp`, `TfrmMainScreen.FormShow`).
+A Rust rewrite of **A2 Racer: De politie slaat terug!** (Davilex, 2000) on SDL2 and OpenGL, for Windows, Linux and macOS. It is written from the decompiled programs in `../decompiled/`; names follow the original sources (`Hud_Manager.cpp`, `TfrmMainScreen.FormShow`).
 
 The game's own data is not included. Point the port at the original CD image, or at a copy of its files.
 
@@ -22,21 +22,21 @@ Put `a2racer4` next to the CD image (`A2RACER4.bin` or `.iso`) and start it, dra
 
 [xvilo.github.io/a2-racer-4-davilex-decomp](https://xvilo.github.io/a2-racer-4-davilex-decomp/) runs the port as WebAssembly, rebuilt from every push to main. The page downloads the CD image from the [Internet Archive](https://archive.org/details/a2rcriv) (469 MB, checked against its SHA-1), or takes your own `.bin` or `.iso`; it unpacks the `Data` folder itself and keeps it in the browser's storage (IndexedDB) with your saves, so later visits start straight away. Nothing is uploaded anywhere.
 
-To build it: install [Emscripten](https://emscripten.org) (`emcmake` on the PATH), run `port/web/build.sh`, and serve `port/build-web/web` over HTTP (`python3 -m http.server -d port/build-web/web`). The race's fixed-function OpenGL runs on Emscripten's emulation over WebGL 1, and Asyncify lets the game's own loops hand control back to the browser each frame.
+To build it: install [Emscripten](https://emscripten.org) (`emcc` on the PATH) and Rust's `wasm32-unknown-emscripten` target (`rustup target add wasm32-unknown-emscripten`), run `port/web/build.sh`, and serve `port/build-web/web` over HTTP (`python3 -m http.server -d port/build-web/web`). The race's fixed-function OpenGL runs on Emscripten's emulation over WebGL 1, and Asyncify lets the game's own loops hand control back to the browser each frame.
 
 ## Build
 
-You need CMake 3.16 or later, a C++17 compiler and SDL2. OpenGL is loaded through SDL at run time.
+You need Rust (the version in `rust-toolchain.toml`; [rustup](https://rustup.rs) installs it by itself) and SDL2 with pkg-config. OpenGL is loaded through SDL at run time.
 
 ```bash
-# Debian/Ubuntu: sudo apt install cmake libsdl2-dev
-# macOS:         brew install cmake sdl2
-cmake -S port -B port/build
-cmake --build port/build
-port/build/a2racer4 --data /path/to/A2RACER4.bin
+# Debian/Ubuntu: sudo apt install libsdl2-dev pkg-config
+# macOS:         brew install sdl2 pkg-config
+cd port
+cargo build --release
+target/release/a2racer4 --data /path/to/A2RACER4.bin
 ```
 
-For a self-contained executable, build SDL2 statically first: `tools/build_static_sdl.sh deps`, then configure with `-DCMAKE_PREFIX_PATH=$PWD/deps` (what the releases do).
+For a self-contained executable, `cargo build --release --no-default-features --features static` builds SDL2 from source (it needs CMake and a C compiler) and links it in (what the releases do). `cargo test` checks the decoders and the physics against the game's own files when `../A2Racer4-dump/disc` holds them.
 
 | Option | Does |
 |---|---|
@@ -46,13 +46,13 @@ For a self-contained executable, build SDL2 statically first: `tools/build_stati
 | `--race N` | Drives stage N (0–11) straight away; `--car N` picks the car (`CAR_CFG.INI` [league0] entry). For testing: `A2_AUTOPILOT=1` drives by itself along the lanes of the stage's drive map (`A2_AUTOPILOT=<s>`: for that many seconds), `A2_TRACE=1` prints the car's state every second, `A2_START=<chunk>` starts elsewhere, `A2_LAPS`, `A2_RIVALS`, `A2_TRAFFIC`, `A2_POLICE` change the race, `A2_RACE_LIMIT=<s>` ends it early as finished, `A2_TOUR_START=<n>` puts the Tour's character on its n-th track, `A2_DAMAGE=<n>` starts the car damaged |
 | `--race-view N` | A fly-through along stage N's road |
 | `--screenshot file.png` | Draws the main menu, saves it and exits, without a window |
-| `--script file` | Scripted input for testing: keys, text, clicks and screenshots on a timeline (see `src/platform/sys.cpp`) |
+| `--script file` | Scripted input for testing: keys, text, clicks and screenshots on a timeline (see `src/platform/sys.rs`) |
 
 ## Layout
 
 | Path | Contents |
 |---|---|
-| `src/main.cpp` | Entry point; takes the launcher's place (A2Racer4.exe) |
+| `src/main.rs` | Entry point; takes the launcher's place (A2Racer4.exe) |
 | `src/platform/` | SDL2: window, presenting the screen, OpenGL, input, time |
 | `src/res/` | The CD image, the resource archives and the picture formats (TGA, BMP, PCX) |
 | `src/gfx/` | PNG writer (screenshots) |
@@ -62,4 +62,4 @@ For a self-contained executable, build SDL2 statically first: `tools/build_stati
 | `src/xvga/` | INI files |
 | `src/audio/` | The mixer (SDL audio), WAV files, the race's sounds and music |
 | `src/menu/` | The menu: Menu.exe's forms, MenuCaps.ini, players and saves, the films (Cinepak AVI, MPEG-1) |
-| `third_party/` | [stb_truetype](https://github.com/nothings/stb) (public domain / MIT) for the menu's font, [pl_mpeg](https://github.com/phoboslab/pl_mpeg) (MIT, commit c871f2b) for the intro film |
+| `src/third_party/` | Rust ports of [stb_truetype](https://github.com/nothings/stb)'s rasteriser (public domain / MIT; the font parsing comes from the `stb_truetype` crate) for the menu's font and of [pl_mpeg](https://github.com/phoboslab/pl_mpeg) (MIT, commit c871f2b) for the intro film |

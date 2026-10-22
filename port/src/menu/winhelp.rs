@@ -239,8 +239,7 @@ mod tests {
 
 	#[test]
 	fn menu_hlp_topics() {
-		let path =
-			crate::res::archive::find_file_ci("/Users/xvilo/projects/A2Racer4-dump/disc/Data", "MenuData/Menu.hlp");
+		let path = crate::res::archive::find_file_ci(&crate::res::archive::test_data(), "MenuData/Menu.hlp");
 		if path.is_empty() {
 			return;
 		}

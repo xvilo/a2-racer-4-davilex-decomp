@@ -614,8 +614,6 @@ mod tests {
 	use crate::res::archive::NamedArchive;
 	use std::fmt::Write;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	fn b(f: f32) -> String {
 		format!("{:08x}", f.to_bits())
 	}
@@ -636,10 +634,10 @@ mod tests {
 	fn trace(loose_mode: bool) -> String {
 		let mut out = String::new();
 		let mut rcs = NamedArchive::default();
-		assert!(rcs.open(DATA, "rcs"));
+		assert!(rcs.open(&crate::res::archive::test_data(), "rcs"));
 		let rcs = Rc::new(rcs);
 		let mut track = Track::default();
-		assert_eq!(track.load(DATA, 0, 0), "");
+		assert_eq!(track.load(&crate::res::archive::test_data(), 0, 0), "");
 		let mut world = CollisionWorld::default();
 		world.build(&track.road);
 		let mut meshes = MeshCache::new(rcs.clone());
@@ -655,7 +653,7 @@ mod tests {
 			}
 		}
 		let mut car = Car::default();
-		let err = car.spec.load(DATA, "league0", 0, 1, 1, 1, 1);
+		let err = car.spec.load(&crate::res::archive::test_data(), "league0", 0, 1, 1, 1, 1);
 		let s = &car.spec;
 		writeln!(
 			out,
@@ -678,8 +676,8 @@ mod tests {
 		writeln!(
 			out,
 			"find {} {}",
-			CarSpec::find(DATA, "league0", &car.spec.name),
-			CarSpec::find(DATA, "traffic", "nope")
+			CarSpec::find(&crate::res::archive::test_data(), "league0", &car.spec.name),
+			CarSpec::find(&crate::res::archive::test_data(), "traffic", "nope")
 		)
 		.unwrap();
 		let n = track.road.chunks.len() as i32;
@@ -788,10 +786,10 @@ mod tests {
 
 	#[test]
 	fn reads_the_scripted_physics() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
-		let s = read_scripted(DATA);
+		let s = read_scripted(&crate::res::archive::test_data());
 		assert!(!s.is_empty());
 		for (k, v) in &s {
 			assert_eq!(*k, lower(k));
@@ -804,7 +802,7 @@ mod tests {
 	/// A2_XCHECK_DIR: where to write the traces, to compare with the C++ ones.
 	#[test]
 	fn drives_and_knocks_on_stage_0() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
 		for (loose_mode, file) in [(false, "car_rust.txt"), (true, "loose_rust.txt")] {

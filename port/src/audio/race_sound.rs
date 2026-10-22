@@ -237,17 +237,15 @@ impl RaceSound {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn reads_the_sound_tables() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
 		let mut rcs = NamedArchive::default();
-		assert!(rcs.open(DATA, "rcs"));
+		assert!(rcs.open(&crate::res::archive::test_data(), "rcs"));
 		let mut s = RaceSound::default();
-		s.load(DATA, &Rc::new(rcs), 0);
+		s.load(&crate::res::archive::test_data(), &Rc::new(rcs), 0);
 		assert_eq!(s.rpm_name.to_ascii_lowercase(), "cmrpm");
 		assert!(!s.types.is_empty());
 		assert!(!s.music_names.is_empty());

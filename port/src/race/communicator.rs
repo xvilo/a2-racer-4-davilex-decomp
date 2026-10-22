@@ -448,15 +448,13 @@ impl Communicator {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn loads_communi_ini() {
-		if !std::path::Path::new(DATA).exists() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).exists() {
 			return;
 		}
 		let mut c = Communicator::default();
-		assert!(c.load(DATA));
+		assert!(c.load(&crate::res::archive::test_data()));
 		assert!(!c.chars.is_empty() && !c.categories.is_empty());
 		for m in &c.messages {
 			assert!(c.wrap(&m.text).len() <= 4);

@@ -3173,8 +3173,6 @@ mod tests {
 	use std::fmt::Write as _;
 	use std::path::{Path, PathBuf};
 
-	const DISC: &str = "/Users/xvilo/projects/A2Racer4-dump/disc";
-
 	fn find_ci(dir: &Path, name: &str) -> Option<PathBuf> {
 		for entry in std::fs::read_dir(dir).ok()?.flatten() {
 			let path = entry.path();
@@ -3204,7 +3202,7 @@ mod tests {
 	/// PLM_DUMP=<file> writes the per-frame log in the C reference program's format.
 	#[test]
 	fn intro_film_matches_c() {
-		let Some(path) = find_ci(Path::new(DISC), "intro1.mpg") else {
+		let Some(path) = find_ci(Path::new(&crate::res::archive::test_disc()), "intro1.mpg") else {
 			return;
 		};
 		let path = path.to_str().unwrap();

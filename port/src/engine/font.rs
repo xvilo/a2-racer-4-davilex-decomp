@@ -192,15 +192,13 @@ pub fn hud_palette(rcs: &NamedArchive) -> Vec<u8> {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn the_hud_palette_has_256_colours() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
 		let mut rcs = NamedArchive::default();
-		assert!(rcs.open(DATA, "rcs"));
+		assert!(rcs.open(&crate::res::archive::test_data(), "rcs"));
 		assert_eq!(hud_palette(&rcs).len(), 768);
 	}
 }

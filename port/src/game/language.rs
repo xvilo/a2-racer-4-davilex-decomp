@@ -91,15 +91,13 @@ pub const TXT_RESET: i32 = 68;
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn loads_the_dutch_texts() {
-		if !std::path::Path::new(DATA).exists() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).exists() {
 			return;
 		}
 		let mut l = Language::default();
-		l.load(DATA);
+		l.load(&crate::res::archive::test_data());
 		assert!(l.text.len() > TXT_RESET as usize);
 		assert_eq!(l.get(TXT_FINISHED, "x"), "GEFINISHT");
 		assert_eq!(l.get(-1, "fallback"), "fallback");

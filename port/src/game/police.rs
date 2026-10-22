@@ -179,15 +179,13 @@ impl CopPlan {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn loads_the_tactics() {
-		if !std::path::Path::new(DATA).exists() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).exists() {
 			return;
 		}
 		let mut rules = PoliceRules::default();
-		rules.load(DATA, 0, 1);
+		rules.load(&crate::res::archive::test_data(), 0, 1);
 		assert!(!rules.tactics.is_empty());
 		let choice = rules.for_kind("COP2").to_vec();
 		for &t in &choice {

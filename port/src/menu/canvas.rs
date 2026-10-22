@@ -214,7 +214,7 @@ pub(crate) mod tests {
 	/// The menu's TrueType font, cut out of Menu.exe's TData form (MenuFont1.Data: a DFM
 	/// binary property, then a length, then the font); None without the game data.
 	pub(crate) fn menu_font() -> Option<Vec<u8>> {
-		let exe = std::fs::read("/Users/xvilo/projects/A2Racer4-dump/disc/Data/MenuData/Menu.exe").ok()?;
+		let exe = std::fs::read(crate::res::archive::test_data() + "/MenuData/Menu.exe").ok()?;
 		let name = exe.windows(9).rposition(|w| w == b"MenuFont1")?;
 		let prop = name + exe[name..].windows(6).position(|w| w == b"\x04Data\x0a")?;
 		let len = u32::from_le_bytes(exe[prop + 10..prop + 14].try_into().ok()?) as usize;

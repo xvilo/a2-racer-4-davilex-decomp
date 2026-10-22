@@ -362,15 +362,13 @@ impl MeshCache {
 mod tests {
 	use super::*;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn loads_stage_0() {
-		if !std::path::Path::new(DATA).exists() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).exists() {
 			return;
 		}
 		let mut t = Track::default();
-		assert_eq!(t.load(DATA, 0, 0), "");
+		assert_eq!(t.load(&crate::res::archive::test_data(), 0, 0), "");
 		assert_eq!(t.info.file.to_ascii_lowercase(), "etappe0");
 		assert!(!t.road.chunks.is_empty());
 		assert!(t.find_trigger(13) >= 0);
@@ -391,10 +389,10 @@ mod tests {
 
 	#[test]
 	fn missing_stage_is_an_error() {
-		if !std::path::Path::new(DATA).exists() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).exists() {
 			return;
 		}
 		let mut t = Track::default();
-		assert_eq!(t.load(DATA, 999, 0), "Raser.ini [MAPS] has no stage 999");
+		assert_eq!(t.load(&crate::res::archive::test_data(), 999, 0), "Raser.ini [MAPS] has no stage 999");
 	}
 }

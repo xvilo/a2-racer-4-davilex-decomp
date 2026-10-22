@@ -75,6 +75,19 @@ pub fn read_file_ci(dir: &str, rel: &str) -> Option<Vec<u8>> {
 	fs::read(path).ok()
 }
 
+/// Tests: the game's files (the CD's root), from A2_TEST_DATA or `A2Racer4-dump/disc` next to
+/// the repository; tests that need them skip when they are missing.
+#[cfg(test)]
+pub fn test_disc() -> String {
+	std::env::var("A2_TEST_DATA")
+		.unwrap_or_else(|_| concat!(env!("CARGO_MANIFEST_DIR"), "/../../A2Racer4-dump/disc").to_string())
+}
+
+#[cfg(test)]
+pub fn test_data() -> String {
+	test_disc() + "/Data"
+}
+
 struct Entry {
 	name: String,
 	offset: u32,

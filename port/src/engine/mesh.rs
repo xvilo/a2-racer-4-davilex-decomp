@@ -123,15 +123,13 @@ mod tests {
 	use super::*;
 	use crate::res::archive::NamedArchive;
 
-	const DATA: &str = "/Users/xvilo/projects/A2Racer4-dump/disc/Data";
-
 	#[test]
 	fn loads_a_model_from_rcs() {
-		if !std::path::Path::new(DATA).is_dir() {
+		if !std::path::Path::new(&crate::res::archive::test_data()).is_dir() {
 			return;
 		}
 		let mut rcs = NamedArchive::default();
-		assert!(rcs.open(DATA, "rcs"));
+		assert!(rcs.open(&crate::res::archive::test_data(), "rcs"));
 		let bytes = rcs.read("humvee.d3d").expect("humvee.d3d");
 		let mut m = Mesh::default();
 		assert!(m.load(&bytes));
